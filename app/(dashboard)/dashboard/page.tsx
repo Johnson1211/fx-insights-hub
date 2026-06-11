@@ -89,7 +89,7 @@ export default function DashboardHome() {
             description: "View today's active trading signals",
             icon: Signal,
             href: "/dashboard/signals",
-            color: "from-elite-gold/20 to-amber-600/20",
+            color: "from-elite-gold/20 to-blue-600/20",
           },
           {
             title: "Video Library",

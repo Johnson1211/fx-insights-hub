@@ -64,7 +64,7 @@ export default function AdminDashboard() {
       {/* Quick Actions */}
       <div className="grid md:grid-cols-3 gap-4">
         {[
-          { label: "Create Signal", href: "/admin/signals", desc: "Post a new trading signal", color: "from-elite-gold/20 to-amber-600/20" },
+          { label: "Create Signal", href: "/admin/signals", desc: "Post a new trading signal", color: "from-elite-gold/20 to-blue-600/20" },
           { label: "Manage Users", href: "/admin/users", desc: "View and edit members", color: "from-blue-500/20 to-blue-700/20" },
           { label: "Upload Content", href: "/admin/content", desc: "Add videos or blog posts", color: "from-purple-500/20 to-purple-700/20" },
         ].map((action, i) => (

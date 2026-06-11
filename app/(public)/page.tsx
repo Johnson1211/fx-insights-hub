@@ -530,7 +530,7 @@ export default function HomePage() {
                   </div>
                   <p className="text-gray-300 leading-relaxed mb-6">&ldquo;{t.text}&rdquo;</p>
                   <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-full bg-gradient-to-br from-elite-gold/30 to-amber-600/30 border border-elite-gold/30 flex items-center justify-center">
+                    <div className="w-10 h-10 rounded-full bg-gradient-to-br from-elite-gold/30 to-blue-600/30 border border-elite-gold/30 flex items-center justify-center">
                       <span className="text-elite-gold text-sm font-bold">{t.avatar}</span>
                     </div>
                     <div>

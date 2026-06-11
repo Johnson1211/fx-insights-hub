@@ -101,7 +101,7 @@ export default function AdminUsers() {
                   >
                     <td className="p-4">
                       <div className="flex items-center gap-3">
-                        <div className="w-9 h-9 rounded-full bg-gradient-to-br from-elite-gold/20 to-amber-600/20 border border-elite-gold/20 flex items-center justify-center">
+                        <div className="w-9 h-9 rounded-full bg-gradient-to-br from-elite-gold/20 to-blue-600/20 border border-elite-gold/20 flex items-center justify-center">
                           <span className="text-elite-gold text-xs font-bold">{user.name.charAt(0)}</span>
                         </div>
                         <div>

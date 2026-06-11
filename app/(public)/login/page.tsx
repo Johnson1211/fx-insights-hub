@@ -40,7 +40,7 @@ export default function LoginPage() {
       >
         <div className="glass-card p-8 md:p-10">
           <div className="text-center mb-8">
-            <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-elite-gold to-amber-600 flex items-center justify-center mx-auto mb-4">
+            <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-elite-gold to-blue-600 flex items-center justify-center mx-auto mb-4">
               <span className="font-display text-elite-bg text-2xl font-bold">FX</span>
             </div>
             <h1 className="font-display text-3xl text-white tracking-wider">WELCOME BACK</h1>
@@ -96,7 +96,7 @@ export default function LoginPage() {
                 <input type="checkbox" className="w-4 h-4 rounded border-elite-border bg-elite-surface text-elite-gold focus:ring-elite-gold" />
                 Remember me
               </label>
-              <Link href="/forgot-password" className="text-elite-gold hover:text-amber-400 transition-colors">
+              <Link href="/forgot-password" className="text-elite-gold hover:text-blue-600 transition-colors">
                 Forgot password?
               </Link>
             </div>
@@ -120,7 +120,7 @@ export default function LoginPage() {
           <div className="mt-8 text-center">
             <p className="text-gray-400 text-sm">
               Don&apos;t have an account?{" "}
-              <Link href="/register" className="text-elite-gold hover:text-amber-400 font-medium transition-colors">
+              <Link href="/register" className="text-elite-gold hover:text-blue-600 font-medium transition-colors">
                 Create one
               </Link>
             </p>

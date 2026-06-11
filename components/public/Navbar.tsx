@@ -46,7 +46,7 @@ export function Navbar() {
           <div className="flex items-center justify-between h-16 lg:h-20">
             {/* Logo */}
             <Link href="/" className="flex items-center gap-2 group">
-              <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-elite-gold to-amber-600 flex items-center justify-center">
+              <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-elite-gold to-blue-600 flex items-center justify-center">
                 <span className="font-display text-elite-bg text-lg font-bold">FX</span>
               </div>
               <span className="font-display text-xl tracking-wider text-white group-hover:text-elite-gold transition-colors">
@@ -85,7 +85,7 @@ export function Navbar() {
                       onClick={() => setProfileOpen(!profileOpen)}
                       className="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-white/5 transition-colors"
                     >
-                      <div className="w-8 h-8 rounded-full bg-gradient-to-br from-elite-gold/30 to-amber-600/30 border border-elite-gold/30 flex items-center justify-center">
+                      <div className="w-8 h-8 rounded-full bg-gradient-to-br from-elite-gold/30 to-blue-600/30 border border-elite-gold/30 flex items-center justify-center">
                         <User size={16} className="text-elite-gold" />
                       </div>
                       <span className="hidden md:block text-sm font-medium text-gray-200">{user.name}</span>

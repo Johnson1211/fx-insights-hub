@@ -64,7 +64,7 @@ export default function RegisterPage() {
       >
         <div className="glass-card p-8 md:p-10">
           <div className="text-center mb-8">
-            <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-elite-gold to-amber-600 flex items-center justify-center mx-auto mb-4">
+            <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-elite-gold to-blue-600 flex items-center justify-center mx-auto mb-4">
               <span className="font-display text-elite-bg text-2xl font-bold">FX</span>
             </div>
             <h1 className="font-display text-3xl text-white tracking-wider">JOIN FX INSIGHTS HUB</h1>
@@ -206,7 +206,7 @@ export default function RegisterPage() {
           <div className="mt-8 text-center">
             <p className="text-gray-400 text-sm">
               Already have an account?{" "}
-              <Link href="/login" className="text-elite-gold hover:text-amber-400 font-medium transition-colors">
+              <Link href="/login" className="text-elite-gold hover:text-blue-600 font-medium transition-colors">
                 Sign in
               </Link>
             </p>

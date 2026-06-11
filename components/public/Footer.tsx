@@ -14,7 +14,7 @@ export function Footer() {
           {/* Brand */}
           <div className="space-y-4">
             <Link href="/" className="flex items-center gap-2">
-              <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-elite-gold to-amber-600 flex items-center justify-center">
+              <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-elite-gold to-blue-600 flex items-center justify-center">
                 <span className="font-display text-elite-bg text-lg font-bold">FX</span>
               </div>
               <span className="font-display text-xl tracking-wider text-white">
@@ -117,8 +117,8 @@ export function Footer() {
               <li className="flex items-start gap-3">
                 <Phone size={16} className="text-elite-gold mt-0.5 shrink-0" />
                 <div className="flex flex-col">
-                  <a href="tel:+2339827093" className="text-gray-400 hover:text-elite-gold transition-colors text-sm">
-                    +233 98 270 93
+                  <a href="tel:+233249827093" className="text-gray-400 hover:text-elite-gold transition-colors text-sm">
+                    +233 24 982 7093
                   </a>
                   <a href="tel:+233598912317" className="text-gray-400 hover:text-elite-gold transition-colors text-sm mt-1">
                     +233 59 891 2317

@@ -35,7 +35,7 @@ export default function ProfilePage() {
         className="glass-card p-6 md:p-8"
       >
         <div className="flex flex-col md:flex-row items-start gap-6">
-          <div className="w-24 h-24 rounded-2xl bg-gradient-to-br from-elite-gold/30 to-amber-600/30 border-2 border-elite-gold/30 flex items-center justify-center shrink-0">
+          <div className="w-24 h-24 rounded-2xl bg-gradient-to-br from-elite-gold/30 to-blue-600/30 border-2 border-elite-gold/30 flex items-center justify-center shrink-0">
             <span className="font-display text-4xl text-elite-gold">{user?.name?.charAt(0) || "U"}</span>
           </div>
           <div className="flex-1">

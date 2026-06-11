@@ -43,12 +43,12 @@
   }
 
   .gold-gradient-text {
-    @apply bg-gradient-to-r from-elite-gold to-amber-600 bg-clip-text text-transparent;
+    @apply bg-gradient-to-r from-elite-gold to-blue-700 bg-clip-text text-transparent;
   }
 
   .btn-primary {
-    @apply bg-gradient-to-r from-elite-gold to-amber-600 text-elite-bg font-semibold px-6 py-3 rounded-lg 
-           transition-all duration-300 hover:shadow-lg hover:shadow-amber-500/25 hover:scale-105 active:scale-95;
+    @apply bg-gradient-to-r from-elite-gold to-blue-700 text-elite-bg font-semibold px-6 py-3 rounded-lg 
+           transition-all duration-300 hover:shadow-lg hover:shadow-blue-500/25 hover:scale-105 active:scale-95;
   }
 
   .btn-outline {

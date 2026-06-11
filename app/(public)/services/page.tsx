@@ -110,12 +110,12 @@ export default function ServicesPage() {
                 <motion.div
                   whileHover={{ y: -8 }}
                   className={`relative glass-card p-6 h-full flex flex-col justify-between ${
-                    service.popular ? "border-elite-gold/40 shadow-lg shadow-amber-500/5" : ""
+                    service.popular ? "border-elite-gold/40 shadow-lg shadow-blue-500/5" : ""
                   }`}
                 >
                   {service.popular && (
                     <div className="absolute -top-3 left-1/2 -translate-x-1/2">
-                      <span className="bg-gradient-to-r from-elite-gold to-amber-600 text-elite-bg text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-wider">
+                      <span className="bg-gradient-to-r from-elite-gold to-blue-700 text-elite-bg text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-wider">
                         Recommended
                       </span>
                     </div>
@@ -157,7 +157,7 @@ export default function ServicesPage() {
                     onClick={() => handleServiceAction(service.id)}
                     className={`w-full py-3 rounded-lg text-sm font-medium transition-all duration-300 flex items-center justify-center gap-2 mt-auto ${
                       service.popular
-                        ? "bg-gradient-to-r from-elite-gold to-amber-600 text-elite-bg hover:shadow-lg hover:shadow-amber-500/25"
+                        ? "bg-gradient-to-r from-elite-gold to-blue-700 text-elite-bg hover:shadow-lg hover:shadow-blue-500/25"
                         : "border border-elite-border text-gray-300 hover:bg-elite-gold/10 hover:border-elite-gold/30 hover:text-white"
                     }`}
                   >

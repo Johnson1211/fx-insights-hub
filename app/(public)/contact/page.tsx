@@ -75,8 +75,8 @@ export default function ContactPage() {
                     <div className="flex-1">
                       <p className="text-gray-500 text-xs uppercase tracking-wider">Phone Support</p>
                       <div className="flex flex-col gap-1 mt-1">
-                        <a href="tel:+2339827093" className="text-white font-medium hover:text-elite-gold transition-colors">
-                          +233 98 270 93
+                        <a href="tel:+233249827093" className="text-white font-medium hover:text-elite-gold transition-colors">
+                          +233 24 982 7093
                         </a>
                         <a href="tel:+233598912317" className="text-white font-medium hover:text-elite-gold transition-colors">
                           +233 59 891 2317

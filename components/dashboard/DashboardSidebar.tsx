@@ -40,7 +40,7 @@ export function DashboardSidebar() {
       {/* User Card */}
       <div className="p-6 border-b border-elite-border/50">
         <div className="flex items-center gap-3 mb-3">
-          <div className="w-10 h-10 rounded-full bg-gradient-to-br from-elite-gold/30 to-amber-600/30 border border-elite-gold/30 flex items-center justify-center">
+          <div className="w-10 h-10 rounded-full bg-gradient-to-br from-elite-gold/30 to-blue-600/30 border border-elite-gold/30 flex items-center justify-center">
             <span className="text-elite-gold font-bold text-sm">{user?.name?.charAt(0) || "U"}</span>
           </div>
           <div className="overflow-hidden">
