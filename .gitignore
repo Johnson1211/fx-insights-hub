@@ -6,6 +6,10 @@
 .env.test.local
 .env.production.local
 
+# ===== Large Media Files (serve from Vercel/CDN instead) =====
+Videos_images/
+public/Videos_images/
+
 # ===== Next.js =====
 .next/
 out/
