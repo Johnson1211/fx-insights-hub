@@ -104,6 +104,8 @@ const faqs = [
   },
 ];
 
+const SUPABASE_MEDIA = "https://jvxmtsmslyokplooyfwz.supabase.co/storage/v1/object/public/media";
+
 export default function HomePage() {
   const [openFaq, setOpenFaq] = useState<number | null>(null);
   const [activeMedia, setActiveMedia] = useState<{ type: "video" | "image"; url: string; title: string } | null>(null);
@@ -337,10 +339,10 @@ export default function HomePage() {
               <div className="glass-card overflow-hidden group relative">
                 <div className="aspect-video relative bg-black flex items-center justify-center">
                   <video
-                    src="/Videos_images/fxinsights.mp4"
+                    src={`${SUPABASE_MEDIA}/fxinsights.mp4`}
                     className="w-full h-full object-contain"
                     controls
-                    poster="/Videos_images/img1.jpeg"
+                    poster={`${SUPABASE_MEDIA}/img1.jpeg`}
                   />
                   <div className="absolute inset-0 bg-black/40 flex items-center justify-center pointer-events-none group-hover:opacity-0 transition-opacity">
                     <div className="w-16 h-16 rounded-full bg-elite-gold/90 flex items-center justify-center shadow-lg shadow-elite-gold/20 animate-pulse-glow">
@@ -357,8 +359,8 @@ export default function HomePage() {
               {/* Grid of video testimonies */}
               <div className="grid sm:grid-cols-2 gap-4">
                 {[
-                  { title: "Trading Preview", src: "/Videos_images/Trading preview.mp4", desc: "Watch how a community member consistently hits profit targets using our professional signals." },
-                  { title: "Live Group Review", src: "/Videos_images/Founder1.mp4", desc: "A live video recording showing our WhatsApp community sharing daily profit screenshots." },
+                  { title: "Trading Preview", src: `${SUPABASE_MEDIA}/Trading%20preview.mp4`, desc: "Watch how a community member consistently hits profit targets using our professional signals." },
+                  { title: "Live Group Review", src: `${SUPABASE_MEDIA}/Founder1.mp4`, desc: "A live video recording showing our WhatsApp community sharing daily profit screenshots." },
                 ].map((vid) => (
                   <div key={vid.title} className="glass-card overflow-hidden flex flex-col h-full bg-elite-card/45">
                     <div className="aspect-video relative bg-black">
@@ -381,12 +383,12 @@ export default function HomePage() {
               
               <div className="grid grid-cols-2 gap-3 max-h-[500px] overflow-y-auto pr-2 custom-scrollbar">
                 {[
-                  { title: "Trading Conference", url: "/Videos_images/Trading Conference.jpeg" },
-                  { title: "Student Testimony", url: "/Videos_images/Student Testimony.jpeg" },
-                  { title: "Student Performance", url: "/Videos_images/img1.jpeg" },
-                  { title: "Trading Conference 1", url: "/Videos_images/Trading Conference_1.jpeg" },
-                  { title: "Trading Conference 2", url: "/Videos_images/Trading Conference_2.jpeg" },
-                  { title: "Founder Photo", url: "/Videos_images/Founder.jpeg" },
+                  { title: "Trading Conference", url: `${SUPABASE_MEDIA}/Trading%20Conference.jpeg` },
+                  { title: "Student Testimony", url: `${SUPABASE_MEDIA}/Student%20Testimony.jpeg` },
+                  { title: "Student Performance", url: `${SUPABASE_MEDIA}/img1.jpeg` },
+                  { title: "Trading Conference 1", url: `${SUPABASE_MEDIA}/Trading%20Conference_1.jpeg` },
+                  { title: "Trading Conference 2", url: `${SUPABASE_MEDIA}/Trading%20Conference_2.jpeg` },
+                  { title: "Founder Photo", url: `${SUPABASE_MEDIA}/Founder.jpeg` },
                 ].map((img) => (
                   <div
                     key={img.url}
@@ -460,7 +462,7 @@ export default function HomePage() {
               <div className="relative">
                 <div className="aspect-[4/5] rounded-2xl overflow-hidden bg-gradient-to-br from-elite-surface to-elite-card border border-elite-border/50">
                   <img
-                    src="/Videos_images/Founder.jpeg"
+                    src={`${SUPABASE_MEDIA}/Founder.jpeg`}
                     alt="Ofori Agyei Samuel — Peleboss"
                     className="w-full h-full object-cover object-top"
                   />
