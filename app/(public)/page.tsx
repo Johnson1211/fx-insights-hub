@@ -25,42 +25,32 @@ import {
 import { useState } from "react";
 
 const stats = [
-  { value: 2400, suffix: "+", label: "Active Members", icon: Users },
+  { value: 1000, suffix: "+", label: "Active Members", icon: Users },
   { value: 87, suffix: "%", label: "Win Rate", icon: Target },
-  { value: 12, suffix: "+", label: "Years Experience", icon: Award },
+  { value: 8, suffix: "+", label: "Years Experience", icon: Award },
   { value: 1200000, suffix: "", prefix: "$", label: "Profits Generated", icon: TrendingUp },
 ];
 
 const services = [
   {
-    icon: MessageCircle,
-    title: "Community Access",
-    description: "Join our exclusive community of elite traders. Share insights, discuss strategies, and grow together.",
+    icon: BookOpen,
+    title: "Online Training Session",
+    description: "Comprehensive live interactive webinars covering forex basics, technical analysis, and advanced strategies.",
   },
   {
-    icon: Play,
-    title: "Live Trading",
-    description: "Watch real-time trading sessions with professional analysis and live market commentary.",
-  },
-  {
-    icon: TrendingUp,
-    title: "Copy Trading",
-    description: "Automatically copy our expert trades directly to your MT4/MT5 account with proven results.",
+    icon: Users,
+    title: "In-Person Training Session",
+    description: "Hands-on, face-to-face mentorship and workshops in a professional setting for direct practical learning.",
   },
   {
     icon: Zap,
-    title: "Trading Signals",
-    description: "Receive high-probability buy/sell signals with precise entry, stop loss, and take profit levels.",
+    title: "Signal Services",
+    description: "Daily high-probability buy/sell alerts with precise entry, take profit, and stop loss parameters.",
   },
   {
-    icon: BookOpen,
-    title: "3-Month Training",
-    description: "Comprehensive curriculum from basics to advanced strategies with weekly live coaching.",
-  },
-  {
-    icon: Shield,
-    title: "Risk Management",
-    description: "Learn professional risk management techniques to protect and grow your capital consistently.",
+    icon: Target,
+    title: "Lifetime Coaching & Guidance",
+    description: "Continuous professional mentorship, psychology coaching, and custom capital risk models directly with Peleboss.",
   },
 ];
 
@@ -83,24 +73,24 @@ const testimonials = [
 
 const faqs = [
   {
-    q: "What is included in the Premium Membership?",
-    a: "Premium members get full access to all trading signals (daily), complete video library, live trading sessions, community chat, and priority support.",
+    q: "What is included in the platform access?",
+    a: "Members get full access to all daily trading signals, our complete video library, online/in-person training sessions, lifetime coaching, community chat, and support.",
   },
   {
     q: "How accurate are the trading signals?",
     a: "Our signals maintain an average win rate of 87% based on rigorous technical and fundamental analysis. Each signal includes detailed rationale and risk parameters.",
   },
   {
-    q: "Can I cancel my subscription anytime?",
-    a: "Yes, you can cancel your subscription at any time from your dashboard. You'll continue to have access until the end of your billing period.",
+    q: "Are there any hidden subscription costs?",
+    a: "No, all of our services—including signals, webinars, in-person workshops, and lifetime coaching—are currently 100% free of charge.",
   },
   {
     q: "What platforms are supported for copy trading?",
     a: "We support MetaTrader 4 (MT4) and MetaTrader 5 (MT5) for copy trading. Setup takes less than 5 minutes with our step-by-step guide.",
   },
   {
-    q: "Is there a free trial available?",
-    a: "We offer a free community tier with limited signal previews and access to basic educational content. Upgrade anytime to unlock full features.",
+    q: "How do I get started?",
+    a: "Simply create a free account to gain instant access to our trading dashboard, video tutorials, and daily signals, or contact us to schedule training sessions.",
   },
 ];
 
@@ -165,7 +155,7 @@ export default function HomePage() {
           >
             MASTER <span className="gold-gradient-text">FOREX</span>
             <br />
-            <span className="text-gray-400">TRADE WITH</span>{" "}
+            <span className="text-gray-400">TRADING WITH</span>{" "}
             <span className="gold-gradient-text">PRECISION</span>
           </motion.h1>
 
@@ -189,7 +179,7 @@ export default function HomePage() {
               <ArrowRight size={18} className="inline ml-2" />
             </Link>
             <Link href="/services" className="btn-outline text-lg px-8 py-4">
-              View Plans
+              View Services
             </Link>
           </motion.div>
 
@@ -206,7 +196,7 @@ export default function HomePage() {
             </div>
             <div className="flex items-center gap-2">
               <Users size={16} className="text-elite-green" />
-              <span>2,400+ Members</span>
+              <span>1,000+ Members</span>
             </div>
             <div className="flex items-center gap-2">
               <Star size={16} className="text-elite-gold" />
@@ -274,7 +264,7 @@ export default function HomePage() {
             </div>
           </ScrollReveal>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {services.map((service, i) => (
               <ScrollReveal key={service.title} delay={i * 0.1}>
                 <div className="glass-card-hover p-8 h-full group">
@@ -473,7 +463,7 @@ export default function HomePage() {
                       <TrendingUp size={20} className="text-elite-green" />
                     </div>
                     <div>
-                      <p className="text-white font-semibold text-sm">12+ Years</p>
+                      <p className="text-white font-semibold text-sm">8+ Years</p>
                       <p className="text-gray-500 text-xs">Trading Experience</p>
                     </div>
                   </div>
@@ -489,10 +479,10 @@ export default function HomePage() {
               <p className="text-elite-gold font-semibold tracking-widest uppercase text-sm mb-6">Also Known As Peleboss</p>
               <div className="space-y-4 text-gray-400 leading-relaxed">
                 <p>
-                  With over 12 years of experience in the forex markets, Peleboss has developed a systematic approach to trading that emphasizes risk management, technical precision, and psychological discipline.
+                  With over 8 years of experience in the forex markets, Peleboss has developed a systematic approach to trading that emphasizes risk management, technical precision, and psychological discipline.
                 </p>
                 <p>
-                  His journey evolved into a global community of over 2,400 profitable traders through Fx Insights Hub — a platform dedicated to empowering everyday people to achieve financial freedom through forex.
+                  His journey evolved into a global community of over 1,000 profitable traders through Fx Insights Hub — a platform dedicated to empowering everyday people to achieve financial freedom through forex.
                 </p>
                 <p>
                   His philosophy is simple: "Protect your capital first, profits will follow." Every signal, every lesson, every live session is designed with this principle at its core.
@@ -508,7 +498,7 @@ export default function HomePage() {
                   <p className="text-gray-500 text-xs">Signal Accuracy</p>
                 </div>
                 <div className="glass-card px-5 py-3">
-                  <p className="font-display text-2xl text-white">2,400+</p>
+                  <p className="font-display text-2xl text-white">1,000+</p>
                   <p className="text-gray-500 text-xs">Students Trained</p>
                 </div>
               </div>
@@ -616,7 +606,7 @@ export default function HomePage() {
                 <ArrowRight size={18} className="inline ml-2" />
               </Link>
               <Link href="/services" className="btn-outline text-lg px-10 py-4">
-                View Pricing
+                View Services
               </Link>
             </div>
           </ScrollReveal>

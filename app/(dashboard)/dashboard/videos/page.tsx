@@ -14,10 +14,10 @@ const categories = [
 
 const videos = [
   { id: 1, title: "Forex Basics: Understanding Currency Pairs", category: "basics", duration: "12:34", thumbnail: "bg-gradient-to-br from-blue-900/50 to-blue-600/30", isFree: true, watched: true },
-  { id: 2, title: "Support & Resistance Mastery", category: "technical", duration: "18:45", thumbnail: "bg-gradient-to-br from-purple-900/50 to-purple-600/30", isFree: false, watched: false },
-  { id: 3, title: "Risk Management: The 1% Rule", category: "risk", duration: "15:20", thumbnail: "bg-gradient-to-br from-green-900/50 to-green-600/30", isFree: false, watched: false },
-  { id: 4, title: "Trading Psychology: Mastering Emotions", category: "psychology", duration: "22:10", thumbnail: "bg-gradient-to-br from-orange-900/50 to-orange-600/30", isFree: false, watched: false },
-  { id: 5, title: "Fibonacci Retracement Strategy", category: "technical", duration: "25:30", thumbnail: "bg-gradient-to-br from-pink-900/50 to-pink-600/30", isFree: false, watched: false },
+  { id: 2, title: "Support & Resistance Mastery", category: "technical", duration: "18:45", thumbnail: "bg-gradient-to-br from-purple-900/50 to-purple-600/30", isFree: true, watched: false },
+  { id: 3, title: "Risk Management: The 1% Rule", category: "risk", duration: "15:20", thumbnail: "bg-gradient-to-br from-green-900/50 to-green-600/30", isFree: true, watched: false },
+  { id: 4, title: "Trading Psychology: Mastering Emotions", category: "psychology", duration: "22:10", thumbnail: "bg-gradient-to-br from-orange-900/50 to-orange-600/30", isFree: true, watched: false },
+  { id: 5, title: "Fibonacci Retracement Strategy", category: "technical", duration: "25:30", thumbnail: "bg-gradient-to-br from-pink-900/50 to-pink-600/30", isFree: true, watched: false },
   { id: 6, title: "Understanding Market Structure", category: "basics", duration: "14:15", thumbnail: "bg-gradient-to-br from-cyan-900/50 to-cyan-600/30", isFree: true, watched: true },
 ];
 
@@ -73,14 +73,7 @@ export default function VideoLibrary() {
                   <CheckCircle size={18} className="text-elite-green" />
                 </div>
               )}
-              {!video.isFree && (
-                <div className="absolute top-3 left-3">
-                  <div className="bg-elite-gold/20 border border-elite-gold/30 text-elite-gold text-xs px-2 py-1 rounded flex items-center gap-1">
-                    <Lock size={10} />
-                    Premium
-                  </div>
-                </div>
-              )}
+
               <div className="w-14 h-14 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 flex items-center justify-center group-hover:scale-110 transition-transform">
                 <Play size={24} className="text-white ml-1" />
               </div>

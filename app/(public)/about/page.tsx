@@ -7,10 +7,10 @@ import { Award, TrendingUp, Users, Globe, BookOpen, Target } from "lucide-react"
 const milestones = [
   { year: "2012", title: "Trading Journey Begins", description: "Started professional trading career on the London forex floors" },
   { year: "2015", title: "First $100K Month", description: "Achieved first six-figure trading month using proprietary strategies" },
-  { year: "2018", title: "Community Founded", description: "Launched FXElite with 50 founding members" },
+  { year: "2018", title: "Community Founded", description: "Launched Fx Insights Hub with 50 founding members" },
   { year: "2020", title: "1,000 Members Milestone", description: "Community grew to 1,000 active traders worldwide" },
   { year: "2022", title: "Copy Trading Launch", description: "Introduced automated copy trading for MT4/MT5 platforms" },
-  { year: "2024", title: "Global Recognition", description: "Recognized as top-tier forex education platform with 2,400+ members" },
+  { year: "2024", title: "Global Recognition", description: "Recognized as top-tier forex education platform with 1,000+ members" },
 ];
 
 const values = [
@@ -42,8 +42,8 @@ export default function AboutPage() {
         {/* Stats */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 mb-24">
           {[
-            { value: 12, suffix: "+", label: "Years Experience", icon: Award },
-            { value: 2400, suffix: "+", label: "Community Members", icon: Users },
+            { value: 8, suffix: "+", label: "Years Experience", icon: Award },
+            { value: 1000, suffix: "+", label: "Community Members", icon: Users },
             { value: 50, suffix: "+", label: "Countries Reached", icon: Globe },
             { value: 87, suffix: "%", label: "Signal Accuracy", icon: TrendingUp },
           ].map((stat, i) => (

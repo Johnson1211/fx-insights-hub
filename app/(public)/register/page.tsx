@@ -67,7 +67,7 @@ export default function RegisterPage() {
             <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-elite-gold to-amber-600 flex items-center justify-center mx-auto mb-4">
               <span className="font-display text-elite-bg text-2xl font-bold">FX</span>
             </div>
-            <h1 className="font-display text-3xl text-white tracking-wider">JOIN FXELITE</h1>
+            <h1 className="font-display text-3xl text-white tracking-wider">JOIN FX INSIGHTS HUB</h1>
             <p className="text-gray-400 text-sm mt-2">Create your account and start trading</p>
           </div>
 

@@ -5,29 +5,32 @@
 @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
 
 :root {
-  --elite-bg: #0A0E1A;
-  --elite-card: #06080F;
-  --elite-gold: #F0B429;
-  --elite-green: #00E676;
-  --elite-red: #FF1744;
+  --elite-bg: #F8FAFC;
+  --elite-card: #FFFFFF;
+  --elite-surface: #F1F5F9;
+  --elite-border: #E2E8F0;
+  --elite-gold: #1E3A8A;
+  --elite-green: #10B981;
+  --elite-red: #EF4444;
+  --elite-blue: #1D4ED8;
 }
 
 @layer base {
   body {
     @apply bg-elite-bg text-gray-100 font-body antialiased;
-    background-color: #0A0E1A;
+    background-color: #F8FAFC;
   }
 
   ::selection {
-    background-color: rgba(240, 180, 41, 0.3);
-    color: #fff;
+    background-color: rgba(30, 58, 138, 0.2);
+    color: #0f172a;
   }
 }
 
 @layer components {
   .glass-card {
-    @apply bg-elite-card/80 backdrop-blur-xl border border-elite-border/50 rounded-xl;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+    @apply bg-elite-card/85 backdrop-blur-xl border border-elite-border rounded-xl;
+    box-shadow: 0 8px 32px rgba(15, 23, 42, 0.05);
   }
 
   .glass-card-hover {
@@ -35,8 +38,8 @@
   }
 
   .glass-card-hover:hover {
-    border-color: rgba(240, 180, 41, 0.3);
-    box-shadow: 0 8px 32px rgba(240, 180, 41, 0.1), 0 0 20px rgba(240, 180, 41, 0.05);
+    border-color: rgba(30, 58, 138, 0.25);
+    box-shadow: 0 8px 32px rgba(30, 58, 138, 0.08), 0 0 20px rgba(30, 58, 138, 0.03);
   }
 
   .gold-gradient-text {
@@ -96,14 +99,14 @@
 }
 
 ::-webkit-scrollbar-track {
-  background: #06080F;
+  background: #F1F5F9;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #1F2937;
+  background: #CBD5E1;
   border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #374151;
+  background: #94A3B8;
 }

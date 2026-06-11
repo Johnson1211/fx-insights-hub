@@ -96,7 +96,7 @@ export function Footer() {
           <div>
             <h4 className="font-display text-lg text-white mb-4 tracking-wider">SERVICES</h4>
             <ul className="space-y-3">
-              {["Trading Signals", "Copy Trading", "Live Sessions", "Training Program", "Community Access"].map((item) => (
+              {["Online Training", "In-Person Training", "Signal Services", "Lifetime Mentorship"].map((item) => (
                 <li key={item}>
                   <span className="text-gray-400 text-sm">{item}</span>
                 </li>
