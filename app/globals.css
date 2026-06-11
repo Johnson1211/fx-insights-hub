@@ -1,0 +1,109 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+:root {
+  --elite-bg: #0A0E1A;
+  --elite-card: #06080F;
+  --elite-gold: #F0B429;
+  --elite-green: #00E676;
+  --elite-red: #FF1744;
+}
+
+@layer base {
+  body {
+    @apply bg-elite-bg text-gray-100 font-body antialiased;
+    background-color: #0A0E1A;
+  }
+
+  ::selection {
+    background-color: rgba(240, 180, 41, 0.3);
+    color: #fff;
+  }
+}
+
+@layer components {
+  .glass-card {
+    @apply bg-elite-card/80 backdrop-blur-xl border border-elite-border/50 rounded-xl;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+  }
+
+  .glass-card-hover {
+    @apply glass-card transition-all duration-300;
+  }
+
+  .glass-card-hover:hover {
+    border-color: rgba(240, 180, 41, 0.3);
+    box-shadow: 0 8px 32px rgba(240, 180, 41, 0.1), 0 0 20px rgba(240, 180, 41, 0.05);
+  }
+
+  .gold-gradient-text {
+    @apply bg-gradient-to-r from-elite-gold to-amber-600 bg-clip-text text-transparent;
+  }
+
+  .btn-primary {
+    @apply bg-gradient-to-r from-elite-gold to-amber-600 text-elite-bg font-semibold px-6 py-3 rounded-lg 
+           transition-all duration-300 hover:shadow-lg hover:shadow-amber-500/25 hover:scale-105 active:scale-95;
+  }
+
+  .btn-outline {
+    @apply border border-elite-gold/50 text-elite-gold px-6 py-3 rounded-lg transition-all duration-300 
+           hover:bg-elite-gold/10 hover:border-elite-gold;
+  }
+
+  .input-field {
+    @apply w-full bg-elite-surface border border-elite-border rounded-lg px-4 py-3 text-gray-100 
+           placeholder-gray-500 focus:outline-none focus:border-elite-gold/50 focus:ring-1 focus:ring-elite-gold/30 
+           transition-all duration-300;
+  }
+
+  .section-padding {
+    @apply px-4 sm:px-6 lg:px-8 xl:px-12 2xl:px-20;
+  }
+
+  .text-glow {
+    text-shadow: 0 0 20px rgba(240, 180, 41, 0.3);
+  }
+
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+@layer utilities {
+  .animation-delay-200 {
+    animation-delay: 200ms;
+  }
+  .animation-delay-400 {
+    animation-delay: 400ms;
+  }
+  .animation-delay-600 {
+    animation-delay: 600ms;
+  }
+}
+
+/* Custom scrollbar for webkit */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #06080F;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #1F2937;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #374151;
+}

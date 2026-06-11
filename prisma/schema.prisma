@@ -1,0 +1,156 @@
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+enum Role {
+  guest
+  member
+  trader
+  admin
+}
+
+enum Plan {
+  free
+  premium
+  copy_trader
+  training
+}
+
+enum Experience {
+  beginner
+  intermediate
+  advanced
+}
+
+enum SignalType {
+  BUY
+  SELL
+}
+
+enum Timeframe {
+  M15
+  H1
+  H4
+  D1
+}
+
+enum SignalStatus {
+  Active
+  Closed
+}
+
+enum SignalResult {
+  Win
+  Loss
+  Breakeven
+}
+
+enum Platform {
+  youtube
+  zoom
+  custom
+}
+
+enum BlogPostStatus {
+  draft
+  published
+}
+
+model User {
+  id                    String            @id @default(uuid())
+  name                  String
+  email                 String            @unique
+  password              String
+  phone                 String?
+  avatar                String?           @default("")
+  role                  Role              @default(guest)
+  plan                  Plan              @default(free)
+  tradingExperience     Experience?
+  referralCode          String            @unique
+  referredBy            String?
+  isVerified            Boolean           @default(false)
+  resetPasswordToken    String?
+  resetPasswordExpires  DateTime?
+  createdAt             DateTime          @default(now())
+  updatedAt             DateTime          @updatedAt
+  signals               Signal[]
+  videos                Video[]
+  blogPosts             BlogPost[]
+  liveSessions          LiveSession[]
+}
+
+model Signal {
+  id          String        @id @default(uuid())
+  pair        String
+  type        SignalType
+  entryPrice  Float
+  stopLoss    Float
+  takeProfit1 Float
+  takeProfit2 Float?
+  timeframe   Timeframe
+  analysis    String
+  chartImage  String?
+  status      SignalStatus  @default(Active)
+  result      SignalResult?
+  pips        Float?
+  createdBy   String
+  creator     User          @relation(fields: [createdBy], references: [id], onDelete: Cascade)
+  closedAt    DateTime?
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+}
+
+model Video {
+  id            String   @id @default(uuid())
+  title         String
+  description   String
+  thumbnail     String
+  url           String
+  category      String
+  tags          String[]
+  isFreePreview Boolean  @default(false)
+  duration      Int      @default(0)
+  order         Int      @default(0)
+  createdBy     String
+  creator       User     @relation(fields: [createdBy], references: [id], onDelete: Cascade)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
+model BlogPost {
+  id          String         @id @default(uuid())
+  title       String
+  slug        String         @unique
+  excerpt     String
+  content     String
+  coverImage  String
+  category    String
+  tags        String[]
+  publishedAt DateTime       @default(now())
+  authorId    String
+  author      User           @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  status      BlogPostStatus @default(draft)
+  createdAt   DateTime       @default(now())
+  updatedAt   DateTime       @updatedAt
+}
+
+model LiveSession {
+  id           String    @id @default(uuid())
+  title        String
+  description  String?
+  scheduledAt  DateTime
+  platform     Platform
+  embedUrl     String
+  isLive       Boolean   @default(false)
+  recordingUrl String?
+  createdBy    String
+  creator      User      @relation(fields: [createdBy], references: [id], onDelete: Cascade)
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+}
