@@ -139,6 +139,18 @@ export function Footer() {
           </div>
         </div>
 
+        {/* Disclaimer */}
+        <div className="mt-12 pt-8 border-t border-elite-border/50">
+          <p className="text-red-500 text-xs leading-relaxed text-justify">
+            <strong className="text-red-600 font-semibold block mb-2">Disclaimer:</strong>
+            The information provided is for educational and informational purposes only and should not be considered financial, investment, or trading advice. Trading financial markets, including Forex, commodities, indices, stocks, and cryptocurrencies, involves substantial risk and may not be suitable for all investors.
+            <br /><br />
+            Past performance is not indicative of future results. Any analysis, opinions, trade ideas, or examples shared are based on personal views and market observations at the time of publication and do not guarantee future performance. You are solely responsible for your trading decisions and should conduct your own research and risk assessment before entering any trade.
+            <br /><br />
+            The author assumes no responsibility for any losses or damages arising directly or indirectly from the use of the information provided. Always trade responsibly and only with capital you can afford to lose.
+          </p>
+        </div>
+
         {/* Bottom */}
         <div className="mt-12 pt-8 border-t border-elite-border/50 flex flex-col md:flex-row justify-between items-center gap-4">
           <p className="text-gray-500 text-sm">
