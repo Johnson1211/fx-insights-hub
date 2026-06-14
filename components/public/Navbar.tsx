@@ -46,9 +46,7 @@ export function Navbar() {
           <div className="flex items-center justify-between h-16 lg:h-20">
             {/* Logo */}
             <Link href="/" className="flex items-center gap-2 group">
-              <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-elite-gold to-blue-600 flex items-center justify-center">
-                <span className="font-display text-elite-bg text-lg font-bold">FX</span>
-              </div>
+              <img src="/images/logo.jpg" alt="FX" className="w-8 h-8 rounded-lg object-cover" />
               <span className="font-display text-xl tracking-wider text-white group-hover:text-elite-gold transition-colors">
                 FX INSIGHTS <span className="text-elite-gold">HUB</span>
               </span>

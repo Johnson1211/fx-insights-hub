@@ -64,9 +64,7 @@ export default function RegisterPage() {
       >
         <div className="glass-card p-8 md:p-10">
           <div className="text-center mb-8">
-            <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-elite-gold to-blue-600 flex items-center justify-center mx-auto mb-4">
-              <span className="font-display text-elite-bg text-2xl font-bold">FX</span>
-            </div>
+            <img src="/images/logo.jpg" alt="FX" className="w-14 h-14 rounded-xl object-cover mx-auto mb-4" />
             <h1 className="font-display text-3xl text-white tracking-wider">JOIN FX INSIGHTS HUB</h1>
             <p className="text-gray-400 text-sm mt-2">Create your account and start trading</p>
           </div>
