@@ -4,6 +4,8 @@ import { verifyAccessToken } from "@/lib/auth";
 import { cookies } from "next/headers";
 import { SignalStatus } from "@prisma/client";
 
+export const dynamic = "force-dynamic";
+
 export async function GET(req: NextRequest) {
   try {
     const { searchParams } = new URL(req.url);

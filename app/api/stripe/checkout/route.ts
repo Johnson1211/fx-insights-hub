@@ -3,6 +3,8 @@ import Stripe from "stripe";
 import { verifyAccessToken } from "@/lib/auth";
 import { cookies } from "next/headers";
 
+export const dynamic = "force-dynamic";
+
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || "", {
   apiVersion: "2024-04-10" as any,
 });
