@@ -1,37 +1,96 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { useAuth } from "@/hooks/useAuth";
-import { Play, Lock, Clock, BookOpen, BarChart3, Brain, Shield, CheckCircle, ExternalLink, Loader2 } from "lucide-react";
+import { Play, Lock, Clock, BookOpen, BarChart3, Brain, Shield, ExternalLink, Loader2 } from "lucide-react";
 
 const categories = [
   { id: "all", label: "All Videos", icon: Play },
   { id: "basics", label: "Basics", icon: BookOpen },
-  { id: "technical", label: "Technical Analysis", icon: BarChart3 },
+  { id: "technical analysis", label: "Technical Analysis", icon: BarChart3 },
   { id: "psychology", label: "Psychology", icon: Brain },
-  { id: "risk", label: "Risk Management", icon: Shield },
+  { id: "risk management", label: "Risk Management", icon: Shield },
 ];
 
-const videos = [
-  { id: 1, title: "Forex Basics: Understanding Currency Pairs", category: "basics", duration: "12:34", thumbnail: "bg-gradient-to-br from-blue-900/50 to-blue-600/30", isFree: true, watched: true },
-  { id: 2, title: "Support & Resistance Mastery", category: "technical", duration: "18:45", thumbnail: "bg-gradient-to-br from-purple-900/50 to-purple-600/30", isFree: true, watched: false },
-  { id: 3, title: "Risk Management: The 1% Rule", category: "risk", duration: "15:20", thumbnail: "bg-gradient-to-br from-green-900/50 to-green-600/30", isFree: true, watched: false },
-  { id: 4, title: "Trading Psychology: Mastering Emotions", category: "psychology", duration: "22:10", thumbnail: "bg-gradient-to-br from-indigo-900/50 to-indigo-600/30", isFree: true, watched: false },
-  { id: 5, title: "Fibonacci Retracement Strategy", category: "technical", duration: "25:30", thumbnail: "bg-gradient-to-br from-pink-900/50 to-pink-600/30", isFree: true, watched: false },
-  { id: 6, title: "Understanding Market Structure", category: "basics", duration: "14:15", thumbnail: "bg-gradient-to-br from-cyan-900/50 to-cyan-600/30", isFree: true, watched: true },
+const gradients = [
+  "from-blue-900/50 to-blue-600/30",
+  "from-purple-900/50 to-purple-600/30",
+  "from-green-900/50 to-green-600/30",
+  "from-indigo-900/50 to-indigo-600/30",
+  "from-pink-900/50 to-pink-600/30",
+  "from-cyan-900/50 to-cyan-600/30",
 ];
+
+const getThumbnailGradient = (index: number) => {
+  return `bg-gradient-to-br ${gradients[index % gradients.length]}`;
+};
+
+function getVideoEmbedInfo(url: string) {
+  if (!url) return null;
+  
+  // YouTube
+  const ytMatch = url.match(/(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/i);
+  if (ytMatch) {
+    return {
+      type: "youtube",
+      embedUrl: `https://www.youtube.com/embed/${ytMatch[1]}?autoplay=1`,
+    };
+  }
+
+  // Vimeo
+  const vimeoMatch = url.match(/(?:vimeo\.com\/|player\.vimeo\.com\/video\/)(\d+)/i);
+  if (vimeoMatch) {
+    return {
+      type: "vimeo",
+      embedUrl: `https://player.vimeo.com/video/${vimeoMatch[1]}?autoplay=1`,
+    };
+  }
+
+  // Direct link or fallback
+  return {
+    type: "direct",
+    url: url,
+  };
+}
 
 export default function VideoLibrary() {
   const { user, refreshUser } = useAuth();
+  const [videos, setVideos] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
   const [activeCategory, setActiveCategory] = useState("all");
-  const [selectedVideo, setSelectedVideo] = useState<typeof videos[0] | null>(null);
+  const [selectedVideo, setSelectedVideo] = useState<any | null>(null);
   
   // Lock screen state
   const [derivIdInput, setDerivIdInput] = useState("");
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState("");
   const [showEditForm, setShowEditForm] = useState(false);
+
+  const isApproved = user?.role === "admin" || user?.brokerApproved;
+  const partnerLink = process.env.NEXT_PUBLIC_DERIV_LINK || "https://track.deriv.com/_9ztPZXbH8dL1hit6RV3zsGNd7ZgqdRLk/1/";
+
+  useEffect(() => {
+    async function fetchVideos() {
+      try {
+        const res = await fetch("/api/videos");
+        const data = await res.json();
+        if (res.ok && data.videos) {
+          setVideos(data.videos);
+        }
+      } catch (err) {
+        console.error("Failed to fetch videos:", err);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    if (user && isApproved) {
+      fetchVideos();
+    } else {
+      setLoading(false);
+    }
+  }, [user, isApproved]);
 
   if (!user) {
     return (
@@ -40,9 +99,6 @@ export default function VideoLibrary() {
       </div>
     );
   }
-
-  const isApproved = user.role === "admin" || user.brokerApproved;
-  const partnerLink = process.env.NEXT_PUBLIC_DERIV_LINK || "https://track.deriv.com/_eaNhaqhRdYc1ZWU0/1/";
 
   const handleVerifySubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -69,7 +125,7 @@ export default function VideoLibrary() {
 
   const filteredVideos = activeCategory === "all" 
     ? videos 
-    : videos.filter((v) => v.category === activeCategory);
+    : videos.filter((v) => v.category?.toLowerCase() === activeCategory);
 
   // Locked Screen render
   if (!isApproved) {
@@ -219,7 +275,11 @@ export default function VideoLibrary() {
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <h1 className="font-display text-3xl text-white tracking-wider">VIDEO LIBRARY</h1>
         <div className="text-sm text-gray-400">
-          {videos.filter((v) => v.watched).length} / {videos.length} watched
+          {loading ? (
+            "Loading videos..."
+          ) : (
+            `Total videos: ${videos.length}`
+          )}
         </div>
       </div>
 
@@ -242,61 +302,106 @@ export default function VideoLibrary() {
       </div>
 
       {/* Video Grid */}
-      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-        {filteredVideos.map((video, i) => (
-          <motion.div
-            key={video.id}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: i * 0.1 }}
-            onClick={() => setSelectedVideo(video)}
-            className="glass-card-hover overflow-hidden cursor-pointer group"
-          >
-            <div className={`aspect-video ${video.thumbnail} relative flex items-center justify-center`}>
-              {video.watched && (
-                <div className="absolute top-3 right-3">
-                  <CheckCircle size={18} className="text-elite-green" />
+      {loading ? (
+        <div className="flex justify-center py-20">
+          <Loader2 size={32} className="text-elite-gold animate-spin" />
+        </div>
+      ) : filteredVideos.length === 0 ? (
+        <div className="glass-card p-12 text-center text-gray-400">
+          No videos found in this category.
+        </div>
+      ) : (
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+          {filteredVideos.map((video, i) => (
+            <motion.div
+              key={video.id}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: i * 0.1 }}
+              onClick={() => setSelectedVideo(video)}
+              className="glass-card-hover overflow-hidden cursor-pointer group"
+            >
+              <div className={`aspect-video ${video.thumbnail || getThumbnailGradient(i)} relative flex items-center justify-center`}>
+                <div className="w-14 h-14 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 flex items-center justify-center group-hover:scale-110 transition-transform">
+                  <Play size={24} className="text-white ml-1" />
                 </div>
-              )}
-
-              <div className="w-14 h-14 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 flex items-center justify-center group-hover:scale-110 transition-transform">
-                <Play size={24} className="text-white ml-1" />
+                {video.duration > 0 && (
+                  <div className="absolute bottom-3 right-3 bg-black/60 backdrop-blur-sm px-2 py-1 rounded text-xs text-white font-mono">
+                    {video.duration} mins
+                  </div>
+                )}
               </div>
-              <div className="absolute bottom-3 right-3 bg-black/60 backdrop-blur-sm px-2 py-1 rounded text-xs text-white font-mono">
-                {video.duration}
+              <div className="p-4">
+                <h3 className="text-white font-medium text-sm mb-1 line-clamp-2">{video.title}</h3>
+                <p className="text-gray-500 text-xs capitalize">{video.category}</p>
               </div>
-            </div>
-            <div className="p-4">
-              <h3 className="text-white font-medium text-sm mb-1 line-clamp-2">{video.title}</h3>
-              <p className="text-gray-500 text-xs capitalize">{video.category}</p>
-            </div>
-          </motion.div>
-        ))}
-      </div>
-
-      {/* Video Player Modal */}
-      {selectedVideo && (
-        <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4" onClick={() => setSelectedVideo(null)}>
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            className="glass-card w-full max-w-4xl overflow-hidden"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <div className="aspect-video bg-elite-surface flex items-center justify-center">
-              <div className="text-center">
-                <Play size={48} className="text-elite-gold mx-auto mb-4" />
-                <p className="text-white font-medium">{selectedVideo.title}</p>
-                <p className="text-gray-500 text-sm mt-2">Video player would load here</p>
-              </div>
-            </div>
-            <div className="p-6">
-              <h2 className="font-display text-xl text-white tracking-wider mb-2">{selectedVideo.title}</h2>
-              <p className="text-gray-400 text-sm">Duration: {selectedVideo.duration}</p>
-            </div>
-          </motion.div>
+            </motion.div>
+          ))}
         </div>
       )}
+
+      {/* Video Player Modal */}
+      {selectedVideo && (() => {
+        const embedInfo = getVideoEmbedInfo(selectedVideo.url);
+        return (
+          <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4" onClick={() => setSelectedVideo(null)}>
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              className="glass-card w-full max-w-4xl overflow-hidden relative"
+              onClick={(e) => e.stopPropagation()}
+            >
+              {/* Close Button */}
+              <button
+                onClick={() => setSelectedVideo(null)}
+                className="absolute top-4 right-4 z-50 p-2 rounded-full bg-black/50 text-white/80 hover:text-white hover:bg-black/80 transition-colors"
+                aria-label="Close modal"
+              >
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+
+              <div className="aspect-video bg-black relative flex items-center justify-center">
+                {embedInfo ? (
+                  embedInfo.type === "youtube" || embedInfo.type === "vimeo" ? (
+                    <iframe
+                      src={embedInfo.embedUrl}
+                      className="w-full h-full border-0 absolute inset-0"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                      allowFullScreen
+                    ></iframe>
+                  ) : (
+                    <video
+                      src={embedInfo.url}
+                      controls
+                      autoPlay
+                      className="w-full h-full object-contain absolute inset-0"
+                    />
+                  )
+                ) : (
+                  <div className="text-center p-6">
+                    <Lock size={48} className="text-elite-gold mx-auto mb-4" />
+                    <p className="text-white font-medium">Video is locked</p>
+                    <p className="text-gray-500 text-sm mt-2">Complete verification to view this lesson</p>
+                  </div>
+                )}
+              </div>
+              <div className="p-6">
+                <h2 className="font-display text-xl text-white tracking-wider mb-2">{selectedVideo.title}</h2>
+                <div className="flex gap-4 items-center text-xs text-gray-400 mb-3">
+                  <span className="capitalize bg-elite-surface px-2.5 py-1 rounded-full border border-elite-border">{selectedVideo.category}</span>
+                  {selectedVideo.duration > 0 && <span>Duration: {selectedVideo.duration} mins</span>}
+                </div>
+                {selectedVideo.description && (
+                  <p className="text-gray-300 text-sm leading-relaxed mt-2">{selectedVideo.description}</p>
+                )}
+              </div>
+            </motion.div>
+          </div>
+        );
+      })()}
     </div>
   );
 }
+
