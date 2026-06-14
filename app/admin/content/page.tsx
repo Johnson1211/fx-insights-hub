@@ -26,6 +26,8 @@ export default function AdminContent() {
   const [duration, setDuration] = useState("");
   const [description, setDescription] = useState("");
   const [isFreePreview, setIsFreePreview] = useState(false);
+  const [uploadingFile, setUploadingFile] = useState(false);
+  const [uploadProgress, setUploadProgress] = useState(0);
 
   const fetchVideos = async () => {
     try {
@@ -39,6 +41,71 @@ export default function AdminContent() {
       console.error("Error fetching videos:", err);
     } finally {
       setVideosLoading(false);
+    }
+  };
+
+  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    setError("");
+    setUploadingFile(true);
+    setUploadProgress(0);
+
+    try {
+      const sigRes = await fetch("/api/admin/cloudinary-signature", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+      });
+      const sigData = await sigRes.json();
+      if (!sigRes.ok) throw new Error(sigData.error || "Failed to generate upload signature");
+
+      const { signature, timestamp, folder, apiKey, cloudName } = sigData;
+
+      const formData = new FormData();
+      formData.append("file", file);
+      formData.append("api_key", apiKey);
+      formData.append("timestamp", timestamp.toString());
+      formData.append("signature", signature);
+      formData.append("folder", folder);
+
+      const xhr = new XMLHttpRequest();
+      xhr.open("POST", `https://api.cloudinary.com/v1_1/${cloudName}/video/upload`);
+
+      xhr.upload.onprogress = (event) => {
+        if (event.lengthComputable) {
+          const percentComplete = Math.round((event.loaded / event.total) * 100);
+          setUploadProgress(percentComplete);
+        }
+      };
+
+      xhr.onload = () => {
+        setUploadingFile(false);
+        if (xhr.status === 200) {
+          const response = JSON.parse(xhr.responseText);
+          setUrl(response.secure_url);
+          if (response.duration) {
+            setDuration(Math.ceil(response.duration / 60).toString());
+          }
+        } else {
+          try {
+            const errResponse = JSON.parse(xhr.responseText);
+            setError(errResponse.error?.message || "Failed to upload to storage cloud");
+          } catch {
+            setError("Failed to upload to storage cloud");
+          }
+        }
+      };
+
+      xhr.onerror = () => {
+        setUploadingFile(false);
+        setError("Network error occurred during file upload.");
+      };
+
+      xhr.send(formData);
+    } catch (err: any) {
+      setUploadingFile(false);
+      setError(err.message || "Failed to prepare file upload");
     }
   };
 
@@ -188,10 +255,26 @@ export default function AdminContent() {
                     type="url"
                     required
                     className="input-field"
-                    placeholder="YouTube/Vimeo URL or direct MP4/WebM URL..."
+                    placeholder="YouTube/Vimeo URL or uploaded file URL..."
                     value={url}
                     onChange={(e) => setUrl(e.target.value)}
                   />
+                </div>
+                <div>
+                  <label className="block text-sm text-gray-400 mb-2">Upload Video File (Phone/PC)</label>
+                  <input
+                    type="file"
+                    accept="video/*"
+                    className="input-field cursor-pointer file:mr-4 file:py-1.5 file:px-3 file:rounded-md file:border-0 file:text-xs file:font-semibold file:bg-elite-gold/10 file:text-elite-gold hover:file:bg-elite-gold/20"
+                    onChange={handleFileChange}
+                    disabled={uploadingFile}
+                  />
+                  {uploadingFile && (
+                    <div className="mt-2 text-xs text-elite-gold flex items-center gap-2 bg-elite-gold/5 p-2 rounded border border-elite-gold/10 animate-pulse">
+                      <Loader2 size={12} className="animate-spin" />
+                      Uploading: {uploadProgress}%
+                    </div>
+                  )}
                 </div>
                 <div>
                   <label className="block text-sm text-gray-400 mb-2">Duration (minutes)</label>
