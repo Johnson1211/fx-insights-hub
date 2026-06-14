@@ -12,6 +12,9 @@ interface UserData {
   role: string;
   createdAt: string;
   isVerified: boolean;
+  derivId?: string;
+  derivStatus?: "unsubmitted" | "pending" | "approved" | "rejected";
+  brokerApproved?: boolean;
 }
 
 export default function AdminUsers() {
@@ -33,6 +36,27 @@ export default function AdminUsers() {
       console.error("Failed to fetch users:", error);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleDerivAction = async (userId: string, approve: boolean) => {
+    try {
+      const res = await fetch("/api/admin/users", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          userId,
+          brokerApproved: approve,
+          derivStatus: approve ? "approved" : "rejected",
+        }),
+      });
+      if (!res.ok) {
+        const data = await res.json();
+        throw new Error(data.error || "Failed to update status");
+      }
+      fetchUsers();
+    } catch (error: any) {
+      alert(error.message || "Failed to update user status");
     }
   };
 
@@ -85,8 +109,9 @@ export default function AdminUsers() {
                   <th className="text-left p-4 text-gray-400 font-medium text-xs uppercase tracking-wider">User</th>
                   <th className="text-left p-4 text-gray-400 font-medium text-xs uppercase tracking-wider">Plan</th>
                   <th className="text-left p-4 text-gray-400 font-medium text-xs uppercase tracking-wider">Role</th>
+                  <th className="text-left p-4 text-gray-400 font-medium text-xs uppercase tracking-wider">Deriv Account</th>
                   <th className="text-left p-4 text-gray-400 font-medium text-xs uppercase tracking-wider">Joined</th>
-                  <th className="text-left p-4 text-gray-400 font-medium text-xs uppercase tracking-wider">Status</th>
+                  <th className="text-left p-4 text-gray-400 font-medium text-xs uppercase tracking-wider">Email Ver.</th>
                   <th className="text-left p-4 text-gray-400 font-medium text-xs uppercase tracking-wider">Actions</th>
                 </tr>
               </thead>
@@ -130,6 +155,40 @@ export default function AdminUsers() {
                       }`}>
                         {user.role}
                       </span>
+                    </td>
+                    <td className="p-4">
+                      {user.derivId ? (
+                        <div className="space-y-1">
+                          <span className="text-white text-sm font-mono font-medium block">{user.derivId}</span>
+                          <div className="flex gap-2">
+                            {user.derivStatus === "pending" && (
+                              <>
+                                <button
+                                  onClick={() => handleDerivAction(user._id, true)}
+                                  className="text-elite-green hover:underline text-xs font-semibold"
+                                >
+                                  Approve
+                                </button>
+                                <span className="text-gray-600 text-xs">|</span>
+                                <button
+                                  onClick={() => handleDerivAction(user._id, false)}
+                                  className="text-elite-red hover:underline text-xs font-semibold"
+                                >
+                                  Reject
+                                </button>
+                              </>
+                            )}
+                            {user.derivStatus === "approved" && (
+                              <span className="text-elite-green text-xs font-semibold px-1.5 py-0.5 rounded bg-elite-green/10 border border-elite-green/20">Approved</span>
+                            )}
+                            {user.derivStatus === "rejected" && (
+                              <span className="text-elite-red text-xs font-semibold px-1.5 py-0.5 rounded bg-elite-red/10 border border-elite-red/20">Rejected</span>
+                            )}
+                          </div>
+                        </div>
+                      ) : (
+                        <span className="text-gray-600 text-xs italic">Unsubmitted</span>
+                      )}
                     </td>
                     <td className="p-4 text-gray-400 text-sm">
                       {new Date(user.createdAt).toLocaleDateString()}

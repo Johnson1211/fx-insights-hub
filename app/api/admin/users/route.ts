@@ -71,11 +71,13 @@ export async function PATCH(req: NextRequest) {
       return NextResponse.json({ error: "Forbidden" }, { status: 403 });
     }
 
-    const { userId, plan, role } = await req.json();
+    const { userId, plan, role, brokerApproved, derivStatus } = await req.json();
 
     const update: any = {};
     if (plan) update.plan = plan as any;
     if (role) update.role = role as any;
+    if (brokerApproved !== undefined) update.brokerApproved = brokerApproved;
+    if (derivStatus !== undefined) update.derivStatus = derivStatus;
 
     const dbUser = await prisma.user.update({
       where: { id: userId },

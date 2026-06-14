@@ -14,6 +14,9 @@ interface AuthUser {
   referredBy?: string;
   isVerified?: boolean;
   tradingExperience?: string;
+  derivId?: string;
+  derivStatus?: "unsubmitted" | "pending" | "approved" | "rejected";
+  brokerApproved?: boolean;
 }
 
 interface AuthContextType {

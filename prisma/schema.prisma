@@ -23,6 +23,13 @@ enum Plan {
   training
 }
 
+enum DerivStatus {
+  unsubmitted
+  pending
+  approved
+  rejected
+}
+
 enum Experience {
   beginner
   intermediate
@@ -76,6 +83,9 @@ model User {
   referralCode          String            @unique
   referredBy            String?
   isVerified            Boolean           @default(false)
+  derivId               String?           @unique
+  derivStatus           DerivStatus       @default(unsubmitted)
+  brokerApproved        Boolean           @default(false)
   resetPasswordToken    String?
   resetPasswordExpires  DateTime?
   createdAt             DateTime          @default(now())

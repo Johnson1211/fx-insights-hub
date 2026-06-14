@@ -10,6 +10,9 @@ export interface User {
   referralCode: string;
   referredBy?: string;
   isVerified: boolean;
+  derivId?: string;
+  derivStatus?: "unsubmitted" | "pending" | "approved" | "rejected";
+  brokerApproved?: boolean;
   createdAt: string;
 }
 
