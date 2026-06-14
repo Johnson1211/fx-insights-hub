@@ -23,11 +23,89 @@ const INITIAL_TICKERS: TickerItem[] = [
   { pair: "NZD/USD", price: 0.6123, change: 0.0021, changePercent: 0.34 },
 ];
 
+async function fetchLiveRates(): Promise<{ [pair: string]: number }> {
+  const prices: { [pair: string]: number } = {};
+  
+  try {
+    // 1. Fetch Forex Rates from Frankfurter (relative to USD)
+    const forexRes = await fetch("https://api.frankfurter.app/latest?from=USD");
+    if (forexRes.ok) {
+      const data = await forexRes.json();
+      const rates = data.rates;
+      if (rates) {
+        prices["EUR/USD"] = 1 / rates.EUR;
+        prices["GBP/USD"] = 1 / rates.GBP;
+        prices["USD/JPY"] = rates.JPY;
+        prices["USD/CHF"] = rates.CHF;
+        prices["AUD/USD"] = 1 / rates.AUD;
+        prices["EUR/GBP"] = rates.GBP / rates.EUR;
+        prices["GBP/JPY"] = rates.JPY / rates.GBP;
+        prices["NZD/USD"] = 1 / rates.NZD;
+      }
+    }
+  } catch (err) {
+    console.error("Error fetching forex rates:", err);
+  }
+
+  try {
+    // 2. Fetch BTC/USD from Coinbase
+    const btcRes = await fetch("https://api.coinbase.com/v2/prices/BTC-USD/spot");
+    if (btcRes.ok) {
+      const data = await btcRes.json();
+      if (data.data && data.data.amount) {
+        prices["BTC/USD"] = parseFloat(data.data.amount);
+      }
+    }
+  } catch (err) {
+    console.error("Error fetching BTC price:", err);
+  }
+
+  try {
+    // 3. Fetch XAU/USD (Gold) from Coinbase (PAXG)
+    const xauRes = await fetch("https://api.coinbase.com/v2/prices/PAXG-USD/spot");
+    if (xauRes.ok) {
+      const data = await xauRes.json();
+      if (data.data && data.data.amount) {
+        prices["XAU/USD"] = parseFloat(data.data.amount);
+      }
+    }
+  } catch (err) {
+    console.error("Error fetching Gold price:", err);
+  }
+
+  return prices;
+}
+
 export function ForexTicker() {
   const [tickers, setTickers] = useState<TickerItem[]>(INITIAL_TICKERS);
 
   useEffect(() => {
-    const interval = setInterval(() => {
+    async function updateRates() {
+      const livePrices = await fetchLiveRates();
+      setTickers((prev) =>
+        prev.map((ticker) => {
+          const livePrice = livePrices[ticker.pair];
+          if (livePrice !== undefined) {
+            const oldPrice = ticker.price;
+            const priceRatio = livePrice / oldPrice;
+            return {
+              ...ticker,
+              price: livePrice,
+              change: ticker.change * priceRatio,
+            };
+          }
+          return ticker;
+        })
+      );
+    }
+
+    updateRates();
+
+    // Poll live APIs every 60 seconds
+    const apiInterval = setInterval(updateRates, 60000);
+
+    // Micro-fluctuations every 3 seconds
+    const microInterval = setInterval(() => {
       setTickers((prev) =>
         prev.map((ticker) => {
           const volatility = ticker.pair.includes("BTC") ? 50 : ticker.pair.includes("XAU") ? 2 : 0.0005;
@@ -45,7 +123,10 @@ export function ForexTicker() {
       );
     }, 3000);
 
-    return () => clearInterval(interval);
+    return () => {
+      clearInterval(apiInterval);
+      clearInterval(microInterval);
+    };
   }, []);
 
   const tickerContent = [...tickers, ...tickers];
