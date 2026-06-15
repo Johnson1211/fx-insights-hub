@@ -401,14 +401,80 @@ export default function HomePage() {
               </motion.div>
             </div>
 
-            {/* Right Column (Live Simulator) */}
+            {/* Right Column (Live Simulator) — Dark animated trading backdrop */}
             <motion.div
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.8, delay: 0.4 }}
-              className="lg:col-span-5 w-full flex justify-center lg:justify-end"
+              className="lg:col-span-5 w-full flex justify-center lg:justify-end relative"
             >
-              <LiveTradingSimulator />
+              {/* Dark animated background panel behind the card */}
+              <div className="absolute inset-0 -mx-6 -my-8 lg:-mx-12 lg:-my-16 rounded-3xl overflow-hidden pointer-events-none">
+                {/* Deep dark base */}
+                <div className="absolute inset-0 bg-[#050b14]" />
+
+                {/* Radial gold glow top-right */}
+                <div className="absolute -top-10 -right-10 w-64 h-64 rounded-full bg-elite-gold/10 blur-3xl" />
+                {/* Radial blue glow bottom-left */}
+                <div className="absolute -bottom-10 -left-10 w-64 h-64 rounded-full bg-blue-700/15 blur-3xl" />
+                {/* Centre pulse */}
+                <motion.div
+                  animate={{ scale: [1, 1.15, 1], opacity: [0.06, 0.12, 0.06] }}
+                  transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+                  className="absolute inset-0 flex items-center justify-center"
+                >
+                  <div className="w-80 h-80 rounded-full bg-elite-gold/10 blur-3xl" />
+                </motion.div>
+
+                {/* SVG grid lines */}
+                <svg className="absolute inset-0 w-full h-full opacity-[0.04]" xmlns="http://www.w3.org/2000/svg">
+                  <defs>
+                    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+                      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#c5a880" strokeWidth="0.6" />
+                    </pattern>
+                  </defs>
+                  <rect width="100%" height="100%" fill="url(#grid)" />
+                </svg>
+
+                {/* Floating animated candlestick bars */}
+                {[...Array(14)].map((_, i) => (
+                  <motion.div
+                    key={i}
+                    className={`absolute bottom-0 rounded-t-sm ${i % 3 === 0 ? "bg-emerald-500/30" : "bg-elite-gold/20"}`}
+                    style={{
+                      left: `${4 + i * 7}%`,
+                      width: `${5 + (i % 3) * 3}px`,
+                      height: `${20 + Math.sin(i) * 40 + 15}px`,
+                    }}
+                    animate={{
+                      height: [
+                        `${20 + Math.sin(i) * 40 + 15}px`,
+                        `${30 + Math.sin(i + 1) * 50 + 20}px`,
+                        `${20 + Math.sin(i) * 40 + 15}px`,
+                      ],
+                      opacity: [0.3, 0.6, 0.3],
+                    }}
+                    transition={{
+                      duration: 3 + (i % 4),
+                      repeat: Infinity,
+                      delay: i * 0.2,
+                      ease: "easeInOut",
+                    }}
+                  />
+                ))}
+
+                {/* Moving horizontal scan line */}
+                <motion.div
+                  className="absolute left-0 right-0 h-px bg-gradient-to-r from-transparent via-elite-gold/20 to-transparent"
+                  animate={{ y: ["0%", "100%", "0%"] }}
+                  transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
+                />
+              </div>
+
+              {/* The actual simulator card, positioned above the background */}
+              <div className="relative z-10 py-8 w-full flex justify-center lg:justify-end">
+                <LiveTradingSimulator />
+              </div>
             </motion.div>
           </div>
         </div>
