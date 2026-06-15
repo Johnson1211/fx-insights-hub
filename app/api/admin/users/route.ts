@@ -17,9 +17,7 @@ async function verifyAdmin(req: NextRequest) {
 export async function GET(req: NextRequest) {
   try {
     const admin = await verifyAdmin(req);
-    if (!admin) {
-      return NextResponse.json({ error: "Forbidden" }, { status: 403 });
-    }
+    if (!admin) return NextResponse.json({ error: "Forbidden" }, { status: 403 });
 
     const { searchParams } = new URL(req.url);
     const page = parseInt(searchParams.get("page") || "1");
@@ -34,27 +32,17 @@ export async function GET(req: NextRequest) {
         { email: { contains: search, mode: "insensitive" } },
       ];
     }
-    if (plan) {
-      where.plan = plan as any;
-    }
+    if (plan) where.plan = plan as any;
 
     const skip = (page - 1) * limit;
     const [dbUsers, total] = await Promise.all([
-      prisma.user.findMany({
-        where,
-        orderBy: { createdAt: "desc" },
-        skip,
-        take: limit,
-      }),
+      prisma.user.findMany({ where, orderBy: { createdAt: "desc" }, skip, take: limit }),
       prisma.user.count({ where }),
     ]);
 
     const users = dbUsers.map((user) => {
-      const { password, ...userWithoutPassword } = user;
-      return {
-        ...userWithoutPassword,
-        _id: user.id,
-      };
+      const { password, ...rest } = user;
+      return { ...rest, _id: user.id };
     });
 
     return NextResponse.json({ users, total, page, pages: Math.ceil(total / limit) });
@@ -67,11 +55,15 @@ export async function GET(req: NextRequest) {
 export async function PATCH(req: NextRequest) {
   try {
     const admin = await verifyAdmin(req);
-    if (!admin) {
-      return NextResponse.json({ error: "Forbidden" }, { status: 403 });
-    }
+    if (!admin) return NextResponse.json({ error: "Forbidden" }, { status: 403 });
 
     const { userId, plan, role, brokerApproved, derivStatus } = await req.json();
+
+    // Fetch current user state before updating (to detect state changes)
+    const currentUser = await prisma.user.findUnique({
+      where: { id: userId },
+      select: { brokerApproved: true, derivStatus: true, name: true },
+    });
 
     const update: any = {};
     if (plan) update.plan = plan as any;
@@ -84,13 +76,50 @@ export async function PATCH(req: NextRequest) {
       data: update,
     });
 
-    const { password, ...userWithoutPassword } = dbUser;
-    const user = {
-      ...userWithoutPassword,
-      _id: dbUser.id,
-    };
+    // ——— Auto-create personal notification on approval ———
+    const notifications: Array<{ title: string; message: string; type: string; link: string }> = [];
 
-    return NextResponse.json({ user });
+    // Case 1: brokerApproved flipped false → true
+    if (brokerApproved === true && currentUser?.brokerApproved === false) {
+      notifications.push({
+        title: "🎉 Course Access Approved!",
+        message:
+          "Your Deriv registration has been verified by our admin. You now have full access to all course videos. Click to start learning!",
+        type: "success",
+        link: "/dashboard/courses",
+      });
+    }
+    // Case 2: derivStatus changed to "approved" (and not already handled by brokerApproved flip)
+    else if (derivStatus === "approved" && currentUser?.derivStatus !== "approved") {
+      notifications.push({
+        title: "✅ Deriv Account Approved",
+        message:
+          "Your Deriv account has been approved. You can now access all course content and video lessons on the platform.",
+        type: "success",
+        link: "/dashboard/courses",
+      });
+    }
+
+    // Case 3: derivStatus changed to "rejected"
+    if (derivStatus === "rejected" && currentUser?.derivStatus !== "rejected") {
+      notifications.push({
+        title: "❌ Deriv Submission Rejected",
+        message:
+          "Your Deriv ID submission was not approved. Please re-submit a valid Deriv user ID in your dashboard to gain course access.",
+        type: "alert",
+        link: "/dashboard",
+      });
+    }
+
+    // Create all notification records
+    if (notifications.length > 0) {
+      await prisma.userNotification.createMany({
+        data: notifications.map((n) => ({ ...n, userId })),
+      });
+    }
+
+    const { password, ...userWithoutPassword } = dbUser;
+    return NextResponse.json({ user: { ...userWithoutPassword, _id: dbUser.id } });
   } catch (error: any) {
     console.error("Admin update error:", error);
     return NextResponse.json({ error: "Internal server error" }, { status: 500 });
