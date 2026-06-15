@@ -62,7 +62,7 @@ export default function AboutPage() {
           <div className="text-center mb-20">
             <span className="text-elite-gold text-sm font-semibold tracking-widest uppercase">Our Story</span>
             <h1 className="font-display text-4xl md:text-6xl text-white mt-3 tracking-wider">
-              ABOUT <span className="gold-gradient-text">FX INSIGHTS HUB</span>
+              ABOUT <span className="gold-gradient-text">Fx Insights Hub</span>
             </h1>
             <p className="text-gray-400 mt-6 max-w-3xl mx-auto text-lg leading-relaxed">
               Fx Insights Hub was born from a simple belief: that anyone can become a profitable trader with the right guidance, 
