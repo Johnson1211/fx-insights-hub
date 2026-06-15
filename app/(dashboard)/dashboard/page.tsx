@@ -20,7 +20,7 @@ import {
 
 interface DashboardStats {
   signalsThisMonth: number;
-  videosWatched: number;
+  lessonsWatched: number;
   copyTradingActive: boolean;
   winRate: number;
 }
@@ -49,7 +49,7 @@ export default function DashboardHome() {
         if (res.ok && data.stats) {
           setStats({
             signalsThisMonth: data.stats.signalsThisMonth,
-            videosWatched: watchedCount,
+            lessonsWatched: watchedCount,
             copyTradingActive: data.stats.copyTradingActive,
             winRate: data.stats.winRate,
           });
@@ -100,7 +100,7 @@ export default function DashboardHome() {
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
           {[
             { label: "Signals This Month", value: stats.signalsThisMonth, icon: Signal, color: "text-elite-gold", bg: "bg-elite-gold/10" },
-            { label: "Videos Watched", value: stats.videosWatched, icon: Video, color: "text-blue-400", bg: "bg-blue-400/10" },
+            { label: "Lessons Watched", value: stats.lessonsWatched, icon: Video, color: "text-blue-400", bg: "bg-blue-400/10" },
             { label: "Win Rate", value: `${stats.winRate}%`, icon: Target, color: "text-elite-green", bg: "bg-elite-green/10" },
             { label: "Copy Trading", value: stats.copyTradingActive ? "Active" : "Inactive", icon: Copy, color: stats.copyTradingActive ? "text-elite-green" : "text-gray-500", bg: stats.copyTradingActive ? "bg-elite-green/10" : "bg-gray-500/10" },
           ].map((stat, i) => (
@@ -132,10 +132,10 @@ export default function DashboardHome() {
             color: "from-elite-gold/20 to-blue-600/20",
           },
           {
-            title: "Video Library",
+            title: "Courses",
             description: "Continue your education",
             icon: BookOpen,
-            href: "/dashboard/videos",
+            href: "/dashboard/courses",
             color: "from-blue-500/20 to-blue-700/20",
           },
           {

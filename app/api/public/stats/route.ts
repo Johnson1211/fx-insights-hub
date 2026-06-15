@@ -5,8 +5,9 @@ export const dynamic = "force-dynamic";
 
 export async function GET(req: NextRequest) {
   try {
-    // 1. Total Members
-    const totalMembers = await prisma.user.count();
+    // 1. Database Counts (Signals and Course Lessons)
+    const totalSignals = await prisma.signal.count();
+    const totalLessons = await prisma.video.count();
 
     // 2. Win Rate (from closed signals with Win/Loss results)
     const closedSignals = await prisma.signal.findMany({
@@ -27,11 +28,19 @@ export async function GET(req: NextRequest) {
     // Real win rate calculated from DB, fallback to 87 if no closed signals yet
     const winRate = totalClosed > 0 ? Math.round((wins / totalClosed) * 100) : 87;
 
-    // 3. Profits Generated (calculated dynamically from actual closed signals pips)
-    const totalPips = closedSignals.reduce((acc, s) => acc + (s.pips || 0), 0);
-    // Standard profit calculation: $10 per pip on a standard lot, times number of members.
-    // Fallback to 0 if no signals exist.
-    const profitsGenerated = totalClosed > 0 ? Math.max(0, Math.round(totalPips * 10 * totalMembers)) : 0;
+    // 3. Profits Generated (checks for manual input first, then falls back to calculation or default)
+    const manualProfitsSetting = await prisma.setting.findUnique({
+      where: { key: "manual_profits" },
+    });
+
+    let profitsGenerated = 1200000; // fallback default
+    if (manualProfitsSetting) {
+      profitsGenerated = Number(manualProfitsSetting.value);
+    } else if (totalClosed > 0) {
+      const totalMembers = await prisma.user.count();
+      const totalPips = closedSignals.reduce((acc, s) => acc + (s.pips || 0), 0);
+      profitsGenerated = Math.max(0, Math.round(totalPips * 10 * totalMembers));
+    }
 
     // 4. Countries Reached: parse prefix of phone numbers
     const users = await prisma.user.findMany({
@@ -54,11 +63,12 @@ export async function GET(req: NextRequest) {
     const countriesCount = countries.size > 0 ? countries.size : 1;
 
     return NextResponse.json({
-      activeMembers: totalMembers,
       winRate,
       yearsExperience: 8,
       profitsGenerated,
       countriesReached: countriesCount,
+      totalSignals,
+      totalLessons,
     });
   } catch (error: any) {
     console.error("Public stats error:", error);
@@ -68,3 +78,4 @@ export async function GET(req: NextRequest) {
     );
   }
 }
+

@@ -76,7 +76,8 @@ export default function HomePage() {
   const [openFaq, setOpenFaq] = useState<number | null>(null);
   const [activeMedia, setActiveMedia] = useState<{ type: "video" | "image"; url: string; title: string } | null>(null);
   const [statsData, setStatsData] = useState({
-    activeMembers: 1000,
+    totalLessons: 10,
+    totalSignals: 100,
     winRate: 87,
     yearsExperience: 8,
     profitsGenerated: 1200000,
@@ -89,7 +90,8 @@ export default function HomePage() {
         if (res.ok) {
           const data = await res.json();
           setStatsData({
-            activeMembers: data.activeMembers ?? 1000,
+            totalLessons: data.totalLessons ?? 10,
+            totalSignals: data.totalSignals ?? 100,
             winRate: data.winRate ?? 87,
             yearsExperience: data.yearsExperience ?? 8,
             profitsGenerated: data.profitsGenerated ?? 1200000,
@@ -103,7 +105,7 @@ export default function HomePage() {
   }, []);
 
   const stats = [
-    { value: statsData.activeMembers, suffix: "+", label: "Active Members", icon: Users },
+    { value: statsData.totalLessons, suffix: "+", label: "Course Lessons", icon: BookOpen },
     { value: statsData.winRate, suffix: "%", label: "Win Rate", icon: Target },
     { value: statsData.yearsExperience, suffix: "+", label: "Years Experience", icon: Award },
     { value: statsData.profitsGenerated, suffix: "", prefix: "$", label: "Profits Generated", icon: TrendingUp },
@@ -204,8 +206,8 @@ export default function HomePage() {
               <span>Secure Platform</span>
             </div>
             <div className="flex items-center gap-2">
-              <Users size={16} className="text-elite-green" />
-              <span>{statsData.activeMembers.toLocaleString()} Members</span>
+              <BookOpen size={16} className="text-elite-green" />
+              <span>{statsData.totalLessons} Lessons Available</span>
             </div>
             <div className="flex items-center gap-2">
               <TrendingUp size={16} className="text-elite-gold" />
@@ -509,8 +511,8 @@ export default function HomePage() {
                   <p className="text-gray-500 text-xs">Signal Accuracy</p>
                 </div>
                 <div className="glass-card px-5 py-3">
-                  <p className="font-display text-2xl text-white">{statsData.activeMembers.toLocaleString()}+</p>
-                  <p className="text-gray-500 text-xs">Students Trained</p>
+                  <p className="font-display text-2xl text-white">{statsData.totalLessons}+</p>
+                  <p className="text-gray-500 text-xs">Course Lessons</p>
                 </div>
               </div>
             </ScrollReveal>

@@ -102,6 +102,12 @@ export async function GET(req: NextRequest) {
     activities.sort((a, b) => new Date(b.time).getTime() - new Date(a.time).getTime());
     const recentActivity = activities.slice(0, 5);
 
+    // Fetch manual profits setting
+    const manualProfitsSetting = await prisma.setting.findUnique({
+      where: { key: "manual_profits" },
+    });
+    const manualProfits = manualProfitsSetting ? Number(manualProfitsSetting.value) : 1200000;
+
     return NextResponse.json({
       stats: {
         totalMembers,
@@ -112,6 +118,7 @@ export async function GET(req: NextRequest) {
         signalsChange,
         revenue,
         revenueChange,
+        manualProfits,
       },
       recentActivity,
     });
@@ -123,3 +130,32 @@ export async function GET(req: NextRequest) {
     );
   }
 }
+
+export async function POST(req: NextRequest) {
+  try {
+    const admin = await verifyAdmin(req);
+    if (!admin) {
+      return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+    }
+
+    const { manualProfits } = await req.json();
+    if (manualProfits === undefined || isNaN(Number(manualProfits))) {
+      return NextResponse.json({ error: "Invalid manual profits value" }, { status: 400 });
+    }
+
+    const setting = await prisma.setting.upsert({
+      where: { key: "manual_profits" },
+      update: { value: String(manualProfits) },
+      create: { key: "manual_profits", value: String(manualProfits) },
+    });
+
+    return NextResponse.json({ success: true, setting });
+  } catch (error: any) {
+    console.error("Admin stats update error:", error);
+    return NextResponse.json(
+      { error: "Internal server error" },
+      { status: 500 }
+    );
+  }
+}
+

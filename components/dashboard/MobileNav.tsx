@@ -14,7 +14,7 @@ const mobileItems = [
   { href: "/dashboard", label: "Home", icon: LayoutDashboard },
   { href: "/dashboard/signals", label: "Signals", icon: Signal },
   { href: "/dashboard/live", label: "Live", icon: Play },
-  { href: "/dashboard/videos", label: "Videos", icon: Video },
+  { href: "/dashboard/courses", label: "Courses", icon: Video },
   { href: "/dashboard/profile", label: "Profile", icon: User },
 ];
 

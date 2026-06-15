@@ -21,7 +21,7 @@ const values = [
 
 export default function AboutPage() {
   const [statsData, setStatsData] = useState({
-    activeMembers: 1000,
+    totalLessons: 10,
     winRate: 87,
     yearsExperience: 8,
     countriesReached: 50,
@@ -34,7 +34,7 @@ export default function AboutPage() {
         if (res.ok) {
           const data = await res.json();
           setStatsData({
-            activeMembers: data.activeMembers ?? 1000,
+            totalLessons: data.totalLessons ?? 10,
             winRate: data.winRate ?? 87,
             yearsExperience: data.yearsExperience ?? 8,
             countriesReached: data.countriesReached ?? 50,
@@ -49,7 +49,7 @@ export default function AboutPage() {
 
   const stats = [
     { value: statsData.yearsExperience, suffix: "+", label: "Years Experience", icon: Award },
-    { value: statsData.activeMembers, suffix: "+", label: "Community Members", icon: Users },
+    { value: statsData.totalLessons, suffix: "+", label: "Course Lessons", icon: BookOpen },
     { value: statsData.countriesReached, suffix: "+", label: "Countries Reached", icon: Globe },
     { value: statsData.winRate, suffix: "%", label: "Signal Accuracy", icon: TrendingUp },
   ];

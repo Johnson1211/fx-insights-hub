@@ -24,7 +24,7 @@ const menuItems = [
   { href: "/dashboard/signals", label: "Signals", icon: Signal },
   { href: "/dashboard/live", label: "Live Trading", icon: Play },
   { href: "/dashboard/copy", label: "Copy Trading", icon: Copy },
-  { href: "/dashboard/videos", label: "Video Library", icon: Video },
+  { href: "/dashboard/courses", label: "Courses", icon: Video },
   { href: "/dashboard/training", label: "Training", icon: GraduationCap },
   { href: "/dashboard/community", label: "Community", icon: MessageSquare },
   { href: "/dashboard/profile", label: "Profile", icon: User },

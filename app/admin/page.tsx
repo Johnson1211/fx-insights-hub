@@ -23,6 +23,7 @@ interface AdminStats {
   signalsChange: number;
   revenue: number;
   revenueChange: number;
+  manualProfits: number;
 }
 
 function timeAgo(dateString: string) {
@@ -46,6 +47,11 @@ export default function AdminDashboard() {
   const [stats, setStats] = useState<AdminStats | null>(null);
   const [recentActivity, setRecentActivity] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+  
+  // Manual profits state
+  const [manualProfitsVal, setManualProfitsVal] = useState<string>("");
+  const [savingProfits, setSavingProfits] = useState(false);
+  const [profitsMessage, setProfitsMessage] = useState({ text: "", type: "success" });
 
   useEffect(() => {
     async function fetchAdminStats() {
@@ -55,6 +61,9 @@ export default function AdminDashboard() {
         if (res.ok) {
           setStats(data.stats);
           setRecentActivity(data.recentActivity || []);
+          if (data.stats && data.stats.manualProfits !== undefined) {
+            setManualProfitsVal(data.stats.manualProfits.toString());
+          }
         }
       } catch (err) {
         console.error("Failed to fetch admin stats:", err);
@@ -64,6 +73,31 @@ export default function AdminDashboard() {
     }
     fetchAdminStats();
   }, []);
+
+  const handleSaveProfits = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setSavingProfits(true);
+    setProfitsMessage({ text: "", type: "success" });
+
+    try {
+      const res = await fetch("/api/admin/stats", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ manualProfits: Number(manualProfitsVal) }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || "Failed to save manual profits");
+
+      setProfitsMessage({ text: "Manual profits updated successfully!", type: "success" });
+      if (stats) {
+        setStats({ ...stats, manualProfits: Number(manualProfitsVal) });
+      }
+    } catch (err: any) {
+      setProfitsMessage({ text: err.message || "Failed to update manual profits", type: "error" });
+    } finally {
+      setSavingProfits(false);
+    }
+  };
 
   const statsItems = stats ? [
     { label: "Total Members", value: stats.totalMembers, change: stats.membersChange, icon: Users, color: "text-blue-400", bg: "bg-blue-400/10" },
@@ -138,43 +172,99 @@ export default function AdminDashboard() {
         ))}
       </div>
 
-      {/* Recent Activity */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.6 }}
-        className="glass-card p-6"
-      >
-        <h2 className="font-display text-xl text-white tracking-wider mb-6">RECENT ACTIVITY</h2>
-        <div className="space-y-4">
-          {loading ? (
-            <div className="text-center py-6 text-gray-500 text-sm">
-              Loading activities...
-            </div>
-          ) : recentActivity.length === 0 ? (
-            <div className="text-center py-6 text-gray-500 text-sm">
-              No recent activity found.
-            </div>
-          ) : (
-            recentActivity.map((activity, i) => (
-              <div key={i} className="flex items-center justify-between p-4 rounded-lg bg-white/[0.02] hover:bg-white/[0.04] transition-colors">
-                <div className="flex items-center gap-4">
-                  <div className={`w-2 h-2 rounded-full ${
-                    activity.type === "signal" ? "bg-elite-gold" :
-                    activity.type === "user" ? "bg-blue-400" :
-                    activity.type === "payment" ? "bg-elite-green" : "bg-purple-400"
-                  }`} />
-                  <div>
-                    <p className="text-white text-sm font-medium">{activity.action}</p>
-                    <p className="text-gray-500 text-xs">{activity.detail}</p>
-                  </div>
-                </div>
-                <span className="text-gray-500 text-xs">{timeAgo(activity.time)}</span>
+      {/* Combined Activity and Manual Profits section */}
+      <div className="grid lg:grid-cols-3 gap-6">
+        {/* Recent Activity */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.6 }}
+          className="glass-card p-6 lg:col-span-2"
+        >
+          <h2 className="font-display text-xl text-white tracking-wider mb-6">RECENT ACTIVITY</h2>
+          <div className="space-y-4">
+            {loading ? (
+              <div className="text-center py-6 text-gray-500 text-sm">
+                Loading activities...
               </div>
-            ))
-          )}
-        </div>
-      </motion.div>
+            ) : recentActivity.length === 0 ? (
+              <div className="text-center py-6 text-gray-500 text-sm">
+                No recent activity found.
+              </div>
+            ) : (
+              recentActivity.map((activity, i) => (
+                <div key={i} className="flex items-center justify-between p-4 rounded-lg bg-white/[0.02] hover:bg-white/[0.04] transition-colors">
+                  <div className="flex items-center gap-4">
+                    <div className={`w-2 h-2 rounded-full ${
+                      activity.type === "signal" ? "bg-elite-gold" :
+                      activity.type === "user" ? "bg-blue-400" :
+                      activity.type === "payment" ? "bg-elite-green" : "bg-purple-400"
+                    }`} />
+                    <div>
+                      <p className="text-white text-sm font-medium">{activity.action}</p>
+                      <p className="text-gray-500 text-xs">{activity.detail}</p>
+                    </div>
+                  </div>
+                  <span className="text-gray-500 text-xs">{timeAgo(activity.time)}</span>
+                </div>
+              ))
+            )}
+          </div>
+        </motion.div>
+
+        {/* Manual Profits Statistic Editor */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.7 }}
+          className="glass-card p-6 flex flex-col justify-between"
+        >
+          <div>
+            <h2 className="font-display text-xl text-white tracking-wider mb-6">MANUAL PROFITS</h2>
+            <p className="text-gray-400 text-xs leading-relaxed mb-6">
+              Manually set the "Profits Generated" statistic shown on the public landing page. This overrides automatic pip calculations.
+            </p>
+
+            {profitsMessage.text && (
+              <div className={`p-3 rounded-lg text-xs text-center mb-4 border ${
+                profitsMessage.type === "success" 
+                  ? "bg-elite-green/10 border-elite-green/20 text-elite-green" 
+                  : "bg-elite-red/10 border-elite-red/20 text-elite-red"
+              }`}>
+                {profitsMessage.text}
+              </div>
+            )}
+
+            <form onSubmit={handleSaveProfits} className="space-y-4">
+              <div>
+                <label className="block text-xs text-gray-500 uppercase tracking-wider mb-2">Total Profits ($)</label>
+                <input
+                  type="number"
+                  required
+                  placeholder="e.g. 1200000"
+                  value={manualProfitsVal}
+                  onChange={(e) => setManualProfitsVal(e.target.value)}
+                  className="input-field py-3"
+                />
+              </div>
+              <button
+                type="submit"
+                disabled={savingProfits}
+                className="btn-primary w-full flex items-center justify-center gap-2 py-3 disabled:opacity-50 text-sm font-medium"
+              >
+                {savingProfits ? (
+                  <Loader2 size={16} className="animate-spin" />
+                ) : (
+                  "Save Profits"
+                )}
+              </button>
+            </form>
+          </div>
+          <div className="mt-8 border-t border-white/5 pt-4 text-center">
+            <span className="text-[10px] text-gray-600 block">System settings update immediately</span>
+          </div>
+        </motion.div>
+      </div>
     </div>
   );
 }

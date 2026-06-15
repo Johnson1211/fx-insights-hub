@@ -6,7 +6,7 @@ import { useAuth } from "@/hooks/useAuth";
 import { Play, Lock, Clock, BookOpen, BarChart3, Brain, Shield, ExternalLink, Loader2, CheckCircle } from "lucide-react";
 
 const categories = [
-  { id: "all", label: "All Videos", icon: Play },
+  { id: "all", label: "All Lessons", icon: Play },
   { id: "basics", label: "Basics", icon: BookOpen },
   { id: "technical analysis", label: "Technical Analysis", icon: BarChart3 },
   { id: "psychology", label: "Psychology", icon: Brain },
@@ -54,7 +54,7 @@ function getVideoEmbedInfo(url: string) {
   };
 }
 
-export default function VideoLibrary() {
+export default function CoursesPage() {
   const { user, refreshUser } = useAuth();
   const [videos, setVideos] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
@@ -162,7 +162,7 @@ export default function VideoLibrary() {
         <div className="text-center mb-10">
           <span className="text-elite-gold text-sm font-semibold tracking-widest uppercase">Premium Content</span>
           <h1 className="font-display text-4xl text-white mt-3 tracking-wider flex items-center justify-center gap-2">
-            <Lock className="text-elite-gold" size={30} /> UNLOCK VIDEO LESSONS
+            <Lock className="text-elite-gold" size={30} /> UNLOCK COURSE LESSONS
           </h1>
           <p className="text-gray-400 mt-4 max-w-2xl mx-auto text-sm leading-relaxed">
             Access to our comprehensive trading lessons, strategy breakdowns, and webinars is reserved for members registered under our Introducing Broker (IB) partner link on Deriv.
@@ -299,12 +299,12 @@ export default function VideoLibrary() {
   return (
     <div className="space-y-6">
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-        <h1 className="font-display text-3xl text-white tracking-wider">VIDEO LIBRARY</h1>
+        <h1 className="font-display text-3xl text-white tracking-wider">COURSE LESSONS</h1>
         <div className="text-sm text-gray-400">
           {loading ? (
-            "Loading videos..."
+            "Loading lessons..."
           ) : (
-            `Total videos: ${videos.length}`
+            `Lessons available: ${videos.length}`
           )}
         </div>
       </div>
@@ -334,7 +334,7 @@ export default function VideoLibrary() {
         </div>
       ) : filteredVideos.length === 0 ? (
         <div className="glass-card p-12 text-center text-gray-400">
-          No videos found in this category.
+          No lessons found in this category.
         </div>
       ) : (
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
