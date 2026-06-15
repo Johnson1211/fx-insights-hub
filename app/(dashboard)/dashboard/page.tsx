@@ -15,6 +15,7 @@ import {
   Target,
   Zap,
   BookOpen,
+  Loader2,
 } from "lucide-react";
 
 interface DashboardStats {
@@ -26,12 +27,44 @@ interface DashboardStats {
 
 export default function DashboardHome() {
   const { user } = useAuth();
-  const [stats, setStats] = useState<DashboardStats>({
-    signalsThisMonth: 24,
-    videosWatched: 12,
-    copyTradingActive: false,
-    winRate: 87,
-  });
+  const [stats, setStats] = useState<DashboardStats | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function getStats() {
+      try {
+        const res = await fetch("/api/dashboard/stats");
+        const data = await res.json();
+        
+        let watchedCount = 0;
+        if (typeof window !== "undefined") {
+          try {
+            const watched = JSON.parse(localStorage.getItem("watched_videos") || "[]");
+            watchedCount = Array.isArray(watched) ? watched.length : 0;
+          } catch (e) {
+            console.error(e);
+          }
+        }
+
+        if (res.ok && data.stats) {
+          setStats({
+            signalsThisMonth: data.stats.signalsThisMonth,
+            videosWatched: watchedCount,
+            copyTradingActive: data.stats.copyTradingActive,
+            winRate: data.stats.winRate,
+          });
+        }
+      } catch (err) {
+        console.error("Failed to fetch dashboard stats:", err);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    if (user) {
+      getStats();
+    }
+  }, [user]);
 
   return (
     <div className="space-y-8">
@@ -58,28 +91,35 @@ export default function DashboardHome() {
       </motion.div>
 
       {/* Stats Grid */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-        {[
-          { label: "Signals This Month", value: stats.signalsThisMonth, icon: Signal, color: "text-elite-gold", bg: "bg-elite-gold/10" },
-          { label: "Videos Watched", value: stats.videosWatched, icon: Video, color: "text-blue-400", bg: "bg-blue-400/10" },
-          { label: "Win Rate", value: `${stats.winRate}%`, icon: Target, color: "text-elite-green", bg: "bg-elite-green/10" },
-          { label: "Copy Trading", value: stats.copyTradingActive ? "Active" : "Inactive", icon: Copy, color: stats.copyTradingActive ? "text-elite-green" : "text-gray-500", bg: stats.copyTradingActive ? "bg-elite-green/10" : "bg-gray-500/10" },
-        ].map((stat, i) => (
-          <motion.div
-            key={stat.label}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: i * 0.1 }}
-            className="glass-card p-5"
-          >
-            <div className={`w-10 h-10 rounded-lg ${stat.bg} flex items-center justify-center mb-3`}>
-              <stat.icon size={20} className={stat.color} />
-            </div>
-            <p className="font-display text-2xl text-white">{stat.value}</p>
-            <p className="text-gray-500 text-xs mt-1">{stat.label}</p>
-          </motion.div>
-        ))}
-      </div>
+      {loading ? (
+        <div className="flex justify-center items-center py-12 glass-card">
+          <Loader2 className="animate-spin text-elite-gold mr-2" size={24} />
+          <span className="text-gray-400 text-sm">Retrieving your trading performance...</span>
+        </div>
+      ) : stats ? (
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+          {[
+            { label: "Signals This Month", value: stats.signalsThisMonth, icon: Signal, color: "text-elite-gold", bg: "bg-elite-gold/10" },
+            { label: "Videos Watched", value: stats.videosWatched, icon: Video, color: "text-blue-400", bg: "bg-blue-400/10" },
+            { label: "Win Rate", value: `${stats.winRate}%`, icon: Target, color: "text-elite-green", bg: "bg-elite-green/10" },
+            { label: "Copy Trading", value: stats.copyTradingActive ? "Active" : "Inactive", icon: Copy, color: stats.copyTradingActive ? "text-elite-green" : "text-gray-500", bg: stats.copyTradingActive ? "bg-elite-green/10" : "bg-gray-500/10" },
+          ].map((stat, i) => (
+            <motion.div
+              key={stat.label}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: i * 0.1 }}
+              className="glass-card p-5"
+            >
+              <div className={`w-10 h-10 rounded-lg ${stat.bg} flex items-center justify-center mb-3`}>
+                <stat.icon size={20} className={stat.color} />
+              </div>
+              <p className="font-display text-2xl text-white">{stat.value}</p>
+              <p className="text-gray-500 text-xs mt-1">{stat.label}</p>
+            </motion.div>
+          ))}
+        </div>
+      ) : null}
 
       {/* Quick Actions */}
       <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">

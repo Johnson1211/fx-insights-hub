@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { useAuth } from "@/hooks/useAuth";
-import { Play, Lock, Clock, BookOpen, BarChart3, Brain, Shield, ExternalLink, Loader2 } from "lucide-react";
+import { Play, Lock, Clock, BookOpen, BarChart3, Brain, Shield, ExternalLink, Loader2, CheckCircle } from "lucide-react";
 
 const categories = [
   { id: "all", label: "All Videos", icon: Play },
@@ -60,6 +60,7 @@ export default function VideoLibrary() {
   const [loading, setLoading] = useState(true);
   const [activeCategory, setActiveCategory] = useState("all");
   const [selectedVideo, setSelectedVideo] = useState<any | null>(null);
+  const [watchedIds, setWatchedIds] = useState<string[]>([]);
   
   // Lock screen state
   const [derivIdInput, setDerivIdInput] = useState("");
@@ -69,6 +70,17 @@ export default function VideoLibrary() {
 
   const isApproved = user?.role === "admin" || user?.brokerApproved;
   const partnerLink = process.env.NEXT_PUBLIC_DERIV_LINK || "https://track.deriv.com/_9ztPZXbH8dL1hit6RV3zsGNd7ZgqdRLk/1/";
+
+  useEffect(() => {
+    try {
+      const watched = JSON.parse(localStorage.getItem("watched_videos") || "[]");
+      if (Array.isArray(watched)) {
+        setWatchedIds(watched);
+      }
+    } catch (e) {
+      console.error("Failed to load watch history:", e);
+    }
+  }, []);
 
   useEffect(() => {
     async function fetchVideos() {
@@ -91,6 +103,20 @@ export default function VideoLibrary() {
       setLoading(false);
     }
   }, [user, isApproved]);
+
+  const handleSelectVideo = (video: any) => {
+    setSelectedVideo(video);
+    try {
+      const watched = JSON.parse(localStorage.getItem("watched_videos") || "[]");
+      if (Array.isArray(watched) && !watched.includes(video.id)) {
+        const updated = [...watched, video.id];
+        localStorage.setItem("watched_videos", JSON.stringify(updated));
+        setWatchedIds(updated);
+      }
+    } catch (e) {
+      console.error("Failed to update watched status:", e);
+    }
+  };
 
   if (!user) {
     return (
@@ -318,10 +344,16 @@ export default function VideoLibrary() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: i * 0.1 }}
-              onClick={() => setSelectedVideo(video)}
+              onClick={() => handleSelectVideo(video)}
               className="glass-card-hover overflow-hidden cursor-pointer group"
             >
               <div className={`aspect-video ${video.thumbnail || getThumbnailGradient(i)} relative flex items-center justify-center`}>
+                {watchedIds.includes(video.id) && (
+                  <div className="absolute top-3 right-3">
+                    <CheckCircle size={18} className="text-elite-green" />
+                  </div>
+                )}
+
                 <div className="w-14 h-14 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 flex items-center justify-center group-hover:scale-110 transition-transform">
                   <Play size={24} className="text-white ml-1" />
                 </div>
