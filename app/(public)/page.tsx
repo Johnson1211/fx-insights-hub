@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import { ForexTicker } from "@/components/animations/ForexTicker";
 import { ScrollReveal } from "@/components/animations/ScrollReveal";
@@ -71,6 +71,188 @@ const faqs = [
 ];
 
 const SUPABASE_MEDIA = "https://jvxmtsmslyokplooyfwz.supabase.co/storage/v1/object/public/media";
+
+function LiveTradingSimulator() {
+  const [price, setPrice] = useState(1.08420);
+  const [points, setPoints] = useState<number[]>([1.08350, 1.08380, 1.08360, 1.08400, 1.08390, 1.08420]);
+  const [ticks, setTicks] = useState(0);
+  const [profit, setProfit] = useState(482.50);
+  const [activeSignal, setActiveSignal] = useState({ pair: "EURUSD", type: "BUY", entry: 1.08360, current: 1.08420, pips: 6 });
+  const [lastAction, setLastAction] = useState<string | null>(null);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const delta = (Math.random() - 0.45) * 0.00010;
+      setPrice(prev => {
+        const nextPrice = Number((prev + delta).toFixed(5));
+        setPoints(p => {
+          const nextPoints = [...p.slice(1), nextPrice];
+          return nextPoints;
+        });
+        
+        setActiveSignal(sig => {
+          const newPips = Math.round((nextPrice - sig.entry) * 10000);
+          return {
+            ...sig,
+            current: nextPrice,
+            pips: newPips
+          };
+        });
+
+        setProfit(prof => Number((prof + (delta > 0 ? 1.50 : -1.00)).toFixed(2)));
+
+        return nextPrice;
+      });
+
+      setTicks(t => t + 1);
+    }, 1500);
+
+    return () => clearInterval(interval);
+  }, []);
+
+  const handleMockTrade = (type: "BUY" | "SELL") => {
+    setLastAction(type);
+    setTimeout(() => {
+      setLastAction(null);
+    }, 2000);
+  };
+
+  const minVal = Math.min(...points);
+  const maxVal = Math.max(...points);
+  const range = maxVal - minVal || 0.001;
+  const svgCoords = points.map((val, index) => {
+    const x = (index / (points.length - 1)) * 280 + 10;
+    const y = 110 - ((val - minVal) / range) * 90;
+    return `${x},${y}`;
+  }).join(" ");
+
+  return (
+    <div className="w-full max-w-sm glass-card border border-elite-border/60 rounded-2xl p-5 shadow-2xl relative overflow-hidden bg-elite-card/30">
+      <div className="absolute -top-12 -right-12 w-24 h-24 bg-elite-gold/10 rounded-full blur-2xl pointer-events-none" />
+      <div className="absolute -bottom-12 -left-12 w-24 h-24 bg-blue-600/10 rounded-full blur-2xl pointer-events-none" />
+
+      <div className="flex items-center justify-between border-b border-elite-border/30 pb-3 mb-4">
+        <div className="flex items-center gap-2">
+          <div className="w-2.5 h-2.5 rounded-full bg-elite-green animate-pulse" />
+          <span className="text-[10px] font-bold text-gray-400 tracking-wider">LIVE FEED: EURUSD</span>
+        </div>
+        <div className="flex gap-1.5">
+          <div className="w-2.5 h-2.5 rounded-full bg-red-500/40" />
+          <div className="w-2.5 h-2.5 rounded-full bg-yellow-500/40" />
+          <div className="w-2.5 h-2.5 rounded-full bg-green-500/40" />
+        </div>
+      </div>
+
+      <div className="grid grid-cols-2 gap-4 mb-4">
+        <div>
+          <span className="text-[10px] text-gray-500 block uppercase tracking-wider">Bid Price</span>
+          <div className="font-display text-2xl text-white font-semibold flex items-baseline gap-1 mt-0.5">
+            <span>{price.toFixed(5).slice(0, 5)}</span>
+            <span className="text-elite-gold font-bold">{price.toFixed(5).slice(5, 7)}</span>
+          </div>
+        </div>
+        <div className="text-right">
+          <span className="text-[10px] text-gray-500 block uppercase tracking-wider">Simulated P/L</span>
+          <div className={`font-display text-2xl font-bold mt-0.5 ${profit >= 0 ? "text-elite-green" : "text-elite-red"}`}>
+            {profit >= 0 ? "+" : ""}${profit.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+          </div>
+        </div>
+      </div>
+
+      <div className="h-32 bg-black/40 rounded-xl border border-elite-border/30 p-2 relative overflow-hidden flex items-end">
+        <div className="absolute inset-0 grid grid-rows-4 grid-cols-6 pointer-events-none opacity-[0.03]">
+          {[...Array(24)].map((_, i) => <div key={i} className="border-t border-l border-white" />)}
+        </div>
+
+        <AnimatePresence>
+          {lastAction && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 0.15 }}
+              exit={{ opacity: 0 }}
+              className={`absolute inset-0 ${lastAction === "BUY" ? "bg-elite-green" : "bg-elite-red"} pointer-events-none z-10`}
+            />
+          )}
+        </AnimatePresence>
+
+        <AnimatePresence>
+          {lastAction && (
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: -20 }}
+              exit={{ opacity: 0 }}
+              className={`absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 font-display text-xs font-bold z-20 px-3 py-1.5 rounded-md border shadow-lg ${
+                lastAction === "BUY" ? "bg-elite-green/20 border-elite-green text-elite-green" : "bg-elite-red/20 border-elite-red text-elite-red"
+              }`}
+            >
+              {lastAction} ORDER SENT
+            </motion.div>
+          )}
+        </AnimatePresence>
+
+        <svg className="w-full h-full" viewBox="0 0 300 120">
+          <defs>
+            <linearGradient id="chartGlow" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stopColor="#c5a880" stopOpacity="0.4" />
+              <stop offset="100%" stopColor="#c5a880" stopOpacity="0.0" />
+            </linearGradient>
+          </defs>
+          <path
+            d={`M 10,110 L ${svgCoords} L ${280 + 10},110 Z`}
+            fill="url(#chartGlow)"
+            className="transition-all duration-700 ease-in-out"
+          />
+          <polyline
+            fill="none"
+            stroke="#c5a880"
+            strokeWidth="2"
+            points={svgCoords}
+            className="transition-all duration-700 ease-in-out"
+          />
+          <circle
+            cx={290}
+            cy={110 - ((points[points.length - 1] - minVal) / range) * 90}
+            r="4"
+            fill="#c5a880"
+            className="animate-pulse"
+          />
+        </svg>
+      </div>
+
+      <div className="mt-4 p-3 rounded-xl bg-white/[0.02] border border-elite-border/20 flex justify-between items-center text-xs">
+        <div className="flex gap-2 items-center">
+          <span className="font-semibold text-white">Signal Alert:</span>
+          <span className={`px-2 py-0.5 rounded text-[9px] font-bold ${
+            activeSignal.type === "BUY" ? "bg-elite-green/10 text-elite-green border border-elite-green/25" : "bg-elite-red/10 text-elite-red border border-elite-red/25"
+          }`}>
+            {activeSignal.type}
+          </span>
+          <span className="text-gray-400 font-mono">{activeSignal.pair}</span>
+        </div>
+        <div className="text-right">
+          <span className={`font-semibold ${activeSignal.pips >= 0 ? "text-elite-green" : "text-elite-red"}`}>
+            {activeSignal.pips >= 0 ? "+" : ""}{activeSignal.pips} pips
+          </span>
+        </div>
+      </div>
+
+      <div className="grid grid-cols-2 gap-3 mt-4">
+        <button
+          onClick={() => handleMockTrade("BUY")}
+          className="py-2 rounded-xl border border-emerald-500/20 bg-emerald-500/5 text-elite-green hover:bg-emerald-500/15 font-semibold text-[11px] transition-all tracking-wider hover:scale-[1.02] active:scale-[0.98]"
+        >
+          EXECUTE BUY
+        </button>
+        <button
+          onClick={() => handleMockTrade("SELL")}
+          className="py-2 rounded-xl border border-red-500/20 bg-red-500/5 text-elite-red hover:bg-red-500/15 font-semibold text-[11px] transition-all tracking-wider hover:scale-[1.02] active:scale-[0.98]"
+        >
+          EXECUTE SELL
+        </button>
+      </div>
+    </div>
+  );
+}
 
 export default function HomePage() {
   const [openFaq, setOpenFaq] = useState<number | null>(null);
@@ -146,74 +328,89 @@ export default function HomePage() {
           </div>
         </div>
 
-        <div className="relative z-10 section-padding text-center max-w-5xl mx-auto pt-20">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-          >
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-elite-gold/10 border border-elite-gold/20 mb-8">
-              <span className="w-2 h-2 rounded-full bg-elite-green animate-pulse" />
-              <span className="text-sm text-elite-gold font-medium">Live Signals Active Now</span>
-            </div>
-          </motion.div>
+        <div className="relative z-10 section-padding max-w-7xl mx-auto pt-28 lg:pt-32 w-full">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+            {/* Left Column (Hero Content) */}
+            <div className="lg:col-span-7 space-y-6 text-left flex flex-col items-start">
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8 }}
+              >
+                <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-elite-gold/10 border border-elite-gold/20">
+                  <span className="w-2 h-2 rounded-full bg-elite-green animate-pulse" />
+                  <span className="text-sm text-elite-gold font-medium">Live Signals Active Now</span>
+                </div>
+              </motion.div>
 
-          <motion.h1
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            className="font-display text-5xl sm:text-6xl md:text-7xl lg:text-8xl text-white leading-none tracking-wider mb-6"
-          >
-            MASTER <span className="gold-gradient-text">FOREX</span>
-            <br />
-            <span className="text-gray-400">TRADING WITH</span>{" "}
-            <span className="gold-gradient-text">PRECISION</span>
-          </motion.h1>
+              <motion.h1
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 0.2 }}
+                className="font-display text-4xl sm:text-5xl md:text-6xl lg:text-7xl text-white leading-none tracking-wider uppercase"
+              >
+                MASTER <span className="gold-gradient-text">FOREX</span>
+                <br />
+                <span className="text-gray-400">TRADING WITH</span>{" "}
+                <span className="gold-gradient-text">PRECISION</span>
+              </motion.h1>
 
-          <motion.p
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.4 }}
-            className="text-lg md:text-xl text-gray-400 max-w-2xl mx-auto mb-10 leading-relaxed"
-          >
-            Join the elite community of profitable forex traders at Fx Insights Hub. Get professional signals, live coaching, and copy trading that actually works.
-          </motion.p>
+              <motion.p
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 0.4 }}
+                className="text-base md:text-lg text-gray-400 max-w-xl leading-relaxed"
+              >
+                Join the elite community of profitable forex traders at Fx Insights Hub. Get professional signals, live coaching, and copy trading that actually works.
+              </motion.p>
 
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.6 }}
-            className="flex flex-col sm:flex-row gap-4 justify-center items-center"
-          >
-            <Link href="/register" className="btn-primary text-lg px-8 py-4">
-              Start Trading Now
-              <ArrowRight size={18} className="inline ml-2" />
-            </Link>
-            <Link href="/services" className="btn-outline text-lg px-8 py-4">
-              View Services
-            </Link>
-          </motion.div>
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 0.6 }}
+                className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto items-center"
+              >
+                <Link href="/register" className="btn-primary text-base px-8 py-3.5 w-full sm:w-auto text-center flex items-center justify-center">
+                  Start Trading Now
+                  <ArrowRight size={18} className="inline ml-2" />
+                </Link>
+                <Link href="/services" className="btn-outline text-base px-8 py-3.5 w-full sm:w-auto text-center">
+                  View Services
+                </Link>
+              </motion.div>
 
-          {/* Trust badges */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 1, delay: 1 }}
-            className="mt-16 flex flex-wrap justify-center gap-8 text-gray-500 text-sm"
-          >
-            <div className="flex items-center gap-2">
-              <Shield size={16} className="text-elite-green" />
-              <span>Secure Platform</span>
+              {/* Trust badges */}
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 1, delay: 1 }}
+                className="mt-8 flex flex-wrap gap-6 text-gray-500 text-xs"
+              >
+                <div className="flex items-center gap-2">
+                  <Shield size={14} className="text-elite-green" />
+                  <span>Secure Platform</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <BookOpen size={14} className="text-elite-green" />
+                  <span>{statsData.totalLessons} Lessons Available</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <TrendingUp size={14} className="text-elite-gold" />
+                  <span>{statsData.winRate}% Verified Win Rate</span>
+                </div>
+              </motion.div>
             </div>
-            <div className="flex items-center gap-2">
-              <BookOpen size={16} className="text-elite-green" />
-              <span>{statsData.totalLessons} Lessons Available</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <TrendingUp size={16} className="text-elite-gold" />
-              <span>{statsData.winRate}% Verified Win Rate</span>
-            </div>
-          </motion.div>
+
+            {/* Right Column (Live Simulator) */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.8, delay: 0.4 }}
+              className="lg:col-span-5 w-full flex justify-center lg:justify-end"
+            >
+              <LiveTradingSimulator />
+            </motion.div>
+          </div>
         </div>
 
         {/* Scroll indicator */}
@@ -464,7 +661,7 @@ export default function HomePage() {
                 <div className="aspect-[4/5] rounded-2xl overflow-hidden bg-gradient-to-br from-elite-surface to-elite-card border border-elite-border/50">
                   <img
                     src={`${SUPABASE_MEDIA}/Founder.jpeg`}
-                    alt="Ofori Agyei Samuel — Peleboss"
+                    alt="Peleboss — Founder"
                     className="w-full h-full object-cover object-top"
                   />
                 </div>
@@ -484,10 +681,9 @@ export default function HomePage() {
  
             <ScrollReveal direction="right">
               <span className="text-elite-gold text-sm font-semibold tracking-widest uppercase">Meet The Founder</span>
-              <h2 className="font-display text-4xl md:text-5xl text-white mt-3 tracking-wider mb-2">
-                OFORI AGYEI <span className="gold-gradient-text">SAMUEL</span>
+              <h2 className="font-display text-4xl md:text-5xl text-white mt-3 tracking-wider mb-6">
+                PELE<span className="gold-gradient-text">BOSS</span>
               </h2>
-              <p className="text-elite-gold font-semibold tracking-widest uppercase text-sm mb-6">Also Known As Peleboss</p>
               <div className="space-y-4 text-gray-400 leading-relaxed">
                 <p>
                   With over {statsData.yearsExperience} years of experience in the forex markets, Peleboss has developed a systematic approach to trading that emphasizes risk management, technical precision, and psychological discipline.

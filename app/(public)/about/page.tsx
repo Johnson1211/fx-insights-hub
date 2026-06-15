@@ -6,7 +6,7 @@ import { AnimatedCounter } from "@/components/animations/AnimatedCounter";
 import { Award, TrendingUp, Users, Globe, BookOpen, Target } from "lucide-react";
 
 const milestones = [
-  { year: "2018", title: "Trading Journey Begins", description: "Ofori Agyei Samuel (Peleboss) starts his professional forex trading career." },
+  { year: "2018", title: "Trading Journey Begins", description: "Peleboss starts his professional forex trading career." },
   { year: "2020", title: "Strategy Development", description: "Designed advanced custom capital risk models and key trading strategies." },
   { year: "2024", title: "Community Launch", description: "Launched Fx Insights Hub community group on Telegram/WhatsApp." },
   { year: "2026", title: "Interactive Web Platform", description: "Released the official interactive web dashboard for members." },
