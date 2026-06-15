@@ -105,6 +105,7 @@ model Signal {
   takeProfit1 Float
   takeProfit2 Float?
   timeframe   Timeframe
+  lotSize     Float?
   analysis    String
   chartImage  String?
   status      SignalStatus  @default(Active)
@@ -116,6 +117,7 @@ model Signal {
   createdAt   DateTime      @default(now())
   updatedAt   DateTime      @updatedAt
 }
+
 
 model Video {
   id            String   @id @default(uuid())

@@ -25,9 +25,7 @@ export async function GET(req: NextRequest) {
       orderBy: { createdAt: "desc" },
       include: {
         creator: {
-          select: {
-            name: true,
-          },
+          select: { name: true },
         },
       },
     });
@@ -65,6 +63,7 @@ export async function POST(req: NextRequest) {
         takeProfit1: Number(body.takeProfit1),
         takeProfit2: body.takeProfit2 ? Number(body.takeProfit2) : null,
         timeframe: body.timeframe,
+        lotSize: body.lotSize ? Number(body.lotSize) : null,
         analysis: body.analysis,
         chartImage: body.chartImage || null,
         status: body.status || "Active",
@@ -74,14 +73,48 @@ export async function POST(req: NextRequest) {
       },
     });
 
-    const signal = {
-      ...dbSignal,
-      _id: dbSignal.id,
-    };
-
-    return NextResponse.json({ signal }, { status: 201 });
+    return NextResponse.json({ signal: { ...dbSignal, _id: dbSignal.id } }, { status: 201 });
   } catch (error: any) {
     console.error("Admin create signal error:", error);
+    return NextResponse.json({ error: "Internal server error" }, { status: 500 });
+  }
+}
+
+export async function PATCH(req: NextRequest) {
+  try {
+    const admin = await verifyAdmin(req);
+    if (!admin) {
+      return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+    }
+
+    const { searchParams } = new URL(req.url);
+    const id = searchParams.get("id");
+    if (!id) {
+      return NextResponse.json({ error: "Signal ID required" }, { status: 400 });
+    }
+
+    const body = await req.json();
+    const updated = await prisma.signal.update({
+      where: { id },
+      data: {
+        pair: body.pair,
+        type: body.type,
+        entryPrice: Number(body.entryPrice),
+        stopLoss: Number(body.stopLoss),
+        takeProfit1: Number(body.takeProfit1),
+        takeProfit2: body.takeProfit2 ? Number(body.takeProfit2) : null,
+        timeframe: body.timeframe,
+        lotSize: body.lotSize ? Number(body.lotSize) : null,
+        analysis: body.analysis,
+        status: body.status,
+        result: body.result || null,
+        pips: body.pips ? Number(body.pips) : null,
+      },
+    });
+
+    return NextResponse.json({ signal: { ...updated, _id: updated.id } });
+  } catch (error: any) {
+    console.error("Admin edit signal error:", error);
     return NextResponse.json({ error: "Internal server error" }, { status: 500 });
   }
 }
@@ -95,15 +128,11 @@ export async function DELETE(req: NextRequest) {
 
     const { searchParams } = new URL(req.url);
     const id = searchParams.get("id");
-
     if (!id) {
       return NextResponse.json({ error: "Signal ID required" }, { status: 400 });
     }
 
-    await prisma.signal.delete({
-      where: { id },
-    });
-
+    await prisma.signal.delete({ where: { id } });
     return NextResponse.json({ message: "Signal deleted" });
   } catch (error: any) {
     console.error("Admin delete signal error:", error);
