@@ -1,14 +1,15 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import { ScrollReveal } from "@/components/animations/ScrollReveal";
 import { AnimatedCounter } from "@/components/animations/AnimatedCounter";
 import { Award, TrendingUp, Users, Globe, BookOpen, Target } from "lucide-react";
 
 const milestones = [
-  { year: "2018", title: "Trading Journey Begins", description: "Started professional trading career on the London forex floors" },
-  { year: "2020", title: "Community Founded", description: "Launched Fx Insights Hub with 50 founding members" },
-  { year: "2023", title: "1,000 Members Milestone", description: "Community grew to 1,000 active traders worldwide" },
-  { year: "2026", title: "Global Recognition", description: "Recognized as top-tier forex education platform with 1,000+ members" },
+  { year: "2018", title: "Trading Journey Begins", description: "Ofori Agyei Samuel (Peleboss) starts his professional forex trading career." },
+  { year: "2020", title: "Strategy Development", description: "Designed advanced custom capital risk models and key trading strategies." },
+  { year: "2024", title: "Community Launch", description: "Launched Fx Insights Hub community group on Telegram/WhatsApp." },
+  { year: "2026", title: "Interactive Web Platform", description: "Released the official interactive web dashboard for members." },
 ];
 
 const values = [
@@ -19,6 +20,40 @@ const values = [
 ];
 
 export default function AboutPage() {
+  const [statsData, setStatsData] = useState({
+    activeMembers: 1000,
+    winRate: 87,
+    yearsExperience: 8,
+    countriesReached: 50,
+  });
+
+  useEffect(() => {
+    async function fetchPublicStats() {
+      try {
+        const res = await fetch("/api/public/stats");
+        if (res.ok) {
+          const data = await res.json();
+          setStatsData({
+            activeMembers: data.activeMembers ?? 1000,
+            winRate: data.winRate ?? 87,
+            yearsExperience: data.yearsExperience ?? 8,
+            countriesReached: data.countriesReached ?? 50,
+          });
+        }
+      } catch (err) {
+        console.error("Failed to fetch public stats:", err);
+      }
+    }
+    fetchPublicStats();
+  }, []);
+
+  const stats = [
+    { value: statsData.yearsExperience, suffix: "+", label: "Years Experience", icon: Award },
+    { value: statsData.activeMembers, suffix: "+", label: "Community Members", icon: Users },
+    { value: statsData.countriesReached, suffix: "+", label: "Countries Reached", icon: Globe },
+    { value: statsData.winRate, suffix: "%", label: "Signal Accuracy", icon: TrendingUp },
+  ];
+
   return (
     <div className="min-h-screen pt-24 pb-20">
       <div className="section-padding">
@@ -39,12 +74,7 @@ export default function AboutPage() {
 
         {/* Stats */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 mb-24">
-          {[
-            { value: 8, suffix: "+", label: "Years Experience", icon: Award },
-            { value: 1000, suffix: "+", label: "Community Members", icon: Users },
-            { value: 50, suffix: "+", label: "Countries Reached", icon: Globe },
-            { value: 87, suffix: "%", label: "Signal Accuracy", icon: TrendingUp },
-          ].map((stat, i) => (
+          {stats.map((stat, i) => (
             <ScrollReveal key={stat.label} delay={i * 0.1}>
               <div className="glass-card p-6 text-center">
                 <stat.icon className="w-8 h-8 text-elite-gold mx-auto mb-3" />

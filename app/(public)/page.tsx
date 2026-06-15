@@ -22,14 +22,7 @@ import {
   Youtube,
   Facebook,
 } from "lucide-react";
-import { useState } from "react";
-
-const stats = [
-  { value: 1000, suffix: "+", label: "Active Members", icon: Users },
-  { value: 87, suffix: "%", label: "Win Rate", icon: Target },
-  { value: 8, suffix: "+", label: "Years Experience", icon: Award },
-  { value: 1200000, suffix: "", prefix: "$", label: "Profits Generated", icon: TrendingUp },
-];
+import { useState, useEffect } from "react";
 
 const services = [
   {
@@ -54,27 +47,10 @@ const services = [
   },
 ];
 
-const testimonials = [
-  {
-    name: "Michael Chen",
-    role: "Premium Member",
-    avatar: "MC",
-    rating: 5,
-    text: "The signals here are incredibly accurate. My account is up 34% in just 3 months. By far the best trading community online.",
-  },
-  {
-    name: "Sarah Williams",
-    role: "Copy Trader",
-    avatar: "SW",
-    rating: 5,
-    text: "Copy trading has been flawless. Setup was done in less than 5 minutes and I see profits coming in while at my full-time job.",
-  },
-];
-
 const faqs = [
   {
     q: "What is included in the platform access?",
-    a: "Members get full access to all daily trading signals, our complete video library, online/in-person training sessions, lifetime coaching, community chat, and support.",
+    a: "Members get full access to all daily trading daily signals, our complete video library, online/in-person training sessions, lifetime coaching, community chat, and support.",
   },
   {
     q: "How accurate are the trading signals?",
@@ -99,6 +75,39 @@ const SUPABASE_MEDIA = "https://jvxmtsmslyokplooyfwz.supabase.co/storage/v1/obje
 export default function HomePage() {
   const [openFaq, setOpenFaq] = useState<number | null>(null);
   const [activeMedia, setActiveMedia] = useState<{ type: "video" | "image"; url: string; title: string } | null>(null);
+  const [statsData, setStatsData] = useState({
+    activeMembers: 1000,
+    winRate: 87,
+    yearsExperience: 8,
+    profitsGenerated: 1200000,
+  });
+
+  useEffect(() => {
+    async function fetchPublicStats() {
+      try {
+        const res = await fetch("/api/public/stats");
+        if (res.ok) {
+          const data = await res.json();
+          setStatsData({
+            activeMembers: data.activeMembers ?? 1000,
+            winRate: data.winRate ?? 87,
+            yearsExperience: data.yearsExperience ?? 8,
+            profitsGenerated: data.profitsGenerated ?? 1200000,
+          });
+        }
+      } catch (err) {
+        console.error("Failed to fetch public stats:", err);
+      }
+    }
+    fetchPublicStats();
+  }, []);
+
+  const stats = [
+    { value: statsData.activeMembers, suffix: "+", label: "Active Members", icon: Users },
+    { value: statsData.winRate, suffix: "%", label: "Win Rate", icon: Target },
+    { value: statsData.yearsExperience, suffix: "+", label: "Years Experience", icon: Award },
+    { value: statsData.profitsGenerated, suffix: "", prefix: "$", label: "Profits Generated", icon: TrendingUp },
+  ];
 
   return (
     <div className="min-h-screen">
@@ -196,11 +205,11 @@ export default function HomePage() {
             </div>
             <div className="flex items-center gap-2">
               <Users size={16} className="text-elite-green" />
-              <span>1,000+ Members</span>
+              <span>{statsData.activeMembers.toLocaleString()} Members</span>
             </div>
             <div className="flex items-center gap-2">
-              <Star size={16} className="text-elite-gold" />
-              <span>4.9/5 Rating</span>
+              <TrendingUp size={16} className="text-elite-gold" />
+              <span>{statsData.winRate}% Verified Win Rate</span>
             </div>
           </motion.div>
         </div>
@@ -463,14 +472,14 @@ export default function HomePage() {
                       <TrendingUp size={20} className="text-elite-green" />
                     </div>
                     <div>
-                      <p className="text-white font-semibold text-sm">8+ Years</p>
+                      <p className="text-white font-semibold text-sm">{statsData.yearsExperience}+ Years</p>
                       <p className="text-gray-500 text-xs">Trading Experience</p>
                     </div>
                   </div>
                 </div>
               </div>
             </ScrollReveal>
-
+ 
             <ScrollReveal direction="right">
               <span className="text-elite-gold text-sm font-semibold tracking-widest uppercase">Meet The Founder</span>
               <h2 className="font-display text-4xl md:text-5xl text-white mt-3 tracking-wider mb-2">
@@ -479,10 +488,10 @@ export default function HomePage() {
               <p className="text-elite-gold font-semibold tracking-widest uppercase text-sm mb-6">Also Known As Peleboss</p>
               <div className="space-y-4 text-gray-400 leading-relaxed">
                 <p>
-                  With over 8 years of experience in the forex markets, Peleboss has developed a systematic approach to trading that emphasizes risk management, technical precision, and psychological discipline.
+                  With over {statsData.yearsExperience} years of experience in the forex markets, Peleboss has developed a systematic approach to trading that emphasizes risk management, technical precision, and psychological discipline.
                 </p>
                 <p>
-                  His journey evolved into a global community of over 1,000 profitable traders through Fx Insights Hub — a platform dedicated to empowering everyday people to achieve financial freedom through forex.
+                  His journey evolved into a global community of profitable traders through Fx Insights Hub — a platform dedicated to empowering everyday people to achieve financial freedom through forex.
                 </p>
                 <p>
                   His philosophy is simple: "Protect your capital first, profits will follow." Every signal, every lesson, every live session is designed with this principle at its core.
@@ -490,57 +499,21 @@ export default function HomePage() {
               </div>
               <div className="mt-8 flex flex-wrap gap-4">
                 <div className="glass-card px-5 py-3">
-                  <p className="font-display text-2xl text-white">$1.2M+</p>
+                  <p className="font-display text-2xl text-white">
+                    {statsData.profitsGenerated > 0 ? `$${(statsData.profitsGenerated / 1000).toFixed(0)}k+` : "$0"}
+                  </p>
                   <p className="text-gray-500 text-xs">Verified Profits</p>
                 </div>
                 <div className="glass-card px-5 py-3">
-                  <p className="font-display text-2xl text-white">87%</p>
+                  <p className="font-display text-2xl text-white">{statsData.winRate}%</p>
                   <p className="text-gray-500 text-xs">Signal Accuracy</p>
                 </div>
                 <div className="glass-card px-5 py-3">
-                  <p className="font-display text-2xl text-white">1,000+</p>
+                  <p className="font-display text-2xl text-white">{statsData.activeMembers.toLocaleString()}+</p>
                   <p className="text-gray-500 text-xs">Students Trained</p>
                 </div>
               </div>
             </ScrollReveal>
-          </div>
-        </div>
-      </section>
-
-      {/* Testimonials */}
-      <section className="py-24">
-        <div className="section-padding">
-          <ScrollReveal>
-            <div className="text-center mb-16">
-              <span className="text-elite-gold text-sm font-semibold tracking-widest uppercase">Testimonials</span>
-              <h2 className="font-display text-4xl md:text-5xl text-white mt-3 tracking-wider">
-                TRADER <span className="gold-gradient-text">SUCCESS STORIES</span>
-              </h2>
-            </div>
-          </ScrollReveal>
-
-          <div className="grid md:grid-cols-2 gap-6 max-w-5xl mx-auto">
-            {testimonials.map((t, i) => (
-              <ScrollReveal key={t.name} delay={i * 0.15}>
-                <div className="glass-card-hover p-8 h-full">
-                  <div className="flex gap-1 mb-4">
-                    {[...Array(t.rating)].map((_, j) => (
-                      <Star key={j} size={16} className="text-elite-gold fill-elite-gold" />
-                    ))}
-                  </div>
-                  <p className="text-gray-300 leading-relaxed mb-6">&ldquo;{t.text}&rdquo;</p>
-                  <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-full bg-gradient-to-br from-elite-gold/30 to-blue-600/30 border border-elite-gold/30 flex items-center justify-center">
-                      <span className="text-elite-gold text-sm font-bold">{t.avatar}</span>
-                    </div>
-                    <div>
-                      <p className="text-white font-medium text-sm">{t.name}</p>
-                      <p className="text-gray-500 text-xs">{t.role}</p>
-                    </div>
-                  </div>
-                </div>
-              </ScrollReveal>
-            ))}
           </div>
         </div>
       </section>
