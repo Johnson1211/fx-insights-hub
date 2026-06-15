@@ -17,26 +17,17 @@ async function verifyAdmin(req: NextRequest) {
 export async function GET(req: NextRequest) {
   try {
     const admin = await verifyAdmin(req);
-    if (!admin) {
-      return NextResponse.json({ error: "Forbidden" }, { status: 403 });
-    }
+    if (!admin) return NextResponse.json({ error: "Forbidden" }, { status: 403 });
 
     const dbSignals = await prisma.signal.findMany({
       orderBy: { createdAt: "desc" },
-      include: {
-        creator: {
-          select: { name: true },
-        },
-      },
+      include: { creator: { select: { name: true } } },
     });
 
     const signals = dbSignals.map((sig) => ({
       ...sig,
       _id: sig.id,
-      createdBy: {
-        _id: sig.createdBy,
-        name: sig.creator?.name || "Admin",
-      },
+      createdBy: { _id: sig.createdBy, name: sig.creator?.name || "Admin" },
     }));
 
     return NextResponse.json({ signals });
@@ -49,9 +40,7 @@ export async function GET(req: NextRequest) {
 export async function POST(req: NextRequest) {
   try {
     const admin = await verifyAdmin(req);
-    if (!admin) {
-      return NextResponse.json({ error: "Forbidden" }, { status: 403 });
-    }
+    if (!admin) return NextResponse.json({ error: "Forbidden" }, { status: 403 });
 
     const body = await req.json();
     const dbSignal = await prisma.signal.create({
@@ -63,7 +52,7 @@ export async function POST(req: NextRequest) {
         takeProfit1: Number(body.takeProfit1),
         takeProfit2: body.takeProfit2 ? Number(body.takeProfit2) : null,
         timeframe: body.timeframe,
-        lotSize: body.lotSize ? Number(body.lotSize) : null,
+        volatilityIndex: body.volatilityIndex || null,
         analysis: body.analysis,
         chartImage: body.chartImage || null,
         status: body.status || "Active",
@@ -83,15 +72,11 @@ export async function POST(req: NextRequest) {
 export async function PATCH(req: NextRequest) {
   try {
     const admin = await verifyAdmin(req);
-    if (!admin) {
-      return NextResponse.json({ error: "Forbidden" }, { status: 403 });
-    }
+    if (!admin) return NextResponse.json({ error: "Forbidden" }, { status: 403 });
 
     const { searchParams } = new URL(req.url);
     const id = searchParams.get("id");
-    if (!id) {
-      return NextResponse.json({ error: "Signal ID required" }, { status: 400 });
-    }
+    if (!id) return NextResponse.json({ error: "Signal ID required" }, { status: 400 });
 
     const body = await req.json();
     const updated = await prisma.signal.update({
@@ -104,7 +89,7 @@ export async function PATCH(req: NextRequest) {
         takeProfit1: Number(body.takeProfit1),
         takeProfit2: body.takeProfit2 ? Number(body.takeProfit2) : null,
         timeframe: body.timeframe,
-        lotSize: body.lotSize ? Number(body.lotSize) : null,
+        volatilityIndex: body.volatilityIndex || null,
         analysis: body.analysis,
         status: body.status,
         result: body.result || null,
@@ -122,15 +107,11 @@ export async function PATCH(req: NextRequest) {
 export async function DELETE(req: NextRequest) {
   try {
     const admin = await verifyAdmin(req);
-    if (!admin) {
-      return NextResponse.json({ error: "Forbidden" }, { status: 403 });
-    }
+    if (!admin) return NextResponse.json({ error: "Forbidden" }, { status: 403 });
 
     const { searchParams } = new URL(req.url);
     const id = searchParams.get("id");
-    if (!id) {
-      return NextResponse.json({ error: "Signal ID required" }, { status: 400 });
-    }
+    if (!id) return NextResponse.json({ error: "Signal ID required" }, { status: 400 });
 
     await prisma.signal.delete({ where: { id } });
     return NextResponse.json({ message: "Signal deleted" });

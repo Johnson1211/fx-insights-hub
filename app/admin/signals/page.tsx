@@ -15,7 +15,7 @@ interface Signal {
   takeProfit1: number;
   takeProfit2?: number;
   timeframe: string;
-  lotSize?: number;
+  volatilityIndex?: string;
   analysis: string;
   status: string;
   result?: string;
@@ -31,7 +31,7 @@ type FormState = {
   takeProfit1: string;
   takeProfit2: string;
   timeframe: string;
-  lotSize: string;
+  volatilityIndex: string;
   analysis: string;
   status: string;
   result: string;
@@ -52,7 +52,8 @@ const emptyForm = (): FormState => ({
   takeProfit1: "",
   takeProfit2: "",
   timeframe: "H1",
-  lotSize: "",
+  volatilityIndex: "",
+
   analysis: "",
   status: "Active",
   result: "",
@@ -67,7 +68,8 @@ const signalToForm = (s: Signal): FormState => ({
   takeProfit1: String(s.takeProfit1),
   takeProfit2: s.takeProfit2 ? String(s.takeProfit2) : "",
   timeframe: s.timeframe,
-  lotSize: s.lotSize ? String(s.lotSize) : "",
+  volatilityIndex: s.volatilityIndex || "",
+
   analysis: s.analysis,
   status: s.status,
   result: s.result || "",
@@ -113,7 +115,8 @@ export default function AdminSignals() {
           stopLoss: parseFloat(formData.stopLoss),
           takeProfit1: parseFloat(formData.takeProfit1),
           takeProfit2: formData.takeProfit2 ? parseFloat(formData.takeProfit2) : undefined,
-          lotSize: formData.lotSize ? parseFloat(formData.lotSize) : undefined,
+          volatilityIndex: formData.volatilityIndex || undefined,
+
           pips: formData.pips ? parseFloat(formData.pips) : undefined,
         }),
       });
@@ -141,7 +144,8 @@ export default function AdminSignals() {
           stopLoss: parseFloat(editData.stopLoss),
           takeProfit1: parseFloat(editData.takeProfit1),
           takeProfit2: editData.takeProfit2 ? parseFloat(editData.takeProfit2) : undefined,
-          lotSize: editData.lotSize ? parseFloat(editData.lotSize) : undefined,
+          volatilityIndex: editData.volatilityIndex || undefined,
+
           pips: editData.pips ? parseFloat(editData.pips) : undefined,
         }),
       });
@@ -270,14 +274,14 @@ export default function AdminSignals() {
 
       <div>
         <label className="block text-sm text-gray-400 mb-2">
-          Lot Size / Velocity
-          <span className="ml-2 text-xs text-gray-600">(e.g. 0.01, 0.10, 1.00)</span>
+          Volatility Index
+          <span className="ml-2 text-xs text-gray-600">(e.g. V75, V100, 0.01)</span>
         </label>
         <input
-          type="number" step="0.01" min="0.01"
-          value={data.lotSize}
-          onChange={(e) => set({ ...data, lotSize: e.target.value })}
-          className="input-field" placeholder="0.10"
+          type="text"
+          value={data.volatilityIndex}
+          onChange={(e) => set({ ...data, volatilityIndex: e.target.value })}
+          className="input-field" placeholder="e.g. V75, V100, 1.00"
         />
       </div>
 
@@ -481,9 +485,9 @@ export default function AdminSignals() {
                       <span className="text-xs text-gray-500 bg-elite-surface px-2 py-0.5 rounded">
                         {signal.timeframe}
                       </span>
-                      {signal.lotSize && (
+                      {signal.volatilityIndex && (
                         <span className="text-xs text-elite-gold bg-elite-gold/10 border border-elite-gold/20 px-2 py-0.5 rounded font-mono">
-                          Lot: {signal.lotSize}
+                          VI: {signal.volatilityIndex}
                         </span>
                       )}
                     </div>

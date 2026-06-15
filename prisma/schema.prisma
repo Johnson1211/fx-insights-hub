@@ -105,7 +105,7 @@ model Signal {
   takeProfit1 Float
   takeProfit2 Float?
   timeframe   Timeframe
-  lotSize     Float?
+  volatilityIndex String?
   analysis    String
   chartImage  String?
   status      SignalStatus  @default(Active)
