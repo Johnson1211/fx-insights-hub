@@ -17,6 +17,7 @@ interface Signal {
   timeframe: string;
   volatilityIndex?: string;
   analysis: string;
+  chartImage?: string;
   status: string;
   result?: string;
   pips?: number;
@@ -33,6 +34,7 @@ type FormState = {
   timeframe: string;
   volatilityIndex: string;
   analysis: string;
+  chartImage: string;
   status: string;
   result: string;
   pips: string;
@@ -53,8 +55,8 @@ const emptyForm = (): FormState => ({
   takeProfit2: "",
   timeframe: "H1",
   volatilityIndex: "",
-
   analysis: "",
+  chartImage: "",
   status: "Active",
   result: "",
   pips: "",
@@ -69,8 +71,8 @@ const signalToForm = (s: Signal): FormState => ({
   takeProfit2: s.takeProfit2 ? String(s.takeProfit2) : "",
   timeframe: s.timeframe,
   volatilityIndex: s.volatilityIndex || "",
-
   analysis: s.analysis,
+  chartImage: s.chartImage || "",
   status: s.status,
   result: s.result || "",
   pips: s.pips ? String(s.pips) : "",
@@ -103,6 +105,34 @@ export default function AdminSignals() {
     }
   };
 
+  const [chartUploading, setChartUploading] = useState(false);
+
+  const handleChartUpload = async (
+    file: File,
+    data: FormState,
+    set: React.Dispatch<React.SetStateAction<FormState>>
+  ) => {
+    setChartUploading(true);
+    try {
+      const formData = new FormData();
+      formData.append("file", file);
+      const res = await fetch("/api/upload/supabase", {
+        method: "POST",
+        body: formData,
+      });
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({}));
+        throw new Error(err.error || "Upload failed");
+      }
+      const json = await res.json();
+      set({ ...data, chartImage: json.url });
+    } catch (err: any) {
+      alert(err.message || "Upload failed");
+    } finally {
+      setChartUploading(false);
+    }
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
@@ -116,7 +146,7 @@ export default function AdminSignals() {
           takeProfit1: parseFloat(formData.takeProfit1),
           takeProfit2: formData.takeProfit2 ? parseFloat(formData.takeProfit2) : undefined,
           volatilityIndex: formData.volatilityIndex || undefined,
-
+          chartImage: formData.chartImage || null,
           pips: formData.pips ? parseFloat(formData.pips) : undefined,
         }),
       });
@@ -145,7 +175,7 @@ export default function AdminSignals() {
           takeProfit1: parseFloat(editData.takeProfit1),
           takeProfit2: editData.takeProfit2 ? parseFloat(editData.takeProfit2) : undefined,
           volatilityIndex: editData.volatilityIndex || undefined,
-
+          chartImage: editData.chartImage || null,
           pips: editData.pips ? parseFloat(editData.pips) : undefined,
         }),
       });
@@ -338,6 +368,55 @@ export default function AdminSignals() {
         </>
       )}
 
+      {/* Chart Image Upload */}
+      <div className="md:col-span-2 lg:col-span-3">
+        <label className="block text-sm text-gray-400 mb-2">Trade Chart Image (Supabase Storage)</label>
+        <div className="flex items-center gap-4 p-4 rounded-xl bg-elite-surface border border-elite-border">
+          {data.chartImage ? (
+            <div className="flex items-center gap-3 w-full justify-between">
+              <div className="flex items-center gap-3">
+                <img src={data.chartImage} alt="Chart preview" className="w-12 h-12 rounded-lg object-cover border border-elite-border" />
+                <span className="text-xs text-gray-500 font-mono truncate max-w-[200px]">Chart uploaded</span>
+              </div>
+              <button
+                type="button"
+                onClick={() => set({ ...data, chartImage: "" })}
+                className="text-xs text-elite-red hover:underline font-semibold"
+              >
+                Remove Chart
+              </button>
+            </div>
+          ) : (
+            <div className="flex items-center gap-3">
+              <input
+                type="file"
+                accept="image/*"
+                onChange={(e) => {
+                  const file = e.target.files?.[0];
+                  if (file) handleChartUpload(file, data, set);
+                }}
+                className="hidden"
+                id={`chart-upload-${isEdit ? 'edit' : 'new'}`}
+              />
+              <label
+                htmlFor={`chart-upload-${isEdit ? 'edit' : 'new'}`}
+                className="btn-outline py-2 px-4 text-xs font-semibold cursor-pointer rounded-lg flex items-center gap-2"
+              >
+                {chartUploading ? (
+                  <>
+                    <div className="w-3.5 h-3.5 border-2 border-elite-gold border-t-transparent rounded-full animate-spin" />
+                    Uploading...
+                  </>
+                ) : (
+                  "Choose Chart Image"
+                )}
+              </label>
+              <span className="text-xs text-gray-500">Supports JPG, PNG, GIF up to 5MB</span>
+            </div>
+          )}
+        </div>
+      </div>
+
       {/* Full-width analysis */}
       <div className={isEdit ? "md:col-span-2 lg:col-span-3" : "md:col-span-2 lg:col-span-3"}>
         <label className="block text-sm text-gray-400 mb-2">Analysis / Notes</label>
@@ -504,6 +583,17 @@ export default function AdminSignals() {
                     </div>
                     {signal.analysis && (
                       <p className="text-xs text-gray-600 mt-1 line-clamp-1 max-w-md">{signal.analysis}</p>
+                    )}
+                    {signal.chartImage && (
+                      <div className="mt-3">
+                        <span className="text-[10px] text-gray-500 block mb-1">Attached Chart Image:</span>
+                        <a href={signal.chartImage} target="_blank" rel="noopener noreferrer" className="inline-block group relative">
+                          <img src={signal.chartImage} alt="Chart" className="w-40 h-24 rounded-lg object-cover border border-elite-border hover:opacity-90 transition-opacity" />
+                          <div className="absolute inset-0 flex items-center justify-center bg-black/40 opacity-0 group-hover:opacity-100 rounded-lg transition-opacity">
+                            <span className="text-[10px] text-white font-medium">View Original</span>
+                          </div>
+                        </a>
+                      </div>
                     )}
                   </div>
                 </div>

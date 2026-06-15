@@ -63,25 +63,21 @@ export default function AdminSettingsPage() {
 
     setAvatarUploading(true);
     try {
-      // Get Cloudinary signature
-      const sigRes = await fetch("/api/admin/cloudinary-signature");
-      const { signature, timestamp, apiKey, cloudName, folder } = await sigRes.json();
-
       const formData = new FormData();
       formData.append("file", file);
-      formData.append("api_key", apiKey);
-      formData.append("timestamp", timestamp);
-      formData.append("signature", signature);
-      formData.append("folder", folder || "avatars");
 
-      const uploadRes = await fetch(
-        `https://api.cloudinary.com/v1_1/${cloudName}/image/upload`,
-        { method: "POST", body: formData }
-      );
+      const uploadRes = await fetch("/api/upload/supabase", {
+        method: "POST",
+        body: formData,
+      });
 
-      if (!uploadRes.ok) throw new Error("Upload failed");
+      if (!uploadRes.ok) {
+        const errData = await uploadRes.json().catch(() => ({}));
+        throw new Error(errData.error || "Upload failed");
+      }
+
       const uploadData = await uploadRes.json();
-      const avatarUrl = uploadData.secure_url;
+      const avatarUrl = uploadData.url;
 
       // Save URL to DB
       const saveRes = await fetch("/api/user/avatar", {

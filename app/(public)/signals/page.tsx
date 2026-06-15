@@ -2,9 +2,9 @@
 
 import { useEffect, useState } from "react";
 import { ScrollReveal } from "@/components/animations/ScrollReveal";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
-import { TrendingUp, TrendingDown, ArrowRight, Clock } from "lucide-react";
+import { TrendingUp, TrendingDown, ArrowRight, Clock, Eye, X } from "lucide-react";
 import { formatDate } from "@/lib/utils";
 
 interface Signal {
@@ -19,12 +19,14 @@ interface Signal {
   status: string;
   result?: string;
   pips?: number;
+  chartImage?: string;
   createdAt: string;
 }
 
 export default function SignalsPage() {
   const [signals, setSignals] = useState<Signal[]>([]);
   const [loading, setLoading] = useState(true);
+  const [lightboxImage, setLightboxImage] = useState<string | null>(null);
 
   useEffect(() => {
     fetchSignals();
@@ -148,6 +150,23 @@ export default function SignalsPage() {
                         <span className="text-xs text-gray-500">{formatDate(signal.createdAt)}</span>
                       </div>
                     </div>
+
+                    {signal.chartImage && (
+                      <div className="mt-4 pt-4 border-t border-elite-border/30">
+                        <span className="text-[10px] text-gray-500 block mb-2 font-medium">Trade Analysis Chart:</span>
+                        <button
+                          onClick={() => setLightboxImage(signal.chartImage || null)}
+                          className="relative group block overflow-hidden rounded-xl border border-elite-border/50 max-w-sm"
+                        >
+                          <img src={signal.chartImage} alt="Trade Chart" className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300" />
+                          <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2">
+                            <span className="text-white text-xs font-semibold flex items-center gap-1">
+                              <Eye size={14} /> View Full Chart
+                            </span>
+                          </div>
+                        </button>
+                      </div>
+                    )}
                   </motion.div>
                 </ScrollReveal>
               ))}
@@ -171,6 +190,35 @@ export default function SignalsPage() {
           </div>
         </ScrollReveal>
       </div>
+
+      {/* Lightbox Modal */}
+      <AnimatePresence>
+        {lightboxImage && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-50 flex items-center justify-center bg-black/85 backdrop-blur-md p-4 cursor-zoom-out"
+            onClick={() => setLightboxImage(null)}
+          >
+            <motion.div
+              initial={{ scale: 0.95, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.95, opacity: 0 }}
+              className="relative max-w-5xl max-h-[85vh] overflow-hidden"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <img src={lightboxImage} alt="Trade Chart Full" className="w-full h-auto max-h-[80vh] rounded-xl object-contain border border-elite-border" />
+              <button
+                onClick={() => setLightboxImage(null)}
+                className="absolute top-4 right-4 p-2 bg-black/60 hover:bg-black/95 text-white rounded-full transition-colors border border-white/10"
+              >
+                <X size={20} />
+              </button>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
