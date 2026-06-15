@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import Link from "next/link";
 import { ForexTicker } from "@/components/animations/ForexTicker";
 import { ScrollReveal } from "@/components/animations/ScrollReveal";
@@ -72,187 +72,157 @@ const faqs = [
 
 const SUPABASE_MEDIA = "https://jvxmtsmslyokplooyfwz.supabase.co/storage/v1/object/public/media";
 
-function LiveTradingSimulator() {
-  const [price, setPrice] = useState(1.08420);
-  const [points, setPoints] = useState<number[]>([1.08350, 1.08380, 1.08360, 1.08400, 1.08390, 1.08420]);
-  const [ticks, setTicks] = useState(0);
-  const [profit, setProfit] = useState(482.50);
-  const [activeSignal, setActiveSignal] = useState({ pair: "EURUSD", type: "BUY", entry: 1.08360, current: 1.08420, pips: 6 });
-  const [lastAction, setLastAction] = useState<string | null>(null);
+function TradingVisualPanel() {
+  // Animated candlestick data — static values that feel alive via CSS
+  const candles = [
+    { open: 48, close: 72, high: 80, low: 40, bull: true },
+    { open: 72, close: 60, high: 78, low: 52, bull: false },
+    { open: 60, close: 85, high: 92, low: 55, bull: true },
+    { open: 85, close: 70, high: 90, low: 62, bull: false },
+    { open: 70, close: 90, high: 98, low: 65, bull: true },
+    { open: 90, close: 78, high: 96, low: 70, bull: false },
+    { open: 78, close: 95, high: 100, low: 72, bull: true },
+    { open: 95, close: 82, high: 100, low: 75, bull: false },
+    { open: 82, close: 105, high: 110, low: 78, bull: true },
+    { open: 105, close: 92, high: 112, low: 88, bull: false },
+    { open: 92, close: 115, high: 120, low: 86, bull: true },
+    { open: 115, close: 100, high: 122, low: 95, bull: false },
+  ];
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      const delta = (Math.random() - 0.45) * 0.00010;
-      setPrice(prev => {
-        const nextPrice = Number((prev + delta).toFixed(5));
-        setPoints(p => {
-          const nextPoints = [...p.slice(1), nextPrice];
-          return nextPoints;
-        });
-        
-        setActiveSignal(sig => {
-          const newPips = Math.round((nextPrice - sig.entry) * 10000);
-          return {
-            ...sig,
-            current: nextPrice,
-            pips: newPips
-          };
-        });
-
-        setProfit(prof => Number((prof + (delta > 0 ? 1.50 : -1.00)).toFixed(2)));
-
-        return nextPrice;
-      });
-
-      setTicks(t => t + 1);
-    }, 1500);
-
-    return () => clearInterval(interval);
-  }, []);
-
-  const handleMockTrade = (type: "BUY" | "SELL") => {
-    setLastAction(type);
-    setTimeout(() => {
-      setLastAction(null);
-    }, 2000);
-  };
-
-  const minVal = Math.min(...points);
-  const maxVal = Math.max(...points);
-  const range = maxVal - minVal || 0.001;
-  const svgCoords = points.map((val, index) => {
-    const x = (index / (points.length - 1)) * 280 + 10;
-    const y = 110 - ((val - minVal) / range) * 90;
-    return `${x},${y}`;
-  }).join(" ");
+  const pairs = [
+    { pair: "EUR/USD", price: "1.08420", change: "+0.42%", bull: true },
+    { pair: "GBP/USD", price: "1.27315", change: "-0.18%", bull: false },
+    { pair: "USD/JPY", price: "149.820", change: "+0.63%", bull: true },
+    { pair: "XAU/USD", price: "2,318.4", change: "+1.12%", bull: true },
+  ];
 
   return (
-    <div className="w-full max-w-sm glass-card border border-elite-border/60 rounded-2xl p-5 shadow-2xl relative overflow-hidden bg-elite-card/30">
-      <div className="absolute -top-12 -right-12 w-24 h-24 bg-elite-gold/10 rounded-full blur-2xl pointer-events-none" />
-      <div className="absolute -bottom-12 -left-12 w-24 h-24 bg-blue-600/10 rounded-full blur-2xl pointer-events-none" />
-
-      <div className="flex items-center justify-between border-b border-elite-border/30 pb-3 mb-4">
-        <div className="flex items-center gap-2">
-          <div className="w-2.5 h-2.5 rounded-full bg-elite-green animate-pulse" />
-          <span className="text-[10px] font-bold text-gray-400 tracking-wider">LIVE FEED: EURUSD</span>
+    <div className="relative w-full h-full flex flex-col gap-4">
+      {/* Main Chart Panel */}
+      <div className="relative rounded-2xl overflow-hidden border border-elite-gold/15 bg-[#050c18] shadow-2xl">
+        {/* Panel Header */}
+        <div className="flex items-center justify-between px-4 py-3 border-b border-white/5 bg-white/[0.02]">
+          <div className="flex items-center gap-2">
+            <div className="w-2 h-2 rounded-full bg-elite-green animate-pulse" />
+            <span className="text-[11px] font-bold text-gray-300 tracking-widest">EUR/USD · H4 · LIVE</span>
+          </div>
+          <div className="flex items-center gap-3">
+            <span className="text-elite-gold font-display text-sm font-bold">1.08420</span>
+            <span className="text-[10px] text-elite-green font-semibold bg-elite-green/10 border border-elite-green/20 px-2 py-0.5 rounded-full">▲ +42 pips</span>
+          </div>
         </div>
-        <div className="flex gap-1.5">
-          <div className="w-2.5 h-2.5 rounded-full bg-red-500/40" />
-          <div className="w-2.5 h-2.5 rounded-full bg-yellow-500/40" />
-          <div className="w-2.5 h-2.5 rounded-full bg-green-500/40" />
+
+        {/* Candlestick Chart */}
+        <div className="relative px-3 pt-3 pb-1">
+          {/* Y-axis labels */}
+          <div className="absolute left-2 top-3 bottom-6 flex flex-col justify-between pointer-events-none">
+            {["1.0860", "1.0840", "1.0820", "1.0800"].map((label) => (
+              <span key={label} className="text-[9px] text-gray-600 font-mono">{label}</span>
+            ))}
+          </div>
+
+          {/* Horizontal grid lines */}
+          <div className="absolute inset-x-6 top-3 bottom-6 flex flex-col justify-between pointer-events-none">
+            {[0,1,2,3].map((i) => (
+              <div key={i} className="border-t border-white/[0.04]" />
+            ))}
+          </div>
+
+          <svg viewBox="0 0 360 130" className="w-full h-36 pl-6" preserveAspectRatio="none">
+            {/* Area fill under line */}
+            <defs>
+              <linearGradient id="areaFill" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stopColor="#c5a880" stopOpacity="0.15" />
+                <stop offset="100%" stopColor="#c5a880" stopOpacity="0" />
+              </linearGradient>
+            </defs>
+
+            {/* Candlestick bars */}
+            {candles.map((c, i) => {
+              const x = 8 + i * 29;
+              const bodyTop = 130 - Math.max(c.open, c.close);
+              const bodyH = Math.abs(c.close - c.open);
+              return (
+                <g key={i}>
+                  {/* Wick */}
+                  <line
+                    x1={x + 7} y1={130 - c.high}
+                    x2={x + 7} y2={130 - c.low}
+                    stroke={c.bull ? "#10b981" : "#ef4444"}
+                    strokeWidth="1.5"
+                    opacity="0.6"
+                  />
+                  {/* Body */}
+                  <rect
+                    x={x} y={bodyTop}
+                    width={14} height={Math.max(bodyH, 2)}
+                    fill={c.bull ? "#10b981" : "#ef4444"}
+                    opacity="0.85"
+                    rx="1"
+                  />
+                </g>
+              );
+            })}
+          </svg>
+
+          {/* X-axis time labels */}
+          <div className="flex justify-between px-6 pb-2 mt-1">
+            {["08:00","10:00","12:00","14:00","16:00","18:00"].map((t) => (
+              <span key={t} className="text-[9px] text-gray-600 font-mono">{t}</span>
+            ))}
+          </div>
+        </div>
+
+        {/* Glowing active signal marker */}
+        <div className="mx-4 mb-4 p-3 rounded-xl bg-elite-green/5 border border-elite-green/20 flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <div className="w-8 h-8 rounded-lg bg-elite-green/15 border border-elite-green/25 flex items-center justify-center">
+              <TrendingUp size={14} className="text-elite-green" />
+            </div>
+            <div>
+              <p className="text-[10px] text-gray-500 uppercase tracking-wider">Active Signal</p>
+              <p className="text-white text-xs font-semibold">EUR/USD — BUY @ 1.08360</p>
+            </div>
+          </div>
+          <div className="text-right">
+            <p className="text-elite-green font-bold text-sm">+60 pips</p>
+            <p className="text-[9px] text-gray-500">TP: 1.09000</p>
+          </div>
         </div>
       </div>
 
-      <div className="grid grid-cols-2 gap-4 mb-4">
-        <div>
-          <span className="text-[10px] text-gray-500 block uppercase tracking-wider">Bid Price</span>
-          <div className="font-display text-2xl text-white font-semibold flex items-baseline gap-1 mt-0.5">
-            <span>{price.toFixed(5).slice(0, 5)}</span>
-            <span className="text-elite-gold font-bold">{price.toFixed(5).slice(5, 7)}</span>
-          </div>
+      {/* Currency Pair Watch-list */}
+      <div className="rounded-2xl border border-white/5 bg-[#050c18]/80 backdrop-blur-sm overflow-hidden">
+        <div className="px-4 py-2.5 border-b border-white/5">
+          <span className="text-[10px] font-bold text-gray-500 tracking-widest uppercase">Market Watch</span>
         </div>
-        <div className="text-right">
-          <span className="text-[10px] text-gray-500 block uppercase tracking-wider">Simulated P/L</span>
-          <div className={`font-display text-2xl font-bold mt-0.5 ${profit >= 0 ? "text-elite-green" : "text-elite-red"}`}>
-            {profit >= 0 ? "+" : ""}${profit.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
-          </div>
-        </div>
-      </div>
-
-      <div className="h-32 bg-black/40 rounded-xl border border-elite-border/30 p-2 relative overflow-hidden flex items-end">
-        <div className="absolute inset-0 grid grid-rows-4 grid-cols-6 pointer-events-none opacity-[0.03]">
-          {[...Array(24)].map((_, i) => <div key={i} className="border-t border-l border-white" />)}
-        </div>
-
-        <AnimatePresence>
-          {lastAction && (
+        <div className="divide-y divide-white/[0.04]">
+          {pairs.map((p) => (
             <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 0.15 }}
-              exit={{ opacity: 0 }}
-              className={`absolute inset-0 ${lastAction === "BUY" ? "bg-elite-green" : "bg-elite-red"} pointer-events-none z-10`}
-            />
-          )}
-        </AnimatePresence>
-
-        <AnimatePresence>
-          {lastAction && (
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: -20 }}
-              exit={{ opacity: 0 }}
-              className={`absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 font-display text-xs font-bold z-20 px-3 py-1.5 rounded-md border shadow-lg ${
-                lastAction === "BUY" ? "bg-elite-green/20 border-elite-green text-elite-green" : "bg-elite-red/20 border-elite-red text-elite-red"
-              }`}
+              key={p.pair}
+              initial={{ opacity: 0, x: 10 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 0.2 }}
+              className="flex items-center justify-between px-4 py-2.5 hover:bg-white/[0.02] transition-colors"
             >
-              {lastAction} ORDER SENT
+              <div className="flex items-center gap-3">
+                <div className={`w-1.5 h-6 rounded-full ${p.bull ? "bg-elite-green" : "bg-elite-red"}`} />
+                <span className="text-white text-xs font-bold font-mono tracking-wider">{p.pair}</span>
+              </div>
+              <div className="text-right">
+                <p className="text-white text-xs font-mono font-semibold">{p.price}</p>
+                <p className={`text-[10px] font-semibold ${p.bull ? "text-elite-green" : "text-elite-red"}`}>{p.change}</p>
+              </div>
             </motion.div>
-          )}
-        </AnimatePresence>
-
-        <svg className="w-full h-full" viewBox="0 0 300 120">
-          <defs>
-            <linearGradient id="chartGlow" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stopColor="#c5a880" stopOpacity="0.4" />
-              <stop offset="100%" stopColor="#c5a880" stopOpacity="0.0" />
-            </linearGradient>
-          </defs>
-          <path
-            d={`M 10,110 L ${svgCoords} L ${280 + 10},110 Z`}
-            fill="url(#chartGlow)"
-            className="transition-all duration-700 ease-in-out"
-          />
-          <polyline
-            fill="none"
-            stroke="#c5a880"
-            strokeWidth="2"
-            points={svgCoords}
-            className="transition-all duration-700 ease-in-out"
-          />
-          <circle
-            cx={290}
-            cy={110 - ((points[points.length - 1] - minVal) / range) * 90}
-            r="4"
-            fill="#c5a880"
-            className="animate-pulse"
-          />
-        </svg>
-      </div>
-
-      <div className="mt-4 p-3 rounded-xl bg-white/[0.02] border border-elite-border/20 flex justify-between items-center text-xs">
-        <div className="flex gap-2 items-center">
-          <span className="font-semibold text-white">Signal Alert:</span>
-          <span className={`px-2 py-0.5 rounded text-[9px] font-bold ${
-            activeSignal.type === "BUY" ? "bg-elite-green/10 text-elite-green border border-elite-green/25" : "bg-elite-red/10 text-elite-red border border-elite-red/25"
-          }`}>
-            {activeSignal.type}
-          </span>
-          <span className="text-gray-400 font-mono">{activeSignal.pair}</span>
+          ))}
         </div>
-        <div className="text-right">
-          <span className={`font-semibold ${activeSignal.pips >= 0 ? "text-elite-green" : "text-elite-red"}`}>
-            {activeSignal.pips >= 0 ? "+" : ""}{activeSignal.pips} pips
-          </span>
-        </div>
-      </div>
-
-      <div className="grid grid-cols-2 gap-3 mt-4">
-        <button
-          onClick={() => handleMockTrade("BUY")}
-          className="py-2 rounded-xl border border-emerald-500/20 bg-emerald-500/5 text-elite-green hover:bg-emerald-500/15 font-semibold text-[11px] transition-all tracking-wider hover:scale-[1.02] active:scale-[0.98]"
-        >
-          EXECUTE BUY
-        </button>
-        <button
-          onClick={() => handleMockTrade("SELL")}
-          className="py-2 rounded-xl border border-red-500/20 bg-red-500/5 text-elite-red hover:bg-red-500/15 font-semibold text-[11px] transition-all tracking-wider hover:scale-[1.02] active:scale-[0.98]"
-        >
-          EXECUTE SELL
-        </button>
       </div>
     </div>
   );
 }
+
+
+
 
 export default function HomePage() {
   const [openFaq, setOpenFaq] = useState<number | null>(null);
@@ -401,80 +371,14 @@ export default function HomePage() {
               </motion.div>
             </div>
 
-            {/* Right Column (Live Simulator) — Dark animated trading backdrop */}
+            {/* Right Column — Trading Visual Panel */}
             <motion.div
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.8, delay: 0.4 }}
-              className="lg:col-span-5 w-full flex justify-center lg:justify-end relative"
+              initial={{ opacity: 0, x: 40 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.9, delay: 0.5 }}
+              className="lg:col-span-5 w-full relative"
             >
-              {/* Dark animated background panel behind the card */}
-              <div className="absolute inset-0 -mx-6 -my-8 lg:-mx-12 lg:-my-16 rounded-3xl overflow-hidden pointer-events-none">
-                {/* Deep dark base */}
-                <div className="absolute inset-0 bg-[#050b14]" />
-
-                {/* Radial gold glow top-right */}
-                <div className="absolute -top-10 -right-10 w-64 h-64 rounded-full bg-elite-gold/10 blur-3xl" />
-                {/* Radial blue glow bottom-left */}
-                <div className="absolute -bottom-10 -left-10 w-64 h-64 rounded-full bg-blue-700/15 blur-3xl" />
-                {/* Centre pulse */}
-                <motion.div
-                  animate={{ scale: [1, 1.15, 1], opacity: [0.06, 0.12, 0.06] }}
-                  transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-                  className="absolute inset-0 flex items-center justify-center"
-                >
-                  <div className="w-80 h-80 rounded-full bg-elite-gold/10 blur-3xl" />
-                </motion.div>
-
-                {/* SVG grid lines */}
-                <svg className="absolute inset-0 w-full h-full opacity-[0.04]" xmlns="http://www.w3.org/2000/svg">
-                  <defs>
-                    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
-                      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#c5a880" strokeWidth="0.6" />
-                    </pattern>
-                  </defs>
-                  <rect width="100%" height="100%" fill="url(#grid)" />
-                </svg>
-
-                {/* Floating animated candlestick bars */}
-                {[...Array(14)].map((_, i) => (
-                  <motion.div
-                    key={i}
-                    className={`absolute bottom-0 rounded-t-sm ${i % 3 === 0 ? "bg-emerald-500/30" : "bg-elite-gold/20"}`}
-                    style={{
-                      left: `${4 + i * 7}%`,
-                      width: `${5 + (i % 3) * 3}px`,
-                      height: `${20 + Math.sin(i) * 40 + 15}px`,
-                    }}
-                    animate={{
-                      height: [
-                        `${20 + Math.sin(i) * 40 + 15}px`,
-                        `${30 + Math.sin(i + 1) * 50 + 20}px`,
-                        `${20 + Math.sin(i) * 40 + 15}px`,
-                      ],
-                      opacity: [0.3, 0.6, 0.3],
-                    }}
-                    transition={{
-                      duration: 3 + (i % 4),
-                      repeat: Infinity,
-                      delay: i * 0.2,
-                      ease: "easeInOut",
-                    }}
-                  />
-                ))}
-
-                {/* Moving horizontal scan line */}
-                <motion.div
-                  className="absolute left-0 right-0 h-px bg-gradient-to-r from-transparent via-elite-gold/20 to-transparent"
-                  animate={{ y: ["0%", "100%", "0%"] }}
-                  transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
-                />
-              </div>
-
-              {/* The actual simulator card, positioned above the background */}
-              <div className="relative z-10 py-8 w-full flex justify-center lg:justify-end">
-                <LiveTradingSimulator />
-              </div>
+              <TradingVisualPanel />
             </motion.div>
           </div>
         </div>
