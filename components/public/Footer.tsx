@@ -15,7 +15,7 @@ export function Footer() {
           <div className="space-y-4">
             <Link href="/" className="flex items-center gap-2">
               <img src="/images/logo.jpg" alt="FX" className="w-8 h-8 rounded-lg object-cover" />
-              <span className="font-display text-xl tracking-wider text-white">
+              <span className="font-bold text-xl tracking-wider text-white">
                 Fx Insights <span className="text-elite-gold">Hub</span>
               </span>
             </Link>

@@ -177,7 +177,7 @@ export function Navbar() {
             {/* Logo */}
             <Link href="/" className="flex items-center gap-2 group">
               <img src="/images/logo.jpg" alt="FX" className="w-8 h-8 rounded-lg object-cover" />
-              <span className="font-display text-xl tracking-wider text-white group-hover:text-elite-gold transition-colors">
+              <span className="font-bold text-xl tracking-wider text-white group-hover:text-elite-gold transition-colors">
                 Fx Insights <span className="text-elite-gold">Hub</span>
               </span>
             </Link>
