@@ -266,36 +266,19 @@ export default function HomePage() {
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
-      <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
-        {/* Animated Background */}
-        <div className="absolute inset-0 bg-elite-bg">
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-elite-gold/5 via-transparent to-transparent" />
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_right,_var(--tw-gradient-stops))] from-blue-900/10 via-transparent to-transparent" />
-
-          {/* Floating Candlesticks */}
-          <div className="absolute inset-0 overflow-hidden opacity-20">
-            {[...Array(20)].map((_, i) => (
-              <motion.div
-                key={i}
-                className="absolute bg-elite-gold/30 rounded-sm"
-                style={{
-                  left: `${Math.random() * 100}%`,
-                  bottom: `${Math.random() * 60}%`,
-                  width: `${4 + Math.random() * 8}px`,
-                  height: `${40 + Math.random() * 120}px`,
-                }}
-                animate={{
-                  y: [0, -30, 0],
-                  opacity: [0.2, 0.5, 0.2],
-                }}
-                transition={{
-                  duration: 4 + Math.random() * 4,
-                  repeat: Infinity,
-                  delay: Math.random() * 3,
-                }}
-              />
-            ))}
-          </div>
+      <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-[#050c18]">
+        {/* Looping Video Background */}
+        <div className="absolute inset-0 z-0">
+          <video
+            autoPlay
+            loop
+            muted
+            playsInline
+            className="w-full h-full object-cover opacity-60"
+            src="https://player.vimeo.com/external/371433846.sd.mp4?s=236da2f3c02c00a6e5f1d9990e9cc4e3b7c7be0c&profile_id=139&oauth2_token_id=57447761"
+          />
+          {/* Dark overlay with fade-out at bottom to blend with next section */}
+          <div className="absolute inset-0 bg-gradient-to-b from-[#050c18]/90 via-[#050c18]/70 to-[#F8FAFC]" />
         </div>
 
         <div className="relative z-10 section-padding max-w-7xl mx-auto pt-28 lg:pt-32 w-full">
@@ -307,9 +290,9 @@ export default function HomePage() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8 }}
               >
-                <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-elite-gold/10 border border-elite-gold/20">
+                <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-amber-500/10 border border-amber-500/30">
                   <span className="w-2 h-2 rounded-full bg-elite-green animate-pulse" />
-                  <span className="text-sm text-elite-gold font-medium">Live Signals Active Now</span>
+                  <span className="text-sm text-amber-400 font-medium">Live Signals Active Now</span>
                 </div>
               </motion.div>
 
@@ -317,19 +300,19 @@ export default function HomePage() {
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 0.2 }}
-                className="font-display text-4xl sm:text-5xl md:text-6xl lg:text-7xl text-white leading-none tracking-wider uppercase"
+                className="font-display text-4xl sm:text-5xl md:text-6xl lg:text-7xl text-[#F8FAFC] leading-none tracking-wider uppercase"
               >
-                MASTER <span className="gold-gradient-text">FOREX</span>
+                MASTER <span className="bg-gradient-to-r from-amber-400 via-yellow-300 to-amber-500 bg-clip-text text-transparent">FOREX</span>
                 <br />
-                <span className="text-gray-400">TRADING WITH</span>{" "}
-                <span className="gold-gradient-text">PRECISION</span>
+                <span className="text-[#94A3B8]">TRADING WITH</span>{" "}
+                <span className="bg-gradient-to-r from-amber-400 via-yellow-300 to-amber-500 bg-clip-text text-transparent">PRECISION</span>
               </motion.h1>
 
               <motion.p
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 0.4 }}
-                className="text-base md:text-lg text-gray-400 max-w-xl leading-relaxed"
+                className="text-base md:text-lg text-[#E2E8F0] max-w-xl leading-relaxed"
               >
                 Join the elite community of profitable forex traders at Fx Insights Hub. Get professional signals, live coaching, and copy trading that actually works.
               </motion.p>
@@ -344,7 +327,10 @@ export default function HomePage() {
                   Start Trading Now
                   <ArrowRight size={18} className="inline ml-2" />
                 </Link>
-                <Link href="/services" className="btn-outline text-base px-8 py-3.5 w-full sm:w-auto text-center">
+                <Link
+                  href="/services"
+                  className="border border-[#94A3B8]/40 text-[#F8FAFC] hover:bg-white/5 hover:border-[#F8FAFC] transition-all duration-300 rounded-lg text-base px-8 py-3.5 w-full sm:w-auto text-center font-medium"
+                >
                   View Services
                 </Link>
               </motion.div>
@@ -354,7 +340,7 @@ export default function HomePage() {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ duration: 1, delay: 1 }}
-                className="mt-8 flex flex-wrap gap-6 text-gray-500 text-xs"
+                className="mt-8 flex flex-wrap gap-6 text-[#CBD5E1] text-xs font-semibold"
               >
                 <div className="flex items-center gap-2">
                   <Shield size={14} className="text-elite-green" />
@@ -365,7 +351,7 @@ export default function HomePage() {
                   <span>{statsData.totalLessons} Lessons Available</span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <TrendingUp size={14} className="text-elite-gold" />
+                  <TrendingUp size={14} className="text-amber-400" />
                   <span>{statsData.winRate}% Verified Win Rate</span>
                 </div>
               </motion.div>
@@ -393,7 +379,7 @@ export default function HomePage() {
           <motion.div
             animate={{ y: [0, 8, 0] }}
             transition={{ duration: 2, repeat: Infinity }}
-            className="text-gray-500"
+            className="text-[#E2E8F0]"
           >
             <ChevronDown size={24} />
           </motion.div>
