@@ -19,76 +19,84 @@ import {
 } from "lucide-react";
 
 const courseSummary = [
-  "Wallet setup & security",
-  "Safe crypto trading",
-  "Scam detection",
-  "Portfolio management",
-  "Technical Analysis",
-  "Spot Trading",
-  "Margin Trading",
+  "Introduction to Financial Markets",
+  "Forex Market Fundamentals",
+  "Trading Platforms (MT5)",
+  "Candlestick Mastery",
+  "Market Structure (Technical Analysis)",
+  "CRT Trading Model",
+  "Market Range Concept",
+  "Fundamental Analysis",
+  "Risk Management (Trade Management)",
+  "Trading Psychology",
 ];
 
 const whoThisIsFor = [
-  { text: "Complete beginners", desc: "No prior financial or coding experience required." },
-  { text: "Smartphone & Computer users", desc: "Learn to secure and transact assets on any device." },
-  { text: "People looking to avoid scams", desc: "Detect and avoid rug pulls, phishing, and fake exchanges." },
-  { text: "Aspiring digital asset investors", desc: "Build a solid, logical foundation for long-term growth." },
+  { text: "Complete beginners", desc: "No prior trading or financial experience required." },
+  { text: "Aspiring Forex Traders", desc: "Learn to build a consistent, logical trading plan." },
+  { text: "People seeking a proven strategy", desc: "Master the CRT Trading Model to refine entries and exits." },
+  { text: "Risk-conscious investors", desc: "Understand capital preservation and custom risk management parameters." },
 ];
 
 const modules = [
   {
-    title: "Wallets",
-    description: "Establish and maintain digital asset wallets confidently.",
-    icon: Wallet,
-  },
-  {
-    title: "Secure Transactions",
-    description: "Execute secure transactions (send, receive, and safeguard digital assets).",
-    icon: Shield,
-  },
-  {
-    title: "Exchanges",
-    description: "Comprehend the mechanics of cryptocurrency exchanges.",
-    icon: Zap,
-  },
-  {
-    title: "Project Analysis",
-    description: "Appraise and analyze crypto projects with expert proficiency.",
+    title: "1. Intro to Financial Markets",
+    description: "Overview of global markets, forex trading structures, and major market participants.",
     icon: BookOpen,
   },
   {
-    title: "Risk & Portfolio",
-    description: "Implement risk management strategies and build investment portfolios.",
+    title: "2. Forex Market Fundamentals",
+    description: "Understanding currency pairs, pips, leverage, bid/ask spreads, and basic calculations.",
     icon: TrendingUp,
   },
   {
-    title: "Scam Prevention",
-    description: "Identify and avoid common pitfalls like scams, hacks, and 'rug pulls'.",
-    icon: AlertTriangle,
-  },
-  {
-    title: "Technical Analysis",
-    description: "Learn how to interpret market data and price movements using charts, indicators, and patterns. This module equips you with the skills to identify trends, predict potential market behavior, and make data-driven trading decisions with confidence.",
-    icon: Award,
-  },
-  {
-    title: "Spot Trading",
-    description: "Understand the fundamentals of buying and selling cryptocurrencies in real time. You’ll learn how spot markets operate, how to execute trades effectively, and how to manage risk while building a solid foundation in crypto trading.",
+    title: "3. Trading Platforms (MT5)",
+    description: "Setting up MetaTrader 5, navigating charts, executing orders, and using drawing tools.",
     icon: Computer,
   },
   {
-    title: "Margin Trading",
-    description: "Explore advanced trading strategies using borrowed capital to amplify potential returns. This module covers leverage, risk management, liquidation mechanics, and best practices to trade responsibly in high-risk, high-reward environments.",
+    title: "4. Candlestick Mastery",
+    description: "Mastering price action structures, single candle forms, and high-probability candlestick patterns.",
+    icon: Award,
+  },
+  {
+    title: "5. Market Structure",
+    description: "Identifying trend direction, key support/resistance levels, and supply/demand zones.",
+    icon: Zap,
+  },
+  {
+    title: "6. CRT Trading Model",
+    description: "Mastering the proprietary CRT entry, execution, and exit validation model.",
+    icon: Shield,
+  },
+  {
+    title: "7. Market Range Concept",
+    description: "Analyzing premium vs. discount pricing, market equilibrium, and trading range consolidations.",
+    icon: Wallet,
+  },
+  {
+    title: "8. Fundamental Analysis",
+    description: "Evaluating interest rates, central bank news, economic indicators, and news events.",
+    icon: Users,
+  },
+  {
+    title: "9. Risk Management",
+    description: "Implementing strict position sizing, risk-to-reward ratios, and trade management plans.",
     icon: Lock,
+  },
+  {
+    title: "10. Trading Psychology",
+    description: "Developing discipline, creating a trading journal, and mastering trading emotions.",
+    icon: Shield,
   },
 ];
 
 const skillsGained = [
-  { title: "In-depth Market Literacy", desc: "Understanding how the crypto market functions without the hype." },
-  { title: "Core Trading Fundamentals", desc: "Gaining the basics of how to enter and exit positions safely." },
-  { title: "Practical On-chain Skills", desc: "Hands-on operations for moving and storing assets." },
-  { title: "Security Awareness", desc: "A strong foundation in security best practices to prevent loss." },
-  { title: "Portfolio Management", desc: "Expertise in constructing and managing a secure crypto portfolio." },
+  { title: "Forex Market Literacy", desc: "Understanding price movement, order flow, and trading mechanics." },
+  { title: "Precision Technical Analysis", desc: "Identifying high-probability trends, structures, and entry zones." },
+  { title: "Proprietary CRT Execution", desc: "Applying a systematic, backtested model for entries and exits." },
+  { title: "Advanced Risk Control", desc: "Protecting trading equity using proper position sizing and risk parameters." },
+  { title: "Professional Trading Mindset", desc: "Developing the discipline and focus required to trade without anxiety." },
 ];
 
 export default function CoursesPublicPage() {
@@ -111,10 +119,10 @@ export default function CoursesPublicPage() {
           <div className="text-center mb-16 max-w-3xl mx-auto">
             <span className="text-elite-gold text-sm font-semibold tracking-widest uppercase">Official Academy</span>
             <h1 className="font-display text-4xl md:text-6xl text-white mt-3 tracking-wider leading-tight">
-              DIGITAL ASSET <span className="gold-gradient-text">BOOTCAMP</span>
+              FOREX TRADING <span className="gold-gradient-text">MASTERCLASS</span>
             </h1>
             <p className="text-gray-400 mt-6 text-lg leading-relaxed">
-              This course provides real skills, clear understanding, and practical strategies for understanding, trading, and securing digital assets—all without the usual hype, scams, or confusion.
+              This course provides real skills, clear understanding, and practical strategies for analyzing, trading, and mastering forex markets—all without the usual hype, scams, or confusion.
             </p>
             <p className="text-elite-gold font-medium mt-4 text-sm">
               No prior technical knowledge or trading experience is necessary. Learn the right way and make informed financial decisions.
@@ -224,9 +232,9 @@ export default function CoursesPublicPage() {
         <ScrollReveal>
           <div className="max-w-4xl mx-auto mt-20 text-center">
             <div className="glass-card p-10 bg-gradient-to-br from-elite-gold/5 via-transparent to-elite-gold/5 border border-elite-gold/20">
-              <h2 className="font-display text-2xl md:text-3xl text-white tracking-wider mb-3">READY TO START YOUR CRYPTO JOURNEY?</h2>
+              <h2 className="font-display text-2xl md:text-3xl text-white tracking-wider mb-3">READY TO START YOUR FOREX TRADING JOURNEY?</h2>
               <p className="text-gray-400 text-sm max-w-xl mx-auto mb-8 leading-relaxed">
-                By the end of this course, you will move from complete beginner to confident digital asset user, able to independently analyze, transact, and invest safely in crypto markets.
+                By the end of this course, you will move from complete beginner to disciplined forex trader, able to independently analyze global charts, execute trades, and manage risk using the CRT model.
               </p>
               <button
                 onClick={handleAccessAction}
