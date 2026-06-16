@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { TrendingUp, TrendingDown, Filter, Search, Star, Clock, Target, Eye, X } from "lucide-react";
+import { TrendingUp, TrendingDown, Filter, Search, Star, Clock, Target, Eye, X, Link as LinkIcon } from "lucide-react";
 import { formatDate } from "@/lib/utils";
 
 interface Signal {
@@ -29,6 +29,24 @@ export default function DashboardSignals() {
   const [filter, setFilter] = useState("all");
   const [search, setSearch] = useState("");
   const [lightboxImage, setLightboxImage] = useState<string | null>(null);
+  const [highlightedId, setHighlightedId] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (signals.length > 0) {
+      const params = new URLSearchParams(window.location.search);
+      const targetId = params.get("id");
+      if (targetId) {
+        setHighlightedId(targetId);
+        // Scroll to the element after a small delay to allow animation
+        setTimeout(() => {
+          const element = document.getElementById(`signal-${targetId}`);
+          if (element) {
+            element.scrollIntoView({ behavior: "smooth", block: "center" });
+          }
+        }, 300);
+      }
+    }
+  }, [signals]);
 
   useEffect(() => {
     fetchSignals();
@@ -126,10 +144,15 @@ export default function DashboardSignals() {
           {filtered.map((signal, i) => (
             <motion.div
               key={signal._id}
+              id={`signal-${signal._id}`}
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: i * 0.05 }}
-              className="glass-card p-5 border-l-4 hover:border-l-elite-gold transition-all"
+              className={`glass-card p-5 border-l-4 hover:border-l-elite-gold transition-all duration-500 ${
+                highlightedId === signal._id
+                  ? "border-elite-gold shadow-[0_0_15px_rgba(212,175,55,0.35)] ring-1 ring-elite-gold/30"
+                  : "border-elite-border/30"
+              }`}
               style={{
                 borderLeftColor: signal.type === "BUY" ? "#00E676" : "#FF1744",
               }}
@@ -183,6 +206,18 @@ export default function DashboardSignals() {
                       {signal.pips >= 0 ? "+" : ""}{signal.pips} pips
                     </span>
                   )}
+                  <button
+                    onClick={() => {
+                      const url = `${window.location.origin}/dashboard/signals?id=${signal._id}`;
+                      navigator.clipboard.writeText(url)
+                        .then(() => alert("Signal share link copied to clipboard!"))
+                        .catch(() => {});
+                    }}
+                    className="text-gray-500 hover:text-white transition-colors"
+                    title="Copy signal share link"
+                  >
+                    <LinkIcon size={16} />
+                  </button>
                   <button className="text-gray-500 hover:text-elite-gold transition-colors">
                     <Star size={18} />
                   </button>

@@ -20,7 +20,9 @@ export default function LoginPage() {
 
     try {
       await login(formData.email, formData.password);
-      window.location.href = "/dashboard";
+      const searchParams = new URLSearchParams(window.location.search);
+      const redirect = searchParams.get("redirect") || "/dashboard";
+      window.location.href = redirect;
     } catch (err: any) {
       setError(err.message || "Invalid credentials");
     } finally {

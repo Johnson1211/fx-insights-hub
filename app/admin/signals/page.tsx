@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Plus, TrendingUp, TrendingDown, Trash2, X, Save, Pencil, ChevronDown,
+  Link as LinkIcon,
 } from "lucide-react";
 
 interface Signal {
@@ -151,9 +152,22 @@ export default function AdminSignals() {
         }),
       });
       if (res.ok) {
+        const data = await res.json();
+        const signalId = data.signal?._id;
         setShowForm(false);
         setFormData(emptyForm());
         fetchSignals();
+
+        if (signalId) {
+          const directUrl = `${window.location.origin}/dashboard/signals?id=${signalId}`;
+          navigator.clipboard.writeText(directUrl)
+            .then(() => {
+              alert(`Signal created successfully!\n\nDirect link copied to clipboard:\n${directUrl}`);
+            })
+            .catch(() => {
+              alert(`Signal created successfully! Direct Link:\n${directUrl}`);
+            });
+        }
       }
     } catch (error) {
       console.error("Failed to create signal:", error);
@@ -610,6 +624,18 @@ export default function AdminSignals() {
                   }`}>
                     {signal.status}{signal.result ? ` · ${signal.result}` : ""}
                   </span>
+                  <button
+                    onClick={() => {
+                      const url = `${window.location.origin}/dashboard/signals?id=${signal._id}`;
+                      navigator.clipboard.writeText(url)
+                        .then(() => alert("Direct signal link copied to clipboard!"))
+                        .catch(() => {});
+                    }}
+                    className="p-2 text-gray-500 hover:text-white transition-colors"
+                    title="Copy direct signal link"
+                  >
+                    <LinkIcon size={16} />
+                  </button>
                   <button
                     onClick={() => openEdit(signal)}
                     className="p-2 text-gray-500 hover:text-elite-gold transition-colors"
