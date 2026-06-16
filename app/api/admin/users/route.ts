@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
 import { verifyAccessToken } from "@/lib/auth";
 import { cookies } from "next/headers";
+import bcrypt from "bcryptjs";
 
 export const dynamic = "force-dynamic";
 
@@ -57,7 +58,7 @@ export async function PATCH(req: NextRequest) {
     const admin = await verifyAdmin(req);
     if (!admin) return NextResponse.json({ error: "Forbidden" }, { status: 403 });
 
-    const { userId, plan, role, brokerApproved, derivStatus } = await req.json();
+    const { userId, plan, role, brokerApproved, derivStatus, name, email, phone, derivId, isVerified, password: newPassword } = await req.json();
 
     // Fetch current user state before updating (to detect state changes)
     const currentUser = await prisma.user.findUnique({
@@ -65,11 +66,70 @@ export async function PATCH(req: NextRequest) {
       select: { brokerApproved: true, derivStatus: true, name: true },
     });
 
+    if (!currentUser) {
+      return NextResponse.json({ error: "User not found" }, { status: 404 });
+    }
+
+    // Protect self-demotion
+    if (userId === admin.userId && role && role !== "admin") {
+      return NextResponse.json({ error: "You cannot demote your own admin account role" }, { status: 400 });
+    }
+
     const update: any = {};
     if (plan) update.plan = plan as any;
     if (role) update.role = role as any;
     if (brokerApproved !== undefined) update.brokerApproved = brokerApproved;
     if (derivStatus !== undefined) update.derivStatus = derivStatus;
+    if (name) update.name = name.trim();
+    
+    if (email) {
+      const trimmedEmail = email.trim().toLowerCase();
+      // Check for duplication
+      const duplicate = await prisma.user.findFirst({
+        where: {
+          email: trimmedEmail,
+          NOT: { id: userId }
+        }
+      });
+      if (duplicate) {
+        return NextResponse.json({ error: "Email is already registered to another user" }, { status: 400 });
+      }
+      update.email = trimmedEmail;
+    }
+    
+    if (phone !== undefined) {
+      update.phone = phone ? phone.trim() : null;
+    }
+
+    if (derivId !== undefined) {
+      const trimmedDeriv = derivId ? derivId.trim() : null;
+      if (trimmedDeriv) {
+        // Check for duplication
+        const duplicateDeriv = await prisma.user.findFirst({
+          where: {
+            derivId: trimmedDeriv,
+            NOT: { id: userId }
+          }
+        });
+        if (duplicateDeriv) {
+          return NextResponse.json({ error: "Deriv ID is already associated with another user" }, { status: 400 });
+        }
+        update.derivId = trimmedDeriv;
+      } else {
+        update.derivId = null;
+      }
+    }
+
+    if (isVerified !== undefined) {
+      update.isVerified = !!isVerified;
+    }
+
+    if (newPassword) {
+      if (newPassword.length < 6) {
+        return NextResponse.json({ error: "Password must be at least 6 characters long" }, { status: 400 });
+      }
+      update.password = await bcrypt.hash(newPassword, 12);
+    }
 
     const dbUser = await prisma.user.update({
       where: { id: userId },
@@ -122,6 +182,33 @@ export async function PATCH(req: NextRequest) {
     return NextResponse.json({ user: { ...userWithoutPassword, _id: dbUser.id } });
   } catch (error: any) {
     console.error("Admin update error:", error);
+    return NextResponse.json({ error: "Internal server error" }, { status: 500 });
+  }
+}
+
+export async function DELETE(req: NextRequest) {
+  try {
+    const admin = await verifyAdmin(req);
+    if (!admin) return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+
+    const { searchParams } = new URL(req.url);
+    const id = searchParams.get("id");
+
+    if (!id) {
+      return NextResponse.json({ error: "User ID is required" }, { status: 400 });
+    }
+
+    if (id === admin.userId) {
+      return NextResponse.json({ error: "You cannot delete your own admin account" }, { status: 400 });
+    }
+
+    await prisma.user.delete({
+      where: { id },
+    });
+
+    return NextResponse.json({ message: "User deleted successfully" });
+  } catch (error: any) {
+    console.error("Admin delete user error:", error);
     return NextResponse.json({ error: "Internal server error" }, { status: 500 });
   }
 }
