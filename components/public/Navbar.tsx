@@ -164,12 +164,8 @@ export function Navbar() {
         initial={{ y: -100 }}
         animate={{ y: 0 }}
         transition={{ duration: 0.6, ease: "easeOut" }}
-        className={`fixed left-0 right-0 z-40 transition-all duration-300 ${
+        className={`fixed left-0 right-0 z-40 transition-all duration-300 bg-elite-bg border-b border-elite-border/50 shadow-sm ${
           showBanner && pinnedNotif ? "top-9 sm:top-10" : "top-0"
-        } ${
-          isScrolled
-            ? "bg-elite-bg/90 backdrop-blur-xl border-b border-elite-border/50 shadow-lg shadow-black/20"
-            : "bg-transparent"
         }`}
       >
         <div className="section-padding mx-auto">
@@ -177,7 +173,7 @@ export function Navbar() {
             {/* Logo */}
             <Link href="/" className="flex items-center gap-2 group">
               <img src="/images/logo.jpg" alt="FX" className="w-8 h-8 rounded-lg object-cover" />
-              <span className="font-bold text-xl tracking-wider text-white group-hover:text-elite-gold transition-colors">
+              <span className="font-bold text-xl tracking-wider text-gray-100 group-hover:text-elite-gold transition-colors">
                 Fx Insights <span className="text-elite-gold">Hub</span>
               </span>
             </Link>
@@ -191,7 +187,7 @@ export function Navbar() {
                   className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 ${
                     isActive(link.href)
                       ? "text-elite-gold bg-elite-gold/10"
-                      : "text-gray-400 hover:text-white hover:bg-white/5"
+                      : "text-gray-400 hover:text-gray-100 hover:bg-elite-surface"
                   }`}
                 >
                   {link.label}
@@ -207,7 +203,7 @@ export function Navbar() {
                     <button
                       onClick={handleToggleNotifications}
                       className={`relative p-2 rounded-lg transition-colors ${
-                        notificationsOpen ? "text-elite-gold bg-white/5" : "text-gray-400 hover:text-white"
+                        notificationsOpen ? "text-elite-gold bg-elite-surface" : "text-gray-400 hover:text-gray-100"
                       }`}
                     >
                       <Bell size={20} />
@@ -276,7 +272,7 @@ export function Navbar() {
                   <div className="relative">
                     <button
                       onClick={() => setProfileOpen(!profileOpen)}
-                      className="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-white/5 transition-colors"
+                      className="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-elite-surface transition-colors"
                     >
                       <div className="w-8 h-8 rounded-full bg-gradient-to-br from-elite-gold/30 to-blue-600/30 border border-elite-gold/30 flex items-center justify-center">
                         <User size={16} className="text-elite-gold" />
@@ -347,7 +343,7 @@ export function Navbar() {
                 </div>
               ) : (
                 <div className="hidden md:flex items-center gap-3">
-                  <Link href="/login" className="text-sm font-medium text-gray-300 hover:text-white transition-colors">
+                  <Link href="/login" className="text-sm font-medium text-gray-400 hover:text-gray-100 transition-colors">
                     Sign In
                   </Link>
                   <Link href="/register" className="btn-primary text-sm">
