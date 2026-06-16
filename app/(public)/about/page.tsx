@@ -24,7 +24,7 @@ export default function AboutPage() {
     totalLessons: 10,
     winRate: 87,
     yearsExperience: 8,
-    countriesReached: 50,
+    countriesReached: 16,
   });
 
   useEffect(() => {
@@ -37,7 +37,7 @@ export default function AboutPage() {
             totalLessons: data.totalLessons ?? 10,
             winRate: data.winRate ?? 87,
             yearsExperience: data.yearsExperience ?? 8,
-            countriesReached: data.countriesReached ?? 50,
+            countriesReached: data.countriesReached ?? 16,
           });
         }
       } catch (err) {

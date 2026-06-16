@@ -60,7 +60,7 @@ export async function GET(req: NextRequest) {
         }
       }
     });
-    const countriesCount = countries.size > 0 ? countries.size : 1;
+    const countriesCount = Math.max(16, countries.size);
 
     return NextResponse.json({
       winRate,
