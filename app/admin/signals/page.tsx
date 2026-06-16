@@ -214,14 +214,15 @@ export default function AdminSignals() {
     <>
       {/* Row 1: Pair / Type / Timeframe */}
       <div>
-        <label className="block text-sm text-gray-400 mb-2">Currency Pair</label>
-        <select
+        <label className="block text-sm text-gray-400 mb-2">Currency Pair / Asset</label>
+        <input
+          type="text"
+          required
           value={data.pair}
           onChange={(e) => set({ ...data, pair: e.target.value })}
           className="input-field"
-        >
-          {PAIRS.map((p) => <option key={p} value={p}>{p}</option>)}
-        </select>
+          placeholder="e.g. EUR/USD, GBP/JPY, V75"
+        />
       </div>
 
       <div>
