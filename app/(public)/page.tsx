@@ -72,157 +72,6 @@ const faqs = [
 
 const SUPABASE_MEDIA = "https://jvxmtsmslyokplooyfwz.supabase.co/storage/v1/object/public/media";
 
-function TradingVisualPanel() {
-  // Animated candlestick data — static values that feel alive via CSS
-  const candles = [
-    { open: 48, close: 72, high: 80, low: 40, bull: true },
-    { open: 72, close: 60, high: 78, low: 52, bull: false },
-    { open: 60, close: 85, high: 92, low: 55, bull: true },
-    { open: 85, close: 70, high: 90, low: 62, bull: false },
-    { open: 70, close: 90, high: 98, low: 65, bull: true },
-    { open: 90, close: 78, high: 96, low: 70, bull: false },
-    { open: 78, close: 95, high: 100, low: 72, bull: true },
-    { open: 95, close: 82, high: 100, low: 75, bull: false },
-    { open: 82, close: 105, high: 110, low: 78, bull: true },
-    { open: 105, close: 92, high: 112, low: 88, bull: false },
-    { open: 92, close: 115, high: 120, low: 86, bull: true },
-    { open: 115, close: 100, high: 122, low: 95, bull: false },
-  ];
-
-  const pairs = [
-    { pair: "EUR/USD", price: "1.08420", change: "+0.42%", bull: true },
-    { pair: "GBP/USD", price: "1.27315", change: "-0.18%", bull: false },
-    { pair: "USD/JPY", price: "149.820", change: "+0.63%", bull: true },
-    { pair: "XAU/USD", price: "2,318.4", change: "+1.12%", bull: true },
-  ];
-
-  return (
-    <div className="relative w-full h-full flex flex-col gap-4">
-      {/* Main Chart Panel */}
-      <div className="relative rounded-2xl overflow-hidden border border-elite-gold/15 bg-[#050c18] shadow-2xl">
-        {/* Panel Header */}
-        <div className="flex items-center justify-between px-4 py-3 border-b border-white/5 bg-white/[0.02]">
-          <div className="flex items-center gap-2">
-            <div className="w-2 h-2 rounded-full bg-elite-green animate-pulse" />
-            <span className="text-[11px] font-bold text-gray-300 tracking-widest">EUR/USD · H4 · LIVE</span>
-          </div>
-          <div className="flex items-center gap-3">
-            <span className="text-elite-gold font-display text-sm font-bold">1.08420</span>
-            <span className="text-[10px] text-elite-green font-semibold bg-elite-green/10 border border-elite-green/20 px-2 py-0.5 rounded-full">▲ +42 pips</span>
-          </div>
-        </div>
-
-        {/* Candlestick Chart */}
-        <div className="relative px-3 pt-3 pb-1">
-          {/* Y-axis labels */}
-          <div className="absolute left-2 top-3 bottom-6 flex flex-col justify-between pointer-events-none">
-            {["1.0860", "1.0840", "1.0820", "1.0800"].map((label) => (
-              <span key={label} className="text-[9px] text-gray-600 font-mono">{label}</span>
-            ))}
-          </div>
-
-          {/* Horizontal grid lines */}
-          <div className="absolute inset-x-6 top-3 bottom-6 flex flex-col justify-between pointer-events-none">
-            {[0,1,2,3].map((i) => (
-              <div key={i} className="border-t border-white/[0.04]" />
-            ))}
-          </div>
-
-          <svg viewBox="0 0 360 130" className="w-full h-36 pl-6" preserveAspectRatio="none">
-            {/* Area fill under line */}
-            <defs>
-              <linearGradient id="areaFill" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" stopColor="#c5a880" stopOpacity="0.15" />
-                <stop offset="100%" stopColor="#c5a880" stopOpacity="0" />
-              </linearGradient>
-            </defs>
-
-            {/* Candlestick bars */}
-            {candles.map((c, i) => {
-              const x = 8 + i * 29;
-              const bodyTop = 130 - Math.max(c.open, c.close);
-              const bodyH = Math.abs(c.close - c.open);
-              return (
-                <g key={i}>
-                  {/* Wick */}
-                  <line
-                    x1={x + 7} y1={130 - c.high}
-                    x2={x + 7} y2={130 - c.low}
-                    stroke={c.bull ? "#10b981" : "#ef4444"}
-                    strokeWidth="1.5"
-                    opacity="0.6"
-                  />
-                  {/* Body */}
-                  <rect
-                    x={x} y={bodyTop}
-                    width={14} height={Math.max(bodyH, 2)}
-                    fill={c.bull ? "#10b981" : "#ef4444"}
-                    opacity="0.85"
-                    rx="1"
-                  />
-                </g>
-              );
-            })}
-          </svg>
-
-          {/* X-axis time labels */}
-          <div className="flex justify-between px-6 pb-2 mt-1">
-            {["08:00","10:00","12:00","14:00","16:00","18:00"].map((t) => (
-              <span key={t} className="text-[9px] text-gray-600 font-mono">{t}</span>
-            ))}
-          </div>
-        </div>
-
-        {/* Glowing active signal marker */}
-        <div className="mx-4 mb-4 p-3 rounded-xl bg-elite-green/5 border border-elite-green/20 flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded-lg bg-elite-green/15 border border-elite-green/25 flex items-center justify-center">
-              <TrendingUp size={14} className="text-elite-green" />
-            </div>
-            <div>
-              <p className="text-[10px] text-gray-500 uppercase tracking-wider">Active Signal</p>
-              <p className="text-white text-xs font-semibold">EUR/USD — BUY @ 1.08360</p>
-            </div>
-          </div>
-          <div className="text-right">
-            <p className="text-elite-green font-bold text-sm">+60 pips</p>
-            <p className="text-[9px] text-gray-500">TP: 1.09000</p>
-          </div>
-        </div>
-      </div>
-
-      {/* Currency Pair Watch-list */}
-      <div className="rounded-2xl border border-white/5 bg-[#050c18]/80 backdrop-blur-sm overflow-hidden">
-        <div className="px-4 py-2.5 border-b border-white/5">
-          <span className="text-[10px] font-bold text-gray-500 tracking-widest uppercase">Market Watch</span>
-        </div>
-        <div className="divide-y divide-white/[0.04]">
-          {pairs.map((p) => (
-            <motion.div
-              key={p.pair}
-              initial={{ opacity: 0, x: 10 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: 0.2 }}
-              className="flex items-center justify-between px-4 py-2.5 hover:bg-white/[0.02] transition-colors"
-            >
-              <div className="flex items-center gap-3">
-                <div className={`w-1.5 h-6 rounded-full ${p.bull ? "bg-elite-green" : "bg-elite-red"}`} />
-                <span className="text-white text-xs font-bold font-mono tracking-wider">{p.pair}</span>
-              </div>
-              <div className="text-right">
-                <p className="text-white text-xs font-mono font-semibold">{p.price}</p>
-                <p className={`text-[10px] font-semibold ${p.bull ? "text-elite-green" : "text-elite-red"}`}>{p.change}</p>
-              </div>
-            </motion.div>
-          ))}
-        </div>
-      </div>
-    </div>
-  );
-}
-
-
-
 
 export default function HomePage() {
   const [openFaq, setOpenFaq] = useState<number | null>(null);
@@ -265,7 +114,6 @@ export default function HomePage() {
 
   return (
     <div className="min-h-screen">
-      {/* Hero Section */}
       <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-[#050c18]">
         {/* Looping Video Background */}
         <div className="absolute inset-0 z-0">
@@ -275,16 +123,16 @@ export default function HomePage() {
             muted
             playsInline
             className="w-full h-full object-cover opacity-60"
-            src="https://player.vimeo.com/external/371433846.sd.mp4?s=236da2f3c02c00a6e5f1d9990e9cc4e3b7c7be0c&profile_id=139&oauth2_token_id=57447761"
+            src="https://assets.mixkit.co/videos/preview/mixkit-stock-market-quotes-on-a-digital-screen-28771-large.mp4"
           />
           {/* Dark overlay with fade-out at bottom to blend with next section */}
           <div className="absolute inset-0 bg-gradient-to-b from-[#050c18]/90 via-[#050c18]/70 to-[#F8FAFC]" />
         </div>
 
         <div className="relative z-10 section-padding max-w-7xl mx-auto pt-28 lg:pt-32 w-full">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-            {/* Left Column (Hero Content) */}
-            <div className="lg:col-span-7 space-y-6 text-left flex flex-col items-start">
+          <div className="flex flex-col items-center justify-center text-center max-w-4xl mx-auto">
+            {/* Centered Hero Content */}
+            <div className="space-y-6 flex flex-col items-center text-center">
               <motion.div
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -300,7 +148,7 @@ export default function HomePage() {
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 0.2 }}
-                className="font-display text-4xl sm:text-5xl md:text-6xl lg:text-7xl text-[#F8FAFC] leading-none tracking-wider uppercase"
+                className="font-display text-4xl sm:text-5xl md:text-6xl lg:text-7xl text-[#F8FAFC] leading-none tracking-wider uppercase text-center"
               >
                 MASTER <span className="bg-gradient-to-r from-amber-400 via-yellow-300 to-amber-500 bg-clip-text text-transparent">FOREX</span>
                 <br />
@@ -312,7 +160,7 @@ export default function HomePage() {
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 0.4 }}
-                className="text-base md:text-lg text-[#E2E8F0] max-w-xl leading-relaxed"
+                className="text-base md:text-lg text-[#E2E8F0] max-w-2xl mx-auto leading-relaxed text-center"
               >
                 Join the elite community of profitable forex traders at Fx Insights Hub. Get professional signals, live coaching, and copy trading that actually works.
               </motion.p>
@@ -321,7 +169,7 @@ export default function HomePage() {
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 0.6 }}
-                className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto items-center"
+                className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto items-center justify-center"
               >
                 <Link href="/register" className="btn-primary text-base px-8 py-3.5 w-full sm:w-auto text-center flex items-center justify-center">
                   Start Trading Now
@@ -340,7 +188,7 @@ export default function HomePage() {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ duration: 1, delay: 1 }}
-                className="mt-8 flex flex-wrap gap-6 text-[#CBD5E1] text-xs font-semibold"
+                className="mt-8 flex flex-wrap gap-6 justify-center text-[#CBD5E1] text-xs font-semibold"
               >
                 <div className="flex items-center gap-2">
                   <Shield size={14} className="text-elite-green" />
@@ -356,16 +204,6 @@ export default function HomePage() {
                 </div>
               </motion.div>
             </div>
-
-            {/* Right Column — Trading Visual Panel */}
-            <motion.div
-              initial={{ opacity: 0, x: 40 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.9, delay: 0.5 }}
-              className="lg:col-span-5 w-full relative"
-            >
-              <TradingVisualPanel />
-            </motion.div>
           </div>
         </div>
 
