@@ -126,21 +126,21 @@ export default function HomePage() {
             src="/Videos_images/hero-bg.mp4"
           />
           {/* Dark overlay with fade-out at bottom to blend with next section */}
-          <div className="absolute inset-0 bg-gradient-to-b from-[#050c18]/65 via-[#050c18]/35 to-[#F8FAFC]/50" />
+          <div className="absolute inset-0 bg-gradient-to-b from-[#050c18]/75 via-[#050c18]/55 to-[#F8FAFC]/50" />
         </div>
 
         <div className="relative z-10 section-padding max-w-7xl mx-auto pt-28 lg:pt-32 w-full">
           <div className="flex flex-col items-center justify-center text-center max-w-4xl mx-auto">
-            {/* Centered Hero Content */}
-            <div className="space-y-6 flex flex-col items-center text-center">
+            {/* Centered Glass Container Card for maximum contrast over video */}
+            <div className="bg-[#050c18]/80 backdrop-blur-xl px-6 py-10 sm:p-12 rounded-3xl border border-white/15 shadow-[0_25px_60px_rgba(0,0,0,0.85)] w-full max-w-3xl mx-auto flex flex-col items-center text-center space-y-6">
               <motion.div
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8 }}
               >
-                <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-amber-500/10 border border-amber-500/30">
+                <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-amber-500/20 border border-amber-500/40 shadow-sm">
                   <span className="w-2 h-2 rounded-full bg-elite-green animate-pulse" />
-                  <span className="text-sm text-amber-400 font-medium">Live Signals Active Now</span>
+                  <span className="text-sm text-amber-300 font-semibold">Live Signals Active Now</span>
                 </div>
               </motion.div>
 
@@ -148,11 +148,12 @@ export default function HomePage() {
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 0.2 }}
-                className="font-display text-4xl sm:text-5xl md:text-6xl lg:text-7xl text-[#F8FAFC] leading-none tracking-wider uppercase text-center"
+                className="font-display font-extrabold text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl text-[#F8FAFC] leading-none tracking-widest uppercase text-center"
+                style={{ textShadow: "0 4px 24px rgba(0, 0, 0, 1), 0 2px 6px rgba(0, 0, 0, 1), 0 0 10px rgba(0, 0, 0, 0.8)" }}
               >
                 MASTER <span className="bg-gradient-to-r from-amber-400 via-yellow-300 to-amber-500 bg-clip-text text-transparent">FOREX</span>
                 <br />
-                <span className="text-[#94A3B8]">TRADING WITH</span>{" "}
+                <span className="text-[#F8FAFC]">TRADING WITH</span>{" "}
                 <span className="bg-gradient-to-r from-amber-400 via-yellow-300 to-amber-500 bg-clip-text text-transparent">PRECISION</span>
               </motion.h1>
 
@@ -160,7 +161,8 @@ export default function HomePage() {
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 0.4 }}
-                className="text-base md:text-lg text-[#E2E8F0] max-w-2xl mx-auto leading-relaxed text-center"
+                className="text-base md:text-lg text-[#F8FAFC] max-w-2xl mx-auto leading-relaxed text-center font-bold"
+                style={{ textShadow: "0 2px 10px rgba(0, 0, 0, 1), 0 0 15px rgba(0, 0, 0, 0.9)" }}
               >
                 Join the elite community of profitable forex traders at Fx Insights Hub. Get professional signals, live coaching, and copy trading that actually works.
               </motion.p>
@@ -188,18 +190,18 @@ export default function HomePage() {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ duration: 1, delay: 1 }}
-                className="mt-8 flex flex-wrap gap-6 justify-center text-[#CBD5E1] text-xs font-semibold"
+                className="mt-8 flex flex-wrap gap-4 justify-center text-[#F8FAFC] text-xs font-bold"
               >
-                <div className="flex items-center gap-2">
-                  <Shield size={14} className="text-elite-green" />
+                <div className="flex items-center gap-2 px-3.5 py-2 rounded-full bg-black/45 border border-white/10 shadow-md backdrop-blur-sm hover:border-white/20 transition-colors duration-300">
+                  <Shield size={14} className="text-elite-green filter drop-shadow-[0_1px_3px_rgba(0,0,0,0.8)]" />
                   <span>Secure Platform</span>
                 </div>
-                <div className="flex items-center gap-2">
-                  <BookOpen size={14} className="text-elite-green" />
+                <div className="flex items-center gap-2 px-3.5 py-2 rounded-full bg-black/45 border border-white/10 shadow-md backdrop-blur-sm hover:border-white/20 transition-colors duration-300">
+                  <BookOpen size={14} className="text-elite-green filter drop-shadow-[0_1px_3px_rgba(0,0,0,0.8)]" />
                   <span>{statsData.totalLessons} Lessons Available</span>
                 </div>
-                <div className="flex items-center gap-2">
-                  <TrendingUp size={14} className="text-amber-400" />
+                <div className="flex items-center gap-2 px-3.5 py-2 rounded-full bg-black/45 border border-white/10 shadow-md backdrop-blur-sm hover:border-white/20 transition-colors duration-300">
+                  <TrendingUp size={14} className="text-amber-400 filter drop-shadow-[0_1px_3px_rgba(0,0,0,0.8)]" />
                   <span>{statsData.winRate}% Verified Win Rate</span>
                 </div>
               </motion.div>

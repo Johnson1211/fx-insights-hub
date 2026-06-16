@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useAuth } from "@/hooks/useAuth";
@@ -32,6 +32,28 @@ export function Navbar() {
   const [profileOpen, setProfileOpen] = useState(false);
   const pathname = usePathname();
   const { user, logout } = useAuth();
+
+  const notifRef = useRef<HTMLDivElement>(null);
+  const profileRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    function handleClickOutside(event: Event) {
+      if (notifRef.current && !notifRef.current.contains(event.target as Node)) {
+        setNotificationsOpen(false);
+      }
+      if (profileRef.current && !profileRef.current.contains(event.target as Node)) {
+        setProfileOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    document.addEventListener("touchstart", handleClickOutside);
+    document.addEventListener("pointerdown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener("touchstart", handleClickOutside);
+      document.removeEventListener("pointerdown", handleClickOutside);
+    };
+  }, []);
 
   // Notification States
   const [notifications, setNotifications] = useState<NotificationItem[]>([]);
@@ -92,12 +114,25 @@ export function Navbar() {
 
   const handleToggleNotifications = () => {
     setNotificationsOpen(!notificationsOpen);
+    if (!notificationsOpen) {
+      setMobileOpen(false);
+      setProfileOpen(false);
+    }
     if (!notificationsOpen && notifications.length > 0) {
       // Mark all current notifications as read
       const currentIds = notifications.map((n) => n.id);
       const newReadIds = Array.from(new Set([...readIds, ...currentIds]));
       setReadIds(newReadIds);
       localStorage.setItem("read_notification_ids", JSON.stringify(newReadIds));
+    }
+  };
+
+  const handleToggleMobileMenu = () => {
+    const nextState = !mobileOpen;
+    setMobileOpen(nextState);
+    if (nextState) {
+      setNotificationsOpen(false);
+      setProfileOpen(false);
     }
   };
 
@@ -199,7 +234,7 @@ export function Navbar() {
             <div className="flex items-center gap-3">
               {user ? (
                 <div className="flex items-center gap-3">
-                  <div className="relative">
+                  <div className="relative" ref={notifRef}>
                     <button
                       onClick={handleToggleNotifications}
                       className={`relative p-2 rounded-lg transition-colors ${
@@ -221,7 +256,7 @@ export function Navbar() {
                           animate={{ opacity: 1, y: 0, scale: 1 }}
                           exit={{ opacity: 0, y: 10, scale: 0.95 }}
                           transition={{ duration: 0.2 }}
-                          className="absolute right-0 mt-2 w-80 glass-card overflow-hidden shadow-2xl border border-elite-border/50 max-h-96 flex flex-col z-50"
+                          className="absolute right-[-80px] sm:right-0 mt-2 w-[85vw] max-w-[320px] sm:w-80 glass-card overflow-hidden shadow-2xl border border-elite-border/50 max-h-96 flex flex-col z-50"
                         >
                           <div className="p-3 border-b border-elite-border/50 bg-white/[0.02] flex items-center justify-between">
                             <span className="text-xs font-semibold text-white tracking-wider">ANNOUNCEMENTS</span>
@@ -269,7 +304,7 @@ export function Navbar() {
                     </AnimatePresence>
                   </div>
 
-                  <div className="relative">
+                  <div className="relative" ref={profileRef}>
                     <button
                       onClick={() => setProfileOpen(!profileOpen)}
                       className="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-elite-surface transition-colors"
@@ -354,7 +389,7 @@ export function Navbar() {
 
               {/* Mobile Menu Button */}
               <button
-                onClick={() => setMobileOpen(!mobileOpen)}
+                onClick={handleToggleMobileMenu}
                 className="lg:hidden p-2 text-gray-300 hover:text-white"
               >
                 {mobileOpen ? <X size={24} /> : <Menu size={24} />}
@@ -367,49 +402,74 @@ export function Navbar() {
       {/* Mobile Menu */}
       <AnimatePresence>
         {mobileOpen && (
-          <motion.div
-            initial={{ opacity: 0, x: "100%" }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: "100%" }}
-            transition={{ type: "spring", damping: 25, stiffness: 200 }}
-            className="fixed inset-0 z-40 bg-elite-bg/98 backdrop-blur-xl lg:hidden"
-          >
-            <div className="flex flex-col items-center justify-center h-full gap-6">
-              {navLinks.map((link, i) => (
-                <motion.div
-                  key={link.href}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: i * 0.1 }}
+          <>
+            {/* Backdrop overlay */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setMobileOpen(false)}
+              className="fixed inset-0 z-40 bg-black/50 lg:hidden"
+            />
+            {/* Sidebar menu panel */}
+            <motion.div
+              initial={{ x: "100%" }}
+              animate={{ x: 0 }}
+              exit={{ x: "100%" }}
+              transition={{ type: "tween", duration: 0.3 }}
+              className="fixed top-0 right-0 bottom-0 w-[50%] z-50 border-l border-elite-border shadow-2xl p-6 flex flex-col gap-6 lg:hidden"
+              style={{ backgroundColor: "#ffffff" }}
+            >
+              {/* Sidebar Header */}
+              <div className="flex items-center justify-between pb-4 border-b border-elite-border">
+                <span className="font-bold text-lg text-gray-100 tracking-wider">Navigation</span>
+                <button
+                  onClick={() => setMobileOpen(false)}
+                  className="p-1 rounded-lg text-gray-400 hover:text-gray-100 hover:bg-elite-surface transition-colors"
                 >
+                  <X size={20} />
+                </button>
+              </div>
+
+              {/* Sidebar Links */}
+              <div className="flex flex-col gap-4">
+                {navLinks.map((link) => (
                   <Link
+                    key={link.href}
                     href={link.href}
                     onClick={() => setMobileOpen(false)}
-                    className={`text-2xl font-display tracking-wider ${
-                      isActive(link.href) ? "text-elite-gold" : "text-gray-300"
+                    className={`text-lg font-medium py-1.5 transition-all duration-300 ${
+                      isActive(link.href)
+                        ? "text-elite-gold font-bold pl-2 border-l-2 border-elite-gold"
+                        : "text-gray-400 hover:text-gray-100 pl-0"
                     }`}
                   >
                     {link.label}
                   </Link>
-                </motion.div>
-              ))}
+                ))}
+              </div>
+
+              {/* Sidebar CTA (For guest users) */}
               {!user && (
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.5 }}
-                  className="flex flex-col gap-3 mt-4"
-                >
-                  <Link href="/login" onClick={() => setMobileOpen(false)} className="text-lg text-gray-300">
+                <div className="flex flex-col gap-3 mt-auto pt-6 border-t border-elite-border">
+                  <Link
+                    href="/login"
+                    onClick={() => setMobileOpen(false)}
+                    className="text-center text-sm font-medium text-gray-400 hover:text-gray-100 py-2.5 rounded-lg border border-elite-border hover:bg-elite-surface transition-all duration-300"
+                  >
                     Sign In
                   </Link>
-                  <Link href="/register" onClick={() => setMobileOpen(false)} className="btn-primary">
+                  <Link
+                    href="/register"
+                    onClick={() => setMobileOpen(false)}
+                    className="btn-primary text-center text-sm py-2.5"
+                  >
                     Get Started
                   </Link>
-                </motion.div>
+                </div>
               )}
-            </div>
-          </motion.div>
+            </motion.div>
+          </>
         )}
       </AnimatePresence>
     </>
