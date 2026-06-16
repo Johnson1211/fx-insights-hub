@@ -151,10 +151,10 @@ export default function HomePage() {
                 className="font-display font-extrabold text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl text-[#F8FAFC] leading-none tracking-widest uppercase text-center"
                 style={{ textShadow: "0 4px 24px rgba(0, 0, 0, 1), 0 2px 6px rgba(0, 0, 0, 1), 0 0 10px rgba(0, 0, 0, 0.8)" }}
               >
-                MASTER <span className="bg-gradient-to-r from-amber-400 via-yellow-300 to-amber-500 bg-clip-text text-transparent">FOREX</span>
+                MASTER <span className="text-amber-400">FOREX</span>
                 <br />
                 <span className="text-[#F8FAFC]">TRADING WITH</span>{" "}
-                <span className="bg-gradient-to-r from-amber-400 via-yellow-300 to-amber-500 bg-clip-text text-transparent">PRECISION</span>
+                <span className="text-amber-400">PRECISION</span>
               </motion.h1>
 
               <motion.p
