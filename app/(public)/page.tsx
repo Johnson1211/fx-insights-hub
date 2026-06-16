@@ -123,7 +123,7 @@ export default function HomePage() {
             muted
             playsInline
             className="w-full h-full object-cover opacity-60"
-            src="https://assets.mixkit.co/videos/preview/mixkit-stock-market-quotes-on-a-digital-screen-28771-large.mp4"
+            src="/Videos_images/hero-bg.mp4"
           />
           {/* Dark overlay with fade-out at bottom to blend with next section */}
           <div className="absolute inset-0 bg-gradient-to-b from-[#050c18]/90 via-[#050c18]/70 to-[#F8FAFC]" />
