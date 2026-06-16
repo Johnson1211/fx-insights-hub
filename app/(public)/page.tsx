@@ -122,11 +122,11 @@ export default function HomePage() {
             loop
             muted
             playsInline
-            className="w-full h-full object-cover opacity-60"
+            className="w-full h-full object-cover opacity-80"
             src="/Videos_images/hero-bg.mp4"
           />
           {/* Dark overlay with fade-out at bottom to blend with next section */}
-          <div className="absolute inset-0 bg-gradient-to-b from-[#050c18]/90 via-[#050c18]/70 to-[#F8FAFC]" />
+          <div className="absolute inset-0 bg-gradient-to-b from-[#050c18]/65 via-[#050c18]/35 to-[#F8FAFC]/50" />
         </div>
 
         <div className="relative z-10 section-padding max-w-7xl mx-auto pt-28 lg:pt-32 w-full">
