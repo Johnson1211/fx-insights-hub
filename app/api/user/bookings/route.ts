@@ -121,3 +121,124 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "Internal server error" }, { status: 500 });
   }
 }
+
+export async function PATCH(req: NextRequest) {
+  try {
+    const auth = await getAuthUser();
+    if (!auth) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+
+    const body = await req.json();
+    const { bookingId, preferredDate, notes } = body;
+
+    if (!bookingId) {
+      return NextResponse.json({ error: "Booking ID is required" }, { status: 400 });
+    }
+
+    const existing = await prisma.booking.findUnique({
+      where: { id: bookingId },
+    });
+
+    if (!existing || existing.userId !== auth.userId) {
+      return NextResponse.json({ error: "Booking not found or access denied" }, { status: 404 });
+    }
+
+    const updateData: any = {
+      status: "pending", // Reset status back to pending for admin re-evaluation
+    };
+    if (preferredDate) updateData.preferredDate = new Date(preferredDate);
+    if (notes !== undefined) updateData.notes = notes;
+
+    const updated = await prisma.booking.update({
+      where: { id: bookingId },
+      data: updateData,
+    });
+
+    // Notify administrator about the change
+    try {
+      const adminEmail = process.env.SMTP_USER || "admin@fxelite.pro";
+      const subject = `Training Request Modified by User`;
+      const html = `
+        <div style="font-family: sans-serif; max-width: 600px; margin: auto; padding: 20px; border: 1px solid #1a1a1a; border-radius: 12px; background-color: #0b0c10; color: #ffffff;">
+          <h2 style="color: #d4af37; border-bottom: 1px solid #d4af37; padding-bottom: 10px;">Training Booking Modified</h2>
+          <p>A student has updated their training request details on FXElite Pro.</p>
+          <table style="width: 100%; border-collapse: collapse; margin-top: 15px;">
+            <tr>
+              <td style="padding: 8px 0; font-weight: bold; color: #a9a9a9; width: 180px;">Booking ID:</td>
+              <td style="padding: 8px 0; color: #ffffff;">${bookingId}</td>
+            </tr>
+            <tr>
+              <td style="padding: 8px 0; font-weight: bold; color: #a9a9a9;">New Date & Time:</td>
+              <td style="padding: 8px 0; color: #ffffff;">${new Date(updated.preferredDate).toLocaleString()}</td>
+            </tr>
+            <tr>
+              <td style="padding: 8px 0; font-weight: bold; color: #a9a9a9; vertical-align: top;">New Notes:</td>
+              <td style="padding: 8px 0; color: #ffffff;">"${updated.notes || "None"}"</td>
+            </tr>
+          </table>
+          <p style="margin-top: 25px; border-top: 1px solid #1a1a1a; padding-top: 15px; font-size: 11px; color: #666666;">
+            Please check the Admin panel to review and approve this reschedule request.
+          </p>
+        </div>
+      `;
+      sendMail({ to: adminEmail, subject, html }).catch((err) =>
+        console.error("SMTP async call error:", err)
+      );
+    } catch (mailErr) {
+      console.error(mailErr);
+    }
+
+    return NextResponse.json({ booking: updated });
+  } catch (error: any) {
+    console.error("User bookings PATCH error:", error);
+    return NextResponse.json({ error: "Internal server error" }, { status: 500 });
+  }
+}
+
+export async function DELETE(req: NextRequest) {
+  try {
+    const auth = await getAuthUser();
+    if (!auth) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+
+    const { searchParams } = new URL(req.url);
+    const bookingId = searchParams.get("bookingId");
+
+    if (!bookingId) {
+      return NextResponse.json({ error: "Booking ID is required" }, { status: 400 });
+    }
+
+    const existing = await prisma.booking.findUnique({
+      where: { id: bookingId },
+    });
+
+    if (!existing || existing.userId !== auth.userId) {
+      return NextResponse.json({ error: "Booking not found or access denied" }, { status: 404 });
+    }
+
+    await prisma.booking.delete({
+      where: { id: bookingId },
+    });
+
+    // Notify administrator about deletion
+    try {
+      const adminEmail = process.env.SMTP_USER || "admin@fxelite.pro";
+      const subject = `Training Request Cancelled by User`;
+      const html = `
+        <div style="font-family: sans-serif; max-width: 600px; margin: auto; padding: 20px; border: 1px solid #1a1a1a; border-radius: 12px; background-color: #0b0c10; color: #ffffff;">
+          <h2 style="color: #ff1744; border-bottom: 1px solid #ff1744; padding-bottom: 10px;">Training Request Cancelled</h2>
+          <p>A user has deleted/cancelled their training booking request on FXElite Pro.</p>
+          <p><strong>Booking ID:</strong> ${bookingId}</p>
+        </div>
+      `;
+      sendMail({ to: adminEmail, subject, html }).catch((err) =>
+        console.error("SMTP async call error:", err)
+      );
+    } catch (mailErr) {
+      console.error(mailErr);
+    }
+
+    return NextResponse.json({ message: "Booking deleted successfully" });
+  } catch (error: any) {
+    console.error("User bookings DELETE error:", error);
+    return NextResponse.json({ error: "Internal server error" }, { status: 500 });
+  }
+}

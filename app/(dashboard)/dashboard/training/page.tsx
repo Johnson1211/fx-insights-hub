@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { GraduationCap, Calendar, MapPin, UserCheck, CalendarCheck, Flame, Loader2, CheckCircle2, AlertCircle, Clock, FileText } from "lucide-react";
+import { GraduationCap, Calendar, MapPin, UserCheck, CalendarCheck, Flame, Loader2, CheckCircle2, AlertCircle, Clock, FileText, Trash2, Pencil, X } from "lucide-react";
 
 interface Booking {
   id: string;
@@ -25,6 +25,75 @@ export default function TrainingDashboard() {
   const [submitting, setSubmitting] = useState(false);
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState("");
+
+  // Edit modal states
+  const [editingBooking, setEditingBooking] = useState<Booking | null>(null);
+  const [editDate, setEditDate] = useState("");
+  const [editTime, setEditTime] = useState("");
+  const [editNotes, setEditNotes] = useState("");
+  const [updating, setUpdating] = useState(false);
+
+  const handleEditClick = (booking: Booking) => {
+    setEditingBooking(booking);
+    const dateObj = new Date(booking.preferredDate);
+    const dateString = dateObj.toISOString().split("T")[0];
+    const hours = String(dateObj.getHours()).padStart(2, "0");
+    const minutes = String(dateObj.getMinutes()).padStart(2, "0");
+    setEditDate(dateString);
+    setEditTime(`${hours}:${minutes}`);
+    setEditNotes(booking.notes || "");
+  };
+
+  const handleEditSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!editingBooking || !editDate) return;
+    setUpdating(true);
+    setError("");
+    setSuccess(false);
+
+    try {
+      const preferredDate = `${editDate}T${editTime}:00`;
+      const res = await fetch("/api/user/bookings", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          bookingId: editingBooking.id,
+          preferredDate,
+          notes: editNotes,
+        }),
+      });
+
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || "Failed to update booking");
+
+      setEditingBooking(null);
+      setSuccess(true);
+      fetchBookings();
+    } catch (err: any) {
+      setError(err.message || "Failed to update booking.");
+    } finally {
+      setUpdating(false);
+    }
+  };
+
+  const handleDeleteBooking = async (bookingId: string) => {
+    if (!confirm("Are you sure you want to cancel and delete this training request?")) return;
+    setError("");
+    setSuccess(false);
+    try {
+      const res = await fetch(`/api/user/bookings?bookingId=${bookingId}`, {
+        method: "DELETE",
+      });
+
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || "Failed to delete booking");
+
+      setSuccess(true);
+      fetchBookings();
+    } catch (err: any) {
+      setError(err.message || "Failed to delete booking.");
+    }
+  };
 
   const fetchBookings = async () => {
     try {
@@ -264,7 +333,7 @@ export default function TrainingDashboard() {
             ) : bookings.length === 0 ? (
               <p className="text-center text-xs text-gray-500 py-6 italic">No booking requests found</p>
             ) : (
-              <div className="space-y-3 max-h-80 overflow-y-auto pr-1 custom-scrollbar">
+              <div className="space-y-3 max-h-[450px] overflow-y-auto pr-1 custom-scrollbar">
                 {bookings.map((booking) => (
                   <div
                     key={booking.id}
@@ -288,6 +357,22 @@ export default function TrainingDashboard() {
                         </p>
                       )}
                     </div>
+
+                    {/* Reschedule & Cancel buttons */}
+                    <div className="flex gap-2 justify-end pt-2 border-t border-white/5 mt-2">
+                      <button
+                        onClick={() => handleEditClick(booking)}
+                        className="p-1 px-2 rounded bg-elite-gold/10 hover:bg-elite-gold hover:text-elite-bg text-elite-gold border border-elite-gold/15 transition-all text-[10px] flex items-center gap-1 font-semibold"
+                      >
+                        <Pencil size={9} /> Reschedule
+                      </button>
+                      <button
+                        onClick={() => handleDeleteBooking(booking.id)}
+                        className="p-1 px-2 rounded bg-elite-red/10 hover:bg-elite-red hover:text-elite-bg text-elite-red border border-elite-red/15 transition-all text-[10px] flex items-center gap-1 font-semibold"
+                      >
+                        <Trash2 size={9} /> Cancel
+                      </button>
+                    </div>
                   </div>
                 ))}
               </div>
@@ -295,6 +380,101 @@ export default function TrainingDashboard() {
           </div>
         </div>
       </div>
+
+      {/* Reschedule Modal Overlay */}
+      <AnimatePresence>
+        {editingBooking && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4"
+            onClick={(e) => {
+              if (e.target === e.currentTarget) setEditingBooking(null);
+            }}
+          >
+            <motion.div
+              initial={{ scale: 0.95, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.95, opacity: 0 }}
+              className="glass-card w-full max-w-md p-6 relative"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="flex items-center justify-between mb-5 border-b border-white/10 pb-3">
+                <h3 className="font-display text-sm text-white font-bold tracking-wider uppercase">Reschedule Request</h3>
+                <button onClick={() => setEditingBooking(null)} className="text-gray-500 hover:text-white">
+                  <X size={18} />
+                </button>
+              </div>
+
+              <form onSubmit={handleEditSubmit} className="space-y-4">
+                <p className="text-gray-400 text-[11px] leading-relaxed">
+                  Modify preferred date, time or goals for your <strong className="text-white">{getTypeLabel(editingBooking.type)}</strong>. Rescheduling will reset status to pending for review.
+                </p>
+
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-[10px] font-semibold text-gray-400 uppercase mb-2">New Date</label>
+                    <input
+                      type="date"
+                      required
+                      value={editDate}
+                      onChange={(e) => setEditDate(e.target.value)}
+                      className="input-field py-2 text-xs"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-[10px] font-semibold text-gray-400 uppercase mb-2">New Time</label>
+                    <input
+                      type="time"
+                      required
+                      value={editTime}
+                      onChange={(e) => setEditTime(e.target.value)}
+                      className="input-field py-2 text-xs"
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <label className="block text-[10px] font-semibold text-gray-400 uppercase mb-2">Discussion Topics</label>
+                  <textarea
+                    rows={3}
+                    value={editNotes}
+                    onChange={(e) => setEditNotes(e.target.value)}
+                    className="input-field py-2 text-xs resize-none"
+                    placeholder="Details..."
+                  />
+                </div>
+
+                <div className="pt-2 flex justify-end gap-2 text-xs">
+                  <button
+                    type="button"
+                    onClick={() => setEditingBooking(null)}
+                    className="btn-outline py-2 px-4"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    type="submit"
+                    disabled={updating}
+                    className="btn-primary py-2 px-4 font-bold flex items-center gap-1.5"
+                  >
+                    {updating ? (
+                      <>
+                        <Loader2 size={12} className="animate-spin" /> Saving...
+                      </>
+                    ) : (
+                      <>
+                        <CalendarCheck size={12} /> Confirm changes
+                      </>
+                    )}
+                  </button>
+                </div>
+              </form>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
