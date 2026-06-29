@@ -267,34 +267,38 @@ export default function DashboardSignals() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: i * 0.05 }}
               className={`glass-card p-5 border-l-4 transition-all duration-500 ${
-                signal.status === "Closed" ? "opacity-50 saturate-50 hover:opacity-85 hover:saturate-100" : ""
+                signal.status === "Closed" 
+                  ? "opacity-35 grayscale bg-elite-bg/60 border-zinc-800 hover:opacity-85 hover:grayscale-0 transition-all duration-300" 
+                  : ""
               } ${
                 highlightedId === signal._id
                   ? "border-elite-gold shadow-[0_0_15px_rgba(212,175,55,0.35)] ring-1 ring-elite-gold/30"
                   : "border-elite-border/30"
               }`}
               style={{
-                borderLeftColor: signal.type === "BUY" ? "#00E676" : "#FF1744",
+                borderLeftColor: signal.status === "Closed" ? "#3f3f46" : (signal.type === "BUY" ? "#00E676" : "#FF1744"),
               }}
             >
               <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
                 <div className="flex items-center gap-4">
                   <div className={`w-12 h-12 rounded-xl flex items-center justify-center ${
-                    signal.type === "BUY" ? "bg-elite-green/10" : "bg-elite-red/10"
+                    signal.status === "Closed" ? "bg-zinc-900/60" : (signal.type === "BUY" ? "bg-elite-green/10" : "bg-elite-red/10")
                   }`}>
                     {signal.type === "BUY" ? (
-                      <TrendingUp size={24} className="text-elite-green" />
+                      <TrendingUp size={24} className={signal.status === "Closed" ? "text-zinc-600" : "text-elite-green"} />
                     ) : (
-                      <TrendingDown size={24} className="text-elite-red" />
+                      <TrendingDown size={24} className={signal.status === "Closed" ? "text-zinc-600" : "text-elite-red"} />
                     )}
                   </div>
                   <div>
                     <div className="flex items-center gap-3">
                       <span className="font-mono font-bold text-lg text-white">{signal.pair}</span>
-                      <span className={`px-2 py-0.5 rounded text-xs font-bold ${
-                        signal.type === "BUY" ? "bg-elite-green/20 text-elite-green" : "bg-elite-red/20 text-elite-red"
+                      <span className={`px-2 py-0.5 rounded text-xs font-bold uppercase tracking-wider ${
+                        signal.status === "Closed" 
+                          ? "bg-zinc-800/40 text-zinc-500 border border-zinc-700/20" 
+                          : (signal.type === "BUY" ? "bg-elite-green/20 text-elite-green" : "bg-elite-red/20 text-elite-red")
                       }`}>
-                        {signal.type}
+                        {signal.status === "Closed" ? `CLOSED ${signal.type}` : signal.type}
                       </span>
                       <span className="text-xs text-gray-500 bg-elite-surface px-2 py-0.5 rounded">
                         {signal.timeframe}
