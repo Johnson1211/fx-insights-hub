@@ -12,6 +12,7 @@ import {
   Crown,
   ChevronRight,
   Bell,
+  Calendar,
 } from "lucide-react";
 
 const adminItems = [
@@ -20,6 +21,7 @@ const adminItems = [
   { href: "/admin/signals", label: "Signals", icon: Signal },
   { href: "/admin/content", label: "Content", icon: Video },
   { href: "/admin/blog", label: "Blog", icon: FileText },
+  { href: "/admin/bookings", label: "Training", icon: Calendar },
   { href: "/admin/notifications", label: "Notifications", icon: Bell },
   { href: "/admin/settings", label: "Settings", icon: Settings },
 ];
