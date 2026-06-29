@@ -26,6 +26,20 @@ const getThumbnailGradient = (index: number) => {
   return `bg-gradient-to-br ${gradients[index % gradients.length]}`;
 };
 
+const getVideoThumbnail = (video: any) => {
+  if (video.thumbnail && (video.thumbnail.startsWith("http") || video.thumbnail.startsWith("/"))) {
+    return video.thumbnail;
+  }
+  
+  if (video.url) {
+    const ytMatch = video.url.match(/(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/i);
+    if (ytMatch) {
+      return `https://img.youtube.com/vi/${ytMatch[1]}/hqdefault.jpg`;
+    }
+  }
+  return null;
+};
+
 function getVideoEmbedInfo(url: string) {
   if (!url) return null;
   
@@ -348,15 +362,18 @@ export default function CoursesPage() {
               className="glass-card-hover overflow-hidden cursor-pointer group"
             >
               <div className="aspect-video relative flex items-center justify-center overflow-hidden">
-                {video.thumbnail ? (
-                  <img
-                    src={video.thumbnail}
-                    alt={video.title}
-                    className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                  />
-                ) : (
-                  <div className={`absolute inset-0 ${getThumbnailGradient(i)}`} />
-                )}
+                {(() => {
+                  const thumbnailSrc = getVideoThumbnail(video);
+                  return thumbnailSrc ? (
+                    <img
+                      src={thumbnailSrc}
+                      alt={video.title}
+                      className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                    />
+                  ) : (
+                    <div className={`absolute inset-0 ${getThumbnailGradient(i)}`} />
+                  );
+                })()}
                 
                 {/* Overlay shadow to protect play icon readability */}
                 <div className="absolute inset-0 bg-black/40 group-hover:bg-black/55 transition-colors duration-300" />
