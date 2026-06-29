@@ -74,7 +74,7 @@ export function DashboardSidebar() {
 
   useEffect(() => {
     fetchNotifs();
-    const interval = setInterval(fetchNotifs, 20000); // poll every 20s
+    const interval = setInterval(fetchNotifs, 5000); // poll every 5s
     return () => clearInterval(interval);
   }, []);
 

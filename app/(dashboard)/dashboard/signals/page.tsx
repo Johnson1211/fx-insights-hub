@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { TrendingUp, TrendingDown, Filter, Search, Star, Clock, Target, Eye, X, Link as LinkIcon } from "lucide-react";
+import { TrendingUp, TrendingDown, Filter, Search, Star, Clock, Target, Eye, X, Link as LinkIcon, MessageSquare, Send, Loader2 } from "lucide-react";
 import { formatDate } from "@/lib/utils";
 
 interface Signal {
@@ -30,6 +30,61 @@ export default function DashboardSignals() {
   const [search, setSearch] = useState("");
   const [lightboxImage, setLightboxImage] = useState<string | null>(null);
   const [highlightedId, setHighlightedId] = useState<string | null>(null);
+
+  // Comments states
+  const [expandedComments, setExpandedComments] = useState<{ [signalId: string]: boolean }>({});
+  const [commentsMap, setCommentsMap] = useState<{ [signalId: string]: any[] }>({});
+  const [loadingComments, setLoadingComments] = useState<{ [signalId: string]: boolean }>({});
+  const [newCommentText, setNewCommentText] = useState<{ [signalId: string]: string }>({});
+  const [submittingComment, setSubmittingComment] = useState<{ [signalId: string]: boolean }>({});
+
+  const toggleComments = async (signalId: string) => {
+    const nextState = !expandedComments[signalId];
+    setExpandedComments((prev) => ({ ...prev, [signalId]: nextState }));
+
+    if (nextState && !commentsMap[signalId]) {
+      setLoadingComments((prev) => ({ ...prev, [signalId]: true }));
+      try {
+        const res = await fetch(`/api/signals/${signalId}/comment`);
+        if (res.ok) {
+          const data = await res.json();
+          setCommentsMap((prev) => ({ ...prev, [signalId]: data.comments || [] }));
+        }
+      } catch (err) {
+        console.error("Failed to load comments:", err);
+      } finally {
+        setLoadingComments((prev) => ({ ...prev, [signalId]: false }));
+      }
+    }
+  };
+
+  const handleCreateComment = async (e: React.FormEvent, signalId: string) => {
+    e.preventDefault();
+    const commentText = newCommentText[signalId]?.trim();
+    if (!commentText) return;
+
+    setSubmittingComment((prev) => ({ ...prev, [signalId]: true }));
+    try {
+      const res = await fetch(`/api/signals/${signalId}/comment`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ content: commentText }),
+      });
+
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || "Failed to post comment");
+
+      setNewCommentText((prev) => ({ ...prev, [signalId]: "" }));
+      setCommentsMap((prev) => ({
+        ...prev,
+        [signalId]: [...(prev[signalId] || []), data.comment],
+      }));
+    } catch (err) {
+      console.error("Failed to create comment:", err);
+    } finally {
+      setSubmittingComment((prev) => ({ ...prev, [signalId]: false }));
+    }
+  };
 
   useEffect(() => {
     if (signals.length > 0) {
@@ -218,6 +273,16 @@ export default function DashboardSignals() {
                   >
                     <LinkIcon size={16} />
                   </button>
+                  <button
+                    onClick={() => toggleComments(signal._id)}
+                    className={`flex items-center gap-1.5 text-xs transition-colors ${
+                      expandedComments[signal._id] ? "text-elite-gold" : "text-gray-500 hover:text-white"
+                    }`}
+                    title="Toggle signal comments"
+                  >
+                    <MessageSquare size={14} />
+                    <span>Comments</span>
+                  </button>
                   <button className="text-gray-500 hover:text-elite-gold transition-colors">
                     <Star size={18} />
                   </button>
@@ -246,6 +311,66 @@ export default function DashboardSignals() {
                   </button>
                 </div>
               )}
+
+              {/* Comments drawer */}
+              <AnimatePresence>
+                {expandedComments[signal._id] && (
+                  <motion.div
+                    initial={{ opacity: 0, height: 0 }}
+                    animate={{ opacity: 1, height: "auto" }}
+                    exit={{ opacity: 0, height: 0 }}
+                    className="overflow-hidden mt-4 pt-4 border-t border-elite-border/30 space-y-4 bg-black/10 p-4 rounded-xl"
+                  >
+                    {/* Add Comment input */}
+                    <form onSubmit={(e) => handleCreateComment(e, signal._id)} className="flex gap-2">
+                      <input
+                        type="text"
+                        placeholder="Write a comment about this signal..."
+                        required
+                        value={newCommentText[signal._id] || ""}
+                        onChange={(e) =>
+                          setNewCommentText((prev) => ({ ...prev, [signal._id]: e.target.value }))
+                        }
+                        className="input-field py-2 text-xs"
+                      />
+                      <button
+                        type="submit"
+                        disabled={submittingComment[signal._id]}
+                        className="btn-primary py-2 px-3 flex items-center justify-center shrink-0"
+                      >
+                        {submittingComment[signal._id] ? (
+                          <Loader2 size={13} className="animate-spin" />
+                        ) : (
+                          <Send size={13} />
+                        )}
+                      </button>
+                    </form>
+
+                    {/* Loader / List */}
+                    {loadingComments[signal._id] ? (
+                      <div className="flex justify-center py-4">
+                        <Loader2 size={16} className="animate-spin text-elite-gold" />
+                      </div>
+                    ) : (commentsMap[signal._id] || []).length === 0 ? (
+                      <p className="text-center text-[10px] text-gray-500 py-3 italic">No comments yet. Be the first to share feedback!</p>
+                    ) : (
+                      <div className="space-y-3 max-h-60 overflow-y-auto pr-1 custom-scrollbar">
+                        {(commentsMap[signal._id] || []).map((c) => (
+                          <div key={c.id} className="p-3 bg-white/[0.01] border border-white/5 rounded-xl space-y-1.5">
+                            <div className="flex items-center justify-between text-[10px]">
+                              <span className="text-white font-semibold">{c.user.name}</span>
+                              <span className="text-gray-500">
+                                {new Date(c.createdAt).toLocaleDateString()}
+                              </span>
+                            </div>
+                            <p className="text-gray-300 text-xs leading-relaxed">{c.content}</p>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </motion.div>
           ))}
         </div>

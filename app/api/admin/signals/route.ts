@@ -62,6 +62,21 @@ export async function POST(req: NextRequest) {
       },
     });
 
+    // Auto-create a system-wide announcement notification
+    try {
+      await prisma.notification.create({
+        data: {
+          title: `New Signal Alert 🚨`,
+          message: `New trade signal posted for ${body.pair}: ${body.type} at entry ${body.entryPrice}`,
+          type: "alert",
+          link: `/dashboard/signals?id=${dbSignal.id}`,
+          isPinned: false,
+        },
+      });
+    } catch (notifErr) {
+      console.error("Failed to create signal notification:", notifErr);
+    }
+
     return NextResponse.json({ signal: { ...dbSignal, _id: dbSignal.id } }, { status: 201 });
   } catch (error: any) {
     console.error("Admin create signal error:", error);

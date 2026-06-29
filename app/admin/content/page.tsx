@@ -16,6 +16,8 @@ export default function AdminContent() {
   const [showUpload, setShowUpload] = useState(false);
   const [videos, setVideos] = useState<any[]>([]);
   const [videosLoading, setVideosLoading] = useState(true);
+  const [blogs, setBlogs] = useState<any[]>([]);
+  const [blogsLoading, setBlogsLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState("");
 
@@ -28,6 +30,42 @@ export default function AdminContent() {
   const [isFreePreview, setIsFreePreview] = useState(false);
   const [uploadingFile, setUploadingFile] = useState(false);
   const [uploadProgress, setUploadProgress] = useState(0);
+
+  // Blog custom fields
+  const [slug, setSlug] = useState("");
+  const [excerpt, setExcerpt] = useState("");
+  const [coverImage, setCoverImage] = useState("");
+  const [status, setStatus] = useState("draft");
+
+  const fetchBlogs = async () => {
+    try {
+      setBlogsLoading(true);
+      const res = await fetch("/api/admin/blog");
+      const data = await res.json();
+      if (res.ok && data.posts) {
+        setBlogs(data.posts);
+      }
+    } catch (err) {
+      console.error("Error fetching blogs:", err);
+    } finally {
+      setBlogsLoading(false);
+    }
+  };
+
+  const handleDeleteBlog = async (id: string) => {
+    if (!window.confirm("Are you sure you want to delete this blog post?")) return;
+
+    try {
+      const res = await fetch(`/api/admin/blog?id=${id}`, {
+        method: "DELETE",
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || "Failed to delete blog post");
+      fetchBlogs();
+    } catch (err: any) {
+      alert(err.message || "Failed to delete blog post");
+    }
+  };
 
   const fetchVideos = async () => {
     try {
@@ -109,9 +147,18 @@ export default function AdminContent() {
     }
   };
 
+  const handleTitleChange = (val: string) => {
+    setTitle(val);
+    if (activeTab === "blog") {
+      setSlug(val.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, ""));
+    }
+  };
+
   useEffect(() => {
     if (activeTab === "videos") {
       fetchVideos();
+    } else {
+      fetchBlogs();
     }
   }, [activeTab]);
 
@@ -148,8 +195,32 @@ export default function AdminContent() {
         setShowUpload(false);
         fetchVideos();
       } else {
-        // Mock blog post logic, just close the upload box
+        const res = await fetch("/api/admin/blog", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            title,
+            slug,
+            excerpt,
+            content: description,
+            coverImage,
+            category,
+            status,
+          }),
+        });
+
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.error || "Failed to add blog post");
+
+        setTitle("");
+        setSlug("");
+        setExcerpt("");
+        setCoverImage("");
+        setDescription("");
+        setCategory("General");
+        setStatus("draft");
         setShowUpload(false);
+        fetchBlogs();
       }
     } catch (err: any) {
       setError(err.message || "Something went wrong.");
@@ -231,7 +302,7 @@ export default function AdminContent() {
                 className="input-field"
                 placeholder="Enter title..."
                 value={title}
-                onChange={(e) => setTitle(e.target.value)}
+                onChange={(e) => handleTitleChange(e.target.value)}
               />
             </div>
             <div>
@@ -241,12 +312,69 @@ export default function AdminContent() {
                 value={category}
                 onChange={(e) => setCategory(e.target.value)}
               >
-                <option value="basics">Basics</option>
-                <option value="technical analysis">Technical Analysis</option>
-                <option value="risk management">Risk Management</option>
-                <option value="psychology">Psychology</option>
+                {activeTab === "videos" ? (
+                  <>
+                    <option value="basics">Basics</option>
+                    <option value="technical analysis">Technical Analysis</option>
+                    <option value="risk management">Risk Management</option>
+                    <option value="psychology">Psychology</option>
+                  </>
+                ) : (
+                  <>
+                    <option value="Forex">Forex</option>
+                    <option value="Indices">Indices</option>
+                    <option value="Crypto">Crypto</option>
+                    <option value="General">General</option>
+                  </>
+                )}
               </select>
             </div>
+            {activeTab === "blog" && (
+              <>
+                <div>
+                  <label className="block text-sm text-gray-400 mb-2">URL Slug</label>
+                  <input
+                    type="text"
+                    required
+                    className="input-field"
+                    placeholder="e.g. gold-technical-outlook"
+                    value={slug}
+                    onChange={(e) => setSlug(e.target.value)}
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm text-gray-400 mb-2">Cover Image URL</label>
+                  <input
+                    type="url"
+                    className="input-field"
+                    placeholder="https://example.com/image.jpg"
+                    value={coverImage}
+                    onChange={(e) => setCoverImage(e.target.value)}
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm text-gray-400 mb-2">Short Excerpt (Summary)</label>
+                  <input
+                    type="text"
+                    className="input-field"
+                    placeholder="Brief summary of the blog post..."
+                    value={excerpt}
+                    onChange={(e) => setExcerpt(e.target.value)}
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm text-gray-400 mb-2">Status</label>
+                  <select
+                    className="input-field"
+                    value={status}
+                    onChange={(e) => setStatus(e.target.value)}
+                  >
+                    <option value="draft">Draft</option>
+                    <option value="published">Published</option>
+                  </select>
+                </div>
+              </>
+            )}
             {activeTab === "videos" && (
               <>
                 <div>
@@ -433,23 +561,44 @@ export default function AdminContent() {
                 </tr>
               </thead>
               <tbody>
-                {blogPosts.map((post) => (
-                  <tr key={post.id} className="border-b border-elite-border/30 hover:bg-white/[0.02] transition-colors">
-                    <td className="p-4 text-white text-sm">{post.title}</td>
-                    <td className="p-4 text-gray-400 text-sm">{post.category}</td>
-                    <td className="p-4">
-                      <span className={`text-xs px-2 py-1 rounded ${post.status === "Published" ? "bg-elite-green/10 text-elite-green" : "bg-gray-500/10 text-gray-400"}`}>
-                        {post.status}
-                      </span>
-                    </td>
-                    <td className="p-4 text-gray-400 text-sm">{post.date}</td>
-                    <td className="p-4">
-                      <button className="text-gray-500 hover:text-elite-red transition-colors">
-                        <Trash2 size={16} />
-                      </button>
+                {blogsLoading ? (
+                  <tr>
+                    <td colSpan={5} className="p-8 text-center text-gray-400">
+                      <Loader2 size={24} className="animate-spin text-elite-gold mx-auto mb-2" />
+                      Loading blog posts...
                     </td>
                   </tr>
-                ))}
+                ) : blogs.length === 0 ? (
+                  <tr>
+                    <td colSpan={5} className="p-8 text-center text-gray-400">
+                      No blog posts published yet.
+                    </td>
+                  </tr>
+                ) : (
+                  blogs.map((post) => (
+                    <tr key={post.id} className="border-b border-elite-border/30 hover:bg-white/[0.02] transition-colors">
+                      <td className="p-4 text-white text-sm font-medium">{post.title}</td>
+                      <td className="p-4 text-gray-400 text-sm capitalize">{post.category}</td>
+                      <td className="p-4">
+                        <span className={`text-xs px-2 py-1 rounded capitalize ${post.status === "published" ? "bg-elite-green/10 text-elite-green" : "bg-gray-500/10 text-gray-400"}`}>
+                          {post.status}
+                        </span>
+                      </td>
+                      <td className="p-4 text-gray-400 text-sm">
+                        {new Date(post.createdAt).toLocaleDateString()}
+                      </td>
+                      <td className="p-4">
+                        <button
+                          onClick={() => handleDeleteBlog(post.id)}
+                          title="Delete blog post"
+                          className="text-gray-500 hover:text-elite-red transition-colors"
+                        >
+                          <Trash2 size={16} />
+                        </button>
+                      </td>
+                    </tr>
+                  ))
+                )}
               </tbody>
             </table>
           </div>

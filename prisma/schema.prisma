@@ -95,7 +95,10 @@ model User {
   blogPosts             BlogPost[]
   liveSessions          LiveSession[]
   userNotifications     UserNotification[]
-
+  bookings              Booking[]
+  forumPosts            ForumPost[]
+  forumComments         ForumComment[]
+  signalComments        SignalComment[]
 }
 
 model Signal {
@@ -116,6 +119,7 @@ model Signal {
   createdBy   String
   creator     User          @relation(fields: [createdBy], references: [id], onDelete: Cascade)
   closedAt    DateTime?
+  comments    SignalComment[]
   createdAt   DateTime      @default(now())
   updatedAt   DateTime      @updatedAt
 }
@@ -200,4 +204,48 @@ model UserNotification {
   createdAt DateTime @default(now())
 
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Booking {
+  id            String   @id @default(uuid())
+  userId        String
+  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  type          String   // "bootcamp" | "classroom" | "mentorship"
+  status        String   @default("pending") // "pending" | "confirmed" | "cancelled"
+  preferredDate DateTime
+  notes         String?
+  createdAt     DateTime @default(now())
+}
+
+model ForumPost {
+  id         String         @id @default(uuid())
+  title      String
+  content    String         // markdown content
+  chartImage String?
+  category   String         // e.g. "Forex" | "Indices" | "Crypto" | "General"
+  userId     String
+  user       User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  comments   ForumComment[]
+  createdAt  DateTime       @default(now())
+  updatedAt  DateTime       @updatedAt
+}
+
+model ForumComment {
+  id        String    @id @default(uuid())
+  content   String
+  postId    String
+  post      ForumPost @relation(fields: [postId], references: [id], onDelete: Cascade)
+  userId    String
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt DateTime  @default(now())
+}
+
+model SignalComment {
+  id        String   @id @default(uuid())
+  content   String
+  signalId  String
+  signal    Signal   @relation(fields: [signalId], references: [id], onDelete: Cascade)
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
 }

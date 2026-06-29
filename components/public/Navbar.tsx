@@ -94,7 +94,7 @@ export function Navbar() {
     }
 
     fetchNotifications();
-    const interval = setInterval(fetchNotifications, 20000); // Poll every 20 seconds for real-time announcements
+    const interval = setInterval(fetchNotifications, 5000); // Poll every 5 seconds for real-time announcements
 
     // Load read notification IDs
     const storedRead = localStorage.getItem("read_notification_ids");
