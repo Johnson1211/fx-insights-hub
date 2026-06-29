@@ -2,8 +2,9 @@
 
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { TrendingUp, TrendingDown, Filter, Search, Star, Clock, Target, Eye, X, Link as LinkIcon, MessageSquare, Send, Loader2 } from "lucide-react";
+import { TrendingUp, TrendingDown, Filter, Search, Star, Clock, Target, Eye, X, Link as LinkIcon, MessageSquare, Send, Loader2, Trash2, Heart } from "lucide-react";
 import { formatDate } from "@/lib/utils";
+import { useAuth } from "@/hooks/useAuth";
 
 interface Signal {
   _id: string;
@@ -23,6 +24,7 @@ interface Signal {
 }
 
 export default function DashboardSignals() {
+  const { user } = useAuth();
   const [signals, setSignals] = useState<Signal[]>([]);
   const [filtered, setFiltered] = useState<Signal[]>([]);
   const [loading, setLoading] = useState(true);
@@ -37,6 +39,30 @@ export default function DashboardSignals() {
   const [loadingComments, setLoadingComments] = useState<{ [signalId: string]: boolean }>({});
   const [newCommentText, setNewCommentText] = useState<{ [signalId: string]: string }>({});
   const [submittingComment, setSubmittingComment] = useState<{ [signalId: string]: boolean }>({});
+
+  // Likes states
+  const [likesMap, setLikesMap] = useState<{ [signalId: string]: { count: number; hasLiked: boolean } }>({});
+
+  const toggleLike = async (signalId: string) => {
+    try {
+      const res = await fetch(`/api/signals/${signalId}/like`, { method: "POST" });
+      if (res.ok) {
+        const data = await res.json();
+        setLikesMap((prev) => {
+          const current = prev[signalId] || { count: 0, hasLiked: false };
+          return {
+            ...prev,
+            [signalId]: {
+              count: data.liked ? current.count + 1 : Math.max(0, current.count - 1),
+              hasLiked: data.liked,
+            },
+          };
+        });
+      }
+    } catch (err) {
+      console.error("Failed to toggle like:", err);
+    }
+  };
 
   const toggleComments = async (signalId: string) => {
     const nextState = !expandedComments[signalId];
@@ -85,6 +111,43 @@ export default function DashboardSignals() {
       setSubmittingComment((prev) => ({ ...prev, [signalId]: false }));
     }
   };
+
+  const handleDeleteComment = async (signalId: string, commentId: string) => {
+    if (!window.confirm("Are you sure you want to delete this comment?")) return;
+    try {
+      const res = await fetch(`/api/signals/${signalId}/comment?commentId=${commentId}`, {
+        method: "DELETE",
+      });
+      if (res.ok) {
+        setCommentsMap((prev) => ({
+          ...prev,
+          [signalId]: (prev[signalId] || []).filter((c) => c.id !== commentId),
+        }));
+      } else {
+        alert("Failed to delete comment");
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  useEffect(() => {
+    if (signals.length === 0) return;
+    signals.forEach(async (sig) => {
+      try {
+        const res = await fetch(`/api/signals/${sig._id}/like`);
+        if (res.ok) {
+          const data = await res.json();
+          setLikesMap((prev) => ({
+            ...prev,
+            [sig._id]: { count: data.count, hasLiked: data.hasLiked },
+          }));
+        }
+      } catch (err) {
+        console.error(err);
+      }
+    });
+  }, [signals]);
 
   useEffect(() => {
     if (signals.length > 0) {
@@ -203,7 +266,9 @@ export default function DashboardSignals() {
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: i * 0.05 }}
-              className={`glass-card p-5 border-l-4 hover:border-l-elite-gold transition-all duration-500 ${
+              className={`glass-card p-5 border-l-4 transition-all duration-500 ${
+                signal.status === "Closed" ? "opacity-50 saturate-50 hover:opacity-85 hover:saturate-100" : ""
+              } ${
                 highlightedId === signal._id
                   ? "border-elite-gold shadow-[0_0_15px_rgba(212,175,55,0.35)] ring-1 ring-elite-gold/30"
                   : "border-elite-border/30"
@@ -276,17 +341,24 @@ export default function DashboardSignals() {
                   <button
                     onClick={() => toggleComments(signal._id)}
                     className={`flex items-center gap-1.5 text-xs transition-colors ${
-                      expandedComments[signal._id] ? "text-elite-gold" : "text-gray-500 hover:text-white"
+                      expandedComments[signal._id] ? "text-elite-gold font-semibold" : "text-gray-500 hover:text-white"
                     }`}
                     title="Toggle signal comments"
                   >
                     <MessageSquare size={14} />
                     <span>Comments</span>
                   </button>
-                  <button className="text-gray-500 hover:text-elite-gold transition-colors">
-                    <Star size={18} />
+                  <button
+                    onClick={() => toggleLike(signal._id)}
+                    className={`flex items-center gap-1 text-xs transition-colors ${
+                      likesMap[signal._id]?.hasLiked ? "text-elite-red font-semibold" : "text-gray-500 hover:text-white"
+                    }`}
+                    title="Like signal"
+                  >
+                    <Heart size={14} className={likesMap[signal._id]?.hasLiked ? "fill-elite-red text-elite-red" : ""} />
+                    <span>{likesMap[signal._id]?.count || 0}</span>
                   </button>
-                  <span className="text-gray-500 text-xs">{formatDate(signal.createdAt)}</span>
+                  <span className="text-gray-500 text-[10px]">{formatDate(signal.createdAt)}</span>
                 </div>
               </div>
 
@@ -356,9 +428,20 @@ export default function DashboardSignals() {
                     ) : (
                       <div className="space-y-3 max-h-60 overflow-y-auto pr-1 custom-scrollbar">
                         {(commentsMap[signal._id] || []).map((c) => (
-                          <div key={c.id} className="p-3 bg-white/[0.01] border border-white/5 rounded-xl space-y-1.5">
+                          <div key={c.id} className="p-3 bg-white/[0.01] border border-white/5 rounded-xl space-y-1.5 relative group">
                             <div className="flex items-center justify-between text-[10px]">
-                              <span className="text-white font-semibold">{c.user.name}</span>
+                              <div className="flex items-center gap-2">
+                                <span className="text-white font-semibold">{c.user.name}</span>
+                                {user?.role === "admin" && (
+                                  <button
+                                    onClick={() => handleDeleteComment(signal._id, c.id)}
+                                    className="text-gray-500 hover:text-elite-red transition-colors duration-150"
+                                    title="Delete comment"
+                                  >
+                                    <Trash2 size={11} />
+                                  </button>
+                                )}
+                              </div>
                               <span className="text-gray-500">
                                 {new Date(c.createdAt).toLocaleDateString()}
                               </span>

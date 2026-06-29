@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { MessageSquare, Users, Award, BookOpen, Flame, Plus, X, Upload, Loader2, Send, Eye, Calendar, Tag, ShieldCheck } from "lucide-react";
+import { MessageSquare, Users, Award, BookOpen, Flame, Plus, X, Upload, Loader2, Send, Eye, Calendar, Tag, ShieldCheck, Trash2 } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
 
 interface Comment {
@@ -214,6 +214,32 @@ export default function CommunityDashboard() {
     }
   };
 
+  const handleDeleteComment = async (postId: string, commentId: string) => {
+    if (!window.confirm("Are you sure you want to delete this comment?")) return;
+    try {
+      const res = await fetch(`/api/forum/${postId}/comment?commentId=${commentId}`, {
+        method: "DELETE",
+      });
+      if (res.ok) {
+        setCommentsMap((prev) => ({
+          ...prev,
+          [postId]: (prev[postId] || []).filter((c) => c.id !== commentId),
+        }));
+        setPosts((prevPosts) =>
+          prevPosts.map((p) =>
+            p.id === postId
+              ? { ...p, _count: { comments: Math.max(0, (p._count?.comments || 0) - 1) } }
+              : p
+          )
+        );
+      } else {
+        alert("Failed to delete comment");
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
   // Render post body simple formatting (headers, blockquotes, bold)
   const formatBodyText = (text: string) => {
     const lines = text.split("\n");
@@ -406,9 +432,20 @@ export default function CommunityDashboard() {
                     ) : (
                       <div className="space-y-3">
                         {(commentsMap[post.id] || []).map((c) => (
-                          <div key={c.id} className="p-3 bg-white/[0.01] border border-white/5 rounded-xl space-y-1.5">
+                          <div key={c.id} className="p-3 bg-white/[0.01] border border-white/5 rounded-xl space-y-1.5 relative group">
                             <div className="flex items-center justify-between">
-                              <span className="text-white text-xs font-semibold">{c.user.name}</span>
+                              <div className="flex items-center gap-2">
+                                <span className="text-white text-xs font-semibold">{c.user.name}</span>
+                                {user?.role === "admin" && (
+                                  <button
+                                    onClick={() => handleDeleteComment(post.id, c.id)}
+                                    className="text-gray-500 hover:text-elite-red transition-colors duration-150"
+                                    title="Delete comment"
+                                  >
+                                    <Trash2 size={11} />
+                                  </button>
+                                )}
+                              </div>
                               <span className="text-[9px] text-gray-500">
                                 {new Date(c.createdAt).toLocaleDateString()}
                               </span>

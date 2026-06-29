@@ -3,11 +3,12 @@
 import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import Link from "next/link";
-import { ArrowLeft, Calendar, User, Clock, ArrowUpRight, BookOpen, Loader2 } from "lucide-react";
+import { ArrowLeft, Calendar, User, Clock, ArrowUpRight, BookOpen, Loader2, Heart } from "lucide-react";
 import { ScrollReveal } from "@/components/animations/ScrollReveal";
 import { motion } from "framer-motion";
 
 interface BlogPost {
+  id: string;
   title: string;
   slug: string;
   excerpt: string;
@@ -26,6 +27,35 @@ export default function BlogPostPage() {
   const router = useRouter();
   const [post, setPost] = useState<BlogPost | null>(null);
   const [loading, setLoading] = useState(true);
+  const [likesCount, setLikesCount] = useState(0);
+  const [hasLiked, setHasLiked] = useState(false);
+
+  const fetchLikes = async (postId: string) => {
+    try {
+      const res = await fetch(`/api/blog/${postId}/like`);
+      if (res.ok) {
+        const data = await res.json();
+        setLikesCount(data.count);
+        setHasLiked(data.hasLiked);
+      }
+    } catch (err) {
+      console.error("Failed to load blog likes:", err);
+    }
+  };
+
+  const handleToggleLike = async () => {
+    if (!post) return;
+    try {
+      const res = await fetch(`/api/blog/${post.id}/like`, { method: "POST" });
+      if (res.ok) {
+        const data = await res.json();
+        setLikesCount((prev) => (data.liked ? prev + 1 : Math.max(0, prev - 1)));
+        setHasLiked(data.liked);
+      }
+    } catch (err) {
+      console.error("Failed to toggle like:", err);
+    }
+  };
 
   useEffect(() => {
     if (!slug) return;
@@ -36,6 +66,9 @@ export default function BlogPostPage() {
         if (res.ok) {
           const data = await res.json();
           setPost(data.post);
+          if (data.post?.id) {
+            fetchLikes(data.post.id);
+          }
         } else {
           router.push("/blog");
         }
@@ -169,6 +202,18 @@ export default function BlogPostPage() {
                 <Clock size={13} />
                 {Math.max(2, Math.ceil(post.content.split(/\s+/).length / 200))} min read
               </span>
+              <button
+                onClick={handleToggleLike}
+                className={`flex items-center gap-1.5 py-1 px-3.5 rounded-full border transition-all duration-300 ml-auto ${
+                  hasLiked
+                    ? "bg-elite-red/10 border-elite-red/35 text-elite-red font-semibold font-mono text-[10px]"
+                    : "bg-white/[0.02] border-white/10 text-gray-500 hover:text-white text-[10px]"
+                }`}
+                title="Like this post"
+              >
+                <Heart size={12} className={hasLiked ? "fill-elite-red text-elite-red" : ""} />
+                <span>{likesCount} Likes</span>
+              </button>
             </div>
           </div>
         </ScrollReveal>

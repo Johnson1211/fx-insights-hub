@@ -1,25 +1,18 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { motion } from "framer-motion";
-import { Video, FileText, Upload, Plus, Trash2, Download, Loader2 } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Video, Upload, Plus, Trash2, Download, Loader2, CheckCircle2, AlertCircle, X } from "lucide-react";
 
-type Tab = "videos" | "blog";
-
-const blogPosts = [
-  { id: 1, title: "EUR/USD Weekly Analysis: Bullish Momentum Building", category: "Forex", status: "Published", date: "2024-01-15" },
-  { id: 2, title: "Gold (XAU/USD) Technical Outlook", category: "Gold", status: "Draft", date: "2024-01-14" },
-];
+type Toast = { type: "success" | "error"; message: string } | null;
 
 export default function AdminContent() {
-  const [activeTab, setActiveTab] = useState<Tab>("videos");
   const [showUpload, setShowUpload] = useState(false);
   const [videos, setVideos] = useState<any[]>([]);
   const [videosLoading, setVideosLoading] = useState(true);
-  const [blogs, setBlogs] = useState<any[]>([]);
-  const [blogsLoading, setBlogsLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState("");
+  const [toast, setToast] = useState<Toast>(null);
 
   // Form states
   const [title, setTitle] = useState("");
@@ -31,40 +24,9 @@ export default function AdminContent() {
   const [uploadingFile, setUploadingFile] = useState(false);
   const [uploadProgress, setUploadProgress] = useState(0);
 
-  // Blog custom fields
-  const [slug, setSlug] = useState("");
-  const [excerpt, setExcerpt] = useState("");
-  const [coverImage, setCoverImage] = useState("");
-  const [status, setStatus] = useState("draft");
-
-  const fetchBlogs = async () => {
-    try {
-      setBlogsLoading(true);
-      const res = await fetch("/api/admin/blog");
-      const data = await res.json();
-      if (res.ok && data.posts) {
-        setBlogs(data.posts);
-      }
-    } catch (err) {
-      console.error("Error fetching blogs:", err);
-    } finally {
-      setBlogsLoading(false);
-    }
-  };
-
-  const handleDeleteBlog = async (id: string) => {
-    if (!window.confirm("Are you sure you want to delete this blog post?")) return;
-
-    try {
-      const res = await fetch(`/api/admin/blog?id=${id}`, {
-        method: "DELETE",
-      });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.error || "Failed to delete blog post");
-      fetchBlogs();
-    } catch (err: any) {
-      alert(err.message || "Failed to delete blog post");
-    }
+  const showToast = (type: "success" | "error", message: string) => {
+    setToast({ type, message });
+    setTimeout(() => setToast(null), 4000);
   };
 
   const fetchVideos = async () => {
@@ -77,6 +39,7 @@ export default function AdminContent() {
       }
     } catch (err) {
       console.error("Error fetching videos:", err);
+      showToast("error", "Failed to fetch videos list");
     } finally {
       setVideosLoading(false);
     }
@@ -125,6 +88,7 @@ export default function AdminContent() {
           if (response.duration) {
             setDuration(Math.ceil(response.duration / 60).toString());
           }
+          showToast("success", "Video file uploaded to Cloudinary successfully!");
         } else {
           try {
             const errResponse = JSON.parse(xhr.responseText);
@@ -147,20 +111,9 @@ export default function AdminContent() {
     }
   };
 
-  const handleTitleChange = (val: string) => {
-    setTitle(val);
-    if (activeTab === "blog") {
-      setSlug(val.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, ""));
-    }
-  };
-
   useEffect(() => {
-    if (activeTab === "videos") {
-      fetchVideos();
-    } else {
-      fetchBlogs();
-    }
-  }, [activeTab]);
+    fetchVideos();
+  }, []);
 
   const handleUploadSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -168,60 +121,32 @@ export default function AdminContent() {
     setSubmitting(true);
 
     try {
-      if (activeTab === "videos") {
-        const res = await fetch("/api/admin/videos", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            title,
-            category,
-            url,
-            duration: duration ? Number(duration) : 0,
-            description,
-            isFreePreview,
-          }),
-        });
+      const res = await fetch("/api/admin/videos", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          title,
+          category,
+          url,
+          duration: duration ? Number(duration) : 0,
+          description,
+          isFreePreview,
+        }),
+      });
 
-        const data = await res.json();
-        if (!res.ok) throw new Error(data.error || "Failed to add video");
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || "Failed to add video");
 
-        // Reset form fields
-        setTitle("");
-        setCategory("basics");
-        setUrl("");
-        setDuration("");
-        setDescription("");
-        setIsFreePreview(false);
-        setShowUpload(false);
-        fetchVideos();
-      } else {
-        const res = await fetch("/api/admin/blog", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            title,
-            slug,
-            excerpt,
-            content: description,
-            coverImage,
-            category,
-            status,
-          }),
-        });
-
-        const data = await res.json();
-        if (!res.ok) throw new Error(data.error || "Failed to add blog post");
-
-        setTitle("");
-        setSlug("");
-        setExcerpt("");
-        setCoverImage("");
-        setDescription("");
-        setCategory("General");
-        setStatus("draft");
-        setShowUpload(false);
-        fetchBlogs();
-      }
+      showToast("success", "Course video added successfully!");
+      // Reset form fields
+      setTitle("");
+      setCategory("basics");
+      setUrl("");
+      setDuration("");
+      setDescription("");
+      setIsFreePreview(false);
+      setShowUpload(false);
+      fetchVideos();
     } catch (err: any) {
       setError(err.message || "Something went wrong.");
     } finally {
@@ -238,48 +163,42 @@ export default function AdminContent() {
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "Failed to delete video");
+      showToast("success", "Video deleted successfully!");
       fetchVideos();
     } catch (err: any) {
-      alert(err.message || "Failed to delete video");
+      showToast("error", err.message || "Failed to delete video");
     }
   };
 
   return (
     <div className="space-y-6">
+      {/* Toast Alert */}
+      <AnimatePresence>
+        {toast && (
+          <motion.div
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+            className={`fixed top-20 right-8 z-50 flex items-center gap-3 px-4 py-3 rounded-xl border text-sm font-medium shadow-lg ${
+              toast.type === "success"
+                ? "bg-elite-green/15 border-elite-green/35 text-elite-green"
+                : "bg-elite-red/15 border-elite-red/35 text-elite-red"
+            }`}
+          >
+            {toast.type === "success" ? <CheckCircle2 size={18} /> : <AlertCircle size={18} />}
+            {toast.message}
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       <div className="flex items-center justify-between">
-        <h1 className="font-display text-3xl text-white tracking-wider">CONTENT MANAGEMENT</h1>
+        <h1 className="font-display text-3xl text-white tracking-wider">VIDEO COURSE CMS</h1>
         <button
           onClick={() => setShowUpload(!showUpload)}
           className="btn-primary flex items-center gap-2"
         >
-          <Plus size={16} />
-          Add Content
-        </button>
-      </div>
-
-      {/* Tabs */}
-      <div className="flex gap-2">
-        <button
-          onClick={() => setActiveTab("videos")}
-          className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all ${
-            activeTab === "videos"
-              ? "bg-elite-gold/10 text-elite-gold border border-elite-gold/20"
-              : "bg-elite-surface text-gray-400 border border-elite-border hover:text-white"
-          }`}
-        >
-          <Video size={16} />
-          Videos
-        </button>
-        <button
-          onClick={() => setActiveTab("blog")}
-          className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all ${
-            activeTab === "blog"
-              ? "bg-elite-gold/10 text-elite-gold border border-elite-gold/20"
-              : "bg-elite-surface text-gray-400 border border-elite-border hover:text-white"
-          }`}
-        >
-          <FileText size={16} />
-          Blog Posts
+          {showUpload ? <X size={16} /> : <Plus size={16} />}
+          {showUpload ? "Cancel" : "Add Video"}
         </button>
       </div>
 
@@ -290,160 +209,96 @@ export default function AdminContent() {
           animate={{ opacity: 1, height: "auto" }}
           className="glass-card p-6"
         >
-          <h2 className="font-display text-lg text-white tracking-wider mb-4">
-            {activeTab === "videos" ? "UPLOAD VIDEO" : "CREATE BLOG POST"}
+          <h2 className="font-display text-lg text-white tracking-wider mb-4 flex items-center gap-2">
+            <Video size={18} className="text-elite-gold" /> UPLOAD COURSE VIDEO
           </h2>
           <form onSubmit={handleUploadSubmit} className="grid md:grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm text-gray-400 mb-2">Title</label>
+              <label className="block text-xs font-semibold text-gray-400 uppercase mb-2">Title</label>
               <input
                 type="text"
                 required
                 className="input-field"
-                placeholder="Enter title..."
+                placeholder="e.g. Intro to Support & Resistance"
                 value={title}
-                onChange={(e) => handleTitleChange(e.target.value)}
+                onChange={(e) => setTitle(e.target.value)}
               />
             </div>
             <div>
-              <label className="block text-sm text-gray-400 mb-2">Category</label>
+              <label className="block text-xs font-semibold text-gray-400 uppercase mb-2">Category</label>
               <select
                 className="input-field"
                 value={category}
                 onChange={(e) => setCategory(e.target.value)}
               >
-                {activeTab === "videos" ? (
-                  <>
-                    <option value="basics">Basics</option>
-                    <option value="technical analysis">Technical Analysis</option>
-                    <option value="risk management">Risk Management</option>
-                    <option value="psychology">Psychology</option>
-                  </>
-                ) : (
-                  <>
-                    <option value="Forex">Forex</option>
-                    <option value="Indices">Indices</option>
-                    <option value="Crypto">Crypto</option>
-                    <option value="General">General</option>
-                  </>
-                )}
+                <option value="basics">Basics</option>
+                <option value="technical analysis">Technical Analysis</option>
+                <option value="risk management">Risk Management</option>
+                <option value="psychology">Psychology</option>
               </select>
             </div>
-            {activeTab === "blog" && (
-              <>
-                <div>
-                  <label className="block text-sm text-gray-400 mb-2">URL Slug</label>
-                  <input
-                    type="text"
-                    required
-                    className="input-field"
-                    placeholder="e.g. gold-technical-outlook"
-                    value={slug}
-                    onChange={(e) => setSlug(e.target.value)}
-                  />
+            <div>
+              <label className="block text-xs font-semibold text-gray-400 uppercase mb-2">Video URL</label>
+              <input
+                type="url"
+                required
+                className="input-field"
+                placeholder="Cloudinary file URL or YouTube/Vimeo link..."
+                value={url}
+                onChange={(e) => setUrl(e.target.value)}
+              />
+            </div>
+            <div>
+              <label className="block text-xs font-semibold text-gray-400 uppercase mb-2">Upload Video File</label>
+              <input
+                type="file"
+                accept="video/*"
+                className="input-field cursor-pointer file:mr-4 file:py-1 file:px-2 file:rounded file:border-0 file:text-[10px] file:font-semibold file:bg-elite-gold/10 file:text-elite-gold hover:file:bg-elite-gold/20"
+                onChange={handleFileChange}
+                disabled={uploadingFile}
+              />
+              {uploadingFile && (
+                <div className="mt-2 text-[10px] text-elite-gold flex items-center gap-2 bg-elite-gold/5 p-2 rounded border border-elite-gold/10 animate-pulse">
+                  <Loader2 size={10} className="animate-spin" />
+                  Uploading Progress: {uploadProgress}%
                 </div>
-                <div>
-                  <label className="block text-sm text-gray-400 mb-2">Cover Image URL</label>
-                  <input
-                    type="url"
-                    className="input-field"
-                    placeholder="https://example.com/image.jpg"
-                    value={coverImage}
-                    onChange={(e) => setCoverImage(e.target.value)}
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm text-gray-400 mb-2">Short Excerpt (Summary)</label>
-                  <input
-                    type="text"
-                    className="input-field"
-                    placeholder="Brief summary of the blog post..."
-                    value={excerpt}
-                    onChange={(e) => setExcerpt(e.target.value)}
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm text-gray-400 mb-2">Status</label>
-                  <select
-                    className="input-field"
-                    value={status}
-                    onChange={(e) => setStatus(e.target.value)}
-                  >
-                    <option value="draft">Draft</option>
-                    <option value="published">Published</option>
-                  </select>
-                </div>
-              </>
-            )}
-            {activeTab === "videos" && (
-              <>
-                <div>
-                  <label className="block text-sm text-gray-400 mb-2">Video URL</label>
-                  <input
-                    type="url"
-                    required
-                    className="input-field"
-                    placeholder="YouTube/Vimeo URL or uploaded file URL..."
-                    value={url}
-                    onChange={(e) => setUrl(e.target.value)}
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm text-gray-400 mb-2">Upload Video File (Phone/PC)</label>
-                  <input
-                    type="file"
-                    accept="video/*"
-                    className="input-field cursor-pointer file:mr-4 file:py-1.5 file:px-3 file:rounded-md file:border-0 file:text-xs file:font-semibold file:bg-elite-gold/10 file:text-elite-gold hover:file:bg-elite-gold/20"
-                    onChange={handleFileChange}
-                    disabled={uploadingFile}
-                  />
-                  {uploadingFile && (
-                    <div className="mt-2 text-xs text-elite-gold flex items-center gap-2 bg-elite-gold/5 p-2 rounded border border-elite-gold/10 animate-pulse">
-                      <Loader2 size={12} className="animate-spin" />
-                      Uploading: {uploadProgress}%
-                    </div>
-                  )}
-                </div>
-                <div>
-                  <label className="block text-sm text-gray-400 mb-2">Duration (minutes)</label>
-                  <input
-                    type="number"
-                    className="input-field"
-                    placeholder="15"
-                    value={duration}
-                    onChange={(e) => setDuration(e.target.value)}
-                  />
-                </div>
-                <div className="md:col-span-2 flex items-center gap-2 py-2">
-                  <input
-                    type="checkbox"
-                    id="isFreePreview"
-                    className="rounded border-elite-border bg-elite-surface text-elite-gold focus:ring-elite-gold cursor-pointer"
-                    checked={isFreePreview}
-                    onChange={(e) => setIsFreePreview(e.target.checked)}
-                  />
-                  <label htmlFor="isFreePreview" className="text-sm text-gray-300 cursor-pointer select-none">
-                    Free Preview (allows unapproved users to watch this lesson)
-                  </label>
-                </div>
-              </>
-            )}
-            <div className="md:col-span-2">
-              <label className="block text-sm text-gray-400 mb-2">
-                {activeTab === "videos" ? "Description" : "Content"}
+              )}
+            </div>
+            <div>
+              <label className="block text-xs font-semibold text-gray-400 uppercase mb-2">Duration (minutes)</label>
+              <input
+                type="number"
+                className="input-field"
+                placeholder="e.g. 15"
+                value={duration}
+                onChange={(e) => setDuration(e.target.value)}
+              />
+            </div>
+            <div className="md:col-span-2 flex items-center gap-2 py-2">
+              <input
+                type="checkbox"
+                id="isFreePreview"
+                className="rounded border-elite-border bg-elite-surface text-elite-gold focus:ring-elite-gold cursor-pointer"
+                checked={isFreePreview}
+                onChange={(e) => setIsFreePreview(e.target.checked)}
+              />
+              <label htmlFor="isFreePreview" className="text-xs text-gray-300 cursor-pointer select-none">
+                Free Preview (allows unapproved users to watch this lesson)
               </label>
+            </div>
+            <div className="md:col-span-2">
+              <label className="block text-xs font-semibold text-gray-400 uppercase mb-2">Video Description</label>
               <textarea
                 rows={4}
-                required={activeTab !== "videos"}
-                className="input-field resize-none"
-                placeholder={activeTab === "videos" ? "Video description..." : "Blog post content..."}
+                className="input-field resize-none text-sm leading-relaxed"
+                placeholder="Video overview and topics covered..."
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
               />
             </div>
 
             {error && (
-              <div className="md:col-span-2 p-3 rounded-lg bg-elite-red/10 border border-elite-red/20 text-elite-red text-sm text-center">
+              <div className="md:col-span-2 p-3 rounded-lg bg-elite-red/10 border border-elite-red/20 text-elite-red text-xs text-center">
                 {error}
               </div>
             )}
@@ -459,7 +314,7 @@ export default function AdminContent() {
                 ) : (
                   <>
                     <Upload size={16} />
-                    {activeTab === "videos" ? "Upload Video" : "Publish Post"}
+                    Upload Video
                   </>
                 )}
               </button>
@@ -470,139 +325,78 @@ export default function AdminContent() {
 
       {/* Content List */}
       <div className="glass-card overflow-hidden">
-        {activeTab === "videos" ? (
-          <div className="overflow-x-auto">
-            <table className="w-full">
-              <thead>
-                <tr className="border-b border-elite-border/50">
-                  <th className="text-left p-4 text-gray-400 font-medium text-xs uppercase tracking-wider">Video</th>
-                  <th className="text-left p-4 text-gray-400 font-medium text-xs uppercase tracking-wider">Category</th>
-                  <th className="text-left p-4 text-gray-400 font-medium text-xs uppercase tracking-wider">Duration</th>
-                  <th className="text-left p-4 text-gray-400 font-medium text-xs uppercase tracking-wider">Access</th>
-                  <th className="text-left p-4 text-gray-400 font-medium text-xs uppercase tracking-wider">Actions</th>
+        <div className="overflow-x-auto">
+          <table className="w-full">
+            <thead>
+              <tr className="border-b border-elite-border/50">
+                <th className="text-left p-4 text-gray-400 font-medium text-xs uppercase tracking-wider">Video</th>
+                <th className="text-left p-4 text-gray-400 font-medium text-xs uppercase tracking-wider">Category</th>
+                <th className="text-left p-4 text-gray-400 font-medium text-xs uppercase tracking-wider">Duration</th>
+                <th className="text-left p-4 text-gray-400 font-medium text-xs uppercase tracking-wider">Access</th>
+                <th className="text-left p-4 text-gray-400 font-medium text-xs uppercase tracking-wider">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {videosLoading ? (
+                <tr>
+                  <td colSpan={5} className="p-8 text-center text-gray-400">
+                    <Loader2 size={24} className="animate-spin text-elite-gold mx-auto mb-2" />
+                    Loading videos...
+                  </td>
                 </tr>
-              </thead>
-              <tbody>
-                {videosLoading ? (
-                  <tr>
-                    <td colSpan={5} className="p-8 text-center text-gray-400">
-                      <Loader2 size={24} className="animate-spin text-elite-gold mx-auto mb-2" />
-                      Loading videos...
-                    </td>
-                  </tr>
-                ) : videos.length === 0 ? (
-                  <tr>
-                    <td colSpan={5} className="p-8 text-center text-gray-400">
-                      No videos uploaded yet.
-                    </td>
-                  </tr>
-                ) : (
-                  videos.map((video) => (
-                    <tr key={video.id} className="border-b border-elite-border/30 hover:bg-white/[0.02] transition-colors">
-                      <td className="p-4">
-                        <div className="flex items-center gap-3">
-                          <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-blue-900/50 to-blue-600/30 flex items-center justify-center">
-                            <Video size={16} className="text-blue-400" />
-                          </div>
-                          <span className="text-white text-sm font-medium">{video.title}</span>
+              ) : videos.length === 0 ? (
+                <tr>
+                  <td colSpan={5} className="p-8 text-center text-gray-400">
+                    No videos uploaded yet.
+                  </td>
+                </tr>
+              ) : (
+                videos.map((video) => (
+                  <tr key={video.id} className="border-b border-elite-border/30 hover:bg-white/[0.02] transition-colors">
+                    <td className="p-4">
+                      <div className="flex items-center gap-3">
+                        <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-blue-900/50 to-blue-600/30 flex items-center justify-center shrink-0">
+                          <Video size={16} className="text-blue-400" />
                         </div>
-                      </td>
-                      <td className="p-4 text-gray-400 text-sm capitalize">{video.category}</td>
-                      <td className="p-4 text-gray-400 text-sm font-mono">{video.duration > 0 ? `${video.duration} mins` : "--"}</td>
-                      <td className="p-4">
-                        <span className={`text-xs px-2 py-1 rounded ${video.isFreePreview ? "bg-elite-green/10 text-elite-green" : "bg-elite-gold/10 text-elite-gold"}`}>
-                          {video.isFreePreview ? "Free Preview" : "Premium"}
-                        </span>
-                      </td>
-                      <td className="p-4">
-                        <div className="flex items-center gap-3">
-                          {/* Direct download option */}
-                          {video.url ? (
-                            <a
-                              href={video.url}
-                              download
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              title="Download video"
-                              className="text-gray-500 hover:text-elite-gold transition-colors"
-                            >
-                              <Download size={16} />
-                            </a>
-                          ) : (
-                            <span className="text-gray-700 cursor-not-allowed" title="URL hidden/unavailable">
-                              <Download size={16} />
-                            </span>
-                          )}
-                          <button
-                            onClick={() => handleDeleteVideo(video.id)}
-                            title="Delete video"
-                            className="text-gray-500 hover:text-elite-red transition-colors"
+                        <span className="text-white text-sm font-medium">{video.title}</span>
+                      </div>
+                    </td>
+                    <td className="p-4 text-gray-400 text-sm capitalize">{video.category}</td>
+                    <td className="p-4 text-gray-400 text-sm font-mono">{video.duration > 0 ? `${video.duration} mins` : "--"}</td>
+                    <td className="p-4">
+                      <span className={`text-xs px-2 py-1 rounded ${video.isFreePreview ? "bg-elite-green/10 text-elite-green" : "bg-elite-gold/10 text-elite-gold"}`}>
+                        {video.isFreePreview ? "Free Preview" : "Premium"}
+                      </span>
+                    </td>
+                    <td className="p-4">
+                      <div className="flex items-center gap-3">
+                        {video.url && (
+                          <a
+                            href={video.url}
+                            download
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            title="Download video"
+                            className="text-gray-500 hover:text-elite-gold transition-colors"
                           >
-                            <Trash2 size={16} />
-                          </button>
-                        </div>
-                      </td>
-                    </tr>
-                  ))
-                )}
-              </tbody>
-            </table>
-          </div>
-        ) : (
-          <div className="overflow-x-auto">
-            <table className="w-full">
-              <thead>
-                <tr className="border-b border-elite-border/50">
-                  <th className="text-left p-4 text-gray-400 font-medium text-xs uppercase tracking-wider">Title</th>
-                  <th className="text-left p-4 text-gray-400 font-medium text-xs uppercase tracking-wider">Category</th>
-                  <th className="text-left p-4 text-gray-400 font-medium text-xs uppercase tracking-wider">Status</th>
-                  <th className="text-left p-4 text-gray-400 font-medium text-xs uppercase tracking-wider">Date</th>
-                  <th className="text-left p-4 text-gray-400 font-medium text-xs uppercase tracking-wider">Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                {blogsLoading ? (
-                  <tr>
-                    <td colSpan={5} className="p-8 text-center text-gray-400">
-                      <Loader2 size={24} className="animate-spin text-elite-gold mx-auto mb-2" />
-                      Loading blog posts...
-                    </td>
-                  </tr>
-                ) : blogs.length === 0 ? (
-                  <tr>
-                    <td colSpan={5} className="p-8 text-center text-gray-400">
-                      No blog posts published yet.
-                    </td>
-                  </tr>
-                ) : (
-                  blogs.map((post) => (
-                    <tr key={post.id} className="border-b border-elite-border/30 hover:bg-white/[0.02] transition-colors">
-                      <td className="p-4 text-white text-sm font-medium">{post.title}</td>
-                      <td className="p-4 text-gray-400 text-sm capitalize">{post.category}</td>
-                      <td className="p-4">
-                        <span className={`text-xs px-2 py-1 rounded capitalize ${post.status === "published" ? "bg-elite-green/10 text-elite-green" : "bg-gray-500/10 text-gray-400"}`}>
-                          {post.status}
-                        </span>
-                      </td>
-                      <td className="p-4 text-gray-400 text-sm">
-                        {new Date(post.createdAt).toLocaleDateString()}
-                      </td>
-                      <td className="p-4">
+                            <Download size={16} />
+                          </a>
+                        )}
                         <button
-                          onClick={() => handleDeleteBlog(post.id)}
-                          title="Delete blog post"
+                          onClick={() => handleDeleteVideo(video.id)}
+                          title="Delete video"
                           className="text-gray-500 hover:text-elite-red transition-colors"
                         >
                           <Trash2 size={16} />
                         </button>
-                      </td>
-                    </tr>
-                  ))
-                )}
-              </tbody>
-            </table>
-          </div>
-        )}
+                      </div>
+                    </td>
+                  </tr>
+                ))
+              )}
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   );
