@@ -347,18 +347,31 @@ export default function CoursesPage() {
               onClick={() => handleSelectVideo(video)}
               className="glass-card-hover overflow-hidden cursor-pointer group"
             >
-              <div className={`aspect-video ${video.thumbnail || getThumbnailGradient(i)} relative flex items-center justify-center`}>
+              <div className="aspect-video relative flex items-center justify-center overflow-hidden">
+                {video.thumbnail ? (
+                  <img
+                    src={video.thumbnail}
+                    alt={video.title}
+                    className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                  />
+                ) : (
+                  <div className={`absolute inset-0 ${getThumbnailGradient(i)}`} />
+                )}
+                
+                {/* Overlay shadow to protect play icon readability */}
+                <div className="absolute inset-0 bg-black/40 group-hover:bg-black/55 transition-colors duration-300" />
+
                 {watchedIds.includes(video.id) && (
-                  <div className="absolute top-3 right-3">
-                    <CheckCircle size={18} className="text-elite-green" />
+                  <div className="absolute top-3 right-3 z-10">
+                    <CheckCircle size={18} className="text-elite-green fill-black" />
                   </div>
                 )}
 
-                <div className="w-14 h-14 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 flex items-center justify-center group-hover:scale-110 transition-transform">
+                <div className="w-14 h-14 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 flex items-center justify-center group-hover:scale-110 transition-transform z-10">
                   <Play size={24} className="text-white ml-1" />
                 </div>
                 {video.duration > 0 && (
-                  <div className="absolute bottom-3 right-3 bg-black/60 backdrop-blur-sm px-2 py-1 rounded text-xs text-white font-mono">
+                  <div className="absolute bottom-3 right-3 bg-black/60 backdrop-blur-sm px-2 py-1 rounded text-xs text-white font-mono z-10">
                     {video.duration} mins
                   </div>
                 )}
