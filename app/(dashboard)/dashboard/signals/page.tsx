@@ -178,7 +178,15 @@ export default function DashboardSignals() {
     if (search) {
       result = result.filter((s) => s.pair.toLowerCase().includes(search.toLowerCase()));
     }
-    setFiltered(result);
+
+    // Sort to place "Active" signals at the top, and "Closed" signals at the bottom
+    const sorted = [...result].sort((a, b) => {
+      if (a.status === "Active" && b.status !== "Active") return -1;
+      if (a.status !== "Active" && b.status === "Active") return 1;
+      return 0;
+    });
+
+    setFiltered(sorted);
   }, [signals, filter, search]);
 
   const fetchSignals = async () => {
