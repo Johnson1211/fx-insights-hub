@@ -233,6 +233,7 @@ export default function AdminContent() {
               >
                 <option value="basics">Basics</option>
                 <option value="technical analysis">Technical Analysis</option>
+                <option value="fundamental analysis">Fundamental Analysis</option>
                 <option value="risk management">Risk Management</option>
                 <option value="psychology">Psychology</option>
               </select>

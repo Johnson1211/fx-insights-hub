@@ -3,12 +3,13 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { useAuth } from "@/hooks/useAuth";
-import { Play, Lock, Clock, BookOpen, BarChart3, Brain, Shield, ExternalLink, Loader2, CheckCircle } from "lucide-react";
+import { Play, Lock, Clock, BookOpen, BarChart3, Brain, Shield, ExternalLink, Loader2, CheckCircle, Globe } from "lucide-react";
 
 const categories = [
   { id: "all", label: "All Lessons", icon: Play },
   { id: "basics", label: "Basics", icon: BookOpen },
   { id: "technical analysis", label: "Technical Analysis", icon: BarChart3 },
+  { id: "fundamental analysis", label: "Fundamental Analysis", icon: Globe },
   { id: "psychology", label: "Psychology", icon: Brain },
   { id: "risk management", label: "Risk Management", icon: Shield },
 ];
