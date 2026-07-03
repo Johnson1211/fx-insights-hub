@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Video, Upload, Plus, Trash2, Download, Loader2, CheckCircle2, AlertCircle, X } from "lucide-react";
+import { Video, Upload, Plus, Trash2, Download, Loader2, CheckCircle2, AlertCircle, X, Eye } from "lucide-react";
 
 type Toast = { type: "success" | "error"; message: string } | null;
 
@@ -334,20 +334,21 @@ export default function AdminContent() {
                 <th className="text-left p-4 text-gray-400 font-medium text-xs uppercase tracking-wider">Category</th>
                 <th className="text-left p-4 text-gray-400 font-medium text-xs uppercase tracking-wider">Duration</th>
                 <th className="text-left p-4 text-gray-400 font-medium text-xs uppercase tracking-wider">Access</th>
+                <th className="text-left p-4 text-gray-400 font-medium text-xs uppercase tracking-wider">Views</th>
                 <th className="text-left p-4 text-gray-400 font-medium text-xs uppercase tracking-wider">Actions</th>
               </tr>
             </thead>
             <tbody>
               {videosLoading ? (
                 <tr>
-                  <td colSpan={5} className="p-8 text-center text-gray-400">
+                  <td colSpan={6} className="p-8 text-center text-gray-400">
                     <Loader2 size={24} className="animate-spin text-elite-gold mx-auto mb-2" />
                     Loading videos...
                   </td>
                 </tr>
               ) : videos.length === 0 ? (
                 <tr>
-                  <td colSpan={5} className="p-8 text-center text-gray-400">
+                  <td colSpan={6} className="p-8 text-center text-gray-400">
                     No videos uploaded yet.
                   </td>
                 </tr>
@@ -369,16 +370,22 @@ export default function AdminContent() {
                         {video.isFreePreview ? "Free Preview" : "Premium"}
                       </span>
                     </td>
+                    <td className="p-4 text-gray-400 text-sm font-mono">
+                      <span className="flex items-center gap-1.5">
+                        <Eye size={14} className="text-gray-500" />
+                        {video.views || 0}
+                      </span>
+                    </td>
                     <td className="p-4">
                       <div className="flex items-center gap-3">
                         {video.url && (
                           <a
-                            href={video.url}
-                            download
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            title="Download video"
-                            className="text-gray-500 hover:text-elite-gold transition-colors"
+                             href={video.url}
+                             download
+                             target="_blank"
+                             rel="noopener noreferrer"
+                             title="Download video"
+                             className="text-gray-500 hover:text-elite-gold transition-colors"
                           >
                             <Download size={16} />
                           </a>

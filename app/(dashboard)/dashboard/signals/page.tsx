@@ -18,6 +18,7 @@ interface Signal {
   status: string;
   result?: string;
   pips?: number;
+  views?: number;
   analysis: string;
   chartImage?: string;
   createdAt: string;
@@ -370,6 +371,10 @@ export default function DashboardSignals() {
                     <Heart size={14} className={likesMap[signal._id]?.hasLiked ? "fill-elite-red text-elite-red" : ""} />
                     <span>{likesMap[signal._id]?.count || 0}</span>
                   </button>
+                  <div className="flex items-center gap-1 text-xs text-gray-500 font-mono" title="Signal views">
+                    <Eye size={14} />
+                    <span>{signal.views || 0}</span>
+                  </div>
                   <span className="text-gray-500 text-[10px]">{formatDate(signal.createdAt)}</span>
                 </div>
               </div>

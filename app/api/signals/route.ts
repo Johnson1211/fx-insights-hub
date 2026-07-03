@@ -36,8 +36,16 @@ export async function GET(req: NextRequest) {
       },
     });
 
+    if (dbSignals.length > 0) {
+      await prisma.signal.updateMany({
+        where: { id: { in: dbSignals.map((s) => s.id) } },
+        data: { views: { increment: 1 } },
+      });
+    }
+
     const signals = dbSignals.map((sig) => ({
       ...sig,
+      views: sig.views + 1,
       _id: sig.id,
       createdBy: {
         _id: sig.createdBy,

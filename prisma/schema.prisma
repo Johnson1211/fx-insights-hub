@@ -118,6 +118,7 @@ model Signal {
   status      SignalStatus  @default(Active)
   result      SignalResult?
   pips        Float?
+  views       Int           @default(0)
   createdBy   String
   creator     User          @relation(fields: [createdBy], references: [id], onDelete: Cascade)
   closedAt    DateTime?
@@ -139,6 +140,7 @@ model Video {
   isFreePreview Boolean  @default(false)
   duration      Int      @default(0)
   order         Int      @default(0)
+  views         Int      @default(0)
   createdBy     String
   creator       User     @relation(fields: [createdBy], references: [id], onDelete: Cascade)
   createdAt     DateTime @default(now())

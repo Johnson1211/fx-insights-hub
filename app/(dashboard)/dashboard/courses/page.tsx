@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { useAuth } from "@/hooks/useAuth";
-import { Play, Lock, Clock, BookOpen, BarChart3, Brain, Shield, ExternalLink, Loader2, CheckCircle, Globe } from "lucide-react";
+import { Play, Lock, Clock, BookOpen, BarChart3, Brain, Shield, ExternalLink, Loader2, CheckCircle, Globe, Eye } from "lucide-react";
 
 const categories = [
   { id: "all", label: "All Lessons", icon: Play },
@@ -119,8 +119,23 @@ export default function CoursesPage() {
     }
   }, [user, isApproved]);
 
-  const handleSelectVideo = (video: any) => {
+  const handleSelectVideo = async (video: any) => {
     setSelectedVideo(video);
+    try {
+      await fetch("/api/videos/view", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ videoId: video.id }),
+      });
+      // Increment views count locally for immediate UI update
+      setVideos((prev) =>
+        prev.map((v) => (v.id === video.id ? { ...v, views: (v.views || 0) + 1 } : v))
+      );
+      setSelectedVideo((prev: any) => prev ? { ...prev, views: (prev.views || 0) + 1 } : null);
+    } catch (e) {
+      console.error("Failed to increment views:", e);
+    }
+
     try {
       const watched = JSON.parse(localStorage.getItem("watched_videos") || "[]");
       if (Array.isArray(watched) && !watched.includes(video.id)) {
@@ -396,7 +411,13 @@ export default function CoursesPage() {
               </div>
               <div className="p-4">
                 <h3 className="text-white font-medium text-sm mb-1 line-clamp-2">{video.title}</h3>
-                <p className="text-gray-500 text-xs capitalize">{video.category}</p>
+                <div className="flex items-center justify-between mt-1.5">
+                  <p className="text-gray-500 text-xs capitalize">{video.category}</p>
+                  <span className="flex items-center gap-1 text-xs text-gray-500 font-mono">
+                    <Eye size={12} />
+                    <span>{video.views || 0}</span>
+                  </span>
+                </div>
               </div>
             </motion.div>
           ))}
@@ -452,9 +473,13 @@ export default function CoursesPage() {
               </div>
               <div className="p-6">
                 <h2 className="font-display text-xl text-white tracking-wider mb-2">{selectedVideo.title}</h2>
-                <div className="flex gap-4 items-center text-xs text-gray-400 mb-3">
+                <div className="flex flex-wrap gap-4 items-center text-xs text-gray-400 mb-3">
                   <span className="capitalize bg-elite-surface px-2.5 py-1 rounded-full border border-elite-border">{selectedVideo.category}</span>
                   {selectedVideo.duration > 0 && <span>Duration: {selectedVideo.duration} mins</span>}
+                  <span className="flex items-center gap-1">
+                    <Eye size={14} />
+                    <span>{selectedVideo.views || 0} views</span>
+                  </span>
                 </div>
                 {selectedVideo.description && (
                   <p className="text-gray-300 text-sm leading-relaxed mt-2">{selectedVideo.description}</p>

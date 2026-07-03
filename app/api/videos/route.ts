@@ -51,6 +51,7 @@ export async function GET(req: NextRequest) {
         isFreePreview: vid.isFreePreview,
         duration: vid.duration,
         order: vid.order,
+        views: vid.views,
         createdAt: vid.createdAt,
         // Block access to video URL if not approved and not free preview
         url: (isApproved || vid.isFreePreview) ? vid.url : "",

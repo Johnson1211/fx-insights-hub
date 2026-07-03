@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Plus, TrendingUp, TrendingDown, Trash2, X, Save, Pencil, ChevronDown,
-  Link as LinkIcon,
+  Link as LinkIcon, Eye,
 } from "lucide-react";
 
 interface Signal {
@@ -22,6 +22,7 @@ interface Signal {
   status: string;
   result?: string;
   pips?: number;
+  views?: number;
   createdAt: string;
 }
 
@@ -595,6 +596,9 @@ export default function AdminSignals() {
                       {signal.pips != null && (
                         <span className="font-mono text-gray-500">{signal.pips > 0 ? "+" : ""}{signal.pips} pips</span>
                       )}
+                      <span className="flex items-center gap-1 font-mono text-gray-500" title="Signal views">
+                        <Eye size={12} className="inline" /> {signal.views || 0}
+                      </span>
                     </div>
                     {signal.analysis && (
                       <p className="text-xs text-gray-600 mt-1 line-clamp-1 max-w-md">{signal.analysis}</p>
