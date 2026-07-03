@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import {
   Search, Filter, Crown, Mail, Calendar, Pencil, Trash2, X, Save,
   Phone, User, ShieldAlert, CheckCircle2, AlertCircle, Loader2,
+  Eye,
 } from "lucide-react";
 
 interface UserData {
@@ -42,6 +43,8 @@ export default function AdminUsers() {
   const [search, setSearch] = useState("");
   const [planFilter, setPlanFilter] = useState("all");
   const [toast, setToast] = useState<Toast>(null);
+  const [viewAll, setViewAll] = useState(false);
+  const [totalUsers, setTotalUsers] = useState(0);
 
   // Edit modal state
   const [editingUser, setEditingUser] = useState<UserData | null>(null);
@@ -61,7 +64,7 @@ export default function AdminUsers() {
 
   useEffect(() => {
     fetchUsers();
-  }, []);
+  }, [viewAll]);
 
   const showToast = (type: "success" | "error", message: string) => {
     setToast({ type, message });
@@ -69,10 +72,13 @@ export default function AdminUsers() {
   };
 
   const fetchUsers = async () => {
+    setLoading(true);
     try {
-      const res = await fetch("/api/admin/users");
+      const url = viewAll ? "/api/admin/users?limit=all" : "/api/admin/users?limit=20";
+      const res = await fetch(url);
       const data = await res.json();
       setUsers(data.users || []);
+      setTotalUsers(data.total || 0);
     } catch (error) {
       console.error("Failed to fetch users:", error);
       showToast("error", "Failed to fetch users list");
@@ -205,8 +211,13 @@ export default function AdminUsers() {
       </AnimatePresence>
 
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-        <h1 className="font-display text-3xl text-white tracking-wider">USER MANAGEMENT</h1>
-        <div className="flex items-center gap-3">
+        <div>
+          <h1 className="font-display text-3xl text-white tracking-wider">USER MANAGEMENT</h1>
+          <p className="text-gray-400 text-xs mt-1">
+            {loading ? "Updating user list..." : `Showing ${filteredUsers.length} of ${totalUsers} user${totalUsers === 1 ? "" : "s"}`}
+          </p>
+        </div>
+        <div className="flex flex-wrap items-center gap-3">
           <div className="relative">
             <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500" />
             <input
@@ -228,6 +239,17 @@ export default function AdminUsers() {
             <option value="copy_trader">Copy Trader</option>
             <option value="training">Training</option>
           </select>
+          <button
+            onClick={() => setViewAll(!viewAll)}
+            className={`flex items-center gap-2 px-4 py-2 text-sm font-semibold rounded-lg border transition-all ${
+              viewAll
+                ? "bg-elite-gold/20 border-elite-gold text-elite-gold hover:bg-elite-gold/30"
+                : "bg-white/[0.02] border-white/10 text-white hover:bg-white/[0.05]"
+            }`}
+          >
+            <Eye size={16} />
+            {viewAll ? "Show Limited" : "View All"}
+          </button>
         </div>
       </div>
 

@@ -22,7 +22,9 @@ export async function GET(req: NextRequest) {
 
     const { searchParams } = new URL(req.url);
     const page = parseInt(searchParams.get("page") || "1");
-    const limit = parseInt(searchParams.get("limit") || "20");
+    const limitParam = searchParams.get("limit");
+    const viewAll = limitParam === "all";
+    const limit = viewAll ? 0 : parseInt(limitParam || "20");
     const search = searchParams.get("search") || "";
     const plan = searchParams.get("plan");
 
@@ -35,9 +37,15 @@ export async function GET(req: NextRequest) {
     }
     if (plan) where.plan = plan as any;
 
-    const skip = (page - 1) * limit;
+    const skip = viewAll ? undefined : (page - 1) * limit;
+    const take = viewAll ? undefined : limit;
+
     const [dbUsers, total] = await Promise.all([
-      prisma.user.findMany({ where, orderBy: { createdAt: "desc" }, skip, take: limit }),
+      prisma.user.findMany({
+        where,
+        orderBy: { createdAt: "desc" },
+        ...(viewAll ? {} : { skip, take }),
+      }),
       prisma.user.count({ where }),
     ]);
 
@@ -46,7 +54,12 @@ export async function GET(req: NextRequest) {
       return { ...rest, _id: user.id };
     });
 
-    return NextResponse.json({ users, total, page, pages: Math.ceil(total / limit) });
+    return NextResponse.json({
+      users,
+      total,
+      page,
+      pages: viewAll ? 1 : Math.ceil(total / limit),
+    });
   } catch (error: any) {
     console.error("Admin users error:", error);
     return NextResponse.json({ error: "Internal server error" }, { status: 500 });
