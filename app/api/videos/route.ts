@@ -29,11 +29,11 @@ export async function GET(req: NextRequest) {
       return NextResponse.json({ error: "User not found" }, { status: 404 });
     }
 
-    // Fetch videos sorted by order then createdAt
+    // Fetch videos sorted by order then createdAt (oldest first, newest at the bottom)
     const dbVideos = await prisma.video.findMany({
       orderBy: [
         { order: "asc" },
-        { createdAt: "desc" },
+        { createdAt: "asc" },
       ],
     });
 
