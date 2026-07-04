@@ -1,14 +1,21 @@
-import nodemailer from "nodemailer";
+import { Resend } from "resend";
 
-const SMTP_HOST = process.env.SMTP_HOST || "smtp.gmail.com";
-const SMTP_PORT = Number(process.env.SMTP_PORT) || 587;
-const SMTP_USER = process.env.SMTP_USER || "";
-const SMTP_PASS = process.env.SMTP_PASS || "";
+const resend = new Resend(process.env.RESEND_API_KEY);
 
-export async function sendMail({ to, subject, html }: { to: string; subject: string; html: string }) {
-  // If credentials are not configured, print to log for dev convenience
-  if (!SMTP_USER || !SMTP_PASS) {
-    console.warn("Mail warning: SMTP credentials not set. Logging email content instead:");
+// The "from" address — must be a verified domain or use Resend's onboarding address
+const FROM_ADDRESS = process.env.RESEND_FROM || "FXElite Pro <onboarding@resend.dev>";
+
+export async function sendMail({
+  to,
+  subject,
+  html,
+}: {
+  to: string;
+  subject: string;
+  html: string;
+}) {
+  if (!process.env.RESEND_API_KEY) {
+    console.warn("⚠️  RESEND_API_KEY not set. Logging email to console instead:");
     console.log(`To: ${to}`);
     console.log(`Subject: ${subject}`);
     console.log(`Body: ${html}`);
@@ -16,24 +23,19 @@ export async function sendMail({ to, subject, html }: { to: string; subject: str
   }
 
   try {
-    const transporter = nodemailer.createTransport({
-      host: SMTP_HOST,
-      port: SMTP_PORT,
-      secure: SMTP_PORT === 465, // true for 465, false for 587/others
-      auth: {
-        user: SMTP_USER,
-        pass: SMTP_PASS,
-      },
-    });
-
-    await transporter.sendMail({
-      from: `"FXElite Pro Notifications" <${SMTP_USER}>`,
+    const { data, error } = await resend.emails.send({
+      from: FROM_ADDRESS,
       to,
       subject,
       html,
     });
-  } catch (error) {
-    console.error("Nodemailer error sending email:", error);
-    // Do not throw to avoid crashing requests
+
+    if (error) {
+      console.error("Resend error:", error);
+    } else {
+      console.log("Email sent via Resend, id:", data?.id);
+    }
+  } catch (err) {
+    console.error("Resend exception:", err);
   }
 }
