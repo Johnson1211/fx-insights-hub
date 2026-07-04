@@ -54,6 +54,39 @@ export async function POST(req: NextRequest) {
   }
 }
 
+export async function PATCH(req: NextRequest) {
+  try {
+    const admin = await verifyAdmin(req);
+    if (!admin) {
+      return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+    }
+
+    const { searchParams } = new URL(req.url);
+    const id = searchParams.get("id");
+
+    if (!id) {
+      return NextResponse.json({ error: "Video ID is required" }, { status: 400 });
+    }
+
+    const body = await req.json();
+    const { title } = body;
+
+    if (!title || !title.trim()) {
+      return NextResponse.json({ error: "Title is required" }, { status: 400 });
+    }
+
+    const video = await prisma.video.update({
+      where: { id },
+      data: { title: title.trim() },
+    });
+
+    return NextResponse.json({ video });
+  } catch (error: any) {
+    console.error("Admin update video error:", error);
+    return NextResponse.json({ error: "Internal server error" }, { status: 500 });
+  }
+}
+
 export async function DELETE(req: NextRequest) {
   try {
     const admin = await verifyAdmin(req);

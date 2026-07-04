@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Video, Upload, Plus, Trash2, Download, Loader2, CheckCircle2, AlertCircle, X, Eye } from "lucide-react";
+import { Video, Upload, Plus, Trash2, Download, Loader2, CheckCircle2, AlertCircle, X, Eye, Pencil, Check } from "lucide-react";
 
 type Toast = { type: "success" | "error"; message: string } | null;
 
@@ -13,6 +13,11 @@ export default function AdminContent() {
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState("");
   const [toast, setToast] = useState<Toast>(null);
+
+  // Inline rename state
+  const [editingId, setEditingId] = useState<string | null>(null);
+  const [editTitle, setEditTitle] = useState("");
+  const [renaming, setRenaming] = useState(false);
 
   // Form states
   const [title, setTitle] = useState("");
@@ -167,6 +172,41 @@ export default function AdminContent() {
       fetchVideos();
     } catch (err: any) {
       showToast("error", err.message || "Failed to delete video");
+    }
+  };
+
+  const startRename = (video: any) => {
+    setEditingId(video.id);
+    setEditTitle(video.title);
+  };
+
+  const cancelRename = () => {
+    setEditingId(null);
+    setEditTitle("");
+  };
+
+  const handleRenameVideo = async (id: string) => {
+    if (!editTitle.trim()) return;
+    setRenaming(true);
+    try {
+      const res = await fetch(`/api/admin/videos?id=${id}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ title: editTitle.trim() }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || "Failed to rename video");
+      showToast("success", "Lesson renamed successfully!");
+      setEditingId(null);
+      setEditTitle("");
+      // Update locally to avoid full re-fetch
+      setVideos((prev: any[]) =>
+        prev.map((v) => (v.id === id ? { ...v, title: editTitle.trim() } : v))
+      );
+    } catch (err: any) {
+      showToast("error", err.message || "Failed to rename lesson");
+    } finally {
+      setRenaming(false);
     }
   };
 
@@ -360,7 +400,48 @@ export default function AdminContent() {
                         <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-blue-900/50 to-blue-600/30 flex items-center justify-center shrink-0">
                           <Video size={16} className="text-blue-400" />
                         </div>
-                        <span className="text-white text-sm font-medium">{video.title}</span>
+                        {editingId === video.id ? (
+                          <div className="flex items-center gap-2 flex-1">
+                            <input
+                              autoFocus
+                              type="text"
+                              value={editTitle}
+                              onChange={(e) => setEditTitle(e.target.value)}
+                              onKeyDown={(e) => {
+                                if (e.key === "Enter") handleRenameVideo(video.id);
+                                if (e.key === "Escape") cancelRename();
+                              }}
+                              className="input-field py-1.5 text-sm flex-1 min-w-0"
+                              placeholder="Lesson title..."
+                            />
+                            <button
+                              onClick={() => handleRenameVideo(video.id)}
+                              disabled={renaming}
+                              className="p-1.5 text-elite-green hover:bg-elite-green/10 rounded transition-colors shrink-0"
+                              title="Save title"
+                            >
+                              {renaming ? <Loader2 size={14} className="animate-spin" /> : <Check size={14} />}
+                            </button>
+                            <button
+                              onClick={cancelRename}
+                              className="p-1.5 text-gray-500 hover:text-white rounded transition-colors shrink-0"
+                              title="Cancel"
+                            >
+                              <X size={14} />
+                            </button>
+                          </div>
+                        ) : (
+                          <div className="flex items-center gap-2 group min-w-0">
+                            <span className="text-white text-sm font-medium truncate">{video.title}</span>
+                            <button
+                              onClick={() => startRename(video)}
+                              className="opacity-0 group-hover:opacity-100 p-1 text-gray-500 hover:text-elite-gold transition-all shrink-0"
+                              title="Rename lesson"
+                            >
+                              <Pencil size={13} />
+                            </button>
+                          </div>
+                        )}
                       </div>
                     </td>
                     <td className="p-4 text-gray-400 text-sm capitalize">{video.category}</td>
