@@ -1,6 +1,6 @@
 import { Resend } from "resend";
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+const resend = new Resend(process.env.RESEND_API_KEY || "re_dummy_key");
 
 // The "from" address — must be a verified domain or use Resend's onboarding address
 const FROM_ADDRESS = process.env.RESEND_FROM || "FXElite Pro <onboarding@resend.dev>";
