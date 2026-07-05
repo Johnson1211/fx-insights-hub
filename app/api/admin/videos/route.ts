@@ -44,6 +44,25 @@ export async function POST(req: NextRequest) {
       },
     });
 
+    // Bulk-create notification alerts for all users
+    try {
+      const users = await prisma.user.findMany({ select: { id: true } });
+      if (users.length > 0) {
+        await prisma.userNotification.createMany({
+          data: users.map((u) => ({
+            userId: u.id,
+            title: "New Lesson Uploaded 🎥",
+            message: `A new video "${video.title}" has been uploaded to the "${video.category}" section!`,
+            type: "info",
+            link: `/dashboard/courses?video=${video.id}`,
+          })),
+        });
+      }
+    } catch (notifErr) {
+      // Log notification error but don't fail the video creation
+      console.error("Failed to create video upload notifications:", notifErr);
+    }
+
     return NextResponse.json({ video }, { status: 201 });
   } catch (error: any) {
     console.error("Admin create video error:", error);

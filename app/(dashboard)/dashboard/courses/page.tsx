@@ -1,9 +1,10 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 import { motion } from "framer-motion";
+import { useSearchParams } from "next/navigation";
 import { useAuth } from "@/hooks/useAuth";
-import { Play, Lock, Clock, BookOpen, BarChart3, Brain, Shield, ExternalLink, Loader2, CheckCircle, Globe, Eye } from "lucide-react";
+import { Play, Lock, Clock, BookOpen, BarChart3, Brain, Shield, ExternalLink, Loader2, CheckCircle, Globe, Eye, Link2, Check } from "lucide-react";
 
 const categories = [
   { id: "all", label: "All Lessons", icon: Play },
@@ -69,13 +70,15 @@ function getVideoEmbedInfo(url: string) {
   };
 }
 
-export default function CoursesPage() {
+function CoursesContent() {
   const { user, refreshUser } = useAuth();
+  const searchParams = useSearchParams();
   const [videos, setVideos] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [activeCategory, setActiveCategory] = useState("all");
   const [selectedVideo, setSelectedVideo] = useState<any | null>(null);
   const [watchedIds, setWatchedIds] = useState<string[]>([]);
+  const [copiedId, setCopiedId] = useState<string | null>(null);
   
   // Lock screen state
   const [derivIdInput, setDerivIdInput] = useState("");
@@ -112,12 +115,31 @@ export default function CoursesPage() {
       }
     }
 
-    if (user && isApproved) {
+    if (user) {
       fetchVideos();
     } else {
       setLoading(false);
     }
-  }, [user, isApproved]);
+  }, [user]);
+
+  // Auto-open video player modal if 'video' query param is present and matches a video
+  useEffect(() => {
+    const videoId = searchParams.get("video");
+    if (videoId && videos.length > 0) {
+      const video = videos.find((v) => v.id === videoId);
+      if (video) {
+        setSelectedVideo(video);
+      }
+    }
+  }, [videos, searchParams]);
+
+  const handleCopyLink = (e: React.MouseEvent, videoId: string) => {
+    e.stopPropagation();
+    const shareUrl = `${window.location.origin}/dashboard/courses?video=${videoId}`;
+    navigator.clipboard.writeText(shareUrl);
+    setCopiedId(videoId);
+    setTimeout(() => setCopiedId(null), 2000);
+  };
 
   const handleSelectVideo = async (video: any) => {
     setSelectedVideo(video);
@@ -183,151 +205,147 @@ export default function CoursesPage() {
     ? videos 
     : videos.filter((v) => v.category?.toLowerCase() === activeCategory);
 
-  // Locked Screen render
-  if (!isApproved) {
-    const isPending = user.derivStatus === "pending" && !showEditForm;
+  const isPending = user.derivStatus === "pending" && !showEditForm;
 
-    return (
-      <div className="space-y-6 max-w-4xl mx-auto">
-        <div className="text-center mb-10">
-          <span className="text-elite-gold text-sm font-semibold tracking-widest uppercase">Premium Content</span>
-          <h1 className="font-display text-4xl text-white mt-3 tracking-wider flex items-center justify-center gap-2">
-            <Lock className="text-elite-gold" size={30} /> UNLOCK COURSE LESSONS
-          </h1>
-          <p className="text-gray-400 mt-4 max-w-2xl mx-auto text-sm leading-relaxed">
-            Access to our comprehensive trading lessons, strategy breakdowns, and webinars is reserved for members registered under our Introducing Broker (IB) partner link on Deriv.
-          </p>
-        </div>
-
-        {isPending ? (
-          /* Pending Status Card */
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            className="glass-card p-8 text-center space-y-6 border border-elite-gold/20 bg-gradient-to-br from-elite-gold/5 to-transparent"
-          >
-            <div className="w-16 h-16 rounded-full bg-elite-gold/10 border border-elite-gold/20 flex items-center justify-center mx-auto animate-pulse">
-              <Clock size={32} className="text-elite-gold" />
-            </div>
-            <div>
-              <h2 className="font-display text-2xl text-white tracking-wide">VERIFICATION PENDING</h2>
-              <p className="text-gray-400 text-sm mt-3 max-w-md mx-auto leading-relaxed">
-                Your submitted Deriv Account ID <strong className="text-white">({user.derivId})</strong> is currently being verified by our admin team.
-              </p>
-              <p className="text-gray-500 text-xs mt-2 leading-relaxed">
-                Verification is usually completed in less than 24 hours. Your lessons will automatically unlock once approved.
-              </p>
-            </div>
-            <div className="pt-4">
-              <button
-                onClick={() => {
-                  setDerivIdInput(user.derivId || "");
-                  setShowEditForm(true);
-                }}
-                className="text-gray-400 hover:text-white transition-colors text-xs underline"
-              >
-                Submit a different Account ID
-              </button>
-            </div>
-          </motion.div>
-        ) : (
-          /* Verification Form & Instructions */
-          <div className="grid md:grid-cols-2 gap-6 items-stretch">
-            {/* Step 1: Register */}
-            <motion.div
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              className="glass-card p-8 flex flex-col justify-between"
-            >
-              <div className="space-y-4">
-                <div className="w-10 h-10 rounded-lg bg-elite-gold/10 border border-elite-gold/20 flex items-center justify-center font-display text-elite-gold font-bold">1</div>
-                <h3 className="font-display text-lg text-white tracking-wider">REGISTER VIA OUR PARTNER LINK</h3>
-                <p className="text-gray-400 text-sm leading-relaxed">
-                  Click the partner link below to register a real trading account with our partner broker, **Deriv**.
-                </p>
-                <p className="text-gray-500 text-xs leading-relaxed">
-                  Note: If you already have a Deriv account, you must create a new one using a different email address under our link to link it to our IB network.
-                </p>
-              </div>
-              <div className="pt-8">
-                <a
-                  href={partnerLink}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="btn-primary w-full flex items-center justify-center gap-2 py-3"
-                >
-                  Register on Deriv
-                  <ExternalLink size={14} />
-                </a>
-              </div>
-            </motion.div>
-
-            {/* Step 2: Submit ID */}
-            <motion.div
-              initial={{ opacity: 0, x: 20 }}
-              animate={{ opacity: 1, x: 0 }}
-              className="glass-card p-8 flex flex-col justify-between"
-            >
-              <form onSubmit={handleVerifySubmit} className="space-y-5 flex-1 flex flex-col justify-between">
-                <div className="space-y-4">
-                  <div className="w-10 h-10 rounded-lg bg-elite-gold/10 border border-elite-gold/20 flex items-center justify-center font-display text-elite-gold font-bold">2</div>
-                  <h3 className="font-display text-lg text-white tracking-wider">SUBMIT ACCOUNT ID FOR APPROVAL</h3>
-                  <p className="text-gray-400 text-sm leading-relaxed">
-                    Once registered, enter your Deriv Account ID (e.g. CR123456 or CID number) below to request access.
-                  </p>
-
-                  {error && (
-                    <div className="p-3 rounded-lg bg-elite-red/10 border border-elite-red/20 text-elite-red text-xs text-center">
-                      {error}
-                    </div>
-                  )}
-
-                  <div>
-                    <label className="block text-sm text-gray-400 mb-2">Deriv Account ID / CID</label>
-                    <input
-                      type="text"
-                      required
-                      placeholder="e.g. CR123456"
-                      value={derivIdInput}
-                      onChange={(e) => setDerivIdInput(e.target.value)}
-                      className="input-field"
-                    />
-                  </div>
-                </div>
-
-                <div className="pt-6">
-                  <button
-                    type="submit"
-                    disabled={submitting}
-                    className="btn-outline w-full flex items-center justify-center gap-2 py-3 disabled:opacity-50"
-                  >
-                    {submitting ? (
-                      <Loader2 size={16} className="animate-spin" />
-                    ) : (
-                      "Submit ID for Verification"
-                    )}
-                  </button>
-                  {showEditForm && (
-                    <button
-                      type="button"
-                      onClick={() => setShowEditForm(false)}
-                      className="w-full text-center text-xs text-gray-500 hover:text-gray-400 transition-colors mt-3"
-                    >
-                      Cancel edit
-                    </button>
-                  )}
-                </div>
-              </form>
-            </motion.div>
-          </div>
-        )}
-      </div>
-    );
-  }
-
-  // Active / Approved Video Library Screen
   return (
     <div className="space-y-6">
+      {!isApproved ? (
+        <div className="space-y-6 max-w-4xl mx-auto">
+          <div className="text-center mb-10">
+            <span className="text-elite-gold text-sm font-semibold tracking-widest uppercase">Premium Content</span>
+            <h1 className="font-display text-4xl text-white mt-3 tracking-wider flex items-center justify-center gap-2">
+              <Lock className="text-elite-gold" size={30} /> UNLOCK COURSE LESSONS
+            </h1>
+            <p className="text-gray-400 mt-4 max-w-2xl mx-auto text-sm leading-relaxed">
+              Access to our comprehensive trading lessons, strategy breakdowns, and webinars is reserved for members registered under our Introducing Broker (IB) partner link on Deriv.
+            </p>
+          </div>
+
+          {isPending ? (
+            /* Pending Status Card */
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              className="glass-card p-8 text-center space-y-6 border border-elite-gold/20 bg-gradient-to-br from-elite-gold/5 to-transparent"
+            >
+              <div className="w-16 h-16 rounded-full bg-elite-gold/10 border border-elite-gold/20 flex items-center justify-center mx-auto animate-pulse">
+                <Clock size={32} className="text-elite-gold" />
+              </div>
+              <div>
+                <h2 className="font-display text-2xl text-white tracking-wide">VERIFICATION PENDING</h2>
+                <p className="text-gray-400 text-sm mt-3 max-w-md mx-auto leading-relaxed">
+                  Your submitted Deriv Account ID <strong className="text-white">({user.derivId})</strong> is currently being verified by our admin team.
+                </p>
+                <p className="text-gray-500 text-xs mt-2 leading-relaxed">
+                  Verification is usually completed in less than 24 hours. Your lessons will automatically unlock once approved.
+                </p>
+              </div>
+              <div className="pt-4">
+                <button
+                  onClick={() => {
+                    setDerivIdInput(user.derivId || "");
+                    setShowEditForm(true);
+                  }}
+                  className="text-gray-400 hover:text-white transition-colors text-xs underline"
+                >
+                  Submit a different Account ID
+                </button>
+              </div>
+            </motion.div>
+          ) : (
+            /* Verification Form & Instructions */
+            <div className="grid md:grid-cols-2 gap-6 items-stretch">
+              {/* Step 1: Register */}
+              <motion.div
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                className="glass-card p-8 flex flex-col justify-between"
+              >
+                <div className="space-y-4">
+                  <div className="w-10 h-10 rounded-lg bg-elite-gold/10 border border-elite-gold/20 flex items-center justify-center font-display text-elite-gold font-bold">1</div>
+                  <h3 className="font-display text-lg text-white tracking-wider">REGISTER VIA OUR PARTNER LINK</h3>
+                  <p className="text-gray-400 text-sm leading-relaxed">
+                    Click the partner link below to register a real trading account with our partner broker, **Deriv**.
+                  </p>
+                  <p className="text-gray-500 text-xs leading-relaxed">
+                    Note: If you already have a Deriv account, you must create a new one using a different email address under our link to link it to our IB network.
+                  </p>
+                </div>
+                <div className="pt-8">
+                  <a
+                    href={partnerLink}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="btn-primary w-full flex items-center justify-center gap-2 py-3"
+                  >
+                    Register on Deriv
+                    <ExternalLink size={14} />
+                  </a>
+                </div>
+              </motion.div>
+
+              {/* Step 2: Submit ID */}
+              <motion.div
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
+                className="glass-card p-8 flex flex-col justify-between"
+              >
+                <form onSubmit={handleVerifySubmit} className="space-y-5 flex-1 flex flex-col justify-between">
+                  <div className="space-y-4">
+                    <div className="w-10 h-10 rounded-lg bg-elite-gold/10 border border-elite-gold/20 flex items-center justify-center font-display text-elite-gold font-bold">2</div>
+                    <h3 className="font-display text-lg text-white tracking-wider">SUBMIT ACCOUNT ID FOR APPROVAL</h3>
+                    <p className="text-gray-400 text-sm leading-relaxed">
+                      Once registered, enter your Deriv Account ID (e.g. CR123456 or CID number) below to request access.
+                    </p>
+
+                    {error && (
+                      <div className="p-3 rounded-lg bg-elite-red/10 border border-elite-red/20 text-elite-red text-xs text-center">
+                        {error}
+                      </div>
+                    )}
+
+                    <div>
+                      <label className="block text-sm text-gray-400 mb-2">Deriv Account ID / CID</label>
+                      <input
+                        type="text"
+                        required
+                        placeholder="e.g. CR123456"
+                        value={derivIdInput}
+                        onChange={(e) => setDerivIdInput(e.target.value)}
+                        className="input-field"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="pt-6">
+                    <button
+                      type="submit"
+                      disabled={submitting}
+                      className="btn-outline w-full flex items-center justify-center gap-2 py-3 disabled:opacity-50"
+                    >
+                      {submitting ? (
+                        <Loader2 size={16} className="animate-spin" />
+                      ) : (
+                        "Submit ID for Verification"
+                      )}
+                    </button>
+                    {showEditForm && (
+                      <button
+                        type="button"
+                        onClick={() => setShowEditForm(false)}
+                        className="w-full text-center text-xs text-gray-500 hover:text-gray-400 transition-colors mt-3"
+                      >
+                        Cancel edit
+                      </button>
+                    )}
+                  </div>
+                </form>
+              </motion.div>
+            </div>
+          )}
+        </div>
+      ) : (
+        <>
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <h1 className="font-display text-3xl text-white tracking-wider">COURSE LESSONS</h1>
         <div className="text-sm text-gray-400">
@@ -413,15 +431,30 @@ export default function CoursesPage() {
                 <h3 className="text-white font-medium text-sm mb-1 line-clamp-2">{video.title}</h3>
                 <div className="flex items-center justify-between mt-1.5">
                   <p className="text-gray-500 text-xs capitalize">{video.category}</p>
-                  <span className="flex items-center gap-1 text-xs text-gray-500 font-mono">
-                    <Eye size={12} />
-                    <span>{video.views || 0}</span>
-                  </span>
+                  <div className="flex items-center gap-3">
+                    <button
+                      onClick={(e) => handleCopyLink(e, video.id)}
+                      className="p-1 rounded text-gray-400 hover:text-elite-gold hover:bg-white/5 transition-colors"
+                      title="Copy direct link"
+                    >
+                      {copiedId === video.id ? (
+                        <Check size={12} className="text-elite-green" />
+                      ) : (
+                        <Link2 size={12} />
+                      )}
+                    </button>
+                    <span className="flex items-center gap-1 text-xs text-gray-500 font-mono">
+                      <Eye size={12} />
+                      <span>{video.views || 0}</span>
+                    </span>
+                  </div>
                 </div>
               </div>
             </motion.div>
           ))}
         </div>
+      )}
+        </>
       )}
 
       {/* Video Player Modal */}
@@ -471,25 +504,55 @@ export default function CoursesPage() {
                   </div>
                 )}
               </div>
-              <div className="p-6">
-                <h2 className="font-display text-xl text-white tracking-wider mb-2">{selectedVideo.title}</h2>
-                <div className="flex flex-wrap gap-4 items-center text-xs text-gray-400 mb-3">
-                  <span className="capitalize bg-elite-surface px-2.5 py-1 rounded-full border border-elite-border">{selectedVideo.category}</span>
-                  {selectedVideo.duration > 0 && <span>Duration: {selectedVideo.duration} mins</span>}
-                  <span className="flex items-center gap-1">
-                    <Eye size={14} />
-                    <span>{selectedVideo.views || 0} views</span>
-                  </span>
-                </div>
-                {selectedVideo.description && (
-                  <p className="text-gray-300 text-sm leading-relaxed mt-2">{selectedVideo.description}</p>
-                )}
-              </div>
-            </motion.div>
-          </div>
-        );
-      })()}
-    </div>
-  );
-}
+               <div className="p-6">
+                 <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-3">
+                   <h2 className="font-display text-xl text-white tracking-wider">{selectedVideo.title}</h2>
+                   <button
+                     onClick={(e) => handleCopyLink(e, selectedVideo.id)}
+                     className="inline-flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-lg bg-elite-surface border border-elite-border hover:border-elite-gold/50 text-xs text-gray-300 hover:text-white transition-all w-fit"
+                   >
+                     {copiedId === selectedVideo.id ? (
+                       <>
+                         <Check size={12} className="text-elite-green" />
+                         <span>Copied link!</span>
+                       </>
+                     ) : (
+                       <>
+                         <Link2 size={12} />
+                         <span>Copy Video Link</span>
+                       </>
+                     )}
+                   </button>
+                 </div>
+                 <div className="flex flex-wrap gap-4 items-center text-xs text-gray-400 mb-3">
+                   <span className="capitalize bg-elite-surface px-2.5 py-1 rounded-full border border-elite-border">{selectedVideo.category}</span>
+                   {selectedVideo.duration > 0 && <span>Duration: {selectedVideo.duration} mins</span>}
+                   <span className="flex items-center gap-1">
+                     <Eye size={14} />
+                     <span>{selectedVideo.views || 0} views</span>
+                   </span>
+                 </div>
+                 {selectedVideo.description && (
+                   <p className="text-gray-300 text-sm leading-relaxed mt-2">{selectedVideo.description}</p>
+                 )}
+               </div>
+             </motion.div>
+           </div>
+         );
+       })()}
+     </div>
+   );
+ }
+ 
+ export default function CoursesPage() {
+   return (
+     <Suspense fallback={
+       <div className="flex justify-center py-20">
+         <Loader2 size={32} className="text-elite-gold animate-spin" />
+       </div>
+     }>
+       <CoursesContent />
+     </Suspense>
+   );
+ }
 

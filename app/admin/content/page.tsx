@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Video, Upload, Plus, Trash2, Download, Loader2, CheckCircle2, AlertCircle, X, Eye, Pencil, Check } from "lucide-react";
+import { Video, Upload, Plus, Trash2, Download, Loader2, CheckCircle2, AlertCircle, X, Eye, Pencil, Check, Link2 } from "lucide-react";
 
 type Toast = { type: "success" | "error"; message: string } | null;
 
@@ -13,6 +13,14 @@ export default function AdminContent() {
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState("");
   const [toast, setToast] = useState<Toast>(null);
+  const [copiedId, setCopiedId] = useState<string | null>(null);
+
+  const handleCopyLink = (videoId: string) => {
+    const shareUrl = `${window.location.origin}/dashboard/courses?video=${videoId}`;
+    navigator.clipboard.writeText(shareUrl);
+    setCopiedId(videoId);
+    setTimeout(() => setCopiedId(null), 2000);
+  };
 
   // Inline rename state
   const [editingId, setEditingId] = useState<string | null>(null);
@@ -471,6 +479,17 @@ export default function AdminContent() {
                             <Download size={16} />
                           </a>
                         )}
+                        <button
+                          onClick={() => handleCopyLink(video.id)}
+                          title="Copy shareable link"
+                          className="text-gray-500 hover:text-elite-gold transition-colors"
+                        >
+                          {copiedId === video.id ? (
+                            <Check size={16} className="text-elite-green" />
+                          ) : (
+                            <Link2 size={16} />
+                          )}
+                        </button>
                         <button
                           onClick={() => handleDeleteVideo(video.id)}
                           title="Delete video"
