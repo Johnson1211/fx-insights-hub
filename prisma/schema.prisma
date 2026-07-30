@@ -78,7 +78,7 @@ model User {
   password              String
   phone                 String?
   avatar                String?           @default("")
-  role                  Role              @default(guest)
+  role                  String            @default("guest")
   plan                  Plan              @default(free)
   tradingExperience     Experience?
   referralCode          String            @unique
