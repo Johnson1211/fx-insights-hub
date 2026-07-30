@@ -83,12 +83,14 @@ export async function PATCH(req: NextRequest) {
       return NextResponse.json({ error: "User not found" }, { status: 404 });
     }
 
+    const update: any = {};
+
     // Restrict role modification to superadmin only
     if (role) {
       if (admin.role !== "superadmin") {
         return NextResponse.json({ error: "Only the system owner (superadmin) can change user roles" }, { status: 403 });
       }
-      update.role = role as any;
+      update.role = role;
     }
 
     // Protect self-demotion
@@ -96,7 +98,6 @@ export async function PATCH(req: NextRequest) {
       return NextResponse.json({ error: "You cannot change your own account role" }, { status: 400 });
     }
 
-    const update: any = {};
     if (plan) update.plan = plan as any;
     if (brokerApproved !== undefined) update.brokerApproved = brokerApproved;
     if (derivStatus !== undefined) update.derivStatus = derivStatus;
