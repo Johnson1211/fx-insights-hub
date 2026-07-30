@@ -169,6 +169,8 @@ export default function DashboardSignals() {
 
   useEffect(() => {
     fetchSignals();
+    const interval = setInterval(fetchSignals, 5000);
+    return () => clearInterval(interval);
   }, []);
 
   useEffect(() => {
@@ -213,10 +215,10 @@ export default function DashboardSignals() {
   return (
     <div className="space-y-6">
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-        <h1 className="font-display text-3xl text-white tracking-wider">TRADING SIGNALS</h1>
+        <h1 className="font-display text-3xl text-slate-900 dark:text-slate-900 dark:text-white tracking-wider">TRADING SIGNALS</h1>
         <div className="flex items-center gap-3">
           <div className="relative">
-            <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500" />
+            <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500 dark:text-gray-400" />
             <input
               type="text"
               placeholder="Search pair..."
@@ -254,9 +256,9 @@ export default function DashboardSignals() {
           >
             <div className="flex items-center justify-between mb-2">
               <stat.icon size={18} className={stat.color} />
-              <span className="font-display text-2xl text-white">{stat.value}</span>
+              <span className="font-display text-2xl text-slate-900 dark:text-white">{stat.value}</span>
             </div>
-            <p className="text-gray-500 text-xs">{stat.label}</p>
+            <p className="text-slate-500 dark:text-gray-400 text-xs">{stat.label}</p>
           </motion.div>
         ))}
       </div>
@@ -282,7 +284,7 @@ export default function DashboardSignals() {
               } ${
                 highlightedId === signal._id
                   ? "border-elite-gold shadow-[0_0_15px_rgba(212,175,55,0.35)] ring-1 ring-elite-gold/30"
-                  : "border-elite-border/30"
+                  : "border-gray-200 dark:border-white/10"
               }`}
               style={{
                 borderLeftColor: signal.status === "Closed" ? "#3f3f46" : (signal.type === "BUY" ? "#00E676" : "#FF1744"),
@@ -301,7 +303,7 @@ export default function DashboardSignals() {
                   </div>
                   <div>
                     <div className="flex items-center gap-3">
-                      <span className="font-mono font-bold text-lg text-white">{signal.pair}</span>
+                      <span className="font-mono font-bold text-lg text-slate-900 dark:text-white">{signal.pair}</span>
                       <span className={`px-2 py-0.5 rounded text-xs font-bold uppercase tracking-wider ${
                         signal.status === "Closed" 
                           ? "bg-zinc-800/40 text-zinc-500 border border-zinc-700/20" 
@@ -309,16 +311,16 @@ export default function DashboardSignals() {
                       }`}>
                         {signal.status === "Closed" ? `CLOSED ${signal.type}` : signal.type}
                       </span>
-                      <span className="text-xs text-gray-500 bg-elite-surface px-2 py-0.5 rounded">
+                      <span className="text-xs text-slate-500 dark:text-gray-400 bg-slate-100 dark:bg-[#16161D] px-2 py-0.5 rounded">
                         {signal.timeframe}
                       </span>
                     </div>
                     <div className="flex items-center gap-4 mt-2 text-sm">
-                      <span className="text-gray-400">Entry: <span className="font-mono text-white">{signal.entryPrice}</span></span>
-                      <span className="text-gray-400">SL: <span className="font-mono text-elite-red">{signal.stopLoss}</span></span>
-                      <span className="text-gray-400">TP: <span className="font-mono text-elite-green">{signal.takeProfit1}</span></span>
+                      <span className="text-slate-500 dark:text-gray-400">Entry: <span className="font-mono text-slate-900 dark:text-white">{signal.entryPrice}</span></span>
+                      <span className="text-slate-500 dark:text-gray-400">SL: <span className="font-mono text-elite-red">{signal.stopLoss}</span></span>
+                      <span className="text-slate-500 dark:text-gray-400">TP: <span className="font-mono text-elite-green">{signal.takeProfit1}</span></span>
                       {signal.takeProfit2 && (
-                        <span className="text-gray-400">TP2: <span className="font-mono text-elite-green">{signal.takeProfit2}</span></span>
+                        <span className="text-slate-500 dark:text-gray-400">TP2: <span className="font-mono text-elite-green">{signal.takeProfit2}</span></span>
                       )}
                     </div>
                   </div>
@@ -346,7 +348,7 @@ export default function DashboardSignals() {
                         .then(() => alert("Signal share link copied to clipboard!"))
                         .catch(() => {});
                     }}
-                    className="text-gray-500 hover:text-white transition-colors"
+                    className="text-slate-500 dark:text-gray-400 hover:text-slate-900 dark:text-white transition-colors"
                     title="Copy signal share link"
                   >
                     <LinkIcon size={16} />
@@ -354,7 +356,7 @@ export default function DashboardSignals() {
                   <button
                     onClick={() => toggleComments(signal._id)}
                     className={`flex items-center gap-1.5 text-xs transition-colors ${
-                      expandedComments[signal._id] ? "text-elite-gold font-semibold" : "text-gray-500 hover:text-white"
+                      expandedComments[signal._id] ? "text-elite-gold font-semibold" : "text-slate-500 dark:text-gray-400 hover:text-slate-900 dark:text-white"
                     }`}
                     title="Toggle signal comments"
                   >
@@ -364,36 +366,36 @@ export default function DashboardSignals() {
                   <button
                     onClick={() => toggleLike(signal._id)}
                     className={`flex items-center gap-1 text-xs transition-colors ${
-                      likesMap[signal._id]?.hasLiked ? "text-elite-red font-semibold" : "text-gray-500 hover:text-white"
+                      likesMap[signal._id]?.hasLiked ? "text-elite-red font-semibold" : "text-slate-500 dark:text-gray-400 hover:text-slate-900 dark:text-white"
                     }`}
                     title="Like signal"
                   >
                     <Heart size={14} className={likesMap[signal._id]?.hasLiked ? "fill-elite-red text-elite-red" : ""} />
                     <span>{likesMap[signal._id]?.count || 0}</span>
                   </button>
-                  <div className="flex items-center gap-1 text-xs text-gray-500 font-mono" title="Signal views">
+                  <div className="flex items-center gap-1 text-xs text-slate-500 dark:text-gray-400 font-mono" title="Signal views">
                     <Eye size={14} />
                     <span>{signal.views || 0}</span>
                   </div>
-                  <span className="text-gray-500 text-[10px]">{formatDate(signal.createdAt)}</span>
+                  <span className="text-slate-500 dark:text-gray-400 text-[10px]">{formatDate(signal.createdAt)}</span>
                 </div>
               </div>
 
               {signal.analysis && (
-                <div className="mt-4 pt-4 border-t border-elite-border/30">
-                  <p className="text-gray-400 text-sm">{signal.analysis}</p>
+                <div className="mt-4 pt-4 border-t border-gray-200 dark:border-white/10">
+                  <p className="text-slate-500 dark:text-gray-400 text-sm">{signal.analysis}</p>
                 </div>
               )}
               {signal.chartImage && (
                 <div className="mt-3">
-                  <span className="text-[10px] text-gray-500 block mb-2 font-medium">Trade Chart / Analysis Image:</span>
+                  <span className="text-[10px] text-slate-500 dark:text-gray-400 block mb-2 font-medium">Trade Chart / Analysis Image:</span>
                   <button
                     onClick={() => setLightboxImage(signal.chartImage || null)}
-                    className="relative group block overflow-hidden rounded-xl border border-elite-border/50 max-w-sm"
+                    className="relative group block overflow-hidden rounded-xl border border-gray-200 dark:border-white/10 max-w-sm"
                   >
                     <img src={signal.chartImage} alt="Trade Chart" className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300" />
                     <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2">
-                      <span className="text-white text-xs font-semibold flex items-center gap-1">
+                      <span className="text-slate-700 dark:text-slate-900 dark:text-white text-xs font-semibold flex items-center gap-1">
                         <Eye size={14} /> View Full Chart
                       </span>
                     </div>
@@ -408,7 +410,7 @@ export default function DashboardSignals() {
                     initial={{ opacity: 0, height: 0 }}
                     animate={{ opacity: 1, height: "auto" }}
                     exit={{ opacity: 0, height: 0 }}
-                    className="overflow-hidden mt-4 pt-4 border-t border-elite-border/30 space-y-4 bg-black/10 p-4 rounded-xl"
+                    className="overflow-hidden mt-4 pt-4 border-t border-gray-200 dark:border-white/10 space-y-4 bg-slate-50 dark:bg-black/10 p-4 rounded-xl"
                   >
                     {/* Add Comment input */}
                     <form onSubmit={(e) => handleCreateComment(e, signal._id)} className="flex gap-2">
@@ -441,25 +443,25 @@ export default function DashboardSignals() {
                         <Loader2 size={16} className="animate-spin text-elite-gold" />
                       </div>
                     ) : (commentsMap[signal._id] || []).length === 0 ? (
-                      <p className="text-center text-[10px] text-gray-500 py-3 italic">No comments yet. Be the first to share feedback!</p>
+                      <p className="text-center text-[10px] text-slate-500 dark:text-gray-400 py-3 italic">No comments yet. Be the first to share feedback!</p>
                     ) : (
                       <div className="space-y-3 max-h-60 overflow-y-auto pr-1 custom-scrollbar">
                         {(commentsMap[signal._id] || []).map((c) => (
                           <div key={c.id} className="p-3 bg-white/[0.01] border border-white/5 rounded-xl space-y-1.5 relative group">
                             <div className="flex items-center justify-between text-[10px]">
                               <div className="flex items-center gap-2">
-                                <span className="text-white font-semibold">{c.user.name}</span>
+                                <span className="text-slate-900 dark:text-slate-900 dark:text-white font-semibold">{c.user.name}</span>
                                 {user?.role === "admin" && (
                                   <button
                                     onClick={() => handleDeleteComment(signal._id, c.id)}
-                                    className="text-gray-500 hover:text-elite-red transition-colors duration-150"
+                                    className="text-slate-500 dark:text-gray-400 hover:text-elite-red transition-colors duration-150"
                                     title="Delete comment"
                                   >
                                     <Trash2 size={11} />
                                   </button>
                                 )}
                               </div>
-                              <span className="text-gray-500">
+                              <span className="text-slate-400 dark:text-slate-500 dark:text-gray-400">
                                 {new Date(c.createdAt).toLocaleDateString()}
                               </span>
                             </div>
@@ -496,7 +498,7 @@ export default function DashboardSignals() {
               <img src={lightboxImage} alt="Trade Chart Full" className="w-full h-auto max-h-[80vh] rounded-xl object-contain border border-elite-border" />
               <button
                 onClick={() => setLightboxImage(null)}
-                className="absolute top-4 right-4 p-2 bg-black/60 hover:bg-black/95 text-white rounded-full transition-colors border border-white/10"
+                className="absolute top-4 right-4 p-2 bg-black/60 hover:bg-black/95 text-slate-900 dark:text-white rounded-full transition-colors border border-white/10"
               >
                 <X size={20} />
               </button>

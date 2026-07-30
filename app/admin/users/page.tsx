@@ -212,14 +212,14 @@ export default function AdminUsers() {
 
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <h1 className="font-display text-3xl text-white tracking-wider">USER MANAGEMENT</h1>
-          <p className="text-gray-400 text-xs mt-1">
+          <h1 className="font-display text-3xl text-slate-900 dark:text-slate-900 dark:text-white tracking-wider">USER MANAGEMENT</h1>
+          <p className="text-slate-500 dark:text-gray-400 text-xs mt-1">
             {loading ? "Updating user list..." : `Showing ${filteredUsers.length} of ${totalUsers} user${totalUsers === 1 ? "" : "s"}`}
           </p>
         </div>
         <div className="flex flex-wrap items-center gap-3">
           <div className="relative">
-            <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500" />
+            <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500 dark:text-gray-400" />
             <input
               type="text"
               placeholder="Search users..."
@@ -244,7 +244,7 @@ export default function AdminUsers() {
             className={`flex items-center gap-2 px-4 py-2 text-sm font-semibold rounded-lg border transition-all ${
               viewAll
                 ? "bg-elite-gold/20 border-elite-gold text-elite-gold hover:bg-elite-gold/30"
-                : "bg-white/[0.02] border-white/10 text-white hover:bg-white/[0.05]"
+                : "bg-slate-50 dark:bg-white/[0.02] border-white/10 text-slate-900 dark:text-white hover:bg-white/[0.05]"
             }`}
           >
             <Eye size={16} />
@@ -262,14 +262,14 @@ export default function AdminUsers() {
           <div className="overflow-x-auto">
             <table className="w-full">
               <thead>
-                <tr className="border-b border-elite-border/50">
-                  <th className="text-left p-4 text-gray-400 font-medium text-xs uppercase tracking-wider">User</th>
-                  <th className="text-left p-4 text-gray-400 font-medium text-xs uppercase tracking-wider">Plan</th>
-                  <th className="text-left p-4 text-gray-400 font-medium text-xs uppercase tracking-wider">Role</th>
-                  <th className="text-left p-4 text-gray-400 font-medium text-xs uppercase tracking-wider">Deriv Account</th>
-                  <th className="text-left p-4 text-gray-400 font-medium text-xs uppercase tracking-wider">Joined</th>
-                  <th className="text-left p-4 text-gray-400 font-medium text-xs uppercase tracking-wider">Verified</th>
-                  <th className="text-left p-4 text-gray-400 font-medium text-xs uppercase tracking-wider">Actions</th>
+                <tr className="border-b border-gray-200 dark:border-white/10">
+                  <th className="text-left p-4 text-slate-500 dark:text-gray-400 font-medium text-xs uppercase tracking-wider">User</th>
+                  <th className="text-left p-4 text-slate-500 dark:text-gray-400 font-medium text-xs uppercase tracking-wider">Plan</th>
+                  <th className="text-left p-4 text-slate-500 dark:text-gray-400 font-medium text-xs uppercase tracking-wider">Role</th>
+                  <th className="text-left p-4 text-slate-500 dark:text-gray-400 font-medium text-xs uppercase tracking-wider">Deriv Account</th>
+                  <th className="text-left p-4 text-slate-500 dark:text-gray-400 font-medium text-xs uppercase tracking-wider">Joined</th>
+                  <th className="text-left p-4 text-slate-500 dark:text-gray-400 font-medium text-xs uppercase tracking-wider">Verified</th>
+                  <th className="text-left p-4 text-slate-500 dark:text-gray-400 font-medium text-xs uppercase tracking-wider">Actions</th>
                 </tr>
               </thead>
               <tbody>
@@ -279,7 +279,7 @@ export default function AdminUsers() {
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     transition={{ delay: i * 0.03 }}
-                    className="border-b border-elite-border/30 hover:bg-white/[0.02] transition-colors"
+                    className="border-b border-gray-200 dark:border-white/10 hover:bg-slate-50 dark:bg-white/[0.02] transition-colors"
                   >
                     <td className="p-4">
                       <div className="flex items-center gap-3">
@@ -287,8 +287,8 @@ export default function AdminUsers() {
                           <span className="text-elite-gold text-xs font-bold">{user.name.charAt(0).toUpperCase()}</span>
                         </div>
                         <div>
-                          <p className="text-white text-sm font-medium">{user.name}</p>
-                          <p className="text-gray-500 text-xs">{user.email}</p>
+                          <p className="text-slate-900 dark:text-slate-900 dark:text-white text-sm font-medium">{user.name}</p>
+                          <p className="text-slate-500 dark:text-gray-400 text-xs">{user.email}</p>
                         </div>
                       </div>
                     </td>
@@ -298,7 +298,7 @@ export default function AdminUsers() {
                           ? "bg-elite-gold/10 text-elite-gold border border-elite-gold/20"
                           : user.plan === "training"
                           ? "bg-purple-500/10 text-purple-400 border border-purple-500/20"
-                          : "bg-gray-500/10 text-gray-400 border border-gray-500/20"
+                          : "bg-gray-500/10 text-slate-500 dark:text-gray-400 border border-gray-500/20"
                       }`}>
                         <Crown size={10} />
                         {user.plan.replace("_", " ")}
@@ -316,7 +316,7 @@ export default function AdminUsers() {
                     <td className="p-4">
                       {user.derivId ? (
                         <div className="space-y-1">
-                          <span className="text-white text-sm font-mono font-medium block">{user.derivId}</span>
+                          <span className="text-slate-900 dark:text-slate-900 dark:text-white text-sm font-mono font-medium block">{user.derivId}</span>
                           <div className="flex gap-2">
                             {user.derivStatus === "pending" && (
                               <>
@@ -347,7 +347,7 @@ export default function AdminUsers() {
                         <span className="text-gray-600 text-xs italic">Unsubmitted</span>
                       )}
                     </td>
-                    <td className="p-4 text-gray-400 text-sm">
+                    <td className="p-4 text-slate-500 dark:text-gray-400 text-sm">
                       {new Date(user.createdAt).toLocaleDateString()}
                     </td>
                     <td className="p-4">
@@ -357,14 +357,14 @@ export default function AdminUsers() {
                       <div className="flex items-center gap-2">
                         <button
                           onClick={() => openEdit(user)}
-                          className="p-1.5 text-gray-400 hover:text-white transition-colors"
+                          className="p-1.5 text-slate-500 dark:text-gray-400 hover:text-slate-900 dark:text-white transition-colors"
                           title="Edit user details & permissions"
                         >
                           <Pencil size={15} />
                         </button>
                         <button
                           onClick={() => handleDeleteUser(user)}
-                          className="p-1.5 text-gray-400 hover:text-elite-red transition-colors"
+                          className="p-1.5 text-slate-500 dark:text-gray-400 hover:text-elite-red transition-colors"
                           title="Delete user"
                         >
                           <Trash2 size={15} />
@@ -398,13 +398,13 @@ export default function AdminUsers() {
               <div className="flex items-center justify-between mb-6">
                 <div className="flex items-center gap-2">
                   <Crown size={18} className="text-elite-red" />
-                  <h2 className="font-display text-xl text-white tracking-wider">
+                  <h2 className="font-display text-xl text-slate-900 dark:text-slate-900 dark:text-white tracking-wider">
                     EDIT USER SETTINGS
                   </h2>
                 </div>
                 <button
                   onClick={() => setEditingUser(null)}
-                  className="p-2 text-gray-400 hover:text-white transition-colors"
+                  className="p-2 text-slate-500 dark:text-gray-400 hover:text-slate-900 dark:text-white transition-colors"
                 >
                   <X size={20} />
                 </button>
@@ -414,9 +414,9 @@ export default function AdminUsers() {
                 <div className="grid md:grid-cols-2 gap-4">
                   {/* Name */}
                   <div>
-                    <label className="block text-xs font-semibold text-gray-400 uppercase mb-2">Full Name</label>
+                    <label className="block text-xs font-semibold text-slate-500 dark:text-gray-400 uppercase mb-2">Full Name</label>
                     <div className="relative">
-                      <User size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500" />
+                      <User size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500 dark:text-gray-400" />
                       <input
                         type="text"
                         required
@@ -430,9 +430,9 @@ export default function AdminUsers() {
 
                   {/* Email */}
                   <div>
-                    <label className="block text-xs font-semibold text-gray-400 uppercase mb-2">Email Address</label>
+                    <label className="block text-xs font-semibold text-slate-500 dark:text-gray-400 uppercase mb-2">Email Address</label>
                     <div className="relative">
-                      <Mail size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500" />
+                      <Mail size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500 dark:text-gray-400" />
                       <input
                         type="email"
                         required
@@ -446,9 +446,9 @@ export default function AdminUsers() {
 
                   {/* Phone */}
                   <div>
-                    <label className="block text-xs font-semibold text-gray-400 uppercase mb-2">Phone Number</label>
+                    <label className="block text-xs font-semibold text-slate-500 dark:text-gray-400 uppercase mb-2">Phone Number</label>
                     <div className="relative">
-                      <Phone size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500" />
+                      <Phone size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500 dark:text-gray-400" />
                       <input
                         type="tel"
                         value={editForm.phone}
@@ -461,7 +461,7 @@ export default function AdminUsers() {
 
                   {/* Plan Selection */}
                   <div>
-                    <label className="block text-xs font-semibold text-gray-400 uppercase mb-2">Membership Plan</label>
+                    <label className="block text-xs font-semibold text-slate-500 dark:text-gray-400 uppercase mb-2">Membership Plan</label>
                     <select
                       value={editForm.plan}
                       onChange={(e) => setEditForm({ ...editForm, plan: e.target.value })}
@@ -476,7 +476,7 @@ export default function AdminUsers() {
 
                   {/* Role Selection (Make more admins) */}
                   <div>
-                    <label className="block text-xs font-semibold text-gray-400 uppercase mb-2">User System Role</label>
+                    <label className="block text-xs font-semibold text-slate-500 dark:text-gray-400 uppercase mb-2">User System Role</label>
                     <select
                       value={editForm.role}
                       onChange={(e) => setEditForm({ ...editForm, role: e.target.value })}
@@ -491,7 +491,7 @@ export default function AdminUsers() {
 
                   {/* Deriv Status */}
                   <div>
-                    <label className="block text-xs font-semibold text-gray-400 uppercase mb-2">Deriv Verification Status</label>
+                    <label className="block text-xs font-semibold text-slate-500 dark:text-gray-400 uppercase mb-2">Deriv Verification Status</label>
                     <select
                       value={editForm.derivStatus}
                       onChange={(e) => setEditForm({ ...editForm, derivStatus: e.target.value })}
@@ -506,7 +506,7 @@ export default function AdminUsers() {
 
                   {/* Deriv ID Input */}
                   <div>
-                    <label className="block text-xs font-semibold text-gray-400 uppercase mb-2">Deriv User ID</label>
+                    <label className="block text-xs font-semibold text-slate-500 dark:text-gray-400 uppercase mb-2">Deriv User ID</label>
                     <input
                       type="text"
                       value={editForm.derivId}
@@ -518,7 +518,7 @@ export default function AdminUsers() {
 
                   {/* Reset Password Input */}
                   <div>
-                    <label className="block text-xs font-semibold text-gray-400 uppercase mb-2">Reset Password</label>
+                    <label className="block text-xs font-semibold text-slate-500 dark:text-gray-400 uppercase mb-2">Reset Password</label>
                     <input
                       type="password"
                       value={editForm.password || ""}
@@ -532,29 +532,29 @@ export default function AdminUsers() {
                 {/* Checkboxes Row */}
                 <div className="grid md:grid-cols-2 gap-4 mt-2">
                   {/* Email Verified Checkbox */}
-                  <div className="flex items-center gap-3 p-4 bg-elite-surface rounded-xl border border-elite-border">
+                  <div className="flex items-center gap-3 p-4 bg-slate-100 dark:bg-[#16161D] rounded-xl border border-elite-border">
                     <input
                       type="checkbox"
                       id="isVerified"
                       checked={editForm.isVerified}
                       onChange={(e) => setEditForm({ ...editForm, isVerified: e.target.checked })}
-                      className="w-4 h-4 text-elite-red bg-elite-surface border-elite-border rounded focus:ring-elite-red/30 focus:ring-1"
+                      className="w-4 h-4 text-elite-red bg-slate-100 dark:bg-[#16161D] border-elite-border rounded focus:ring-elite-red/30 focus:ring-1"
                     />
-                    <label htmlFor="isVerified" className="text-xs text-white cursor-pointer select-none">
-                      <strong>Email Account Verified:</strong> Manually verify user's email address bypassing email confirmation steps.
+                    <label htmlFor="isVerified" className="text-xs text-slate-900 dark:text-white cursor-pointer select-none">
+                      <strong>Email Account Verified:</strong> Manually verify user&apos;s email address bypassing email confirmation steps.
                     </label>
                   </div>
 
                   {/* Broker Approved Checkbox */}
-                  <div className="flex items-center gap-3 p-4 bg-elite-surface rounded-xl border border-elite-border">
+                  <div className="flex items-center gap-3 p-4 bg-slate-100 dark:bg-[#16161D] rounded-xl border border-elite-border">
                     <input
                       type="checkbox"
                       id="brokerApproved"
                       checked={editForm.brokerApproved}
                       onChange={(e) => setEditForm({ ...editForm, brokerApproved: e.target.checked })}
-                      className="w-4 h-4 text-elite-red bg-elite-surface border-elite-border rounded focus:ring-elite-red/30 focus:ring-1"
+                      className="w-4 h-4 text-elite-red bg-slate-100 dark:bg-[#16161D] border-elite-border rounded focus:ring-elite-red/30 focus:ring-1"
                     />
-                    <label htmlFor="brokerApproved" className="text-xs text-white cursor-pointer select-none">
+                    <label htmlFor="brokerApproved" className="text-xs text-slate-900 dark:text-white cursor-pointer select-none">
                       <strong>Broker Verification Approved:</strong> Gives user direct access to lockable course lessons and video materials.
                     </label>
                   </div>

@@ -1,6 +1,7 @@
 import type { Config } from "tailwindcss";
 
 const config: Config = {
+  darkMode: "class",
   content: [
     "./pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./components/**/*.{js,ts,jsx,tsx,mdx}",
@@ -9,27 +10,16 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        white: "#0F172A", // Map white text utility to slate-900
-        gray: {
-          100: "#1E293B",
-          200: "#334155",
-          300: "#475569",
-          400: "#64748B",
-          500: "#94A3B8",
-          600: "#CBD5E1",
-          700: "#E2E8F0",
-          800: "#F1F5F9",
-          900: "#F8FAFC",
-        },
+        white: "#FFFFFF",
         elite: {
-          bg: "#F8FAFC",
-          card: "#FFFFFF",
-          gold: "#1E3A8A",
-          green: "#10B981",
-          red: "#EF4444",
-          blue: "#1D4ED8",
-          surface: "#F1F5F9",
-          border: "#E2E8F0",
+          bg: "#08080A",
+          card: "#111116",
+          gold: "#FF4053",
+          green: "#00E676",
+          red: "#FF4053",
+          blue: "#3B82F6",
+          surface: "#16161D",
+          border: "rgba(255, 64, 83, 0.18)",
         },
       },
       fontFamily: {
@@ -49,8 +39,8 @@ const config: Config = {
           "100%": { transform: "translateX(-50%)" },
         },
         "pulse-glow": {
-          "0%, 100%": { boxShadow: "0 0 20px rgba(30, 58, 138, 0.2)" },
-          "50%": { boxShadow: "0 0 40px rgba(30, 58, 138, 0.5)" },
+          "0%, 100%": { boxShadow: "0 0 20px rgba(255, 64, 83, 0.25)" },
+          "50%": { boxShadow: "0 0 40px rgba(255, 64, 83, 0.55)" },
         },
         float: {
           "0%, 100%": { transform: "translateY(0px)" },
@@ -63,7 +53,7 @@ const config: Config = {
       },
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
-        "gold-gradient": "linear-gradient(135deg, #2563EB 0%, #1E3A8A 100%)",
+        "gold-gradient": "linear-gradient(135deg, #FF4053 0%, #E62E43 100%)",
       },
     },
   },

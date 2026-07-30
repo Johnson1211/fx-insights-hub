@@ -65,17 +65,17 @@ export default function BlogFeedPage() {
   }, [posts, activeCategory, search]);
 
   return (
-    <div className="min-h-screen pt-24 pb-20">
+    <div className="min-h-screen pt-24 pb-20 bg-slate-50 dark:bg-[#08080A] transition-colors duration-300">
       <div className="section-padding">
         <ScrollReveal>
           <div className="text-center mb-12">
-            <span className="text-elite-gold text-sm font-semibold tracking-widest uppercase">
-              Market Analysis & News
+            <span className="text-[#FF4053] text-sm font-semibold tracking-widest uppercase">
+              Market Analysis &amp; News
             </span>
-            <h1 className="font-display text-4xl md:text-6xl text-white mt-3 tracking-wider">
-              TRADING <span className="gold-gradient-text">INSIGHTS</span>
+            <h1 className="font-display text-4xl md:text-6xl text-slate-900 dark:text-white mt-3 tracking-wider font-bold">
+              TRADING <span className="text-[#FF4053]">INSIGHTS</span>
             </h1>
-            <p className="text-gray-400 mt-4 max-w-2xl mx-auto">
+            <p className="text-slate-500 dark:text-gray-400 mt-4 max-w-2xl mx-auto">
               Stay ahead of the markets with premium technical updates, currency breakdowns, and psychological execution guides from Peleboss.
             </p>
           </div>
@@ -91,8 +91,8 @@ export default function BlogFeedPage() {
                 onClick={() => setActiveCategory(cat)}
                 className={`px-4 py-2 rounded-lg text-xs font-semibold uppercase tracking-wider transition-all duration-300 border ${
                   activeCategory === cat
-                    ? "bg-elite-gold/15 text-elite-gold border-elite-gold/30 shadow-md shadow-elite-gold/5"
-                    : "bg-white/[0.02] text-gray-400 border-white/5 hover:text-white hover:bg-white/5"
+                    ? "bg-[#FF4053]/15 text-[#FF4053] border-[#FF4053]/30 shadow-md shadow-[#FF4053]/5"
+                    : "bg-slate-100 dark:bg-white/[0.02] text-slate-600 dark:text-gray-400 border-gray-200 dark:border-white/5 hover:text-[#FF4053] hover:bg-[#FF4053]/5"
                 }`}
               >
                 {cat}
@@ -116,13 +116,13 @@ export default function BlogFeedPage() {
         {/* Blog Post List */}
         {loading ? (
           <div className="flex justify-center py-20">
-            <Loader2 size={32} className="animate-spin text-elite-gold" />
+            <Loader2 size={32} className="animate-spin text-[#FF4053]" />
           </div>
         ) : filtered.length === 0 ? (
-          <div className="text-center py-20 glass-card max-w-2xl mx-auto">
-            <BookOpen size={40} className="text-gray-600 mx-auto mb-4" />
-            <h3 className="text-white text-lg font-semibold">No insights found</h3>
-            <p className="text-gray-500 text-xs mt-1">Try broadening your search query or choosing another category tab.</p>
+          <div className="text-center py-20 bg-white dark:bg-[#111116] border border-gray-200 dark:border-white/10 rounded-2xl max-w-2xl mx-auto shadow-sm">
+            <BookOpen size={40} className="text-slate-400 dark:text-gray-600 mx-auto mb-4" />
+            <h3 className="text-slate-900 dark:text-white text-lg font-semibold">No insights found</h3>
+            <p className="text-slate-500 dark:text-gray-500 text-xs mt-1">Try broadening your search query or choosing another category tab.</p>
           </div>
         ) : (
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto items-stretch">
@@ -132,14 +132,14 @@ export default function BlogFeedPage() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.4, delay: idx * 0.08 }}
-                className="group flex flex-col justify-between glass-card overflow-hidden hover:border-elite-gold/30 transition-all duration-300 relative"
+                className="group flex flex-col justify-between bg-white dark:bg-[#111116] border border-gray-200 dark:border-white/10 rounded-2xl overflow-hidden hover:border-[#FF4053]/30 shadow-sm transition-all duration-300 relative"
               >
                 {/* Glow behind card */}
-                <div className="absolute top-0 right-0 w-32 h-32 rounded-full bg-elite-gold/5 blur-3xl pointer-events-none group-hover:bg-elite-gold/10 transition-colors" />
+                <div className="absolute top-0 right-0 w-32 h-32 rounded-full bg-[#FF4053]/5 blur-3xl pointer-events-none group-hover:bg-[#FF4053]/10 transition-colors" />
 
                 <div>
                   {/* Cover Image */}
-                  <div className="aspect-video relative overflow-hidden bg-elite-surface border-b border-elite-border/30">
+                  <div className="aspect-video relative overflow-hidden bg-slate-100 dark:bg-[#16161D] border-b border-gray-200 dark:border-white/10">
                     {post.coverImage ? (
                       <img
                         src={post.coverImage}
@@ -147,18 +147,18 @@ export default function BlogFeedPage() {
                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                       />
                     ) : (
-                      <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-elite-surface to-elite-card">
-                        <BookOpen size={36} className="text-elite-gold/30" />
+                      <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-slate-100 dark:from-[#16161D] to-slate-200 dark:to-[#111116]">
+                        <BookOpen size={36} className="text-[#FF4053]/30" />
                       </div>
                     )}
-                    <span className="absolute top-3 left-3 bg-elite-bg/85 border border-elite-gold/20 text-elite-gold text-[10px] font-bold px-2.5 py-1 rounded-md uppercase tracking-wider">
+                    <span className="absolute top-3 left-3 bg-white/90 dark:bg-[#08080A]/85 border border-[#FF4053]/20 text-[#FF4053] text-[10px] font-bold px-2.5 py-1 rounded-md uppercase tracking-wider">
                       {post.category}
                     </span>
                   </div>
 
                   {/* Body Content */}
                   <div className="p-6">
-                    <div className="flex items-center gap-4 text-[10px] text-gray-500 mb-3">
+                    <div className="flex items-center gap-4 text-[10px] text-slate-500 dark:text-gray-500 mb-3">
                       <span className="flex items-center gap-1">
                         <Calendar size={11} />
                         {new Date(post.publishedAt).toLocaleDateString(undefined, {
@@ -169,29 +169,29 @@ export default function BlogFeedPage() {
                       </span>
                     </div>
 
-                    <h3 className="font-display text-xl text-white tracking-wide group-hover:text-elite-gold transition-colors line-clamp-2 leading-snug">
+                    <h3 className="font-display text-xl text-slate-900 dark:text-white tracking-wide group-hover:text-[#FF4053] transition-colors line-clamp-2 leading-snug font-bold">
                       {post.title}
                     </h3>
-                    <p className="text-gray-400 text-xs mt-3 leading-relaxed line-clamp-3">
+                    <p className="text-slate-500 dark:text-gray-400 text-xs mt-3 leading-relaxed line-clamp-3">
                       {post.excerpt}
                     </p>
                   </div>
                 </div>
 
                 {/* Footer Link */}
-                <div className="px-6 pb-6 pt-2 flex items-center justify-between border-t border-white/[0.02]">
+                <div className="px-6 pb-6 pt-2 flex items-center justify-between border-t border-gray-100 dark:border-white/[0.02]">
                   <div className="flex items-center gap-2">
-                    <div className="w-6 h-6 rounded-full bg-elite-gold/10 border border-elite-gold/20 flex items-center justify-center">
-                      <User size={12} className="text-elite-gold" />
+                    <div className="w-6 h-6 rounded-full bg-[#FF4053]/10 border border-[#FF4053]/20 flex items-center justify-center">
+                      <User size={12} className="text-[#FF4053]" />
                     </div>
-                    <span className="text-[11px] text-gray-400 font-medium">
+                    <span className="text-[11px] text-slate-500 dark:text-gray-400 font-medium">
                       {post.author.name}
                     </span>
                   </div>
 
                   <Link
                     href={`/blog/${post.slug}`}
-                    className="text-xs text-elite-gold hover:text-white font-semibold flex items-center gap-1.5 transition-colors"
+                    className="text-xs text-[#FF4053] hover:text-[#e03545] font-semibold flex items-center gap-1.5 transition-colors"
                   >
                     Read Post <ArrowRight size={13} />
                   </Link>

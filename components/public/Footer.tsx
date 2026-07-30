@@ -5,9 +5,9 @@ import { Mail, Phone, MapPin, Youtube, MessageCircle, Send, Facebook } from "luc
 
 export function Footer() {
   return (
-    <footer className="relative bg-elite-card border-t border-elite-border/50">
+    <footer className="relative bg-white dark:bg-[#08080A] border-t border-gray-200 dark:border-white/10 text-slate-900 dark:text-white transition-colors duration-300">
       {/* Top gradient line */}
-      <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-elite-gold/50 to-transparent" />
+      <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#FF4053]/50 to-transparent" />
 
       <div className="section-padding py-16">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
@@ -15,8 +15,8 @@ export function Footer() {
           <div className="space-y-4">
             <Link href="/" className="flex items-center gap-2">
               <img src="/images/logo.jpg" alt="FX" className="w-8 h-8 rounded-lg object-cover" />
-              <span className="font-bold text-xl tracking-wider text-white">
-                Fx Insights <span className="text-elite-gold">Hub</span>
+              <span className="font-bold text-xl tracking-wider text-slate-900 dark:text-white">
+                Fx Insights <span className="text-[#FF4053]">Hub</span>
               </span>
             </Link>
             <p className="text-gray-400 text-sm leading-relaxed">
@@ -75,13 +75,13 @@ export function Footer() {
 
           {/* Quick Links */}
           <div>
-            <h4 className="font-display text-lg text-white mb-4 tracking-wider">QUICK LINKS</h4>
+            <h4 className="font-display text-lg text-slate-900 dark:text-white mb-4 tracking-wider font-bold">QUICK LINKS</h4>
             <ul className="space-y-3">
               {["Home", "About", "Services", "Signals", "Contact"].map((item) => (
                 <li key={item}>
                   <Link
                     href={item === "Home" ? "/" : `/${item.toLowerCase()}`}
-                    className="text-gray-400 hover:text-elite-gold transition-colors text-sm"
+                    className="text-slate-600 dark:text-gray-400 hover:text-[#FF4053] transition-colors text-sm"
                   >
                     {item}
                   </Link>
@@ -92,11 +92,11 @@ export function Footer() {
 
           {/* Services */}
           <div>
-            <h4 className="font-display text-lg text-white mb-4 tracking-wider">SERVICES</h4>
+            <h4 className="font-display text-lg text-slate-900 dark:text-white mb-4 tracking-wider font-bold">SERVICES</h4>
             <ul className="space-y-3">
               {["Online Training", "In-Person Training", "Signal Services", "Lifetime Mentorship"].map((item) => (
                 <li key={item}>
-                  <span className="text-gray-400 text-sm">{item}</span>
+                  <span className="text-slate-600 dark:text-gray-400 text-sm">{item}</span>
                 </li>
               ))}
             </ul>
@@ -104,7 +104,7 @@ export function Footer() {
 
           {/* Contact */}
           <div>
-            <h4 className="font-display text-lg text-white mb-4 tracking-wider">CONTACT</h4>
+            <h4 className="font-display text-lg text-slate-900 dark:text-white mb-4 tracking-wider font-bold">CONTACT</h4>
             <ul className="space-y-4">
               <li className="flex items-start gap-3">
                 <Mail size={16} className="text-elite-gold mt-0.5 shrink-0" />

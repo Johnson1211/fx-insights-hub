@@ -306,14 +306,14 @@ function PotentialEarningsCalculator() {
   const projection12M = Math.round(capital * Math.pow(1 + estimatedMonthlyProfit / capital, 12));
 
   return (
-    <div className="glass-card p-6 sm:p-10 max-w-4xl mx-auto border border-elite-border/50 shadow-xl bg-elite-card">
+    <div className="glass-card p-6 sm:p-10 max-w-4xl mx-auto border border-gray-200 dark:border-white/10 shadow-xl bg-white dark:bg-[#111116] text-slate-900 dark:text-white">
       <div className="grid md:grid-cols-2 gap-10 sm:gap-12 items-center">
         {/* Sliders Area */}
         <div className="space-y-8">
           <div className="space-y-3">
             <div className="flex justify-between items-center text-sm font-body">
-              <span className="font-semibold text-gray-200">Starting Account Balance</span>
-              <span className="font-mono font-bold text-elite-gold text-lg sm:text-xl">${capital.toLocaleString()}</span>
+              <span className="font-semibold text-slate-700 dark:text-gray-200">Starting Account Balance</span>
+              <span className="font-mono font-bold text-[#FF4053] text-lg sm:text-xl">${capital.toLocaleString()}</span>
             </div>
             <input
               type="range"
@@ -322,9 +322,9 @@ function PotentialEarningsCalculator() {
               step="100"
               value={capital}
               onChange={(e) => setCapital(Number(e.target.value))}
-              className="w-full h-1.5 bg-elite-surface rounded-lg appearance-none cursor-pointer accent-elite-gold"
+              className="w-full h-1.5 bg-gray-200 dark:bg-elite-surface rounded-lg appearance-none cursor-pointer accent-[#FF4053]"
             />
-            <div className="flex justify-between text-[10px] text-gray-400 font-mono">
+            <div className="flex justify-between text-[10px] text-slate-500 dark:text-gray-400 font-mono">
               <span>$100</span>
               <span>$10,000</span>
               <span>$25,000</span>
@@ -333,8 +333,8 @@ function PotentialEarningsCalculator() {
 
           <div className="space-y-3">
             <div className="flex justify-between items-center text-sm font-body">
-              <span className="font-semibold text-gray-200">Target Monthly Pips</span>
-              <span className="font-mono font-bold text-elite-gold text-lg sm:text-xl">{pips} Pips</span>
+              <span className="font-semibold text-slate-700 dark:text-gray-200">Target Monthly Pips</span>
+              <span className="font-mono font-bold text-[#FF4053] text-lg sm:text-xl">{pips} Pips</span>
             </div>
             <input
               type="range"
@@ -343,9 +343,9 @@ function PotentialEarningsCalculator() {
               step="50"
               value={pips}
               onChange={(e) => setPips(Number(e.target.value))}
-              className="w-full h-1.5 bg-elite-surface rounded-lg appearance-none cursor-pointer accent-elite-gold"
+              className="w-full h-1.5 bg-gray-200 dark:bg-elite-surface rounded-lg appearance-none cursor-pointer accent-[#FF4053]"
             />
-            <div className="flex justify-between text-[10px] text-gray-400 font-mono">
+            <div className="flex justify-between text-[10px] text-slate-500 dark:text-gray-400 font-mono">
               <span>100 pips</span>
               <span>1,000 pips</span>
               <span>2,000 pips</span>
@@ -353,7 +353,7 @@ function PotentialEarningsCalculator() {
           </div>
 
           <div className="space-y-3">
-            <span className="text-sm font-semibold text-gray-200 block">Risk Management Level</span>
+            <span className="text-sm font-semibold text-slate-700 dark:text-gray-200 block">Risk Management Level</span>
             <div className="grid grid-cols-3 gap-3">
               {[
                 { name: "Conservative", value: "low", desc: "1% risk/trade" },
@@ -366,12 +366,12 @@ function PotentialEarningsCalculator() {
                   onClick={() => setRisk(r.value)}
                   className={`p-3 rounded-xl border text-center transition-all duration-300 flex flex-col items-center justify-center ${
                     risk === r.value
-                      ? "border-elite-gold bg-elite-gold/5 text-elite-gold font-bold shadow-sm"
-                      : "border-elite-border bg-elite-surface text-gray-400 hover:bg-elite-border/30"
+                      ? "border-[#FF4053] bg-[#FF4053]/15 text-[#FF4053] font-bold shadow-sm"
+                      : "border-gray-200 dark:border-white/10 bg-gray-100 dark:bg-white/5 text-slate-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-white/10"
                   }`}
                 >
                   <span className="text-[11px] sm:text-xs block tracking-wide">{r.name}</span>
-                  <span className="text-[8px] sm:text-[9px] text-gray-400 font-normal mt-0.5">{r.desc}</span>
+                  <span className="text-[8px] sm:text-[9px] text-slate-500 dark:text-gray-400 font-normal mt-0.5">{r.desc}</span>
                 </button>
               ))}
             </div>
@@ -379,52 +379,52 @@ function PotentialEarningsCalculator() {
         </div>
 
         {/* Display Projections */}
-        <div className="bg-elite-surface border border-elite-border rounded-2xl p-6 sm:p-8 space-y-6">
-          <div className="text-center pb-6 border-b border-elite-border/50">
-            <span className="text-xs text-gray-400 font-semibold tracking-wider uppercase">Projected Monthly Profits</span>
-            <div className="font-display text-4xl sm:text-5xl text-elite-gold mt-2 font-bold tracking-wide">${estimatedMonthlyProfit.toLocaleString()}</div>
-            <span className="inline-block mt-2 px-3 py-1 rounded-full bg-elite-green/10 text-elite-green text-xs font-bold font-mono">
+        <div className="bg-slate-50 dark:bg-[#16161D] border border-gray-200 dark:border-white/10 rounded-2xl p-6 sm:p-8 space-y-6">
+          <div className="text-center pb-6 border-b border-gray-200 dark:border-white/10">
+            <span className="text-xs text-slate-500 dark:text-gray-400 font-semibold tracking-wider uppercase">Projected Monthly Profits</span>
+            <div className="font-display text-4xl sm:text-5xl text-[#FF4053] mt-2 font-bold tracking-wide">${estimatedMonthlyProfit.toLocaleString()}</div>
+            <span className="inline-block mt-2 px-3 py-1 rounded-full bg-[#00E676]/15 border border-[#00E676]/30 text-[#00E676] text-xs font-bold font-mono">
               +{roi}% Est. Monthly ROI
             </span>
           </div>
 
           <div className="space-y-4">
-            <span className="text-xs text-gray-400 font-semibold tracking-wider uppercase block">Compounding Growth Projection</span>
+            <span className="text-xs text-slate-500 dark:text-gray-400 font-semibold tracking-wider uppercase block">Compounding Growth Projection</span>
             
             <div className="space-y-3 font-body">
               <div>
                 <div className="flex justify-between items-center text-xs sm:text-sm mb-1">
-                  <span className="text-gray-300 font-medium">3 Months Compounded</span>
-                  <span className="font-mono font-bold text-gray-100">${projection3M.toLocaleString()}</span>
+                  <span className="text-slate-600 dark:text-gray-300 font-medium">3 Months Compounded</span>
+                  <span className="font-mono font-bold text-slate-900 dark:text-white">${projection3M.toLocaleString()}</span>
                 </div>
-                <div className="w-full bg-elite-border rounded-full h-1.5 overflow-hidden">
-                  <div className="bg-elite-blue h-1.5 rounded-full" style={{ width: `${Math.min(100, (projection3M / projection12M) * 100)}%` }} />
-                </div>
-              </div>
-
-              <div>
-                <div className="flex justify-between items-center text-xs sm:text-sm mb-1">
-                  <span className="text-gray-300 font-medium">6 Months Compounded</span>
-                  <span className="font-mono font-bold text-gray-100">${projection6M.toLocaleString()}</span>
-                </div>
-                <div className="w-full bg-elite-border rounded-full h-1.5 overflow-hidden">
-                  <div className="bg-elite-blue h-1.5 rounded-full" style={{ width: `${Math.min(100, (projection6M / projection12M) * 100)}%` }} />
+                <div className="w-full bg-gray-200 dark:bg-white/10 rounded-full h-1.5 overflow-hidden">
+                  <div className="bg-[#3B82F6] h-1.5 rounded-full" style={{ width: `${Math.min(100, (projection3M / projection12M) * 100)}%` }} />
                 </div>
               </div>
 
               <div>
                 <div className="flex justify-between items-center text-xs sm:text-sm mb-1">
-                  <span className="text-gray-300 font-medium">12 Months Compounded</span>
-                  <span className="font-mono font-bold text-elite-gold text-sm sm:text-base">${projection12M.toLocaleString()}</span>
+                  <span className="text-slate-600 dark:text-gray-300 font-medium">6 Months Compounded</span>
+                  <span className="font-mono font-bold text-slate-900 dark:text-white">${projection6M.toLocaleString()}</span>
                 </div>
-                <div className="w-full bg-elite-border rounded-full h-1.5 overflow-hidden">
-                  <div className="bg-gradient-to-r from-elite-blue to-elite-gold h-1.5 rounded-full" style={{ width: "100%" }} />
+                <div className="w-full bg-gray-200 dark:bg-white/10 rounded-full h-1.5 overflow-hidden">
+                  <div className="bg-[#3B82F6] h-1.5 rounded-full" style={{ width: `${Math.min(100, (projection6M / projection12M) * 100)}%` }} />
+                </div>
+              </div>
+
+              <div>
+                <div className="flex justify-between items-center text-xs sm:text-sm mb-1">
+                  <span className="text-slate-600 dark:text-gray-300 font-medium">12 Months Compounded</span>
+                  <span className="font-mono font-bold text-[#FF4053] text-sm sm:text-base">${projection12M.toLocaleString()}</span>
+                </div>
+                <div className="w-full bg-gray-200 dark:bg-white/10 rounded-full h-1.5 overflow-hidden">
+                  <div className="bg-[#FF4053] h-1.5 rounded-full" style={{ width: "100%" }} />
                 </div>
               </div>
             </div>
           </div>
 
-          <div className="text-[9px] text-gray-400 text-center leading-relaxed italic mt-4 border-t border-elite-border/40 pt-4">
+          <div className="text-[9px] text-slate-500 dark:text-gray-400 text-center leading-relaxed italic mt-4 border-t border-gray-200 dark:border-white/10 pt-4">
             *Compounding is calculated assuming all profits remain inside the account. Trading involves significant risk.
           </div>
         </div>
@@ -433,29 +433,40 @@ function PotentialEarningsCalculator() {
   );
 }
 
-// Dynamic Active Signals feed pulling from database
+// Dynamic Active Signals feed pulling from database in real time
 function SignalTerminalPreview() {
   const [signals, setSignals] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [copiedId, setCopiedId] = useState<string | null>(null);
 
   useEffect(() => {
+    let isMounted = true;
+
     async function fetchSignals() {
       try {
-        const res = await fetch("/api/signals?limit=4");
+        const res = await fetch("/api/signals?status=Active&limit=4");
         if (res.ok) {
           const data = await res.json();
-          if (data.signals) {
+          if (data.signals && isMounted) {
             setSignals(data.signals);
           }
         }
       } catch (err) {
-        console.error("Failed to fetch signals:", err);
+        console.error("Failed to fetch active signals:", err);
       } finally {
-        setLoading(false);
+        if (isMounted) setLoading(false);
       }
     }
+
     fetchSignals();
+
+    // Poll every 5 seconds for real-time live updates
+    const interval = setInterval(fetchSignals, 5000);
+
+    return () => {
+      isMounted = false;
+      clearInterval(interval);
+    };
   }, []);
 
   const handleCopy = (sig: any) => {
@@ -476,9 +487,14 @@ function SignalTerminalPreview() {
 
   if (signals.length === 0) {
     return (
-      <div className="text-center py-12 bg-elite-card rounded-2xl border border-elite-border/50 max-w-lg mx-auto shadow-sm">
-        <p className="text-white font-semibold text-sm">No signals available in the database.</p>
-        <p className="text-gray-400 text-xs mt-1">Check back later or register to view full live console updates.</p>
+      <div className="text-center py-12 bg-elite-card rounded-2xl border border-elite-border/50 max-w-lg mx-auto shadow-sm p-8">
+        <div className="w-12 h-12 rounded-full bg-elite-gold/10 border border-elite-gold/20 flex items-center justify-center mx-auto mb-4 text-elite-gold font-bold">
+          <Zap size={22} className="animate-pulse" />
+        </div>
+        <p className="text-white font-bold text-base">No active trading signals right now</p>
+        <p className="text-gray-400 text-xs mt-2 leading-relaxed">
+          Closed signals are automatically hidden. New live signals posted by our master traders will appear here instantly in real-time.
+        </p>
       </div>
     );
   }
@@ -494,47 +510,47 @@ function SignalTerminalPreview() {
         });
         
         return (
-          <div key={sig.id || sig._id} className="glass-card p-6 border border-elite-border/50 relative overflow-hidden transition-all duration-300 hover:shadow-lg hover:scale-[1.02] flex flex-col justify-between bg-elite-card">
+          <div key={sig.id || sig._id} className="glass-card p-6 border border-gray-200 dark:border-white/10 relative overflow-hidden transition-all duration-300 hover:shadow-lg hover:scale-[1.02] flex flex-col justify-between bg-white dark:bg-[#111116] shadow-sm">
             {/* Pair & Buy/Sell Tag */}
             <div className="flex justify-between items-start mb-4">
               <div>
-                <h4 className="font-mono font-bold text-lg text-gray-100">{sig.pair}</h4>
-                <span className="text-[10px] text-gray-400">{formattedDate}</span>
+                <h4 className="font-mono font-bold text-lg text-slate-900 dark:text-white">{sig.pair}</h4>
+                <span className="text-[10px] text-slate-500 dark:text-gray-400">{formattedDate}</span>
               </div>
               <span className={`px-2.5 py-0.5 rounded text-[10px] font-bold tracking-wider ${
-                isBuy ? "bg-elite-green/10 text-elite-green border border-elite-green/20" : "bg-elite-red/10 text-elite-red border border-elite-red/20"
+                isBuy ? "bg-[#00E676]/15 text-[#00E676] border border-[#00E676]/30" : "bg-[#FF4053]/15 text-[#FF4053] border border-[#FF4053]/30"
               }`}>
                 {sig.type}
               </span>
             </div>
 
             {/* Target Fields */}
-            <div className="space-y-2 font-mono text-xs text-gray-300 mb-6 bg-elite-surface p-4 rounded-xl border border-elite-border/30">
+            <div className="space-y-2 font-mono text-xs text-slate-700 dark:text-gray-300 mb-6 bg-slate-50 dark:bg-[#16161D] p-4 rounded-xl border border-gray-200 dark:border-white/10">
               <div className="flex justify-between">
-                <span className="text-gray-400">Entry Zone:</span>
-                <span className="font-bold text-gray-100">{sig.entryPrice}</span>
+                <span className="text-slate-500 dark:text-gray-400">Entry Zone:</span>
+                <span className="font-bold text-slate-900 dark:text-white">{sig.entryPrice}</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-gray-400">TP1 Target:</span>
-                <span className="font-bold text-elite-blue">{sig.takeProfit1}</span>
+                <span className="text-slate-500 dark:text-gray-400">TP1 Target:</span>
+                <span className="font-bold text-blue-600 dark:text-[#3B82F6]">{sig.takeProfit1}</span>
               </div>
               {sig.takeProfit2 && (
                 <div className="flex justify-between">
-                  <span className="text-gray-400">TP2 Target:</span>
-                  <span className="font-bold text-amber-500">{sig.takeProfit2}</span>
+                  <span className="text-slate-500 dark:text-gray-400">TP2 Target:</span>
+                  <span className="font-bold text-amber-600 dark:text-amber-500">{sig.takeProfit2}</span>
                 </div>
               )}
-              <div className="flex justify-between border-t border-elite-border/30 pt-2 mt-2">
-                <span className="text-gray-400">Stop Loss:</span>
-                <span className="font-bold text-elite-red">{sig.stopLoss}</span>
+              <div className="flex justify-between border-t border-gray-200 dark:border-white/10 pt-2 mt-2">
+                <span className="text-slate-500 dark:text-gray-400">Stop Loss:</span>
+                <span className="font-bold text-[#FF4053]">{sig.stopLoss}</span>
               </div>
             </div>
 
             {/* Status & Trigger Action */}
             <div className="space-y-3">
               <div className="flex justify-between items-center text-xs">
-                <span className="text-gray-400">Status:</span>
-                <span className={`font-bold ${isActive ? "text-amber-500 animate-pulse font-bold" : "text-elite-green font-bold"}`}>
+                <span className="text-slate-500 dark:text-gray-400">Status:</span>
+                <span className={`font-bold ${isActive ? "text-amber-600 dark:text-amber-500 animate-pulse font-bold" : "text-[#00E676] font-bold"}`}>
                   {isActive ? "ACTIVE & LIVE" : sig.pips ? `+${sig.pips} PIP TARGET HIT` : "CLOSED"}
                 </span>
               </div>
@@ -543,8 +559,8 @@ function SignalTerminalPreview() {
                 onClick={() => handleCopy(sig)}
                 className={`w-full py-2.5 rounded-xl font-semibold text-xs border transition-all duration-300 flex items-center justify-center gap-1.5 ${
                   copiedId === (sig.id || sig._id)
-                    ? "bg-elite-green/15 border-elite-green text-elite-green"
-                    : "border-elite-border bg-elite-surface text-gray-200 hover:bg-elite-border/50"
+                    ? "bg-[#00E676]/15 border-[#00E676] text-[#00E676]"
+                    : "border-gray-200 dark:border-white/10 bg-slate-100 dark:bg-[#16161D] text-slate-700 dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-white/10"
                 }`}
               >
                 {copiedId === (sig.id || sig._id) ? (
@@ -607,9 +623,9 @@ export default function HomePage() {
   ];
 
   return (
-    <div className="min-h-screen bg-elite-bg">
+    <div className="min-h-screen bg-slate-50 dark:bg-[#08080A] text-slate-900 dark:text-white transition-colors duration-300">
       {/* Dynamic Hero Section */}
-      <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-[#050c18]">
+      <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-[#08080A]">
         {/* Looping Video Background */}
         <div className="absolute inset-0 z-0">
           <video
@@ -617,12 +633,12 @@ export default function HomePage() {
             loop
             muted
             playsInline
-            className="w-full h-full object-cover opacity-80"
+            className="w-full h-full object-cover opacity-70"
             src="/Videos_images/hero-bg.mp4"
           />
           {/* Dark overlay with fade-out at bottom to blend with next section */}
-          <div className="absolute inset-0 bg-gradient-to-b from-[#050c18]/85 via-[#050c18]/60 to-[#F8FAFC]/50 z-0" />
-          <div className="absolute inset-0 bg-gradient-to-r from-[#050c18]/95 via-[#050c18]/70 to-transparent hidden lg:block z-0" />
+          <div className="absolute inset-0 bg-gradient-to-b from-[#08080A]/90 via-[#08080A]/75 to-[#08080A] z-0" />
+          <div className="absolute inset-0 bg-gradient-to-r from-[#08080A]/95 via-[#08080A]/75 to-transparent hidden lg:block z-0" />
         </div>
 
         <div className="relative z-10 section-padding max-w-7xl mx-auto pt-28 lg:pt-32 w-full">
@@ -634,9 +650,9 @@ export default function HomePage() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8 }}
               >
-                <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-amber-500/20 border border-amber-500/40 shadow-sm">
-                  <span className="w-2 h-2 rounded-full bg-elite-green animate-pulse" />
-                  <span className="text-sm text-amber-300 font-semibold">Live Signals Active Now</span>
+                <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#FF4053]/15 border border-[#FF4053]/35 shadow-sm">
+                  <span className="w-2 h-2 rounded-full bg-[#00E676] animate-pulse" />
+                  <span className="text-sm text-[#FF4053] font-semibold tracking-wide">Live Signals Active Now</span>
                 </div>
               </motion.div>
 
@@ -644,13 +660,13 @@ export default function HomePage() {
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 0.2 }}
-                className="font-display font-extrabold text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl text-[#F8FAFC] leading-none tracking-wide uppercase"
-                style={{ textShadow: "0 4px 24px rgba(0, 0, 0, 0.8), 0 2px 6px rgba(0, 0, 0, 0.9)" }}
+                className="font-display font-extrabold text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl leading-none tracking-wide uppercase"
+                style={{ textShadow: "0 4px 24px rgba(0, 0, 0, 0.9), 0 2px 6px rgba(0, 0, 0, 0.9)" }}
               >
-                MASTER <span className="text-amber-400">FOREX</span>
+                <span className="text-[#FFFFFF]">MASTER</span> <span className="text-[#FF4053] gold-gradient-text">FOREX</span>
                 <br />
-                <span className="text-[#F8FAFC]">TRADING WITH</span>{" "}
-                <span className="text-amber-400">PRECISION</span>
+                <span className="text-[#FFFFFF]">TRADING WITH</span>{" "}
+                <span className="text-[#FF4053] gold-gradient-text">PRECISION</span>
               </motion.h1>
 
               <motion.p
@@ -674,7 +690,7 @@ export default function HomePage() {
                 </Link>
                 <Link
                   href="/services"
-                  className="border border-[#94A3B8]/40 text-[#F8FAFC] hover:bg-white/5 hover:border-[#F8FAFC] transition-all duration-300 rounded-lg text-base px-8 py-3.5 w-full sm:w-auto text-center font-medium"
+                  className="border border-[#FF4053]/40 text-white hover:bg-[#FF4053]/15 hover:border-[#FF4053] transition-all duration-300 rounded-lg text-base px-8 py-3.5 w-full sm:w-auto text-center font-medium"
                 >
                   View Services
                 </Link>
@@ -685,18 +701,18 @@ export default function HomePage() {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ duration: 1, delay: 1 }}
-                className="mt-8 flex flex-wrap gap-4 justify-center lg:justify-start text-[#F8FAFC] text-xs font-semibold"
+                className="mt-8 flex flex-wrap gap-4 justify-center lg:justify-start text-white text-xs font-semibold"
               >
-                <div className="flex items-center gap-2 px-3.5 py-2 rounded-full bg-black/45 border border-white/10 shadow-md backdrop-blur-sm hover:border-white/20 transition-colors duration-300">
-                  <Shield size={14} className="text-elite-green" />
+                <div className="flex items-center gap-2 px-3.5 py-2 rounded-full bg-black/60 border border-white/10 shadow-md backdrop-blur-sm hover:border-[#FF4053]/30 transition-colors duration-300">
+                  <Shield size={14} className="text-[#00E676]" />
                   <span>Secure Platform</span>
                 </div>
-                <div className="flex items-center gap-2 px-3.5 py-2 rounded-full bg-black/45 border border-white/10 shadow-md backdrop-blur-sm hover:border-white/20 transition-colors duration-300">
-                  <BookOpen size={14} className="text-elite-green" />
+                <div className="flex items-center gap-2 px-3.5 py-2 rounded-full bg-black/60 border border-white/10 shadow-md backdrop-blur-sm hover:border-[#FF4053]/30 transition-colors duration-300">
+                  <BookOpen size={14} className="text-[#00E676]" />
                   <span>{statsData.totalLessons} Lessons Available</span>
                 </div>
-                <div className="flex items-center gap-2 px-3.5 py-2 rounded-full bg-black/45 border border-white/10 shadow-md backdrop-blur-sm hover:border-white/20 transition-colors duration-300">
-                  <TrendingUp size={14} className="text-amber-400" />
+                <div className="flex items-center gap-2 px-3.5 py-2 rounded-full bg-black/60 border border-white/10 shadow-md backdrop-blur-sm hover:border-[#FF4053]/30 transition-colors duration-300">
+                  <TrendingUp size={14} className="text-[#FF4053]" />
                   <span>{statsData.winRate}% Verified Win Rate</span>
                 </div>
               </motion.div>
@@ -730,22 +746,22 @@ export default function HomePage() {
       <ForexTicker />
 
       {/* Stats Section */}
-      <section className="py-20 bg-elite-bg relative">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-elite-gold/5 via-transparent to-transparent" />
+      <section className="py-20 bg-white dark:bg-[#08080A] relative border-b border-gray-200 dark:border-white/10">
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-[#FF4053]/5 via-transparent to-transparent" />
         <div className="section-padding relative z-10">
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
             {stats.map((stat, i) => (
               <ScrollReveal key={stat.label} delay={i * 0.1}>
-                <div className="text-center p-6 glass-card-hover">
-                  <stat.icon className="w-8 h-8 text-elite-gold mx-auto mb-4" />
-                  <div className="font-display text-3xl md:text-4xl text-white mb-2 font-bold">
+                <div className="text-center p-6 glass-card-hover bg-white dark:bg-[#111116] border border-gray-200 dark:border-white/10 shadow-sm">
+                  <stat.icon className="w-8 h-8 text-[#FF4053] mx-auto mb-4" />
+                  <div className="font-display text-3xl md:text-4xl text-slate-900 dark:text-white mb-2 font-bold">
                     <AnimatedCounter
                       end={stat.value}
                       prefix={stat.prefix}
                       suffix={stat.suffix}
                     />
                   </div>
-                  <p className="text-gray-400 text-sm font-semibold">{stat.label}</p>
+                  <p className="text-slate-600 dark:text-gray-400 text-sm font-semibold">{stat.label}</p>
                 </div>
               </ScrollReveal>
             ))}
@@ -754,15 +770,15 @@ export default function HomePage() {
       </section>
 
       {/* Compounding Growth Calculator Section (NEW) */}
-      <section className="py-24 relative bg-elite-surface/30 border-y border-elite-border/30">
+      <section className="py-24 relative bg-slate-100/80 dark:bg-elite-surface/30 border-y border-gray-200 dark:border-white/10">
         <div className="section-padding">
           <ScrollReveal>
             <div className="text-center mb-16">
-              <span className="text-elite-gold text-sm font-semibold tracking-widest uppercase">Compound Calculator</span>
-              <h2 className="font-display text-4xl md:text-5xl text-white mt-3 tracking-wider font-bold">
-                FOREX <span className="gold-gradient-text">EARNINGS CALCULATOR</span>
+              <span className="text-[#FF4053] text-sm font-semibold tracking-widest uppercase">Compound Calculator</span>
+              <h2 className="font-display text-4xl md:text-5xl text-slate-900 dark:text-white mt-3 tracking-wider font-bold">
+                <span className="text-slate-900 dark:text-white">FOREX</span> <span className="gold-gradient-text text-[#FF4053]">EARNINGS CALCULATOR</span>
               </h2>
-              <p className="text-gray-400 mt-4 max-w-2xl mx-auto">
+              <p className="text-slate-600 dark:text-gray-400 mt-4 max-w-2xl mx-auto">
                 Estimate how compound interest builds wealth. Toggle starting capital and target pips with balanced risk.
               </p>
             </div>
@@ -773,15 +789,15 @@ export default function HomePage() {
       </section>
 
       {/* Services Section */}
-      <section className="py-24 relative bg-elite-bg">
+      <section className="py-24 relative bg-white dark:bg-[#08080A]">
         <div className="section-padding">
           <ScrollReveal>
             <div className="text-center mb-16">
-              <span className="text-elite-gold text-sm font-semibold tracking-widest uppercase">What We Offer</span>
-              <h2 className="font-display text-4xl md:text-5xl text-white mt-3 tracking-wider font-bold">
-                ELITE <span className="gold-gradient-text">SERVICES</span>
+              <span className="text-[#FF4053] text-sm font-semibold tracking-widest uppercase">What We Offer</span>
+              <h2 className="font-display text-4xl md:text-5xl text-slate-900 dark:text-white mt-3 tracking-wider font-bold">
+                <span className="text-slate-900 dark:text-white">ELITE</span> <span className="gold-gradient-text text-[#FF4053]">SERVICES</span>
               </h2>
-              <p className="text-gray-400 mt-4 max-w-2xl mx-auto">
+              <p className="text-slate-600 dark:text-gray-400 mt-4 max-w-2xl mx-auto">
                 Everything you need to become a consistently profitable forex trader, all in one platform.
               </p>
             </div>
@@ -790,12 +806,12 @@ export default function HomePage() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {services.map((service, i) => (
               <ScrollReveal key={service.title} delay={i * 0.1}>
-                <div className="glass-card-hover p-8 h-full group border border-elite-border/40 hover:border-elite-gold/30 hover:shadow-xl transition-all duration-300">
-                  <div className="w-14 h-14 rounded-xl bg-elite-gold/10 border border-elite-gold/20 flex items-center justify-center mb-6 group-hover:bg-elite-gold/20 transition-colors">
-                    <service.icon className="w-7 h-7 text-elite-gold" />
+                <div className="glass-card-hover p-8 h-full group border border-gray-200 dark:border-white/10 hover:border-[#FF4053]/40 bg-white dark:bg-[#111116] shadow-sm hover:shadow-xl transition-all duration-300">
+                  <div className="w-14 h-14 rounded-xl bg-[#FF4053]/10 border border-[#FF4053]/20 flex items-center justify-center mb-6 group-hover:bg-[#FF4053]/20 transition-colors">
+                    <service.icon className="w-7 h-7 text-[#FF4053]" />
                   </div>
-                  <h3 className="font-display text-xl text-white tracking-wider mb-3 font-bold">{service.title}</h3>
-                  <p className="text-gray-400 text-sm leading-relaxed">{service.description}</p>
+                  <h3 className="font-display text-xl text-slate-900 dark:text-white tracking-wider mb-3 font-bold">{service.title}</h3>
+                  <p className="text-slate-600 dark:text-gray-400 text-sm leading-relaxed">{service.description}</p>
                 </div>
               </ScrollReveal>
             ))}
@@ -804,16 +820,19 @@ export default function HomePage() {
       </section>
 
       {/* Interactive Active Signals Feed Preview (NEW) */}
-      <section className="py-24 relative bg-elite-surface/40 border-t border-elite-border/30">
+      <section className="py-24 relative bg-slate-100/80 dark:bg-elite-surface/40 border-t border-gray-200 dark:border-white/10">
         <div className="section-padding">
           <ScrollReveal>
             <div className="text-center mb-16">
-              <span className="text-elite-gold text-sm font-semibold tracking-widest uppercase">Live Signal Preview</span>
-              <h2 className="font-display text-4xl md:text-5xl text-white mt-3 tracking-wider font-bold">
-                ACTIVE <span className="gold-gradient-text">TRADING SIGNALS</span>
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#00E676]/10 border border-[#00E676]/20 text-[#00E676] text-xs font-semibold mb-3">
+                <span className="w-2 h-2 rounded-full bg-[#00E676] animate-pulse" />
+                REAL-TIME LIVE FEED • AUTO-UPDATES
+              </div>
+              <h2 className="font-display text-4xl md:text-5xl text-slate-900 dark:text-white mt-1 tracking-wider font-bold">
+                <span className="text-slate-900 dark:text-white">ACTIVE</span> <span className="gold-gradient-text text-[#FF4053]">TRADING SIGNALS</span>
               </h2>
-              <p className="text-gray-400 mt-4 max-w-2xl mx-auto">
-                Real-time preview of recent and active signals shared directly from our member console dashboard.
+              <p className="text-slate-600 dark:text-gray-400 mt-4 max-w-2xl mx-auto">
+                Real-time stream of active signals shared directly from our trader console. Closed signals automatically disappear.
               </p>
             </div>
           </ScrollReveal>
@@ -823,15 +842,15 @@ export default function HomePage() {
       </section>
 
       {/* Proof & Media Showcase Section */}
-      <section className="py-24 bg-elite-card/30 relative border-t border-elite-border/30">
+      <section className="py-24 bg-slate-50 dark:bg-[#111116]/30 relative border-t border-gray-200 dark:border-white/10">
         <div className="section-padding">
           <ScrollReveal>
             <div className="text-center mb-16">
-              <span className="text-elite-gold text-sm font-semibold tracking-widest uppercase">Verified Proof</span>
-              <h2 className="font-display text-4xl md:text-5xl text-white mt-3 tracking-wider font-bold">
-                COMMUNITY <span className="gold-gradient-text">RESULTS & PROOF</span>
+              <span className="text-[#FF4053] text-sm font-semibold tracking-widest uppercase">Verified Proof</span>
+              <h2 className="font-display text-4xl md:text-5xl text-slate-900 dark:text-white mt-3 tracking-wider font-bold">
+                <span className="text-slate-900 dark:text-white">COMMUNITY</span> <span className="text-[#FF4053]">RESULTS & PROOF</span>
               </h2>
-              <p className="text-gray-400 mt-4 max-w-2xl mx-auto">
+              <p className="text-slate-500 dark:text-gray-400 mt-4 max-w-2xl mx-auto">
                 Real videos, profit screenshots, and live testimonies from members of our trading community. No login required.
               </p>
             </div>
@@ -840,22 +859,22 @@ export default function HomePage() {
           {/* Social Community Quick Access Row */}
           <div className="grid grid-cols-2 md:grid-cols-5 gap-4 max-w-5xl mx-auto mb-16">
             {[
-              { name: "Telegram Group", desc: "Free Signals", href: "https://t.me/+eaNhaqhRdYc1ZWU0", icon: Send, color: "border-blue-500/20 bg-blue-500/5 hover:bg-blue-500/10 text-blue-400" },
-              { name: "WhatsApp Chat", desc: "Direct Support", href: "https://wa.link/cu9c9s", icon: MessageCircle, color: "border-green-500/20 bg-green-500/5 hover:bg-green-500/10 text-green-400" },
-              { name: "YouTube Channel", desc: "Daily Analysis", href: "https://youtube.com/@fxinsightshub?si=DRHhDCOj3ZXiE7Qi", icon: Youtube, color: "border-red-500/20 bg-red-500/5 hover:bg-red-500/10 text-red-400" },
-              { name: "TikTok Account", desc: "Short Education", href: "https://www.tiktok.com/@fxinsighthub_peleboss?_r=1&_t=ZS-975CcYIO2Ue", icon: Play, color: "border-cyan-500/20 bg-cyan-500/5 hover:bg-cyan-500/10 text-cyan-400" },
-              { name: "Facebook Page", desc: "Community Updates", href: "https://www.facebook.com/share/18TRs2FDvx/?mibextid=wwXIfr", icon: Facebook, color: "border-blue-600/20 bg-blue-600/5 hover:bg-blue-600/10 text-blue-500" },
+              { name: "Telegram Group", desc: "Free Signals", href: "https://t.me/+eaNhaqhRdYc1ZWU0", icon: Send },
+              { name: "WhatsApp Chat", desc: "Direct Support", href: "https://wa.link/cu9c9s", icon: MessageCircle },
+              { name: "YouTube Channel", desc: "Daily Analysis", href: "https://youtube.com/@fxinsightshub?si=DRHhDCOj3ZXiE7Qi", icon: Youtube },
+              { name: "TikTok Account", desc: "Short Education", href: "https://www.tiktok.com/@fxinsighthub_peleboss?_r=1&_t=ZS-975CcYIO2Ue", icon: Play },
+              { name: "Facebook Page", desc: "Community Updates", href: "https://www.facebook.com/share/18TRs2FDvx/?mibextid=wwXIfr", icon: Facebook },
             ].map((social) => (
               <a
                 key={social.name}
                 href={social.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className={`flex flex-col items-center justify-center p-6 rounded-xl border text-center transition-all duration-300 ${social.color} hover:scale-105 hover:shadow-md`}
+                className="flex flex-col items-center justify-center p-6 rounded-xl border border-[#FF4053]/20 bg-white dark:bg-[#111116] text-[#FF4053] text-center transition-all duration-300 hover:border-[#FF4053]/50 hover:bg-[#FF4053]/5 hover:scale-105 hover:shadow-md shadow-sm"
               >
-                <social.icon className="w-8 h-8 mb-2" />
-                <span className="font-semibold text-sm text-white font-bold">{social.name}</span>
-                <span className="text-gray-500 text-xs mt-1">{social.desc}</span>
+                <social.icon className="w-8 h-8 mb-2 text-[#FF4053]" />
+                <span className="font-semibold text-sm text-slate-900 dark:text-white font-bold">{social.name}</span>
+                <span className="text-slate-500 dark:text-gray-500 text-xs mt-1">{social.desc}</span>
               </a>
             ))}
           </div>
@@ -863,8 +882,8 @@ export default function HomePage() {
           <div className="grid lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
             {/* Left side: Video presentation and video testimonies */}
             <div className="lg:col-span-2 space-y-6">
-              <h3 className="font-display text-xl text-white tracking-wider mb-4 flex items-center gap-2 font-bold">
-                <Play className="text-elite-gold w-5 h-5" /> Video Proof & Introductions
+              <h3 className="font-display text-xl text-slate-900 dark:text-white tracking-wider mb-4 flex items-center gap-2 font-bold">
+                <Play className="text-[#FF4053] w-5 h-5" /> Video Proof & Introductions
               </h3>
 
               {/* Main Presentation Video */}
@@ -877,14 +896,14 @@ export default function HomePage() {
                     poster={`${SUPABASE_MEDIA}/img1.jpeg`}
                   />
                   <div className="absolute inset-0 bg-black/40 flex items-center justify-center pointer-events-none group-hover:opacity-0 transition-opacity">
-                    <div className="w-16 h-16 rounded-full bg-elite-gold/90 flex items-center justify-center shadow-lg shadow-elite-gold/25 animate-pulse-glow">
+                    <div className="w-16 h-16 rounded-full bg-[#FF4053]/90 flex items-center justify-center shadow-lg shadow-[#FF4053]/25 animate-pulse-glow">
                       <Play className="text-white fill-white w-6 h-6 ml-1" />
                     </div>
                   </div>
                 </div>
-                <div className="p-4 bg-elite-surface/40">
-                  <h4 className="font-semibold text-white font-bold">Fx Insights Hub Video Presentation</h4>
-                  <p className="text-gray-400 text-sm mt-1">Watch our live breakdown of trading signals, dashboard services, and educational resources.</p>
+                <div className="p-4 bg-slate-50 dark:bg-[#16161D] border-t border-gray-200 dark:border-white/10">
+                  <h4 className="font-semibold text-slate-900 dark:text-white font-bold">Fx Insights Hub Video Presentation</h4>
+                  <p className="text-slate-500 dark:text-gray-400 text-sm mt-1">Watch our live breakdown of trading signals, dashboard services, and educational resources.</p>
                 </div>
               </div>
 
@@ -894,13 +913,13 @@ export default function HomePage() {
                   { title: "Trading Preview", src: `${SUPABASE_MEDIA}/Trading%20preview.mp4`, desc: "Watch how a community member consistently hits profit targets using our professional signals." },
                   { title: "Live Group Review", src: `${SUPABASE_MEDIA}/Founder1.mp4`, desc: "A live video recording showing our WhatsApp community sharing daily profit screenshots." },
                 ].map((vid) => (
-                  <div key={vid.title} className="glass-card overflow-hidden flex flex-col h-full bg-elite-card/45">
+                  <div key={vid.title} className="bg-white dark:bg-[#111116] border border-gray-200 dark:border-white/10 rounded-2xl overflow-hidden flex flex-col h-full shadow-sm">
                     <div className="aspect-video relative bg-black">
                       <video src={vid.src} className="w-full h-full object-contain" controls />
                     </div>
                     <div className="p-4 flex-1">
-                      <h4 className="font-semibold text-white text-sm font-bold">{vid.title}</h4>
-                      <p className="text-gray-400 text-xs mt-1 leading-relaxed">{vid.desc}</p>
+                      <h4 className="font-semibold text-slate-900 dark:text-white text-sm font-bold">{vid.title}</h4>
+                      <p className="text-slate-500 dark:text-gray-400 text-xs mt-1 leading-relaxed">{vid.desc}</p>
                     </div>
                   </div>
                 ))}
@@ -909,8 +928,8 @@ export default function HomePage() {
 
             {/* Right side: Image screenshot proof list */}
             <div className="space-y-6">
-              <h3 className="font-display text-xl text-white tracking-wider mb-4 flex items-center gap-2 font-bold">
-                <Star className="text-elite-gold w-5 h-5" /> Student Profit Proofs
+              <h3 className="font-display text-xl text-slate-900 dark:text-white tracking-wider mb-4 flex items-center gap-2 font-bold">
+                <Star className="text-[#FF4053] w-5 h-5" /> Student Profit Proofs
               </h3>
               
               <div className="grid grid-cols-2 gap-3 max-h-[500px] overflow-y-auto pr-2 custom-scrollbar">
@@ -925,34 +944,34 @@ export default function HomePage() {
                   <div
                     key={img.url}
                     onClick={() => setActiveMedia({ type: "image", url: img.url, title: img.title })}
-                    className="glass-card overflow-hidden group cursor-pointer border border-elite-border/40 hover:border-elite-gold/50 transition-colors duration-300"
+                    className="bg-white dark:bg-[#111116] border border-gray-200 dark:border-white/10 rounded-xl overflow-hidden group cursor-pointer hover:border-[#FF4053]/50 shadow-sm transition-colors duration-300"
                   >
-                    <div className="aspect-square relative bg-elite-surface overflow-hidden">
+                    <div className="aspect-square relative bg-slate-100 dark:bg-[#16161D] overflow-hidden">
                       <img
                         src={img.url}
                         alt={img.title}
                         className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                       />
                       <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                        <span className="text-[#F8FAFC] text-[10px] font-semibold px-2 py-1 bg-[#050c18]/85 border border-elite-gold/30 rounded-md">View Fullscreen</span>
+                        <span className="text-white text-[10px] font-semibold px-2 py-1 bg-[#050c18]/85 border border-[#FF4053]/30 rounded-md">View Fullscreen</span>
                       </div>
                     </div>
-                    <div className="p-2 text-center bg-elite-surface/30">
-                      <span className="text-white text-xs font-semibold block truncate">{img.title}</span>
+                    <div className="p-2 text-center bg-slate-50 dark:bg-[#16161D]/30 border-t border-gray-100 dark:border-white/5">
+                      <span className="text-slate-800 dark:text-white text-xs font-semibold block truncate">{img.title}</span>
                     </div>
                   </div>
                 ))}
               </div>
 
               {/* Contact box */}
-              <div className="glass-card p-6 bg-gradient-to-br from-elite-gold/5 to-transparent border border-elite-gold/10">
-                <h4 className="font-semibold text-elite-gold text-sm mb-2 font-bold">Want to submit your results?</h4>
-                <p className="text-gray-400 text-xs leading-relaxed">
+              <div className="bg-white dark:bg-[#111116] border border-[#FF4053]/15 rounded-2xl p-6 bg-gradient-to-br from-[#FF4053]/5 to-transparent shadow-sm">
+                <h4 className="font-semibold text-[#FF4053] text-sm mb-2 font-bold">Want to submit your results?</h4>
+                <p className="text-slate-500 dark:text-gray-400 text-xs leading-relaxed">
                   Send your screenshot or video to us on WhatsApp or Telegram, and we will feature it in our verified community proof gallery!
                 </p>
                 <div className="flex gap-2 mt-4">
-                  <a href="https://wa.link/cu9c9s" target="_blank" rel="noopener noreferrer" className="px-3 py-1.5 rounded-lg bg-green-500/10 border border-green-500/20 text-green-400 hover:bg-green-500/20 text-xs font-semibold transition-colors">WhatsApp Support</a>
-                  <a href="https://t.me/+eaNhaqhRdYc1ZWU0" target="_blank" rel="noopener noreferrer" className="px-3 py-1.5 rounded-lg bg-blue-500/10 border border-blue-500/20 text-blue-400 hover:bg-blue-500/20 text-xs font-semibold transition-colors">Join Telegram</a>
+                  <a href="https://wa.link/cu9c9s" target="_blank" rel="noopener noreferrer" className="px-3 py-1.5 rounded-lg bg-[#FF4053]/10 border border-[#FF4053]/25 text-[#FF4053] hover:bg-[#FF4053]/20 text-xs font-semibold transition-colors">WhatsApp Support</a>
+                  <a href="https://t.me/+eaNhaqhRdYc1ZWU0" target="_blank" rel="noopener noreferrer" className="px-3 py-1.5 rounded-lg bg-[#FF4053]/10 border border-[#FF4053]/25 text-[#FF4053] hover:bg-[#FF4053]/20 text-xs font-semibold transition-colors">Join Telegram</a>
                 </div>
               </div>
             </div>
@@ -968,7 +987,7 @@ export default function HomePage() {
             <div className="relative max-w-4xl max-h-[85vh] w-full flex items-center justify-center" onClick={(e) => e.stopPropagation()}>
               <button
                 onClick={() => setActiveMedia(null)}
-                className="absolute -top-12 right-0 text-white hover:text-elite-gold transition-colors flex items-center gap-1 bg-[#050c18] px-3 py-1.5 rounded-md border border-white/10 text-xs font-bold"
+                className="absolute -top-12 right-0 text-white hover:text-[#FF4053] transition-colors flex items-center gap-1 bg-[#08080A] px-3 py-1.5 rounded-md border border-white/10 text-xs font-bold"
               >
                 Close Window
               </button>
@@ -980,45 +999,45 @@ export default function HomePage() {
                 />
               )}
             </div>
-            <p className="text-[#F8FAFC] font-semibold text-lg mt-4">{activeMedia.title}</p>
+            <p className="text-white font-semibold text-lg mt-4">{activeMedia.title}</p>
           </div>
         )}
       </section>
 
       {/* Mentor Section */}
-      <section className="py-24 bg-elite-card/50 relative overflow-hidden border-t border-elite-border/30">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_left,_var(--tw-gradient-stops))] from-elite-gold/5 via-transparent to-transparent" />
+      <section className="py-24 bg-white dark:bg-[#111116]/50 relative overflow-hidden border-t border-gray-200 dark:border-white/10">
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_left,_var(--tw-gradient-stops))] from-[#FF4053]/5 via-transparent to-transparent" />
         <div className="section-padding relative z-10">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
             <ScrollReveal direction="left">
               <div className="relative max-w-md mx-auto lg:mx-0">
-                <div className="aspect-[4/5] rounded-2xl overflow-hidden bg-gradient-to-br from-elite-surface to-elite-card border border-elite-border/50 shadow-md">
+                <div className="aspect-[4/5] rounded-2xl overflow-hidden bg-gradient-to-br from-slate-100 dark:from-[#16161D] to-slate-200 dark:to-[#111116] border border-gray-200 dark:border-white/10 shadow-md">
                   <img
                     src={`${SUPABASE_MEDIA}/Founder.jpeg`}
                     alt="Peleboss — Founder"
                     className="w-full h-full object-cover object-top"
                   />
                 </div>
-                <div className="absolute -bottom-4 -right-4 glass-card p-4 shadow-lg border border-elite-border/60">
+                <div className="absolute -bottom-4 -right-4 bg-white dark:bg-[#111116] border border-gray-200 dark:border-white/10 rounded-xl p-4 shadow-lg">
                   <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-full bg-elite-green/20 flex items-center justify-center">
-                      <TrendingUp size={20} className="text-elite-green" />
+                    <div className="w-10 h-10 rounded-full bg-[#00E676]/20 flex items-center justify-center">
+                      <TrendingUp size={20} className="text-[#00E676]" />
                     </div>
                     <div>
-                      <p className="text-white font-bold text-sm">{statsData.yearsExperience}+ Years</p>
-                      <p className="text-gray-500 text-xs">Trading Experience</p>
+                      <p className="text-slate-900 dark:text-white font-bold text-sm">{statsData.yearsExperience}+ Years</p>
+                      <p className="text-slate-500 dark:text-gray-500 text-xs">Trading Experience</p>
                     </div>
                   </div>
                 </div>
               </div>
             </ScrollReveal>
- 
+
             <ScrollReveal direction="right">
-              <span className="text-elite-gold text-sm font-semibold tracking-widest uppercase">Meet The Founder</span>
-              <h2 className="font-display text-4xl md:text-5xl text-white mt-3 tracking-wider mb-6 font-bold">
-                PELE<span className="gold-gradient-text">BOSS</span>
+              <span className="text-[#FF4053] text-sm font-semibold tracking-widest uppercase">Meet The Founder</span>
+              <h2 className="font-display text-4xl md:text-5xl text-slate-900 dark:text-white mt-3 tracking-wider mb-6 font-bold">
+                <span className="text-slate-900 dark:text-white">PELE</span><span className="gold-gradient-text text-[#FF4053]">BOSS</span>
               </h2>
-              <div className="space-y-4 text-gray-400 leading-relaxed font-body">
+              <div className="space-y-4 text-slate-600 dark:text-gray-400 leading-relaxed font-body">
                 <p>
                   With over {statsData.yearsExperience} years of experience in the forex markets, Peleboss has developed a systematic approach to trading that emphasizes risk management, technical precision, and psychological discipline.
                 </p>
@@ -1026,23 +1045,23 @@ export default function HomePage() {
                   His journey evolved into a global community of profitable traders through Fx Insights Hub — a platform dedicated to empowering everyday people to achieve financial freedom through forex.
                 </p>
                 <p>
-                  His philosophy is simple: "Protect your capital first, profits will follow." Every signal, every lesson, every live session is designed with this principle at its core.
+                  His philosophy is simple: &quot;Protect your capital first, profits will follow.&quot; Every signal, every lesson, every live session is designed with this principle at its core.
                 </p>
               </div>
               <div className="mt-8 flex flex-wrap gap-4 font-body">
-                <div className="glass-card px-5 py-3 border border-elite-border/50 shadow-sm">
-                  <p className="font-display text-2xl text-white font-bold">
+                <div className="glass-card px-5 py-3 border border-gray-200 dark:border-white/10 shadow-sm bg-white dark:bg-[#111116]">
+                  <p className="font-display text-2xl text-slate-900 dark:text-white font-bold">
                     {statsData.profitsGenerated > 0 ? `$${(statsData.profitsGenerated / 1000).toFixed(0)}k+` : "$0"}
                   </p>
-                  <p className="text-gray-500 text-xs mt-0.5">Verified Profits</p>
+                  <p className="text-slate-500 dark:text-gray-400 text-xs mt-0.5">Verified Profits</p>
                 </div>
-                <div className="glass-card px-5 py-3 border border-elite-border/50 shadow-sm">
-                  <p className="font-display text-2xl text-white font-bold">{statsData.winRate}%</p>
-                  <p className="text-gray-500 text-xs mt-0.5">Signal Accuracy</p>
+                <div className="glass-card px-5 py-3 border border-gray-200 dark:border-white/10 shadow-sm bg-white dark:bg-[#111116]">
+                  <p className="font-display text-2xl text-slate-900 dark:text-white font-bold">{statsData.winRate}%</p>
+                  <p className="text-slate-500 dark:text-gray-400 text-xs mt-0.5">Signal Accuracy</p>
                 </div>
-                <div className="glass-card px-5 py-3 border border-elite-border/50 shadow-sm">
-                  <p className="font-display text-2xl text-white font-bold">{statsData.totalLessons}+</p>
-                  <p className="text-gray-500 text-xs mt-0.5">Course Lessons</p>
+                <div className="glass-card px-5 py-3 border border-gray-200 dark:border-white/10 shadow-sm bg-white dark:bg-[#111116]">
+                  <p className="font-display text-2xl text-slate-900 dark:text-white font-bold">{statsData.totalLessons}+</p>
+                  <p className="text-slate-500 dark:text-gray-400 text-xs mt-0.5">Course Lessons</p>
                 </div>
               </div>
             </ScrollReveal>
@@ -1051,13 +1070,13 @@ export default function HomePage() {
       </section>
 
       {/* FAQ Section */}
-      <section className="py-24 bg-elite-bg border-t border-elite-border/30">
+      <section className="py-24 bg-white dark:bg-[#08080A] border-t border-gray-200 dark:border-white/10">
         <div className="section-padding max-w-3xl mx-auto">
           <ScrollReveal>
             <div className="text-center mb-16">
-              <span className="text-elite-gold text-sm font-semibold tracking-widest uppercase">FAQ</span>
-              <h2 className="font-display text-4xl md:text-5xl text-white mt-3 tracking-wider font-bold">
-                COMMON <span className="gold-gradient-text">QUESTIONS</span>
+              <span className="text-[#FF4053] text-sm font-semibold tracking-widest uppercase">FAQ</span>
+              <h2 className="font-display text-4xl md:text-5xl text-slate-900 dark:text-white mt-3 tracking-wider font-bold">
+                <span className="text-slate-900 dark:text-white">COMMON</span> <span className="gold-gradient-text text-[#FF4053]">QUESTIONS</span>
               </h2>
             </div>
           </ScrollReveal>
@@ -1065,15 +1084,15 @@ export default function HomePage() {
           <div className="space-y-4 font-body">
             {faqs.map((faq, i) => (
               <ScrollReveal key={i} delay={i * 0.1}>
-                <div className="glass-card overflow-hidden border border-elite-border/50 shadow-sm">
+                <div className="glass-card overflow-hidden border border-gray-200 dark:border-white/10 shadow-sm bg-white dark:bg-[#111116]">
                   <button
                     onClick={() => setOpenFaq(openFaq === i ? null : i)}
                     className="w-full flex items-center justify-between p-6 text-left"
                   >
-                    <span className="font-bold text-white pr-4 text-sm sm:text-base">{faq.q}</span>
+                    <span className="font-bold text-slate-900 dark:text-white pr-4 text-sm sm:text-base">{faq.q}</span>
                     <ChevronDown
                       size={20}
-                      className={`text-elite-gold shrink-0 transition-transform duration-300 ${
+                      className={`text-[#FF4053] shrink-0 transition-transform duration-300 ${
                         openFaq === i ? "rotate-180" : ""
                       }`}
                     />
@@ -1082,9 +1101,9 @@ export default function HomePage() {
                     initial={false}
                     animate={{ height: openFaq === i ? "auto" : 0, opacity: openFaq === i ? 1 : 0 }}
                     transition={{ duration: 0.3 }}
-                    className="overflow-hidden bg-elite-surface/20"
+                    className="overflow-hidden bg-slate-50 dark:bg-[#16161D]/50"
                   >
-                    <p className="px-6 pb-6 text-gray-400 text-sm leading-relaxed border-t border-elite-border/20 pt-4">{faq.a}</p>
+                    <p className="px-6 pb-6 text-slate-600 dark:text-gray-400 text-sm leading-relaxed border-t border-gray-200 dark:border-white/10 pt-4">{faq.a}</p>
                   </motion.div>
                 </div>
               </ScrollReveal>
@@ -1094,12 +1113,12 @@ export default function HomePage() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-24 relative overflow-hidden border-t border-elite-border/30 bg-[#050c18]">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-elite-gold/10 via-transparent to-transparent" />
+      <section className="py-24 relative overflow-hidden border-t border-gray-200 dark:border-white/10 bg-slate-900 dark:bg-[#08080A]">
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-[#FF4053]/15 via-transparent to-transparent" />
         <div className="section-padding relative z-10 text-center max-w-3xl mx-auto">
           <ScrollReveal>
-            <h2 className="font-display text-4xl md:text-6xl text-[#F8FAFC] tracking-wider mb-6 font-bold" style={{ textShadow: "0 2px 10px rgba(0,0,0,0.5)" }}>
-              READY TO <span className="text-amber-400">LEVEL UP?</span>
+            <h2 className="font-display text-4xl md:text-6xl text-white tracking-wider mb-6 font-bold">
+              <span className="text-white">READY TO</span> <span className="gold-gradient-text text-[#FF4053]">LEVEL UP?</span>
             </h2>
             <p className="text-gray-300 text-base sm:text-lg mb-10 leading-relaxed font-body">
               Join thousands of traders who have transformed their trading with Fx Insights Hub. Your journey to consistent profitability starts today.
@@ -1109,7 +1128,7 @@ export default function HomePage() {
                 Join The Community
                 <ArrowRight size={18} className="inline ml-2" />
               </Link>
-              <Link href="/services" className="border border-white/20 text-[#F8FAFC] hover:bg-white/5 hover:border-[#F8FAFC] transition-all duration-300 rounded-lg text-lg px-10 py-4 font-semibold">
+              <Link href="/services" className="border border-[#FF4053]/40 text-white hover:bg-[#FF4053]/15 hover:border-[#FF4053] transition-all duration-300 rounded-lg text-lg px-10 py-4 font-semibold">
                 View Services
               </Link>
             </div>

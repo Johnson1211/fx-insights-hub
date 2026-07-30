@@ -5,10 +5,11 @@ import { usePathname, useRouter } from "next/navigation";
 import { useAuth } from "@/hooks/useAuth";
 import { useEffect, useState, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { useTheme } from "@/components/providers/ThemeProvider";
 import {
   LayoutDashboard, Signal, Play, Copy, Video, GraduationCap,
-  MessageSquare, User, Settings, Crown, LogOut, ChevronRight,
-  Bell, X, CheckCheck,
+  MessageSquare, User, LogOut, ChevronRight,
+  Bell, X, CheckCheck, Sun, Moon, Crown,
 } from "lucide-react";
 
 interface UserNotif {
@@ -32,19 +33,10 @@ const menuItems = [
   { href: "/dashboard/profile", label: "Profile", icon: User },
 ];
 
-function typeColor(type: string) {
-  switch (type) {
-    case "success": return "text-elite-green border-elite-green/20 bg-elite-green/5";
-    case "alert":   return "text-elite-red border-elite-red/20 bg-elite-red/5";
-    case "warning": return "text-yellow-400 border-yellow-400/20 bg-yellow-400/5";
-    default:        return "text-blue-400 border-blue-400/20 bg-blue-400/5";
-  }
-}
-
 function typeDot(type: string) {
   switch (type) {
-    case "success": return "bg-elite-green";
-    case "alert":   return "bg-elite-red";
+    case "success": return "bg-[#00E676]";
+    case "alert":   return "bg-[#FF4053]";
     case "warning": return "bg-yellow-400";
     default:        return "bg-blue-400";
   }
@@ -54,13 +46,13 @@ export function DashboardSidebar() {
   const pathname = usePathname();
   const router = useRouter();
   const { user, logout } = useAuth();
+  const { theme, toggleTheme } = useTheme();
 
   const [notifications, setNotifications] = useState<UserNotif[]>([]);
   const [unreadCount, setUnreadCount] = useState(0);
   const [bellOpen, setBellOpen] = useState(false);
   const bellRef = useRef<HTMLDivElement>(null);
 
-  // Fetch personal notifications
   const fetchNotifs = async () => {
     try {
       const res = await fetch("/api/user/notifications");
@@ -74,11 +66,10 @@ export function DashboardSidebar() {
 
   useEffect(() => {
     fetchNotifs();
-    const interval = setInterval(fetchNotifs, 5000); // poll every 5s
+    const interval = setInterval(fetchNotifs, 5000);
     return () => clearInterval(interval);
   }, []);
 
-  // Close bell dropdown on outside click
   useEffect(() => {
     const handler = (e: MouseEvent) => {
       if (bellRef.current && !bellRef.current.contains(e.target as Node)) {
@@ -92,7 +83,6 @@ export function DashboardSidebar() {
   const handleBellOpen = async () => {
     setBellOpen((o) => !o);
     if (!bellOpen && unreadCount > 0) {
-      // Mark all as read
       await fetch("/api/user/notifications", { method: "PATCH" });
       setUnreadCount(0);
       setNotifications((prev) => prev.map((n) => ({ ...n, isRead: true })));
@@ -115,36 +105,38 @@ export function DashboardSidebar() {
   };
 
   return (
-    <aside className="hidden lg:flex fixed left-0 top-16 bottom-0 w-64 bg-elite-card/95 backdrop-blur-xl border-r border-elite-border/50 flex-col z-30">
+    <aside className="hidden lg:flex fixed left-0 top-16 bottom-0 w-64 bg-white dark:bg-[#111116] border-r border-gray-200 dark:border-[#FF4053]/15 flex-col z-30 transition-colors duration-300">
       {/* User Card */}
-      <div className="p-6 border-b border-elite-border/50">
+      <div className="p-5 border-b border-gray-200 dark:border-white/5">
+        {/* Avatar + Name row */}
         <div className="flex items-center gap-3 mb-3">
-          <div className="w-10 h-10 rounded-full overflow-hidden bg-gradient-to-br from-elite-gold/30 to-blue-600/30 border border-elite-gold/30 flex items-center justify-center shrink-0">
+          <div className="w-10 h-10 rounded-full overflow-hidden bg-gradient-to-br from-[#FF4053]/20 to-[#FF4053]/10 border-2 border-[#FF4053]/30 flex items-center justify-center shrink-0">
             {user?.avatar
               ? <img src={user.avatar} alt="avatar" className="w-full h-full object-cover" />
-              : <span className="text-elite-gold font-bold text-sm">{user?.name?.charAt(0) || "U"}</span>
+              : <span className="text-[#FF4053] font-bold text-sm">{user?.name?.charAt(0) || "U"}</span>
             }
           </div>
-          <div className="overflow-hidden flex-1">
-            <p className="text-white font-medium text-sm truncate">{user?.name}</p>
-            <p className="text-gray-500 text-xs truncate">{user?.email}</p>
+          <div className="flex-1 min-w-0">
+            <p className="text-slate-900 dark:text-white font-semibold text-sm truncate">{user?.name}</p>
+            <p className="text-slate-500 dark:text-gray-400 text-xs truncate">{user?.email}</p>
           </div>
 
           {/* Notification Bell */}
-          <div className="relative" ref={bellRef}>
+          <div className="relative shrink-0" ref={bellRef}>
             <button
               onClick={handleBellOpen}
-              className="relative p-1.5 text-gray-400 hover:text-white transition-colors"
+              className="relative p-2 rounded-lg text-slate-500 dark:text-gray-400 hover:text-[#FF4053] hover:bg-[#FF4053]/10 transition-all"
+              title="Notifications"
             >
-              <Bell size={17} />
+              <Bell size={18} />
               {unreadCount > 0 && (
-                <span className="absolute -top-0.5 -right-0.5 w-4 h-4 bg-elite-red text-white text-[9px] font-bold rounded-full flex items-center justify-center">
+                <span className="absolute -top-0.5 -right-0.5 w-4 h-4 bg-[#FF4053] text-white text-[9px] font-bold rounded-full flex items-center justify-center">
                   {unreadCount > 9 ? "9+" : unreadCount}
                 </span>
               )}
             </button>
 
-            {/* Dropdown */}
+            {/* Notifications Dropdown */}
             <AnimatePresence>
               {bellOpen && (
                 <motion.div
@@ -152,46 +144,44 @@ export function DashboardSidebar() {
                   animate={{ opacity: 1, scale: 1, y: 0 }}
                   exit={{ opacity: 0, scale: 0.95, y: -8 }}
                   transition={{ duration: 0.15 }}
-                  className="absolute left-0 top-9 w-80 max-h-96 overflow-y-auto bg-elite-card border border-elite-border rounded-2xl shadow-2xl z-50"
+                  className="absolute left-0 top-10 w-80 max-h-96 overflow-y-auto bg-white dark:bg-[#111116] border border-gray-200 dark:border-[#FF4053]/15 rounded-2xl shadow-2xl z-50"
                 >
-                  {/* Header */}
-                  <div className="flex items-center justify-between px-4 py-3 border-b border-elite-border/50">
+                  <div className="flex items-center justify-between px-4 py-3 border-b border-gray-100 dark:border-white/5">
                     <div className="flex items-center gap-2">
-                      <Bell size={14} className="text-elite-gold" />
-                      <span className="text-sm font-semibold text-white">My Notifications</span>
+                      <Bell size={14} className="text-[#FF4053]" />
+                      <span className="text-sm font-semibold text-slate-900 dark:text-white">My Notifications</span>
                       {unreadCount > 0 && (
-                        <span className="text-[10px] bg-elite-red text-white px-1.5 py-0.5 rounded-full font-bold">
+                        <span className="text-[10px] bg-[#FF4053] text-white px-1.5 py-0.5 rounded-full font-bold">
                           {unreadCount}
                         </span>
                       )}
                     </div>
-                    <button onClick={() => setBellOpen(false)} className="text-gray-500 hover:text-white">
+                    <button onClick={() => setBellOpen(false)} className="text-slate-400 dark:text-gray-500 hover:text-[#FF4053] transition-colors">
                       <X size={14} />
                     </button>
                   </div>
 
-                  {/* Notification list */}
                   {notifications.length === 0 ? (
-                    <div className="py-10 text-center text-gray-500 text-sm">
-                      <Bell size={24} className="mx-auto mb-2 opacity-30" />
-                      No notifications yet
+                    <div className="py-10 text-center">
+                      <Bell size={24} className="mx-auto mb-2 text-slate-300 dark:text-gray-600" />
+                      <p className="text-slate-500 dark:text-gray-500 text-sm">No notifications yet</p>
                     </div>
                   ) : (
-                    <div className="divide-y divide-elite-border/30">
+                    <div className="divide-y divide-gray-100 dark:divide-white/5">
                       {notifications.map((n) => (
                         <button
                           key={n.id}
                           onClick={() => handleNotifClick(n)}
-                          className={`w-full text-left px-4 py-3.5 hover:bg-white/5 transition-colors ${!n.isRead ? "bg-white/[0.02]" : ""}`}
+                          className={`w-full text-left px-4 py-3.5 hover:bg-gray-50 dark:hover:bg-white/5 transition-colors ${!n.isRead ? "bg-[#FF4053]/[0.03]" : ""}`}
                         >
                           <div className="flex items-start gap-3">
-                            <div className={`w-2 h-2 rounded-full mt-1.5 shrink-0 ${!n.isRead ? typeDot(n.type) : "bg-gray-600"}`} />
+                            <div className={`w-2 h-2 rounded-full mt-1.5 shrink-0 ${!n.isRead ? typeDot(n.type) : "bg-gray-300 dark:bg-gray-600"}`} />
                             <div className="flex-1 min-w-0">
-                              <p className={`text-xs font-semibold mb-0.5 ${!n.isRead ? "text-white" : "text-gray-300"}`}>
+                              <p className={`text-xs font-semibold mb-0.5 ${!n.isRead ? "text-slate-900 dark:text-white" : "text-slate-500 dark:text-gray-400"}`}>
                                 {n.title}
                               </p>
-                              <p className="text-[11px] text-gray-500 leading-relaxed line-clamp-2">{n.message}</p>
-                              <p className="text-[10px] text-gray-600 mt-1">{timeAgo(n.createdAt)}</p>
+                              <p className="text-[11px] text-slate-500 dark:text-gray-500 leading-relaxed line-clamp-2">{n.message}</p>
+                              <p className="text-[10px] text-slate-400 dark:text-gray-600 mt-1">{timeAgo(n.createdAt)}</p>
                             </div>
                           </div>
                         </button>
@@ -199,16 +189,15 @@ export function DashboardSidebar() {
                     </div>
                   )}
 
-                  {/* Footer */}
                   {notifications.length > 0 && (
-                    <div className="px-4 py-2.5 border-t border-elite-border/50">
+                    <div className="px-4 py-2.5 border-t border-gray-100 dark:border-white/5">
                       <button
                         onClick={async () => {
                           await fetch("/api/user/notifications", { method: "PATCH" });
                           setUnreadCount(0);
                           setNotifications((prev) => prev.map((n) => ({ ...n, isRead: true })));
                         }}
-                        className="text-[11px] text-gray-500 hover:text-elite-gold flex items-center gap-1.5 transition-colors"
+                        className="text-[11px] text-slate-400 dark:text-gray-500 hover:text-[#FF4053] flex items-center gap-1.5 transition-colors"
                       >
                         <CheckCheck size={12} /> Mark all as read
                       </button>
@@ -220,41 +209,55 @@ export function DashboardSidebar() {
           </div>
         </div>
 
+        {/* Plan badge */}
         <div className="flex items-center gap-2">
-          <Crown size={12} className="text-elite-gold" />
-          <span className="text-xs text-elite-gold capitalize">{user?.plan} Plan</span>
+          <Crown size={11} className="text-[#FF4053]" />
+          <span className="text-xs text-[#FF4053] font-semibold capitalize">{user?.plan} Plan</span>
         </div>
       </div>
 
       {/* Navigation */}
-      <nav className="flex-1 overflow-y-auto py-4 px-3 space-y-1">
+      <nav className="flex-1 overflow-y-auto py-3 px-3 space-y-0.5">
         {menuItems.map((item) => {
           const isActive = pathname === item.href || pathname.startsWith(`${item.href}/`);
           return (
             <Link
               key={item.href}
               href={item.href}
-              className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all duration-200 group ${
+              className={`flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 group ${
                 isActive
-                  ? "bg-elite-gold/10 text-elite-gold border border-elite-gold/20"
-                  : "text-gray-400 hover:text-white hover:bg-white/5"
+                  ? "bg-[#FF4053]/10 text-[#FF4053] border border-[#FF4053]/20 font-semibold"
+                  : "text-slate-600 dark:text-gray-400 hover:text-slate-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-white/5"
               }`}
             >
-              <item.icon size={18} className={isActive ? "text-elite-gold" : "text-gray-500 group-hover:text-gray-300"} />
+              <item.icon size={17} className={isActive ? "text-[#FF4053]" : "text-slate-400 dark:text-gray-500 group-hover:text-slate-600 dark:group-hover:text-gray-300"} />
               <span className="flex-1">{item.label}</span>
-              {isActive && <ChevronRight size={14} className="text-elite-gold" />}
+              {isActive && <ChevronRight size={13} className="text-[#FF4053]" />}
             </Link>
           );
         })}
       </nav>
 
-      {/* Logout */}
-      <div className="p-4 border-t border-elite-border/50">
+      {/* Bottom: Theme toggle + Logout */}
+      <div className="p-3 border-t border-gray-200 dark:border-white/5 space-y-1">
+        {/* Theme Toggle */}
+        <button
+          onClick={toggleTheme}
+          className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-slate-600 dark:text-gray-400 hover:text-slate-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-white/5 transition-all w-full"
+        >
+          {theme === "dark"
+            ? <Sun size={17} className="text-amber-400" />
+            : <Moon size={17} className="text-slate-400" />
+          }
+          <span>{theme === "dark" ? "Light Mode" : "Dark Mode"}</span>
+        </button>
+
+        {/* Logout */}
         <button
           onClick={logout}
-          className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-gray-400 hover:text-elite-red hover:bg-elite-red/10 transition-all w-full"
+          className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-slate-600 dark:text-gray-400 hover:text-[#FF4053] hover:bg-[#FF4053]/10 transition-all w-full"
         >
-          <LogOut size={18} />
+          <LogOut size={17} />
           <span>Logout</span>
         </button>
       </div>

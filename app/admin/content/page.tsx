@@ -240,7 +240,7 @@ export default function AdminContent() {
       </AnimatePresence>
 
       <div className="flex items-center justify-between">
-        <h1 className="font-display text-3xl text-white tracking-wider">VIDEO COURSE CMS</h1>
+        <h1 className="font-display text-3xl text-slate-900 dark:text-slate-900 dark:text-white tracking-wider">VIDEO COURSE CMS</h1>
         <button
           onClick={() => setShowUpload(!showUpload)}
           className="btn-primary flex items-center gap-2"
@@ -257,12 +257,12 @@ export default function AdminContent() {
           animate={{ opacity: 1, height: "auto" }}
           className="glass-card p-6"
         >
-          <h2 className="font-display text-lg text-white tracking-wider mb-4 flex items-center gap-2">
+          <h2 className="font-display text-lg text-slate-900 dark:text-slate-900 dark:text-white tracking-wider mb-4 flex items-center gap-2">
             <Video size={18} className="text-elite-gold" /> UPLOAD COURSE VIDEO
           </h2>
           <form onSubmit={handleUploadSubmit} className="grid md:grid-cols-2 gap-4">
             <div>
-              <label className="block text-xs font-semibold text-gray-400 uppercase mb-2">Title</label>
+              <label className="block text-xs font-semibold text-slate-500 dark:text-gray-400 uppercase mb-2">Title</label>
               <input
                 type="text"
                 required
@@ -273,7 +273,7 @@ export default function AdminContent() {
               />
             </div>
             <div>
-              <label className="block text-xs font-semibold text-gray-400 uppercase mb-2">Category</label>
+              <label className="block text-xs font-semibold text-slate-500 dark:text-gray-400 uppercase mb-2">Category</label>
               <select
                 className="input-field"
                 value={category}
@@ -287,7 +287,7 @@ export default function AdminContent() {
               </select>
             </div>
             <div>
-              <label className="block text-xs font-semibold text-gray-400 uppercase mb-2">Video URL</label>
+              <label className="block text-xs font-semibold text-slate-500 dark:text-gray-400 uppercase mb-2">Video URL</label>
               <input
                 type="url"
                 required
@@ -298,7 +298,7 @@ export default function AdminContent() {
               />
             </div>
             <div>
-              <label className="block text-xs font-semibold text-gray-400 uppercase mb-2">Upload Video File</label>
+              <label className="block text-xs font-semibold text-slate-500 dark:text-gray-400 uppercase mb-2">Upload Video File</label>
               <input
                 type="file"
                 accept="video/*"
@@ -314,7 +314,7 @@ export default function AdminContent() {
               )}
             </div>
             <div>
-              <label className="block text-xs font-semibold text-gray-400 uppercase mb-2">Duration (minutes)</label>
+              <label className="block text-xs font-semibold text-slate-500 dark:text-gray-400 uppercase mb-2">Duration (minutes)</label>
               <input
                 type="number"
                 className="input-field"
@@ -327,7 +327,7 @@ export default function AdminContent() {
               <input
                 type="checkbox"
                 id="isFreePreview"
-                className="rounded border-elite-border bg-elite-surface text-elite-gold focus:ring-elite-gold cursor-pointer"
+                className="rounded border-elite-border bg-slate-100 dark:bg-[#16161D] text-elite-gold focus:ring-elite-gold cursor-pointer"
                 checked={isFreePreview}
                 onChange={(e) => setIsFreePreview(e.target.checked)}
               />
@@ -336,7 +336,7 @@ export default function AdminContent() {
               </label>
             </div>
             <div className="md:col-span-2">
-              <label className="block text-xs font-semibold text-gray-400 uppercase mb-2">Video Description</label>
+              <label className="block text-xs font-semibold text-slate-500 dark:text-gray-400 uppercase mb-2">Video Description</label>
               <textarea
                 rows={4}
                 className="input-field resize-none text-sm leading-relaxed"
@@ -377,32 +377,32 @@ export default function AdminContent() {
         <div className="overflow-x-auto">
           <table className="w-full">
             <thead>
-              <tr className="border-b border-elite-border/50">
-                <th className="text-left p-4 text-gray-400 font-medium text-xs uppercase tracking-wider">Video</th>
-                <th className="text-left p-4 text-gray-400 font-medium text-xs uppercase tracking-wider">Category</th>
-                <th className="text-left p-4 text-gray-400 font-medium text-xs uppercase tracking-wider">Duration</th>
-                <th className="text-left p-4 text-gray-400 font-medium text-xs uppercase tracking-wider">Access</th>
-                <th className="text-left p-4 text-gray-400 font-medium text-xs uppercase tracking-wider">Views</th>
-                <th className="text-left p-4 text-gray-400 font-medium text-xs uppercase tracking-wider">Actions</th>
+              <tr className="border-b border-gray-200 dark:border-white/10">
+                <th className="text-left p-4 text-slate-500 dark:text-gray-400 font-medium text-xs uppercase tracking-wider">Video</th>
+                <th className="text-left p-4 text-slate-500 dark:text-gray-400 font-medium text-xs uppercase tracking-wider">Category</th>
+                <th className="text-left p-4 text-slate-500 dark:text-gray-400 font-medium text-xs uppercase tracking-wider">Duration</th>
+                <th className="text-left p-4 text-slate-500 dark:text-gray-400 font-medium text-xs uppercase tracking-wider">Access</th>
+                <th className="text-left p-4 text-slate-500 dark:text-gray-400 font-medium text-xs uppercase tracking-wider">Views</th>
+                <th className="text-left p-4 text-slate-500 dark:text-gray-400 font-medium text-xs uppercase tracking-wider">Actions</th>
               </tr>
             </thead>
             <tbody>
               {videosLoading ? (
                 <tr>
-                  <td colSpan={6} className="p-8 text-center text-gray-400">
+                  <td colSpan={6} className="p-8 text-center text-slate-500 dark:text-gray-400">
                     <Loader2 size={24} className="animate-spin text-elite-gold mx-auto mb-2" />
                     Loading videos...
                   </td>
                 </tr>
               ) : videos.length === 0 ? (
                 <tr>
-                  <td colSpan={6} className="p-8 text-center text-gray-400">
+                  <td colSpan={6} className="p-8 text-center text-slate-500 dark:text-gray-400">
                     No videos uploaded yet.
                   </td>
                 </tr>
               ) : (
                 videos.map((video) => (
-                  <tr key={video.id} className="border-b border-elite-border/30 hover:bg-white/[0.02] transition-colors">
+                  <tr key={video.id} className="border-b border-gray-200 dark:border-white/10 hover:bg-slate-50 dark:bg-white/[0.02] transition-colors">
                     <td className="p-4">
                       <div className="flex items-center gap-3">
                         <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-blue-900/50 to-blue-600/30 flex items-center justify-center shrink-0">
@@ -432,7 +432,7 @@ export default function AdminContent() {
                             </button>
                             <button
                               onClick={cancelRename}
-                              className="p-1.5 text-gray-500 hover:text-white rounded transition-colors shrink-0"
+                              className="p-1.5 text-slate-500 dark:text-gray-400 hover:text-slate-900 dark:text-white rounded transition-colors shrink-0"
                               title="Cancel"
                             >
                               <X size={14} />
@@ -440,10 +440,10 @@ export default function AdminContent() {
                           </div>
                         ) : (
                           <div className="flex items-center gap-2 group min-w-0">
-                            <span className="text-white text-sm font-medium truncate">{video.title}</span>
+                            <span className="text-slate-900 dark:text-slate-900 dark:text-white text-sm font-medium truncate">{video.title}</span>
                             <button
                               onClick={() => startRename(video)}
-                              className="opacity-0 group-hover:opacity-100 p-1 text-gray-500 hover:text-elite-gold transition-all shrink-0"
+                              className="opacity-0 group-hover:opacity-100 p-1 text-slate-500 dark:text-gray-400 hover:text-elite-gold transition-all shrink-0"
                               title="Rename lesson"
                             >
                               <Pencil size={13} />
@@ -452,16 +452,16 @@ export default function AdminContent() {
                         )}
                       </div>
                     </td>
-                    <td className="p-4 text-gray-400 text-sm capitalize">{video.category}</td>
-                    <td className="p-4 text-gray-400 text-sm font-mono">{video.duration > 0 ? `${video.duration} mins` : "--"}</td>
+                    <td className="p-4 text-slate-500 dark:text-gray-400 text-sm capitalize">{video.category}</td>
+                    <td className="p-4 text-slate-500 dark:text-gray-400 text-sm font-mono">{video.duration > 0 ? `${video.duration} mins` : "--"}</td>
                     <td className="p-4">
                       <span className={`text-xs px-2 py-1 rounded ${video.isFreePreview ? "bg-elite-green/10 text-elite-green" : "bg-elite-gold/10 text-elite-gold"}`}>
                         {video.isFreePreview ? "Free Preview" : "Premium"}
                       </span>
                     </td>
-                    <td className="p-4 text-gray-400 text-sm font-mono">
+                    <td className="p-4 text-slate-500 dark:text-gray-400 text-sm font-mono">
                       <span className="flex items-center gap-1.5">
-                        <Eye size={14} className="text-gray-500" />
+                        <Eye size={14} className="text-slate-400 dark:text-slate-500 dark:text-gray-400" />
                         {video.views || 0}
                       </span>
                     </td>
@@ -474,7 +474,7 @@ export default function AdminContent() {
                              target="_blank"
                              rel="noopener noreferrer"
                              title="Download video"
-                             className="text-gray-500 hover:text-elite-gold transition-colors"
+                             className="text-slate-500 dark:text-gray-400 hover:text-elite-gold transition-colors"
                           >
                             <Download size={16} />
                           </a>
@@ -482,7 +482,7 @@ export default function AdminContent() {
                         <button
                           onClick={() => handleCopyLink(video.id)}
                           title="Copy shareable link"
-                          className="text-gray-500 hover:text-elite-gold transition-colors"
+                          className="text-slate-500 dark:text-gray-400 hover:text-elite-gold transition-colors"
                         >
                           {copiedId === video.id ? (
                             <Check size={16} className="text-elite-green" />
@@ -493,7 +493,7 @@ export default function AdminContent() {
                         <button
                           onClick={() => handleDeleteVideo(video.id)}
                           title="Delete video"
-                          className="text-gray-500 hover:text-elite-red transition-colors"
+                          className="text-slate-500 dark:text-gray-400 hover:text-elite-red transition-colors"
                         >
                           <Trash2 size={16} />
                         </button>

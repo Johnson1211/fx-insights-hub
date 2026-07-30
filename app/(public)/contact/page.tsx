@@ -27,15 +27,15 @@ export default function ContactPage() {
   ];
 
   return (
-    <div className="min-h-screen pt-24 pb-20">
+    <div className="min-h-screen pt-24 pb-20 bg-slate-50 dark:bg-[#08080A] transition-colors duration-300">
       <div className="section-padding">
         <ScrollReveal>
           <div className="text-center mb-16">
-            <span className="text-elite-gold text-sm font-semibold tracking-widest uppercase">Get In Touch</span>
-            <h1 className="font-display text-4xl md:text-6xl text-white mt-3 tracking-wider">
-              CONTACT <span className="gold-gradient-text">US</span>
+            <span className="text-[#FF4053] text-sm font-semibold tracking-widest uppercase">Get In Touch</span>
+            <h1 className="font-display text-4xl md:text-6xl text-slate-900 dark:text-white mt-3 tracking-wider font-bold">
+              CONTACT <span className="text-[#FF4053]">US</span>
             </h1>
-            <p className="text-gray-400 mt-4 max-w-2xl mx-auto">
+            <p className="text-slate-500 dark:text-gray-400 mt-4 max-w-2xl mx-auto">
               Have questions about our services? We are here to help you start your trading journey.
             </p>
           </div>
@@ -46,8 +46,8 @@ export default function ContactPage() {
           <ScrollReveal direction="left">
             <div className="space-y-8">
               <div>
-                <h2 className="font-display text-2xl text-white tracking-wider mb-6">LET&apos;S TALK</h2>
-                <p className="text-gray-400 leading-relaxed">
+                <h2 className="font-display text-2xl text-slate-900 dark:text-white tracking-wider mb-6 font-bold">LET&apos;S TALK</h2>
+                <p className="text-slate-500 dark:text-gray-400 leading-relaxed">
                   Whether you are a beginner looking to learn or an experienced trader seeking advanced signals, 
                   our team is ready to assist you. Reach out through any of the channels below.
                 </p>
@@ -56,29 +56,29 @@ export default function ContactPage() {
               <div className="space-y-4">
                 <a
                   href="mailto:fxinsighth@gmail.com"
-                  className="flex items-center gap-4 p-4 glass-card hover:border-elite-gold/30 transition-colors group"
+                  className="flex items-center gap-4 p-4 bg-white dark:bg-[#111116] border border-gray-200 dark:border-white/10 rounded-2xl hover:border-[#FF4053]/30 transition-colors group shadow-sm"
                 >
-                  <div className="w-12 h-12 rounded-xl bg-elite-gold/10 border border-elite-gold/20 flex items-center justify-center group-hover:bg-elite-gold/20 transition-colors">
-                    <Mail className="w-5 h-5 text-elite-gold" />
+                  <div className="w-12 h-12 rounded-xl bg-[#FF4053]/10 border border-[#FF4053]/20 flex items-center justify-center group-hover:bg-[#FF4053]/20 transition-colors">
+                    <Mail className="w-5 h-5 text-[#FF4053]" />
                   </div>
                   <div>
-                    <p className="text-gray-500 text-xs uppercase tracking-wider">Email</p>
-                    <p className="text-white font-medium">fxinsighth@gmail.com</p>
+                    <p className="text-slate-500 dark:text-gray-500 text-xs uppercase tracking-wider">Email</p>
+                    <p className="text-slate-900 dark:text-white font-medium">fxinsighth@gmail.com</p>
                   </div>
                 </a>
 
-                <div className="flex flex-col gap-4 p-4 glass-card">
+                <div className="flex flex-col gap-4 p-4 bg-white dark:bg-[#111116] border border-gray-200 dark:border-white/10 rounded-2xl shadow-sm">
                   <div className="flex items-start gap-4">
-                    <div className="w-12 h-12 rounded-xl bg-elite-gold/10 border border-elite-gold/20 flex items-center justify-center shrink-0">
-                      <Phone className="w-5 h-5 text-elite-gold" />
+                    <div className="w-12 h-12 rounded-xl bg-[#FF4053]/10 border border-[#FF4053]/20 flex items-center justify-center shrink-0">
+                      <Phone className="w-5 h-5 text-[#FF4053]" />
                     </div>
                     <div className="flex-1">
-                      <p className="text-gray-500 text-xs uppercase tracking-wider">Phone Support</p>
+                      <p className="text-slate-500 dark:text-gray-500 text-xs uppercase tracking-wider">Phone Support</p>
                       <div className="flex flex-col gap-1 mt-1">
-                        <a href="tel:+233249827093" className="text-white font-medium hover:text-elite-gold transition-colors">
+                        <a href="tel:+233249827093" className="text-slate-900 dark:text-white font-medium hover:text-[#FF4053] transition-colors">
                           +233 24 982 7093
                         </a>
-                        <a href="tel:+233598912317" className="text-white font-medium hover:text-elite-gold transition-colors">
+                        <a href="tel:+233598912317" className="text-slate-900 dark:text-white font-medium hover:text-[#FF4053] transition-colors">
                           +233 59 891 2317
                         </a>
                       </div>
@@ -90,14 +90,14 @@ export default function ContactPage() {
                   href="https://wa.link/cu9c9s"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center gap-4 p-4 glass-card hover:border-elite-gold/30 transition-colors group"
+                  className="flex items-center gap-4 p-4 bg-white dark:bg-[#111116] border border-gray-200 dark:border-white/10 rounded-2xl hover:border-[#FF4053]/30 transition-colors group shadow-sm"
                 >
-                  <div className="w-12 h-12 rounded-xl bg-elite-gold/10 border border-elite-gold/20 flex items-center justify-center group-hover:bg-elite-gold/20 transition-colors">
-                    <MessageCircle className="w-5 h-5 text-elite-gold" />
+                  <div className="w-12 h-12 rounded-xl bg-[#FF4053]/10 border border-[#FF4053]/20 flex items-center justify-center group-hover:bg-[#FF4053]/20 transition-colors">
+                    <MessageCircle className="w-5 h-5 text-[#FF4053]" />
                   </div>
                   <div>
-                    <p className="text-gray-500 text-xs uppercase tracking-wider">WhatsApp Link</p>
-                    <p className="text-white font-medium">Click to chat on WhatsApp</p>
+                    <p className="text-slate-500 dark:text-gray-500 text-xs uppercase tracking-wider">WhatsApp Link</p>
+                    <p className="text-slate-900 dark:text-white font-medium">Click to chat on WhatsApp</p>
                   </div>
                 </a>
 
@@ -105,21 +105,21 @@ export default function ContactPage() {
                   href="https://t.me/+eaNhaqhRdYc1ZWU0"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center gap-4 p-4 glass-card hover:border-elite-gold/30 transition-colors group"
+                  className="flex items-center gap-4 p-4 bg-white dark:bg-[#111116] border border-gray-200 dark:border-white/10 rounded-2xl hover:border-[#FF4053]/30 transition-colors group shadow-sm"
                 >
-                  <div className="w-12 h-12 rounded-xl bg-elite-gold/10 border border-elite-gold/20 flex items-center justify-center group-hover:bg-elite-gold/20 transition-colors">
-                    <Send className="w-5 h-5 text-elite-gold" />
+                  <div className="w-12 h-12 rounded-xl bg-[#FF4053]/10 border border-[#FF4053]/20 flex items-center justify-center group-hover:bg-[#FF4053]/20 transition-colors">
+                    <Send className="w-5 h-5 text-[#FF4053]" />
                   </div>
                   <div>
-                    <p className="text-gray-500 text-xs uppercase tracking-wider">Telegram Group</p>
-                    <p className="text-white font-medium">Click to join Telegram Group</p>
+                    <p className="text-slate-500 dark:text-gray-500 text-xs uppercase tracking-wider">Telegram Group</p>
+                    <p className="text-slate-900 dark:text-white font-medium">Click to join Telegram Group</p>
                   </div>
                 </a>
               </div>
 
               {/* Social Channels List */}
-              <div className="glass-card p-6">
-                <h3 className="font-display text-lg text-white tracking-wider mb-4">OUR SOCIAL CHANNELS</h3>
+              <div className="bg-white dark:bg-[#111116] border border-gray-200 dark:border-white/10 rounded-2xl p-6 shadow-sm">
+                <h3 className="font-display text-lg text-slate-900 dark:text-white tracking-wider mb-4 font-bold">OUR SOCIAL CHANNELS</h3>
                 <div className="flex flex-wrap gap-4">
                   {socials.map((social) => {
                     const IconComponent = social.icon;
@@ -129,7 +129,7 @@ export default function ContactPage() {
                         href={social.href}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className={`flex items-center gap-2 px-4 py-2 rounded-lg bg-elite-surface border border-elite-border text-gray-400 ${social.color} hover:border-elite-gold/30 transition-all text-sm font-medium`}
+                        className={`flex items-center gap-2 px-4 py-2 rounded-lg bg-slate-100 dark:bg-[#16161D] border border-gray-200 dark:border-white/10 text-slate-600 dark:text-gray-400 ${social.color} hover:border-[#FF4053]/30 transition-all text-sm font-medium`}
                       >
                         <IconComponent />
                         {social.name}
@@ -139,12 +139,12 @@ export default function ContactPage() {
                 </div>
               </div>
 
-              <div className="glass-card p-6">
+              <div className="bg-white dark:bg-[#111116] border border-gray-200 dark:border-white/10 rounded-2xl p-6 shadow-sm">
                 <div className="flex items-center gap-3 mb-3">
-                  <Clock size={18} className="text-elite-gold" />
-                  <h3 className="font-display text-lg text-white tracking-wider">RESPONSE TIME</h3>
+                  <Clock size={18} className="text-[#FF4053]" />
+                  <h3 className="font-display text-lg text-slate-900 dark:text-white tracking-wider font-bold">RESPONSE TIME</h3>
                 </div>
-                <p className="text-gray-400 text-sm">
+                <p className="text-slate-500 dark:text-gray-400 text-sm">
                   We typically respond to all inquiries within 2-4 hours during business hours. 
                   Premium members receive priority support with sub-1-hour response times.
                 </p>
@@ -154,19 +154,19 @@ export default function ContactPage() {
 
           {/* Contact Form */}
           <ScrollReveal direction="right">
-            <div className="glass-card p-8">
-              <h2 className="font-display text-2xl text-white tracking-wider mb-6">SEND A MESSAGE</h2>
+            <div className="bg-white dark:bg-[#111116] border border-gray-200 dark:border-white/10 rounded-2xl p-8 shadow-sm">
+              <h2 className="font-display text-2xl text-slate-900 dark:text-white tracking-wider mb-6 font-bold">SEND A MESSAGE</h2>
 
               {submitted ? (
                 <div className="flex flex-col items-center justify-center py-12 text-center">
-                  <CheckCircle size={48} className="text-elite-green mb-4" />
-                  <h3 className="font-display text-xl text-white tracking-wider mb-2">MESSAGE SENT!</h3>
-                  <p className="text-gray-400 text-sm">We will get back to you shortly.</p>
+                  <CheckCircle size={48} className="text-[#00E676] mb-4" />
+                  <h3 className="font-display text-xl text-slate-900 dark:text-white tracking-wider mb-2">MESSAGE SENT!</h3>
+                  <p className="text-slate-500 dark:text-gray-400 text-sm">We will get back to you shortly.</p>
                 </div>
               ) : (
                 <form onSubmit={handleSubmit} className="space-y-5">
                   <div>
-                    <label className="block text-sm text-gray-400 mb-2">Full Name</label>
+                    <label className="block text-sm text-slate-600 dark:text-gray-400 mb-2">Full Name</label>
                     <input
                       type="text"
                       required
@@ -177,7 +177,7 @@ export default function ContactPage() {
                     />
                   </div>
                   <div>
-                    <label className="block text-sm text-gray-400 mb-2">Email Address</label>
+                    <label className="block text-sm text-slate-600 dark:text-gray-400 mb-2">Email Address</label>
                     <input
                       type="email"
                       required
@@ -188,7 +188,7 @@ export default function ContactPage() {
                     />
                   </div>
                   <div>
-                    <label className="block text-sm text-gray-400 mb-2">Message</label>
+                    <label className="block text-sm text-slate-600 dark:text-gray-400 mb-2">Message</label>
                     <textarea
                       required
                       rows={5}

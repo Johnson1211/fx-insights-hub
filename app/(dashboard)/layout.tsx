@@ -23,8 +23,8 @@ export default function DashboardLayout({
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-elite-bg">
-        <div className="w-10 h-10 border-2 border-elite-gold border-t-transparent rounded-full animate-spin" />
+      <div className="min-h-screen flex items-center justify-center bg-slate-50 dark:bg-[#08080A]">
+        <div className="w-10 h-10 border-2 border-[#FF4053] border-t-transparent rounded-full animate-spin" />
       </div>
     );
   }
@@ -32,7 +32,7 @@ export default function DashboardLayout({
   if (!user) return null;
 
   return (
-    <div className="min-h-screen bg-elite-bg pt-16 lg:pt-20">
+    <div className="min-h-screen bg-slate-50 dark:bg-[#08080A] transition-colors duration-300 pt-16 lg:pt-20">
       <DashboardSidebar />
       <MobileNav />
 

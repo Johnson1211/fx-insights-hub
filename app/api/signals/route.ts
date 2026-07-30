@@ -12,11 +12,13 @@ export async function GET(req: NextRequest) {
     const limit = parseInt(searchParams.get("limit") || "10");
     const status = searchParams.get("status");
     const pair = searchParams.get("pair");
+    const shouldIncrementViews = searchParams.get("incrementViews") === "true";
 
     const where: any = {};
     if (status) {
-      if (status === "Active" || status === "Closed") {
-        where.status = status as SignalStatus;
+      const normalizedStatus = status.charAt(0).toUpperCase() + status.slice(1).toLowerCase();
+      if (normalizedStatus === "Active" || normalizedStatus === "Closed") {
+        where.status = normalizedStatus as SignalStatus;
       }
     }
     if (pair) {
@@ -36,7 +38,7 @@ export async function GET(req: NextRequest) {
       },
     });
 
-    if (dbSignals.length > 0) {
+    if (shouldIncrementViews && dbSignals.length > 0) {
       await prisma.signal.updateMany({
         where: { id: { in: dbSignals.map((s) => s.id) } },
         data: { views: { increment: 1 } },
@@ -45,7 +47,7 @@ export async function GET(req: NextRequest) {
 
     const signals = dbSignals.map((sig) => ({
       ...sig,
-      views: sig.views + 1,
+      views: shouldIncrementViews ? sig.views + 1 : sig.views,
       _id: sig.id,
       createdBy: {
         _id: sig.createdBy,

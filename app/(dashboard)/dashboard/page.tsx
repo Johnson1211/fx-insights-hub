@@ -76,16 +76,16 @@ export default function DashboardHome() {
       >
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div>
-            <h1 className="font-display text-3xl md:text-4xl text-white tracking-wider">
-              WELCOME BACK, <span className="gold-gradient-text">{user?.name?.split(" ")[0]?.toUpperCase() || "TRADER"}</span>
+            <h1 className="font-display text-3xl md:text-4xl text-slate-900 dark:text-slate-900 dark:text-slate-900 dark:text-white tracking-wider">
+              WELCOME BACK, <span className="text-[#FF4053]">{user?.name?.split(" ")[0]?.toUpperCase() || "TRADER"}</span>
             </h1>
-            <p className="text-gray-400 mt-2">
+            <p className="text-slate-500 dark:text-gray-400 mt-2">
               Here&apos;s what&apos;s happening in your trading journey today.
             </p>
           </div>
           <div className="flex items-center gap-2">
-            <Crown size={16} className="text-elite-gold" />
-            <span className="text-elite-gold font-medium capitalize">{user?.plan} Plan</span>
+            <Crown size={16} className="text-[#FF4053]" />
+            <span className="text-[#FF4053] font-medium capitalize">{user?.plan} Plan</span>
           </div>
         </div>
       </motion.div>
@@ -94,15 +94,15 @@ export default function DashboardHome() {
       {loading ? (
         <div className="flex justify-center items-center py-12 glass-card">
           <Loader2 className="animate-spin text-elite-gold mr-2" size={24} />
-          <span className="text-gray-400 text-sm">Retrieving your trading performance...</span>
+          <span className="text-slate-500 dark:text-gray-400 text-sm">Retrieving your trading performance...</span>
         </div>
       ) : stats ? (
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
           {[
-            { label: "Signals This Month", value: stats.signalsThisMonth, icon: Signal, color: "text-elite-gold", bg: "bg-elite-gold/10" },
-            { label: "Lessons Watched", value: stats.lessonsWatched, icon: Video, color: "text-blue-400", bg: "bg-blue-400/10" },
-            { label: "Win Rate", value: `${stats.winRate}%`, icon: Target, color: "text-elite-green", bg: "bg-elite-green/10" },
-            { label: "Copy Trading", value: stats.copyTradingActive ? "Active" : "Inactive", icon: Copy, color: stats.copyTradingActive ? "text-elite-green" : "text-gray-500", bg: stats.copyTradingActive ? "bg-elite-green/10" : "bg-gray-500/10" },
+            { label: "Signals This Month", value: stats.signalsThisMonth, icon: Signal, color: "text-[#FF4053]", bg: "bg-[#FF4053]/10" },
+            { label: "Lessons Watched", value: stats.lessonsWatched, icon: Video, color: "text-blue-500", bg: "bg-blue-500/10" },
+            { label: "Win Rate", value: `${stats.winRate}%`, icon: Target, color: "text-[#00E676]", bg: "bg-[#00E676]/10" },
+            { label: "Copy Trading", value: stats.copyTradingActive ? "Active" : "Inactive", icon: Copy, color: stats.copyTradingActive ? "text-[#00E676]" : "text-slate-400 dark:text-slate-500 dark:text-gray-400", bg: stats.copyTradingActive ? "bg-[#00E676]/10" : "bg-slate-100 dark:bg-gray-500/10" },
           ].map((stat, i) => (
             <motion.div
               key={stat.label}
@@ -114,8 +114,8 @@ export default function DashboardHome() {
               <div className={`w-10 h-10 rounded-lg ${stat.bg} flex items-center justify-center mb-3`}>
                 <stat.icon size={20} className={stat.color} />
               </div>
-              <p className="font-display text-2xl text-white">{stat.value}</p>
-              <p className="text-gray-500 text-xs mt-1">{stat.label}</p>
+              <p className="font-display text-2xl text-slate-900 dark:text-slate-900 dark:text-white">{stat.value}</p>
+              <p className="text-slate-500 dark:text-slate-500 dark:text-gray-400 text-xs mt-1">{stat.label}</p>
             </motion.div>
           ))}
         </div>
@@ -156,12 +156,12 @@ export default function DashboardHome() {
               href={action.href}
               className="glass-card-hover p-6 block group"
             >
-              <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${action.color} border border-white/5 flex items-center justify-center mb-4`}>
-                <action.icon size={22} className="text-white" />
+              <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${action.color} border border-[#FF4053]/10 flex items-center justify-center mb-4`}>
+                <action.icon size={22} className="text-slate-900 dark:text-slate-900 dark:text-white" />
               </div>
-              <h3 className="font-display text-lg text-white tracking-wider mb-1">{action.title}</h3>
-              <p className="text-gray-400 text-sm">{action.description}</p>
-              <div className="flex items-center gap-1 mt-4 text-elite-gold text-sm font-medium opacity-0 group-hover:opacity-100 transition-opacity">
+              <h3 className="font-display text-lg text-slate-900 dark:text-slate-900 dark:text-slate-900 dark:text-white tracking-wider mb-1">{action.title}</h3>
+              <p className="text-slate-500 dark:text-gray-400 text-sm">{action.description}</p>
+              <div className="flex items-center gap-1 mt-4 text-[#FF4053] text-sm font-medium opacity-0 group-hover:opacity-100 transition-opacity">
                 <span>Go</span>
                 <ArrowRight size={14} />
               </div>
@@ -178,8 +178,8 @@ export default function DashboardHome() {
         className="glass-card p-6"
       >
         <div className="flex items-center justify-between mb-6">
-          <h2 className="font-display text-xl text-white tracking-wider">RECENT ACTIVITY</h2>
-          <Link href="/dashboard/signals" className="text-elite-gold text-sm hover:underline flex items-center gap-1">
+          <h2 className="font-display text-xl text-slate-900 dark:text-slate-900 dark:text-slate-900 dark:text-white tracking-wider">RECENT ACTIVITY</h2>
+          <Link href="/dashboard/signals" className="text-[#FF4053] text-sm hover:underline flex items-center gap-1">
             View All <ArrowRight size={14} />
           </Link>
         </div>
@@ -191,23 +191,23 @@ export default function DashboardHome() {
             { pair: "XAU/USD", type: "BUY", result: "TP Hit", pips: 78, time: "1 day ago" },
             { pair: "USD/CHF", type: "SELL", result: "SL Hit", pips: -15, time: "2 days ago" },
           ].map((activity, i) => (
-            <div key={i} className="flex items-center justify-between p-4 rounded-lg bg-white/[0.02] hover:bg-white/[0.04] transition-colors">
+            <div key={i} className="flex items-center justify-between p-4 rounded-xl bg-slate-50 dark:bg-slate-50 dark:bg-white/[0.02] border border-gray-100 dark:border-white/5 hover:border-[#FF4053]/20 transition-colors">
               <div className="flex items-center gap-4">
                 <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${
-                  activity.type === "BUY" ? "bg-elite-green/10" : "bg-elite-red/10"
+                  activity.type === "BUY" ? "bg-[#00E676]/10" : "bg-[#FF4053]/10"
                 }`}>
-                  <TrendingUp size={18} className={activity.type === "BUY" ? "text-elite-green" : "text-elite-red"} />
+                  <TrendingUp size={18} className={activity.type === "BUY" ? "text-[#00E676]" : "text-[#FF4053]"} />
                 </div>
                 <div>
                   <div className="flex items-center gap-2">
-                    <span className="font-mono font-semibold text-white">{activity.pair}</span>
+                    <span className="font-mono font-semibold text-slate-900 dark:text-slate-900 dark:text-white">{activity.pair}</span>
                     <span className={`text-xs px-2 py-0.5 rounded font-bold ${
-                      activity.type === "BUY" ? "bg-elite-green/20 text-elite-green" : "bg-elite-red/20 text-elite-red"
+                      activity.type === "BUY" ? "bg-[#00E676]/20 text-[#00E676]" : "bg-[#FF4053]/20 text-[#FF4053]"
                     }`}>
                       {activity.type}
                     </span>
                   </div>
-                  <p className="text-gray-500 text-xs flex items-center gap-1 mt-1">
+                  <p className="text-slate-400 dark:text-slate-500 dark:text-gray-400 text-xs flex items-center gap-1 mt-1">
                     <Clock size={10} />
                     {activity.time}
                   </p>
@@ -217,7 +217,7 @@ export default function DashboardHome() {
                 <span className={`font-mono font-semibold ${activity.pips >= 0 ? "text-elite-green" : "text-elite-red"}`}>
                   {activity.pips >= 0 ? "+" : ""}{activity.pips} pips
                 </span>
-                <p className="text-gray-500 text-xs">{activity.result}</p>
+                <p className="text-slate-500 dark:text-gray-400 text-xs">{activity.result}</p>
               </div>
             </div>
           ))}

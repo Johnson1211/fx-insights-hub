@@ -109,15 +109,15 @@ export default function AdminDashboard() {
   return (
     <div className="space-y-8">
       <div className="flex items-center justify-between">
-        <h1 className="font-display text-3xl text-white tracking-wider">ADMIN DASHBOARD</h1>
-        <span className="text-gray-500 text-sm">{new Date().toLocaleDateString("en-US", { weekday: "long", year: "numeric", month: "long", day: "numeric" })}</span>
+        <h1 className="font-display text-3xl text-slate-900 dark:text-slate-900 dark:text-slate-900 dark:text-white tracking-wider">ADMIN DASHBOARD</h1>
+        <span className="text-slate-400 dark:text-slate-500 dark:text-gray-400 text-sm">{new Date().toLocaleDateString("en-US", { weekday: "long", year: "numeric", month: "long", day: "numeric" })}</span>
       </div>
 
       {/* Stats Grid */}
       {loading ? (
         <div className="flex justify-center items-center py-12 glass-card">
           <Loader2 className="animate-spin text-elite-gold mr-2" size={24} />
-          <span className="text-gray-400 text-sm">Loading admin performance metrics...</span>
+          <span className="text-slate-500 dark:text-gray-400 text-sm">Loading admin performance metrics...</span>
         </div>
       ) : stats ? (
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
@@ -138,8 +138,8 @@ export default function AdminDashboard() {
                   {Math.abs(stat.change)}%
                 </div>
               </div>
-              <p className="font-display text-2xl text-white">{stat.value}</p>
-              <p className="text-gray-500 text-xs mt-1">{stat.label}</p>
+              <p className="font-display text-2xl text-slate-900 dark:text-slate-900 dark:text-white">{stat.value}</p>
+              <p className="text-slate-500 dark:text-slate-500 dark:text-gray-400 text-xs mt-1">{stat.label}</p>
             </motion.div>
           ))}
         </div>
@@ -162,11 +162,11 @@ export default function AdminDashboard() {
               href={action.href}
               className="glass-card-hover p-6 block"
             >
-              <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${action.color} border border-white/5 flex items-center justify-center mb-4`}>
-                <Activity size={22} className="text-white" />
+              <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${action.color} border border-[#FF4053]/10 flex items-center justify-center mb-4`}>
+                <Activity size={22} className="text-slate-900 dark:text-slate-900 dark:text-white" />
               </div>
-              <h3 className="font-display text-lg text-white tracking-wider">{action.label}</h3>
-              <p className="text-gray-400 text-sm mt-1">{action.desc}</p>
+              <h3 className="font-display text-lg text-slate-900 dark:text-slate-900 dark:text-slate-900 dark:text-white tracking-wider">{action.label}</h3>
+              <p className="text-slate-500 dark:text-gray-400 text-sm mt-1">{action.desc}</p>
             </Link>
           </motion.div>
         ))}
@@ -181,31 +181,31 @@ export default function AdminDashboard() {
           transition={{ delay: 0.6 }}
           className="glass-card p-6 lg:col-span-2"
         >
-          <h2 className="font-display text-xl text-white tracking-wider mb-6">RECENT ACTIVITY</h2>
+          <h2 className="font-display text-xl text-slate-900 dark:text-slate-900 dark:text-slate-900 dark:text-white tracking-wider mb-6">RECENT ACTIVITY</h2>
           <div className="space-y-4">
             {loading ? (
-              <div className="text-center py-6 text-gray-500 text-sm">
+              <div className="text-center py-6 text-slate-500 dark:text-gray-400 text-sm">
                 Loading activities...
               </div>
             ) : recentActivity.length === 0 ? (
-              <div className="text-center py-6 text-gray-500 text-sm">
+              <div className="text-center py-6 text-slate-500 dark:text-gray-400 text-sm">
                 No recent activity found.
               </div>
             ) : (
               recentActivity.map((activity, i) => (
-                <div key={i} className="flex items-center justify-between p-4 rounded-lg bg-white/[0.02] hover:bg-white/[0.04] transition-colors">
+                <div key={i} className="flex items-center justify-between p-4 rounded-xl bg-slate-50 dark:bg-slate-50 dark:bg-white/[0.02] border border-gray-100 dark:border-white/5 hover:border-[#FF4053]/20 transition-colors">
                   <div className="flex items-center gap-4">
                     <div className={`w-2 h-2 rounded-full ${
-                      activity.type === "signal" ? "bg-elite-gold" :
+                      activity.type === "signal" ? "bg-[#FF4053]" :
                       activity.type === "user" ? "bg-blue-400" :
-                      activity.type === "payment" ? "bg-elite-green" : "bg-purple-400"
+                      activity.type === "payment" ? "bg-[#00E676]" : "bg-purple-400"
                     }`} />
                     <div>
-                      <p className="text-white text-sm font-medium">{activity.action}</p>
-                      <p className="text-gray-500 text-xs">{activity.detail}</p>
+                      <p className="text-slate-900 dark:text-slate-900 dark:text-slate-900 dark:text-white text-sm font-medium">{activity.action}</p>
+                      <p className="text-slate-500 dark:text-slate-500 dark:text-gray-400 text-xs">{activity.detail}</p>
                     </div>
                   </div>
-                  <span className="text-gray-500 text-xs">{timeAgo(activity.time)}</span>
+                  <span className="text-slate-400 dark:text-slate-500 dark:text-gray-400 text-xs">{timeAgo(activity.time)}</span>
                 </div>
               ))
             )}
@@ -220,9 +220,9 @@ export default function AdminDashboard() {
           className="glass-card p-6 flex flex-col justify-between"
         >
           <div>
-            <h2 className="font-display text-xl text-white tracking-wider mb-6">MANUAL PROFITS</h2>
-            <p className="text-gray-400 text-xs leading-relaxed mb-6">
-              Manually set the "Profits Generated" statistic shown on the public landing page. This overrides automatic pip calculations.
+            <h2 className="font-display text-xl text-slate-900 dark:text-slate-900 dark:text-slate-900 dark:text-white tracking-wider mb-6">MANUAL PROFITS</h2>
+            <p className="text-slate-500 dark:text-gray-400 text-xs leading-relaxed mb-6">
+              Manually set the &quot;Profits Generated&quot; statistic shown on the public landing page. This overrides automatic pip calculations.
             </p>
 
             {profitsMessage.text && (
@@ -237,7 +237,7 @@ export default function AdminDashboard() {
 
             <form onSubmit={handleSaveProfits} className="space-y-4">
               <div>
-                <label className="block text-xs text-gray-500 uppercase tracking-wider mb-2">Total Profits ($)</label>
+                <label className="block text-xs text-slate-500 dark:text-gray-400 uppercase tracking-wider mb-2">Total Profits ($)</label>
                 <input
                   type="number"
                   required
@@ -260,8 +260,8 @@ export default function AdminDashboard() {
               </button>
             </form>
           </div>
-          <div className="mt-8 border-t border-white/5 pt-4 text-center">
-            <span className="text-[10px] text-gray-600 block">System settings update immediately</span>
+          <div className="mt-8 border-t border-gray-200 dark:border-white/5 pt-4 text-center">
+            <span className="text-[10px] text-slate-400 dark:text-gray-600 block">System settings update immediately</span>
           </div>
         </motion.div>
       </div>

@@ -248,14 +248,14 @@ export default function CommunityDashboard() {
       if (!trimmed) return <div key={idx} className="h-2" />;
 
       if (trimmed.startsWith("### ")) {
-        return <h5 key={idx} className="font-bold text-white text-sm mt-3 mb-1">{trimmed.replace("### ", "")}</h5>;
+        return <h5 key={idx} className="font-bold text-slate-900 dark:text-slate-900 dark:text-white text-sm mt-3 mb-1">{trimmed.replace("### ", "")}</h5>;
       }
       if (trimmed.startsWith("## ")) {
         return <h4 key={idx} className="font-bold text-elite-gold text-base mt-4 mb-1.5">{trimmed.replace("## ", "")}</h4>;
       }
       if (trimmed.startsWith("> ")) {
         return (
-          <blockquote key={idx} className="border-l-2 border-elite-gold bg-white/[0.02] p-2 rounded text-xs text-gray-400 italic my-2">
+          <blockquote key={idx} className="border-l-2 border-elite-gold bg-slate-50 dark:bg-white/[0.02] p-2 rounded text-xs text-slate-500 dark:text-gray-400 italic my-2">
             {trimmed.replace("> ", "")}
           </blockquote>
         );
@@ -264,7 +264,7 @@ export default function CommunityDashboard() {
       return (
         <p key={idx} className="text-gray-300 text-xs sm:text-sm leading-relaxed mb-2 font-light">
           {trimmed.split(/\*\*([^*]+)\*\*/g).map((part, i) =>
-            i % 2 === 1 ? <strong key={i} className="text-white font-semibold">{part}</strong> : part
+            i % 2 === 1 ? <strong key={i} className="text-slate-900 dark:text-slate-900 dark:text-white font-semibold">{part}</strong> : part
           )}
         </p>
       );
@@ -274,8 +274,8 @@ export default function CommunityDashboard() {
   return (
     <div className="space-y-6 max-w-4xl mx-auto py-4">
       {/* Header */}
-      <div className="flex items-center justify-between border-b border-elite-border/30 pb-4">
-        <h1 className="font-display text-3xl text-white tracking-wider">COMMUNITY HUB</h1>
+      <div className="flex items-center justify-between border-b border-gray-200 dark:border-white/10 pb-4">
+        <h1 className="font-display text-3xl text-slate-900 dark:text-slate-900 dark:text-white tracking-wider">COMMUNITY HUB</h1>
         <button
           onClick={() => setShowCreateModal(true)}
           className="btn-primary flex items-center gap-2 py-2 px-4 text-xs font-semibold"
@@ -293,7 +293,7 @@ export default function CommunityDashboard() {
             className={`px-3.5 py-1.5 rounded-lg text-[10px] font-bold uppercase tracking-wider transition-all border ${
               activeCategory === cat
                 ? "bg-elite-gold/15 text-elite-gold border-elite-gold/30"
-                : "bg-white/[0.02] text-gray-500 border-white/5 hover:text-white"
+                : "bg-slate-50 dark:bg-white/[0.02] text-slate-500 dark:text-gray-400 border-white/5 hover:text-slate-900 dark:text-white"
             }`}
           >
             {cat}
@@ -309,8 +309,8 @@ export default function CommunityDashboard() {
       ) : filtered.length === 0 ? (
         <div className="text-center py-16 glass-card">
           <Users size={32} className="text-gray-600 mx-auto mb-3" />
-          <p className="text-white font-semibold text-sm">No discussion threads yet</p>
-          <p className="text-gray-500 text-xs mt-1">Be the first to post a chart markup or general question!</p>
+          <p className="text-slate-900 dark:text-slate-900 dark:text-white font-semibold text-sm">No discussion threads yet</p>
+          <p className="text-slate-500 dark:text-gray-400 text-xs mt-1">Be the first to post a chart markup or general question!</p>
           <button
             onClick={() => setShowCreateModal(true)}
             className="btn-outline py-2 px-4 text-xs mt-4 mx-auto"
@@ -339,8 +339,8 @@ export default function CommunityDashboard() {
                   <span className="text-elite-gold text-xs font-bold">{post.user.name.charAt(0).toUpperCase()}</span>
                 </div>
                 <div>
-                  <h4 className="text-white text-xs font-bold">{post.user.name}</h4>
-                  <p className="text-[10px] text-gray-500 mt-0.5">
+                  <h4 className="text-slate-700 dark:text-slate-900 dark:text-white text-xs font-bold">{post.user.name}</h4>
+                  <p className="text-[10px] text-slate-500 dark:text-gray-400 mt-0.5">
                     {new Date(post.createdAt).toLocaleDateString()} at{" "}
                     {new Date(post.createdAt).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}
                   </p>
@@ -349,7 +349,7 @@ export default function CommunityDashboard() {
 
               {/* Post Details */}
               <div className="mt-4 space-y-3">
-                <h3 className="font-display text-lg text-white font-bold tracking-wide leading-snug">
+                <h3 className="font-display text-lg text-slate-900 dark:text-slate-900 dark:text-white font-bold tracking-wide leading-snug">
                   {post.title}
                 </h3>
                 <div className="text-gray-300 pr-2">
@@ -360,14 +360,14 @@ export default function CommunityDashboard() {
               {/* Attached Chart Screen */}
               {post.chartImage && (
                 <div className="mt-4">
-                  <span className="text-[10px] text-gray-500 block mb-2 font-bold uppercase tracking-wider">Attached Screenshot:</span>
+                  <span className="text-[10px] text-slate-500 dark:text-gray-400 block mb-2 font-bold uppercase tracking-wider">Attached Screenshot:</span>
                   <button
                     onClick={() => setLightboxImage(post.chartImage || null)}
                     className="relative group block overflow-hidden rounded-xl border border-white/5 max-w-md shadow-lg"
                   >
                     <img src={post.chartImage} alt="Chart setup" className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300" />
                     <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                      <span className="text-white text-xs font-semibold flex items-center gap-1">
+                      <span className="text-slate-700 dark:text-slate-900 dark:text-white text-xs font-semibold flex items-center gap-1">
                         <Eye size={12} /> View Fullscreen
                       </span>
                     </div>
@@ -376,11 +376,11 @@ export default function CommunityDashboard() {
               )}
 
               {/* Actions row */}
-              <div className="mt-5 pt-4 border-t border-elite-border/30 flex items-center gap-6">
+              <div className="mt-5 pt-4 border-t border-gray-200 dark:border-white/10 flex items-center gap-6">
                 <button
                   onClick={() => toggleComments(post.id)}
                   className={`flex items-center gap-1.5 text-xs font-medium transition-colors ${
-                    expandedComments[post.id] ? "text-elite-gold" : "text-gray-400 hover:text-white"
+                    expandedComments[post.id] ? "text-elite-gold" : "text-slate-500 dark:text-gray-400 hover:text-slate-900 dark:text-white"
                   }`}
                 >
                   <MessageSquare size={15} />
@@ -395,7 +395,7 @@ export default function CommunityDashboard() {
                     initial={{ opacity: 0, height: 0 }}
                     animate={{ opacity: 1, height: "auto" }}
                     exit={{ opacity: 0, height: 0 }}
-                    className="overflow-hidden mt-4 pt-4 border-t border-elite-border/30 space-y-4 bg-black/10 p-4 rounded-xl"
+                    className="overflow-hidden mt-4 pt-4 border-t border-gray-200 dark:border-white/10 space-y-4 bg-slate-50 dark:bg-black/10 p-4 rounded-xl"
                   >
                     {/* Add Comment input */}
                     <form onSubmit={(e) => handleCreateComment(e, post.id)} className="flex gap-2">
@@ -428,25 +428,25 @@ export default function CommunityDashboard() {
                         <Loader2 size={16} className="animate-spin text-elite-gold" />
                       </div>
                     ) : (commentsMap[post.id] || []).length === 0 ? (
-                      <p className="text-center text-[10px] text-gray-500 py-3 italic">No replies yet. Join the discussion!</p>
+                      <p className="text-center text-[10px] text-slate-500 dark:text-gray-400 py-3 italic">No replies yet. Join the discussion!</p>
                     ) : (
                       <div className="space-y-3">
                         {(commentsMap[post.id] || []).map((c) => (
                           <div key={c.id} className="p-3 bg-white/[0.01] border border-white/5 rounded-xl space-y-1.5 relative group">
                             <div className="flex items-center justify-between">
                               <div className="flex items-center gap-2">
-                                <span className="text-white text-xs font-semibold">{c.user.name}</span>
+                                <span className="text-slate-700 dark:text-slate-900 dark:text-white text-xs font-semibold">{c.user.name}</span>
                                 {user?.role === "admin" && (
                                   <button
                                     onClick={() => handleDeleteComment(post.id, c.id)}
-                                    className="text-gray-500 hover:text-elite-red transition-colors duration-150"
+                                    className="text-slate-500 dark:text-gray-400 hover:text-elite-red transition-colors duration-150"
                                     title="Delete comment"
                                   >
                                     <Trash2 size={11} />
                                   </button>
                                 )}
                               </div>
-                              <span className="text-[9px] text-gray-500">
+                              <span className="text-[9px] text-slate-500 dark:text-gray-400">
                                 {new Date(c.createdAt).toLocaleDateString()}
                               </span>
                             </div>
@@ -482,8 +482,8 @@ export default function CommunityDashboard() {
               className="glass-card w-full max-w-xl p-6"
             >
               <div className="flex items-center justify-between mb-5">
-                <h3 className="font-display text-lg text-white font-bold tracking-wider">CREATE DISCUSSION</h3>
-                <button onClick={() => setShowCreateModal(false)} className="text-gray-500 hover:text-white">
+                <h3 className="font-display text-lg text-slate-900 dark:text-slate-900 dark:text-white font-bold tracking-wider">CREATE DISCUSSION</h3>
+                <button onClick={() => setShowCreateModal(false)} className="text-slate-500 dark:text-gray-400 hover:text-slate-900 dark:text-white">
                   <X size={20} />
                 </button>
               </div>
@@ -491,7 +491,7 @@ export default function CommunityDashboard() {
               <form onSubmit={handleCreatePost} className="space-y-4">
                 <div className="grid sm:grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-xs font-semibold text-gray-400 uppercase mb-2">Subject / Title</label>
+                    <label className="block text-xs font-semibold text-slate-500 dark:text-gray-400 uppercase mb-2">Subject / Title</label>
                     <input
                       type="text"
                       required
@@ -502,7 +502,7 @@ export default function CommunityDashboard() {
                     />
                   </div>
                   <div>
-                    <label className="block text-xs font-semibold text-gray-400 uppercase mb-2">Category</label>
+                    <label className="block text-xs font-semibold text-slate-500 dark:text-gray-400 uppercase mb-2">Category</label>
                     <select
                       value={newCategory}
                       onChange={(e) => setNewCategory(e.target.value)}
@@ -518,7 +518,7 @@ export default function CommunityDashboard() {
 
                 {/* Content body */}
                 <div>
-                  <label className="block text-xs font-semibold text-gray-400 uppercase mb-2">Discussion Body</label>
+                  <label className="block text-xs font-semibold text-slate-500 dark:text-gray-400 uppercase mb-2">Discussion Body</label>
                   <textarea
                     rows={4}
                     required
@@ -531,7 +531,7 @@ export default function CommunityDashboard() {
 
                 {/* Upload Section */}
                 <div>
-                  <label className="block text-xs font-semibold text-gray-400 uppercase mb-2">Attach Chart Image</label>
+                  <label className="block text-xs font-semibold text-slate-500 dark:text-gray-400 uppercase mb-2">Attach Chart Image</label>
                   <div className="flex items-center gap-3">
                     <input
                       type="file"
@@ -548,7 +548,7 @@ export default function CommunityDashboard() {
                       <button
                         type="button"
                         onClick={() => setNewChartImage("")}
-                        className="absolute top-1 right-1 p-0.5 bg-black/60 rounded-full hover:bg-black text-white"
+                        className="absolute top-1 right-1 p-0.5 bg-black/60 rounded-full hover:bg-black text-slate-900 dark:text-white"
                       >
                         <X size={10} />
                       </button>
@@ -599,7 +599,7 @@ export default function CommunityDashboard() {
               <img src={lightboxImage} alt="Chart fullscreen" className="w-full h-auto max-h-[80vh] rounded-xl object-contain border border-elite-border" />
               <button
                 onClick={() => setLightboxImage(null)}
-                className="absolute top-4 right-4 p-2 bg-black/60 hover:bg-black/95 text-white rounded-full transition-colors border border-white/10"
+                className="absolute top-4 right-4 p-2 bg-black/60 hover:bg-black/95 text-slate-900 dark:text-white rounded-full transition-colors border border-white/10"
               >
                 <X size={20} />
               </button>

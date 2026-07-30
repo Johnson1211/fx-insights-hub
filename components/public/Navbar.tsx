@@ -4,8 +4,9 @@ import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useAuth } from "@/hooks/useAuth";
-import { Menu, X, Bell, User, ChevronDown, Crown, LogOut, LayoutDashboard, Megaphone, Pin, Info, AlertTriangle, CheckCircle2, ExternalLink } from "lucide-react";
+import { Menu, X, Bell, User, ChevronDown, Crown, LogOut, LayoutDashboard, Megaphone, Pin, Info, AlertTriangle, CheckCircle2, ExternalLink, Sun, Moon } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import { useTheme } from "@/components/providers/ThemeProvider";
 
 const navLinks = [
   { href: "/", label: "Home" },
@@ -32,6 +33,7 @@ export function Navbar() {
   const [profileOpen, setProfileOpen] = useState(false);
   const pathname = usePathname();
   const { user, logout } = useAuth();
+  const { theme, toggleTheme } = useTheme();
 
   const notifRef = useRef<HTMLDivElement>(null);
   const profileRef = useRef<HTMLDivElement>(null);
@@ -199,7 +201,7 @@ export function Navbar() {
         initial={{ y: -100 }}
         animate={{ y: 0 }}
         transition={{ duration: 0.6, ease: "easeOut" }}
-        className={`fixed left-0 right-0 z-40 transition-all duration-300 bg-elite-bg border-b border-elite-border/50 shadow-sm ${
+        className={`fixed left-0 right-0 z-40 transition-all duration-300 bg-white/95 dark:bg-[#08080A]/95 backdrop-blur-md border-b border-gray-200/80 dark:border-white/10 shadow-sm ${
           showBanner && pinnedNotif ? "top-9 sm:top-10" : "top-0"
         }`}
       >
@@ -208,8 +210,8 @@ export function Navbar() {
             {/* Logo */}
             <Link href="/" className="flex items-center gap-2 group">
               <img src="/images/logo.jpg" alt="FX" className="w-8 h-8 rounded-lg object-cover" />
-              <span className="font-bold text-xl tracking-wider text-gray-100 group-hover:text-elite-gold transition-colors">
-                Fx Insights <span className="text-elite-gold">Hub</span>
+              <span className="font-bold text-xl tracking-wider text-slate-900 dark:text-white group-hover:text-[#FF4053] transition-colors">
+                Fx Insights <span className="text-[#FF4053]">Hub</span>
               </span>
             </Link>
 
@@ -221,8 +223,8 @@ export function Navbar() {
                   href={link.href}
                   className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 ${
                     isActive(link.href)
-                      ? "text-elite-gold bg-elite-gold/10"
-                      : "text-gray-400 hover:text-gray-100 hover:bg-elite-surface"
+                      ? "text-[#FF4053] bg-[#FF4053]/10 font-bold border border-[#FF4053]/30"
+                      : "text-slate-600 dark:text-gray-300 hover:text-slate-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-white/5"
                   }`}
                 >
                   {link.label}
@@ -232,18 +234,34 @@ export function Navbar() {
 
             {/* Right Side */}
             <div className="flex items-center gap-3">
+              {/* Theme Switcher Toggle */}
+              <button
+                onClick={toggleTheme}
+                aria-label="Toggle Theme"
+                className="p-2 rounded-lg transition-all duration-300 border border-gray-200 dark:border-white/10 bg-gray-100 dark:bg-white/5 hover:bg-gray-200 dark:hover:bg-white/10 text-gray-700 dark:text-gray-200 flex items-center justify-center shadow-xs"
+                title={theme === "dark" ? "Switch to Light Mode" : "Switch to Dark Mode"}
+              >
+                {theme === "dark" ? (
+                  <Sun size={18} className="text-amber-400" />
+                ) : (
+                  <Moon size={18} className="text-slate-700" />
+                )}
+              </button>
+
               {user ? (
                 <div className="flex items-center gap-3">
                   <div className="relative" ref={notifRef}>
                     <button
                       onClick={handleToggleNotifications}
                       className={`relative p-2 rounded-lg transition-colors ${
-                        notificationsOpen ? "text-elite-gold bg-elite-surface" : "text-gray-400 hover:text-gray-100"
+                        notificationsOpen
+                          ? "text-[#FF4053] bg-[#FF4053]/10"
+                          : "text-slate-600 dark:text-gray-300 hover:text-[#FF4053] dark:hover:text-white hover:bg-slate-100 dark:hover:bg-white/5"
                       }`}
                     >
                       <Bell size={20} />
                       {unreadCount > 0 && (
-                        <span className="absolute top-1 right-1 px-1 py-0.5 text-[8px] font-bold bg-elite-red text-white rounded-full min-w-[12px] h-[12px] flex items-center justify-center animate-pulse">
+                        <span className="absolute top-1 right-1 px-1 py-0.5 text-[8px] font-bold bg-[#FF4053] text-white rounded-full min-w-[12px] h-[12px] flex items-center justify-center animate-pulse">
                           {unreadCount}
                         </span>
                       )}
@@ -256,34 +274,34 @@ export function Navbar() {
                           animate={{ opacity: 1, y: 0, scale: 1 }}
                           exit={{ opacity: 0, y: 10, scale: 0.95 }}
                           transition={{ duration: 0.2 }}
-                          className="absolute right-[-80px] sm:right-0 mt-2 w-[85vw] max-w-[320px] sm:w-80 glass-card overflow-hidden shadow-2xl border border-elite-border/50 max-h-96 flex flex-col z-50"
+                          className="absolute right-[-80px] sm:right-0 mt-2 w-[85vw] max-w-[320px] sm:w-80 bg-white dark:bg-[#111116] overflow-hidden shadow-2xl border border-gray-200 dark:border-[#FF4053]/20 rounded-2xl max-h-96 flex flex-col z-50"
                         >
-                          <div className="p-3 border-b border-elite-border/50 bg-white/[0.02] flex items-center justify-between">
-                            <span className="text-xs font-semibold text-white tracking-wider">ANNOUNCEMENTS</span>
-                            <span className="text-[10px] text-gray-500">{notifications.length} recent</span>
+                          <div className="p-3 border-b border-gray-200 dark:border-white/10 bg-slate-50 dark:bg-white/[0.02] flex items-center justify-between">
+                            <span className="text-xs font-semibold text-slate-900 dark:text-white tracking-wider">ANNOUNCEMENTS</span>
+                            <span className="text-[10px] text-slate-500 dark:text-gray-500">{notifications.length} recent</span>
                           </div>
                           <div className="overflow-y-auto max-h-72 p-1.5 space-y-1.5 custom-scrollbar">
                             {notifications.length === 0 ? (
-                              <p className="text-center text-xs text-gray-500 py-6">No recent announcements</p>
+                              <p className="text-center text-xs text-slate-500 dark:text-gray-500 py-6">No recent announcements</p>
                             ) : (
                               notifications.map((notif) => (
                                 <div
                                   key={notif.id}
-                                  className={`p-2.5 rounded-lg text-left flex gap-2.5 hover:bg-white/[0.03] transition-colors border border-transparent ${
-                                    !readIds.includes(notif.id) ? "bg-white/[0.01] border-elite-gold/5" : ""
+                                  className={`p-2.5 rounded-lg text-left flex gap-2.5 hover:bg-slate-100 dark:hover:bg-white/[0.03] transition-colors border border-transparent ${
+                                    !readIds.includes(notif.id) ? "bg-slate-50 dark:bg-white/[0.01] border-[#FF4053]/10" : ""
                                   }`}
                                 >
                                   <div className="shrink-0">{getNotifIcon(notif.type)}</div>
                                   <div className="flex-1 overflow-hidden">
                                     <div className="flex items-center gap-1.5 justify-between">
-                                      <h4 className="font-semibold text-xs text-white truncate flex-1">{notif.title}</h4>
+                                      <h4 className="font-semibold text-xs text-slate-900 dark:text-white truncate flex-1">{notif.title}</h4>
                                       {notif.isPinned && (
-                                        <Pin size={8} className="text-elite-gold fill-elite-gold shrink-0" />
+                                        <Pin size={8} className="text-[#FF4053] fill-[#FF4053] shrink-0" />
                                       )}
                                     </div>
-                                    <p className="text-[11px] text-gray-400 mt-0.5 leading-relaxed break-words">{notif.message}</p>
+                                    <p className="text-[11px] text-slate-600 dark:text-gray-400 mt-0.5 leading-relaxed break-words">{notif.message}</p>
                                     <div className="flex items-center justify-between mt-2">
-                                      <span className="text-[9px] text-gray-500">{new Date(notif.createdAt).toLocaleDateString()}</span>
+                                      <span className="text-[9px] text-slate-400 dark:text-gray-500">{new Date(notif.createdAt).toLocaleDateString()}</span>
                                       {notif.link && (
                                         <Link
                                           href={notif.link}
@@ -307,13 +325,13 @@ export function Navbar() {
                   <div className="relative" ref={profileRef}>
                     <button
                       onClick={() => setProfileOpen(!profileOpen)}
-                      className="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-elite-surface transition-colors"
+                      className="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-slate-100 dark:hover:bg-[#16161D] transition-colors"
                     >
-                      <div className="w-8 h-8 rounded-full bg-gradient-to-br from-elite-gold/30 to-blue-600/30 border border-elite-gold/30 flex items-center justify-center">
-                        <User size={16} className="text-elite-gold" />
+                      <div className="w-8 h-8 rounded-full bg-gradient-to-br from-[#FF4053]/20 to-blue-600/20 border border-[#FF4053]/30 flex items-center justify-center">
+                        <User size={16} className="text-[#FF4053]" />
                       </div>
-                      <span className="hidden md:block text-sm font-medium text-gray-200">{user.name}</span>
-                      <ChevronDown size={14} className="text-gray-500" />
+                      <span className="hidden md:block text-sm font-semibold text-slate-800 dark:text-white">{user.name}</span>
+                      <ChevronDown size={14} className="text-slate-500 dark:text-gray-400" />
                     </button>
 
                     <AnimatePresence>
@@ -323,40 +341,40 @@ export function Navbar() {
                           animate={{ opacity: 1, y: 0, scale: 1 }}
                           exit={{ opacity: 0, y: 10, scale: 0.95 }}
                           transition={{ duration: 0.2 }}
-                          className="absolute right-0 mt-2 w-56 glass-card overflow-hidden"
+                          className="absolute right-0 mt-2 w-56 bg-white dark:bg-[#111116] border border-gray-200 dark:border-[#FF4053]/20 rounded-2xl shadow-2xl overflow-hidden z-50"
                         >
-                          <div className="p-3 border-b border-elite-border/50">
-                            <p className="text-sm font-semibold text-white">{user.name}</p>
-                            <p className="text-xs text-gray-500">{user.email}</p>
+                          <div className="p-3.5 border-b border-gray-100 dark:border-white/5">
+                            <p className="text-sm font-bold text-slate-900 dark:text-white truncate">{user.name}</p>
+                            <p className="text-xs text-slate-500 dark:text-gray-400 truncate">{user.email}</p>
                             <div className="mt-2 flex items-center gap-1">
-                              <Crown size={12} className="text-elite-gold" />
-                              <span className="text-xs text-elite-gold capitalize">{user.plan} Plan</span>
+                              <Crown size={12} className="text-[#FF4053]" />
+                              <span className="text-xs text-[#FF4053] font-semibold capitalize">{user.plan} Plan</span>
                             </div>
                           </div>
-                          <div className="p-1">
+                          <div className="p-1.5 space-y-0.5">
                             <Link
                               href="/dashboard"
                               onClick={() => setProfileOpen(false)}
-                              className="flex items-center gap-2 px-3 py-2 rounded-lg text-sm text-gray-300 hover:bg-white/5 hover:text-white transition-colors"
+                              className="flex items-center gap-2.5 px-3 py-2 rounded-xl text-sm font-medium text-slate-700 dark:text-gray-200 hover:bg-slate-100 dark:hover:bg-white/5 hover:text-slate-900 dark:hover:text-white transition-colors"
                             >
-                              <LayoutDashboard size={14} />
+                              <LayoutDashboard size={15} className="text-[#FF4053]" />
                               Dashboard
                             </Link>
                             <Link
                               href="/dashboard/profile"
                               onClick={() => setProfileOpen(false)}
-                              className="flex items-center gap-2 px-3 py-2 rounded-lg text-sm text-gray-300 hover:bg-white/5 hover:text-white transition-colors"
+                              className="flex items-center gap-2.5 px-3 py-2 rounded-xl text-sm font-medium text-slate-700 dark:text-gray-200 hover:bg-slate-100 dark:hover:bg-white/5 hover:text-slate-900 dark:hover:text-white transition-colors"
                             >
-                              <User size={14} />
+                              <User size={15} className="text-[#FF4053]" />
                               Profile
                             </Link>
                             {user.role === "admin" && (
                               <Link
                                 href="/admin"
                                 onClick={() => setProfileOpen(false)}
-                                className="flex items-center gap-2 px-3 py-2 rounded-lg text-sm text-gray-300 hover:bg-white/5 hover:text-white transition-colors"
+                                className="flex items-center gap-2.5 px-3 py-2 rounded-xl text-sm font-medium text-slate-700 dark:text-gray-200 hover:bg-slate-100 dark:hover:bg-white/5 hover:text-slate-900 dark:hover:text-white transition-colors"
                               >
-                                <Crown size={14} />
+                                <Crown size={15} className="text-[#FF4053]" />
                                 Admin Panel
                               </Link>
                             )}
@@ -365,9 +383,9 @@ export function Navbar() {
                                 setProfileOpen(false);
                                 logout();
                               }}
-                              className="w-full flex items-center gap-2 px-3 py-2 rounded-lg text-sm text-elite-red hover:bg-elite-red/10 transition-colors"
+                              className="w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-sm font-semibold text-[#FF4053] hover:bg-[#FF4053]/10 transition-colors"
                             >
-                              <LogOut size={14} />
+                              <LogOut size={15} />
                               Logout
                             </button>
                           </div>
@@ -378,7 +396,7 @@ export function Navbar() {
                 </div>
               ) : (
                 <div className="hidden md:flex items-center gap-3">
-                  <Link href="/login" className="text-sm font-medium text-gray-400 hover:text-gray-100 transition-colors">
+                  <Link href="/login" className="text-sm font-medium text-slate-600 dark:text-gray-300 hover:text-[#FF4053] dark:hover:text-white transition-colors">
                     Sign In
                   </Link>
                   <Link href="/register" className="btn-primary text-sm">
@@ -390,7 +408,7 @@ export function Navbar() {
               {/* Mobile Menu Button */}
               <button
                 onClick={handleToggleMobileMenu}
-                className="lg:hidden p-2 text-gray-300 hover:text-white"
+                className="lg:hidden p-2 rounded-lg text-slate-600 dark:text-gray-300 hover:text-[#FF4053] dark:hover:text-white hover:bg-slate-100 dark:hover:bg-white/5 transition-colors"
               >
                 {mobileOpen ? <X size={24} /> : <Menu size={24} />}
               </button>
@@ -417,15 +435,14 @@ export function Navbar() {
               animate={{ x: 0 }}
               exit={{ x: "100%" }}
               transition={{ type: "tween", duration: 0.3 }}
-              className="fixed top-0 right-0 bottom-0 w-[50%] z-50 border-l border-elite-border shadow-2xl p-6 flex flex-col gap-6 lg:hidden"
-              style={{ backgroundColor: "#ffffff" }}
+              className="fixed top-0 right-0 bottom-0 w-[60%] sm:w-[50%] z-50 border-l border-gray-200 dark:border-white/10 shadow-2xl p-6 flex flex-col gap-6 lg:hidden bg-white dark:bg-[#08080A]"
             >
               {/* Sidebar Header */}
-              <div className="flex items-center justify-between pb-4 border-b border-elite-border">
-                <span className="font-bold text-lg text-gray-100 tracking-wider">Navigation</span>
+              <div className="flex items-center justify-between pb-4 border-b border-gray-200 dark:border-white/10">
+                <span className="font-bold text-lg text-slate-900 dark:text-white tracking-wider">Navigation</span>
                 <button
                   onClick={() => setMobileOpen(false)}
-                  className="p-1 rounded-lg text-gray-400 hover:text-gray-100 hover:bg-elite-surface transition-colors"
+                  className="p-1.5 rounded-lg text-slate-500 dark:text-gray-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-white/5 transition-colors"
                 >
                   <X size={20} />
                 </button>
@@ -438,10 +455,10 @@ export function Navbar() {
                     key={link.href}
                     href={link.href}
                     onClick={() => setMobileOpen(false)}
-                    className={`text-lg font-medium py-1.5 transition-all duration-300 ${
+                    className={`text-base font-medium py-1.5 transition-all duration-300 ${
                       isActive(link.href)
-                        ? "text-elite-gold font-bold pl-2 border-l-2 border-elite-gold"
-                        : "text-gray-400 hover:text-gray-100 pl-0"
+                        ? "text-[#FF4053] font-bold pl-2 border-l-2 border-[#FF4053]"
+                        : "text-slate-600 dark:text-gray-300 hover:text-slate-900 dark:hover:text-white pl-0"
                     }`}
                   >
                     {link.label}

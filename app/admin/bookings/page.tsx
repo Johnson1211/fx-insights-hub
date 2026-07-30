@@ -168,11 +168,11 @@ export default function AdminBookings() {
         )}
       </AnimatePresence>
 
-      <div className="flex items-center justify-between border-b border-elite-border/30 pb-4">
-        <h1 className="font-display text-3xl text-white tracking-wider">TRAINING RESERVATIONS</h1>
+      <div className="flex items-center justify-between border-b border-gray-200 dark:border-white/10 pb-4">
+        <h1 className="font-display text-3xl text-slate-900 dark:text-slate-900 dark:text-white tracking-wider">TRAINING RESERVATIONS</h1>
         <button
           onClick={fetchBookings}
-          className="text-xs text-gray-500 hover:text-white flex items-center gap-1.5 transition-colors uppercase tracking-wider font-semibold"
+          className="text-xs text-slate-500 dark:text-gray-400 hover:text-slate-900 dark:text-white flex items-center gap-1.5 transition-colors uppercase tracking-wider font-semibold"
         >
           <RefreshCw size={12} className={loading ? "animate-spin" : ""} /> Refresh Requests
         </button>
@@ -185,8 +185,8 @@ export default function AdminBookings() {
       ) : bookings.length === 0 ? (
         <div className="text-center py-16 glass-card">
           <Calendar size={32} className="text-gray-600 mx-auto mb-3" />
-          <p className="text-white font-semibold text-sm">No training requests found</p>
-          <p className="text-gray-500 text-xs mt-1">Users bookings will show up here.</p>
+          <p className="text-slate-900 dark:text-slate-900 dark:text-white font-semibold text-sm">No training requests found</p>
+          <p className="text-slate-500 dark:text-gray-400 text-xs mt-1">Users bookings will show up here.</p>
         </div>
       ) : (
         <div className="space-y-4">
@@ -210,15 +210,15 @@ export default function AdminBookings() {
                 <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-4 pt-2">
                   {/* User info */}
                   <div className="space-y-1 text-xs">
-                    <p className="text-gray-500 font-semibold uppercase tracking-wider">Requested By</p>
-                    <p className="text-white font-bold flex items-center gap-1">
+                    <p className="text-slate-500 dark:text-gray-400 font-semibold uppercase tracking-wider">Requested By</p>
+                    <p className="text-slate-900 dark:text-slate-900 dark:text-white font-bold flex items-center gap-1">
                       <User size={12} className="text-elite-gold" /> {booking.user.name}
                     </p>
-                    <p className="text-gray-400 flex items-center gap-1">
+                    <p className="text-slate-500 dark:text-gray-400 flex items-center gap-1">
                       <Mail size={12} /> {booking.user.email}
                     </p>
                     {booking.user.phone && (
-                      <p className="text-gray-400 flex items-center gap-1">
+                      <p className="text-slate-500 dark:text-gray-400 flex items-center gap-1">
                         <Phone size={12} /> {booking.user.phone}
                       </p>
                     )}
@@ -226,20 +226,20 @@ export default function AdminBookings() {
 
                   {/* Schedule */}
                   <div className="space-y-1 text-xs">
-                    <p className="text-gray-500 font-semibold uppercase tracking-wider">Schedule Time</p>
-                    <p className="text-white font-bold flex items-center gap-1.5">
+                    <p className="text-slate-500 dark:text-gray-400 font-semibold uppercase tracking-wider">Schedule Time</p>
+                    <p className="text-slate-900 dark:text-slate-900 dark:text-white font-bold flex items-center gap-1.5">
                       <Calendar size={13} className="text-elite-gold" />
                       <span>{new Date(booking.preferredDate).toLocaleDateString()}</span>
                     </p>
-                    <p className="text-gray-400 font-mono ml-4">
+                    <p className="text-slate-500 dark:text-gray-400 font-mono ml-4">
                       {new Date(booking.preferredDate).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}
                     </p>
                   </div>
 
                   {/* Submission date */}
                   <div className="space-y-1 text-xs">
-                    <p className="text-gray-500 font-semibold uppercase tracking-wider">Requested On</p>
-                    <p className="text-gray-400">
+                    <p className="text-slate-500 dark:text-gray-400 font-semibold uppercase tracking-wider">Requested On</p>
+                    <p className="text-slate-500 dark:text-gray-400">
                       {new Date(booking.createdAt).toLocaleDateString()} at{" "}
                       {new Date(booking.createdAt).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}
                     </p>
@@ -249,8 +249,8 @@ export default function AdminBookings() {
                 {/* Notes */}
                 {booking.notes && (
                   <div className="bg-black/25 p-3 rounded-lg border border-white/5 text-xs text-gray-300 mt-2 italic max-w-2xl leading-relaxed">
-                    <span className="font-semibold text-gray-500 block not-italic uppercase tracking-wider mb-1 text-[9px]">User Topics & Goals:</span>
-                    "{booking.notes}"
+                    <span className="font-semibold text-slate-500 dark:text-gray-400 block not-italic uppercase tracking-wider mb-1 text-[9px]">User Topics & Goals:</span>
+                    &quot;{booking.notes}&quot;
                   </div>
                 )}
               </div>
@@ -304,21 +304,21 @@ export default function AdminBookings() {
               className="glass-card w-full max-w-md p-6 relative"
               onClick={(e) => e.stopPropagation()}
             >
-              <div className="flex items-center justify-between mb-5 border-b border-elite-border/30 pb-3">
-                <h3 className="font-display text-lg text-white font-bold tracking-wider">RESCHEDULE SESSION</h3>
-                <button onClick={() => setSelectedBooking(null)} className="text-gray-500 hover:text-white">
+              <div className="flex items-center justify-between mb-5 border-b border-gray-200 dark:border-white/10 pb-3">
+                <h3 className="font-display text-lg text-slate-900 dark:text-slate-900 dark:text-white font-bold tracking-wider">RESCHEDULE SESSION</h3>
+                <button onClick={() => setSelectedBooking(null)} className="text-slate-500 dark:text-gray-400 hover:text-slate-900 dark:text-white">
                   <X size={18} />
                 </button>
               </div>
 
               <form onSubmit={handleRescheduleSubmit} className="space-y-4">
-                <p className="text-gray-400 text-xs leading-relaxed">
-                  Reschedule the training session request for <strong className="text-white">{selectedBooking.user.name}</strong>. User will receive an automated email notification and dashboard alert.
+                <p className="text-slate-500 dark:text-gray-400 text-xs leading-relaxed">
+                  Reschedule the training session request for <strong className="text-slate-900 dark:text-slate-900 dark:text-white">{selectedBooking.user.name}</strong>. User will receive an automated email notification and dashboard alert.
                 </p>
 
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-xs font-semibold text-gray-400 uppercase mb-2">New Date</label>
+                    <label className="block text-xs font-semibold text-slate-500 dark:text-gray-400 uppercase mb-2">New Date</label>
                     <input
                       type="date"
                       required
@@ -328,7 +328,7 @@ export default function AdminBookings() {
                     />
                   </div>
                   <div>
-                    <label className="block text-xs font-semibold text-gray-400 uppercase mb-2">New Time</label>
+                    <label className="block text-xs font-semibold text-slate-500 dark:text-gray-400 uppercase mb-2">New Time</label>
                     <input
                       type="time"
                       required

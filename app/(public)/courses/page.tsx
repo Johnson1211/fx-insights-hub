@@ -111,20 +111,20 @@ export default function CoursesPublicPage() {
   };
 
   return (
-    <div className="min-h-screen pt-24 pb-20 bg-elite-bg">
+    <div className="min-h-screen pt-24 pb-20 bg-slate-50 dark:bg-[#08080A] transition-colors duration-300">
       <div className="section-padding">
         
         {/* Header Hero */}
         <ScrollReveal>
           <div className="text-center mb-16 max-w-3xl mx-auto">
-            <span className="text-elite-gold text-sm font-semibold tracking-widest uppercase">Official Academy</span>
-            <h1 className="font-display text-4xl md:text-6xl text-white mt-3 tracking-wider leading-tight">
-              FOREX TRADING <span className="gold-gradient-text">MASTERCLASS</span>
+            <span className="text-[#FF4053] text-sm font-semibold tracking-widest uppercase">Official Academy</span>
+            <h1 className="font-display text-4xl md:text-6xl text-slate-900 dark:text-white mt-3 tracking-wider leading-tight font-bold">
+              FOREX TRADING <span className="text-[#FF4053]">MASTERCLASS</span>
             </h1>
-            <p className="text-gray-400 mt-6 text-lg leading-relaxed">
+            <p className="text-slate-500 dark:text-gray-400 mt-6 text-lg leading-relaxed">
               This course provides real skills, clear understanding, and practical strategies for analyzing, trading, and mastering forex markets—all without the usual hype, scams, or confusion.
             </p>
-            <p className="text-elite-gold font-medium mt-4 text-sm">
+            <p className="text-[#FF4053] font-medium mt-4 text-sm">
               No prior technical knowledge or trading experience is necessary. Learn the right way and make informed financial decisions.
             </p>
             <button
@@ -139,13 +139,13 @@ export default function CoursesPublicPage() {
 
         {/* Course Summary Bullet Grid */}
         <ScrollReveal>
-          <div className="max-w-4xl mx-auto glass-card p-8 bg-gradient-to-br from-elite-gold/5 to-transparent border border-elite-gold/15 mb-20">
-            <h3 className="font-display text-xl text-white text-center tracking-wider mb-6">WHAT YOU&apos;LL LEARN AT A GLANCE</h3>
+          <div className="max-w-4xl mx-auto bg-white dark:bg-[#111116] border border-gray-200 dark:border-white/10 rounded-2xl p-8 bg-gradient-to-br from-[#FF4053]/5 to-transparent shadow-sm mb-20">
+            <h3 className="font-display text-xl text-slate-900 dark:text-white text-center tracking-wider mb-6 font-bold">WHAT YOU&apos;LL LEARN AT A GLANCE</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
               {courseSummary.map((summary, idx) => (
-                <div key={idx} className="flex items-center gap-3 bg-white/[0.02] border border-elite-border/30 rounded-lg p-3">
-                  <Check size={16} className="text-elite-green shrink-0" />
-                  <span className="text-sm text-gray-300 font-medium">{summary}</span>
+                <div key={idx} className="flex items-center gap-3 bg-slate-50 dark:bg-white/[0.02] border border-gray-200 dark:border-white/10 rounded-lg p-3">
+                  <Check size={16} className="text-[#00E676] shrink-0" />
+                  <span className="text-sm text-slate-700 dark:text-gray-300 font-medium">{summary}</span>
                 </div>
               ))}
             </div>
@@ -157,19 +157,19 @@ export default function CoursesPublicPage() {
           
           {/* Who this is for */}
           <ScrollReveal direction="left">
-            <div className="glass-card p-8 h-full">
-              <h2 className="font-display text-2xl text-white tracking-wider mb-6 flex items-center gap-2">
-                <Users className="text-elite-gold" size={22} /> WHO THIS IS FOR
+            <div className="bg-white dark:bg-[#111116] border border-gray-200 dark:border-white/10 rounded-2xl p-8 h-full shadow-sm">
+              <h2 className="font-display text-2xl text-slate-900 dark:text-white tracking-wider mb-6 flex items-center gap-2 font-bold">
+                <Users className="text-[#FF4053]" size={22} /> WHO THIS IS FOR
               </h2>
               <div className="space-y-6">
                 {whoThisIsFor.map((item, idx) => (
                   <div key={idx} className="flex items-start gap-4">
-                    <div className="w-8 h-8 rounded-full bg-elite-gold/10 border border-elite-gold/20 flex items-center justify-center font-display text-elite-gold font-bold text-xs shrink-0 mt-0.5">
+                    <div className="w-8 h-8 rounded-full bg-[#FF4053]/10 border border-[#FF4053]/20 flex items-center justify-center font-display text-[#FF4053] font-bold text-xs shrink-0 mt-0.5">
                       {idx + 1}
                     </div>
                     <div>
-                      <h4 className="text-white font-semibold text-sm">{item.text}</h4>
-                      <p className="text-gray-400 text-xs mt-1 leading-relaxed">{item.desc}</p>
+                      <h4 className="text-slate-900 dark:text-white font-semibold text-sm">{item.text}</h4>
+                      <p className="text-slate-500 dark:text-gray-400 text-xs mt-1 leading-relaxed">{item.desc}</p>
                     </div>
                   </div>
                 ))}
@@ -179,17 +179,17 @@ export default function CoursesPublicPage() {
 
           {/* Core Skills Gained */}
           <ScrollReveal direction="right">
-            <div className="glass-card p-8 h-full">
-              <h2 className="font-display text-2xl text-white tracking-wider mb-6 flex items-center gap-2">
-                <Award className="text-elite-gold" size={22} /> CORE SKILLS GAINED
+            <div className="bg-white dark:bg-[#111116] border border-gray-200 dark:border-white/10 rounded-2xl p-8 h-full shadow-sm">
+              <h2 className="font-display text-2xl text-slate-900 dark:text-white tracking-wider mb-6 flex items-center gap-2 font-bold">
+                <Award className="text-[#FF4053]" size={22} /> CORE SKILLS GAINED
               </h2>
               <div className="space-y-5">
                 {skillsGained.map((skill, idx) => (
                   <div key={idx} className="flex items-start gap-3">
-                    <div className="w-1.5 h-1.5 rounded-full bg-elite-green mt-2 shrink-0" />
+                    <div className="w-1.5 h-1.5 rounded-full bg-[#FF4053] mt-2 shrink-0" />
                     <div>
-                      <h4 className="text-white font-semibold text-sm">{skill.title}</h4>
-                      <p className="text-gray-400 text-xs mt-1 leading-relaxed">{skill.desc}</p>
+                      <h4 className="text-slate-900 dark:text-white font-semibold text-sm">{skill.title}</h4>
+                      <p className="text-slate-500 dark:text-gray-400 text-xs mt-1 leading-relaxed">{skill.desc}</p>
                     </div>
                   </div>
                 ))}
@@ -202,9 +202,9 @@ export default function CoursesPublicPage() {
         {/* Modules curriculum breakdown */}
         <ScrollReveal>
           <div className="text-center mb-12">
-            <span className="text-elite-gold text-sm font-semibold tracking-widest uppercase">Curriculum Modules</span>
-            <h2 className="font-display text-3xl md:text-4xl text-white mt-3 tracking-wider">
-              DETAILED MODULE <span className="gold-gradient-text">BREAKDOWN</span>
+            <span className="text-[#FF4053] text-sm font-semibold tracking-widest uppercase">Curriculum Modules</span>
+            <h2 className="font-display text-3xl md:text-4xl text-slate-900 dark:text-white mt-3 tracking-wider font-bold">
+              DETAILED MODULE <span className="text-[#FF4053]">BREAKDOWN</span>
             </h2>
           </div>
         </ScrollReveal>
@@ -214,13 +214,13 @@ export default function CoursesPublicPage() {
             const Icon = mod.icon;
             return (
               <ScrollReveal key={mod.title} delay={i * 0.05}>
-                <div className="glass-card p-6 h-full flex flex-col justify-between hover:border-elite-gold/30 transition-all duration-300">
+                <div className="bg-white dark:bg-[#111116] border border-gray-200 dark:border-white/10 rounded-2xl p-6 h-full flex flex-col justify-between hover:border-[#FF4053]/30 shadow-sm transition-all duration-300">
                   <div>
-                    <div className="w-12 h-12 rounded-xl bg-elite-gold/10 border border-elite-gold/20 flex items-center justify-center mb-4">
-                      <Icon size={20} className="text-elite-gold" />
+                    <div className="w-12 h-12 rounded-xl bg-[#FF4053]/10 border border-[#FF4053]/20 flex items-center justify-center mb-4">
+                      <Icon size={20} className="text-[#FF4053]" />
                     </div>
-                    <h3 className="font-display text-lg text-white tracking-wider mb-3">{mod.title}</h3>
-                    <p className="text-gray-400 text-xs leading-relaxed">{mod.description}</p>
+                    <h3 className="font-display text-lg text-slate-900 dark:text-white tracking-wider mb-3 font-bold">{mod.title}</h3>
+                    <p className="text-slate-500 dark:text-gray-400 text-xs leading-relaxed">{mod.description}</p>
                   </div>
                 </div>
               </ScrollReveal>
@@ -231,9 +231,9 @@ export default function CoursesPublicPage() {
         {/* Bottom CTA */}
         <ScrollReveal>
           <div className="max-w-4xl mx-auto mt-20 text-center">
-            <div className="glass-card p-10 bg-gradient-to-br from-elite-gold/5 via-transparent to-elite-gold/5 border border-elite-gold/20">
-              <h2 className="font-display text-2xl md:text-3xl text-white tracking-wider mb-3">READY TO START YOUR FOREX TRADING JOURNEY?</h2>
-              <p className="text-gray-400 text-sm max-w-xl mx-auto mb-8 leading-relaxed">
+            <div className="bg-white dark:bg-[#111116] border border-gray-200 dark:border-white/10 rounded-2xl p-10 bg-gradient-to-br from-[#FF4053]/5 via-transparent to-[#FF4053]/5 shadow-sm">
+              <h2 className="font-display text-2xl md:text-3xl text-slate-900 dark:text-white tracking-wider mb-3 font-bold">READY TO START YOUR FOREX TRADING JOURNEY?</h2>
+              <p className="text-slate-500 dark:text-gray-400 text-sm max-w-xl mx-auto mb-8 leading-relaxed">
                 By the end of this course, you will move from complete beginner to disciplined forex trader, able to independently analyze global charts, execute trades, and manage risk using the CRT model.
               </p>
               <button

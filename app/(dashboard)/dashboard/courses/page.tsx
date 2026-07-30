@@ -213,10 +213,10 @@ function CoursesContent() {
         <div className="space-y-6 max-w-4xl mx-auto">
           <div className="text-center mb-10">
             <span className="text-elite-gold text-sm font-semibold tracking-widest uppercase">Premium Content</span>
-            <h1 className="font-display text-4xl text-white mt-3 tracking-wider flex items-center justify-center gap-2">
+            <h1 className="font-display text-4xl text-slate-900 dark:text-white mt-3 tracking-wider flex items-center justify-center gap-2">
               <Lock className="text-elite-gold" size={30} /> UNLOCK COURSE LESSONS
             </h1>
-            <p className="text-gray-400 mt-4 max-w-2xl mx-auto text-sm leading-relaxed">
+            <p className="text-slate-500 dark:text-gray-400 mt-4 max-w-2xl mx-auto text-sm leading-relaxed">
               Access to our comprehensive trading lessons, strategy breakdowns, and webinars is reserved for members registered under our Introducing Broker (IB) partner link on Deriv.
             </p>
           </div>
@@ -232,11 +232,11 @@ function CoursesContent() {
                 <Clock size={32} className="text-elite-gold" />
               </div>
               <div>
-                <h2 className="font-display text-2xl text-white tracking-wide">VERIFICATION PENDING</h2>
-                <p className="text-gray-400 text-sm mt-3 max-w-md mx-auto leading-relaxed">
-                  Your submitted Deriv Account ID <strong className="text-white">({user.derivId})</strong> is currently being verified by our admin team.
+                <h2 className="font-display text-2xl text-slate-900 dark:text-white tracking-wide">VERIFICATION PENDING</h2>
+                <p className="text-slate-500 dark:text-gray-400 text-sm mt-3 max-w-md mx-auto leading-relaxed">
+                  Your submitted Deriv Account ID <strong className="text-slate-900 dark:text-slate-900 dark:text-white">({user.derivId})</strong> is currently being verified by our admin team.
                 </p>
-                <p className="text-gray-500 text-xs mt-2 leading-relaxed">
+                <p className="text-slate-500 dark:text-gray-400 text-xs mt-2 leading-relaxed">
                   Verification is usually completed in less than 24 hours. Your lessons will automatically unlock once approved.
                 </p>
               </div>
@@ -246,7 +246,7 @@ function CoursesContent() {
                     setDerivIdInput(user.derivId || "");
                     setShowEditForm(true);
                   }}
-                  className="text-gray-400 hover:text-white transition-colors text-xs underline"
+                  className="text-slate-500 dark:text-gray-400 hover:text-slate-900 dark:text-white transition-colors text-xs underline"
                 >
                   Submit a different Account ID
                 </button>
@@ -263,11 +263,11 @@ function CoursesContent() {
               >
                 <div className="space-y-4">
                   <div className="w-10 h-10 rounded-lg bg-elite-gold/10 border border-elite-gold/20 flex items-center justify-center font-display text-elite-gold font-bold">1</div>
-                  <h3 className="font-display text-lg text-white tracking-wider">REGISTER VIA OUR PARTNER LINK</h3>
-                  <p className="text-gray-400 text-sm leading-relaxed">
+                  <h3 className="font-display text-lg text-slate-900 dark:text-slate-900 dark:text-white tracking-wider">REGISTER VIA OUR PARTNER LINK</h3>
+                  <p className="text-slate-500 dark:text-gray-400 text-sm leading-relaxed">
                     Click the partner link below to register a real trading account with our partner broker, **Deriv**.
                   </p>
-                  <p className="text-gray-500 text-xs leading-relaxed">
+                  <p className="text-slate-500 dark:text-gray-400 text-xs leading-relaxed">
                     Note: If you already have a Deriv account, you must create a new one using a different email address under our link to link it to our IB network.
                   </p>
                 </div>
@@ -293,8 +293,8 @@ function CoursesContent() {
                 <form onSubmit={handleVerifySubmit} className="space-y-5 flex-1 flex flex-col justify-between">
                   <div className="space-y-4">
                     <div className="w-10 h-10 rounded-lg bg-elite-gold/10 border border-elite-gold/20 flex items-center justify-center font-display text-elite-gold font-bold">2</div>
-                    <h3 className="font-display text-lg text-white tracking-wider">SUBMIT ACCOUNT ID FOR APPROVAL</h3>
-                    <p className="text-gray-400 text-sm leading-relaxed">
+                    <h3 className="font-display text-lg text-slate-900 dark:text-slate-900 dark:text-white tracking-wider">SUBMIT ACCOUNT ID FOR APPROVAL</h3>
+                    <p className="text-slate-500 dark:text-gray-400 text-sm leading-relaxed">
                       Once registered, enter your Deriv Account ID (e.g. CR123456 or CID number) below to request access.
                     </p>
 
@@ -305,7 +305,7 @@ function CoursesContent() {
                     )}
 
                     <div>
-                      <label className="block text-sm text-gray-400 mb-2">Deriv Account ID / CID</label>
+                      <label className="block text-sm text-slate-500 dark:text-gray-400 mb-2">Deriv Account ID / CID</label>
                       <input
                         type="text"
                         required
@@ -333,7 +333,7 @@ function CoursesContent() {
                       <button
                         type="button"
                         onClick={() => setShowEditForm(false)}
-                        className="w-full text-center text-xs text-gray-500 hover:text-gray-400 transition-colors mt-3"
+                        className="w-full text-center text-xs text-slate-500 dark:text-gray-400 hover:text-slate-500 dark:text-gray-400 transition-colors mt-3"
                       >
                         Cancel edit
                       </button>
@@ -347,8 +347,8 @@ function CoursesContent() {
       ) : (
         <>
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-        <h1 className="font-display text-3xl text-white tracking-wider">COURSE LESSONS</h1>
-        <div className="text-sm text-gray-400">
+        <h1 className="font-display text-3xl text-slate-900 dark:text-slate-900 dark:text-white tracking-wider">COURSE LESSONS</h1>
+        <div className="text-sm text-slate-500 dark:text-gray-400">
           {loading ? (
             "Loading lessons..."
           ) : (
@@ -366,7 +366,7 @@ function CoursesContent() {
             className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium whitespace-nowrap transition-all ${
               activeCategory === cat.id
                 ? "bg-elite-gold/10 text-elite-gold border border-elite-gold/20"
-                : "bg-elite-surface text-gray-400 border border-elite-border hover:text-white"
+                : "bg-slate-100 dark:bg-[#16161D] text-slate-500 dark:text-gray-400 border border-elite-border hover:text-slate-900 dark:text-white"
             }`}
           >
             <cat.icon size={16} />
@@ -381,7 +381,7 @@ function CoursesContent() {
           <Loader2 size={32} className="text-elite-gold animate-spin" />
         </div>
       ) : filteredVideos.length === 0 ? (
-        <div className="glass-card p-12 text-center text-gray-400">
+        <div className="glass-card p-12 text-center text-slate-500 dark:text-gray-400">
           No lessons found in this category.
         </div>
       ) : (
@@ -419,22 +419,22 @@ function CoursesContent() {
                 )}
 
                 <div className="w-14 h-14 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 flex items-center justify-center group-hover:scale-110 transition-transform z-10">
-                  <Play size={24} className="text-white ml-1" />
+                  <Play size={24} className="text-slate-900 dark:text-white ml-1" />
                 </div>
                 {video.duration > 0 && (
-                  <div className="absolute bottom-3 right-3 bg-black/60 backdrop-blur-sm px-2 py-1 rounded text-xs text-white font-mono z-10">
+                  <div className="absolute bottom-3 right-3 bg-black/60 backdrop-blur-sm px-2 py-1 rounded text-xs text-slate-900 dark:text-white font-mono z-10">
                     {video.duration} mins
                   </div>
                 )}
               </div>
               <div className="p-4">
-                <h3 className="text-white font-medium text-sm mb-1 line-clamp-2">{video.title}</h3>
+                <h3 className="text-slate-900 dark:text-slate-900 dark:text-white font-medium text-sm mb-1 line-clamp-2">{video.title}</h3>
                 <div className="flex items-center justify-between mt-1.5">
-                  <p className="text-gray-500 text-xs capitalize">{video.category}</p>
+                  <p className="text-slate-500 dark:text-gray-400 text-xs capitalize">{video.category}</p>
                   <div className="flex items-center gap-3">
                     <button
                       onClick={(e) => handleCopyLink(e, video.id)}
-                      className="p-1 rounded text-gray-400 hover:text-elite-gold hover:bg-white/5 transition-colors"
+                      className="p-1 rounded text-slate-500 dark:text-gray-400 hover:text-elite-gold hover:bg-white/5 transition-colors"
                       title="Copy direct link"
                     >
                       {copiedId === video.id ? (
@@ -443,7 +443,7 @@ function CoursesContent() {
                         <Link2 size={12} />
                       )}
                     </button>
-                    <span className="flex items-center gap-1 text-xs text-gray-500 font-mono">
+                    <span className="flex items-center gap-1 text-xs text-slate-500 dark:text-gray-400 font-mono">
                       <Eye size={12} />
                       <span>{video.views || 0}</span>
                     </span>
@@ -471,7 +471,7 @@ function CoursesContent() {
               {/* Close Button */}
               <button
                 onClick={() => setSelectedVideo(null)}
-                className="absolute top-4 right-4 z-50 p-2 rounded-full bg-black/50 text-white/80 hover:text-white hover:bg-black/80 transition-colors"
+                className="absolute top-4 right-4 z-50 p-2 rounded-full bg-black/50 text-white/80 hover:text-slate-900 dark:text-white hover:bg-black/80 transition-colors"
                 aria-label="Close modal"
               >
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -499,17 +499,17 @@ function CoursesContent() {
                 ) : (
                   <div className="text-center p-6">
                     <Lock size={48} className="text-elite-gold mx-auto mb-4" />
-                    <p className="text-white font-medium">Video is locked</p>
-                    <p className="text-gray-500 text-sm mt-2">Complete verification to view this lesson</p>
+                    <p className="text-slate-900 dark:text-slate-900 dark:text-white font-medium">Video is locked</p>
+                    <p className="text-slate-500 dark:text-gray-400 text-sm mt-2">Complete verification to view this lesson</p>
                   </div>
                 )}
               </div>
                <div className="p-6">
                  <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-3">
-                   <h2 className="font-display text-xl text-white tracking-wider">{selectedVideo.title}</h2>
+                   <h2 className="font-display text-xl text-slate-900 dark:text-slate-900 dark:text-white tracking-wider">{selectedVideo.title}</h2>
                    <button
                      onClick={(e) => handleCopyLink(e, selectedVideo.id)}
-                     className="inline-flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-lg bg-elite-surface border border-elite-border hover:border-elite-gold/50 text-xs text-gray-300 hover:text-white transition-all w-fit"
+                     className="inline-flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-100 dark:bg-[#16161D] border border-elite-border hover:border-elite-gold/50 text-xs text-gray-300 hover:text-slate-900 dark:text-white transition-all w-fit"
                    >
                      {copiedId === selectedVideo.id ? (
                        <>
@@ -524,8 +524,8 @@ function CoursesContent() {
                      )}
                    </button>
                  </div>
-                 <div className="flex flex-wrap gap-4 items-center text-xs text-gray-400 mb-3">
-                   <span className="capitalize bg-elite-surface px-2.5 py-1 rounded-full border border-elite-border">{selectedVideo.category}</span>
+                 <div className="flex flex-wrap gap-4 items-center text-xs text-slate-500 dark:text-gray-400 mb-3">
+                   <span className="capitalize bg-slate-100 dark:bg-[#16161D] px-2.5 py-1 rounded-full border border-elite-border">{selectedVideo.category}</span>
                    {selectedVideo.duration > 0 && <span>Duration: {selectedVideo.duration} mins</span>}
                    <span className="flex items-center gap-1">
                      <Eye size={14} />

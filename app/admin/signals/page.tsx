@@ -229,7 +229,7 @@ export default function AdminSignals() {
     <>
       {/* Row 1: Pair / Type / Timeframe */}
       <div>
-        <label className="block text-sm text-gray-400 mb-2">Currency Pair / Asset</label>
+        <label className="block text-sm text-slate-500 dark:text-gray-400 mb-2">Currency Pair / Asset</label>
         <input
           type="text"
           required
@@ -241,7 +241,7 @@ export default function AdminSignals() {
       </div>
 
       <div>
-        <label className="block text-sm text-gray-400 mb-2">Signal Type</label>
+        <label className="block text-sm text-slate-500 dark:text-gray-400 mb-2">Signal Type</label>
         <div className="flex gap-2">
           {(["BUY", "SELL"] as const).map((t) => (
             <button
@@ -253,7 +253,7 @@ export default function AdminSignals() {
                   ? t === "BUY"
                     ? "bg-elite-green/20 text-elite-green border border-elite-green/30"
                     : "bg-elite-red/20 text-elite-red border border-elite-red/30"
-                  : "bg-elite-surface text-gray-400 border border-elite-border"
+                  : "bg-slate-100 dark:bg-[#16161D] text-slate-500 dark:text-gray-400 border border-elite-border"
               }`}
             >
               {t === "BUY"
@@ -266,7 +266,7 @@ export default function AdminSignals() {
       </div>
 
       <div>
-        <label className="block text-sm text-gray-400 mb-2">Timeframe</label>
+        <label className="block text-sm text-slate-500 dark:text-gray-400 mb-2">Timeframe</label>
         <select
           value={data.timeframe}
           onChange={(e) => set({ ...data, timeframe: e.target.value })}
@@ -278,7 +278,7 @@ export default function AdminSignals() {
 
       {/* Row 2: Entry / SL / TP1 */}
       <div>
-        <label className="block text-sm text-gray-400 mb-2">Entry Price</label>
+        <label className="block text-sm text-slate-500 dark:text-gray-400 mb-2">Entry Price</label>
         <input
           type="number" step="0.00001" required
           value={data.entryPrice}
@@ -288,7 +288,7 @@ export default function AdminSignals() {
       </div>
 
       <div>
-        <label className="block text-sm text-gray-400 mb-2">Stop Loss</label>
+        <label className="block text-sm text-slate-500 dark:text-gray-400 mb-2">Stop Loss</label>
         <input
           type="number" step="0.00001" required
           value={data.stopLoss}
@@ -298,7 +298,7 @@ export default function AdminSignals() {
       </div>
 
       <div>
-        <label className="block text-sm text-gray-400 mb-2">Take Profit 1</label>
+        <label className="block text-sm text-slate-500 dark:text-gray-400 mb-2">Take Profit 1</label>
         <input
           type="number" step="0.00001" required
           value={data.takeProfit1}
@@ -309,7 +309,7 @@ export default function AdminSignals() {
 
       {/* Row 3: TP2 / Lot Size / (Status for edit) */}
       <div>
-        <label className="block text-sm text-gray-400 mb-2">Take Profit 2 (Optional)</label>
+        <label className="block text-sm text-slate-500 dark:text-gray-400 mb-2">Take Profit 2 (Optional)</label>
         <input
           type="number" step="0.00001"
           value={data.takeProfit2}
@@ -319,7 +319,7 @@ export default function AdminSignals() {
       </div>
 
       <div>
-        <label className="block text-sm text-gray-400 mb-2">
+        <label className="block text-sm text-slate-500 dark:text-gray-400 mb-2">
           Volatility Index
           <span className="ml-2 text-xs text-gray-600">(e.g. V75, V100, 0.01)</span>
         </label>
@@ -333,7 +333,7 @@ export default function AdminSignals() {
 
       {isEdit && (
         <div>
-          <label className="block text-sm text-gray-400 mb-2">Status</label>
+          <label className="block text-sm text-slate-500 dark:text-gray-400 mb-2">Status</label>
           <div className="flex gap-2">
             {(["Active", "Closed"] as const).map((s) => (
               <button
@@ -345,7 +345,7 @@ export default function AdminSignals() {
                     ? s === "Active"
                       ? "bg-elite-green/20 text-elite-green border-elite-green/30"
                       : "bg-gray-500/20 text-gray-300 border-gray-500/30"
-                    : "bg-elite-surface text-gray-400 border-elite-border"
+                    : "bg-slate-100 dark:bg-[#16161D] text-slate-500 dark:text-gray-400 border-elite-border"
                 }`}
               >
                 {s}
@@ -359,7 +359,7 @@ export default function AdminSignals() {
       {isEdit && (
         <>
           <div>
-            <label className="block text-sm text-gray-400 mb-2">Result</label>
+            <label className="block text-sm text-slate-500 dark:text-gray-400 mb-2">Result</label>
             <select
               value={data.result}
               onChange={(e) => set({ ...data, result: e.target.value })}
@@ -373,7 +373,7 @@ export default function AdminSignals() {
           </div>
 
           <div>
-            <label className="block text-sm text-gray-400 mb-2">Pips</label>
+            <label className="block text-sm text-slate-500 dark:text-gray-400 mb-2">Pips</label>
             <input
               type="number" step="0.1"
               value={data.pips}
@@ -386,13 +386,13 @@ export default function AdminSignals() {
 
       {/* Chart Image Upload */}
       <div className="md:col-span-2 lg:col-span-3">
-        <label className="block text-sm text-gray-400 mb-2">Trade Chart Image (Supabase Storage)</label>
-        <div className="flex items-center gap-4 p-4 rounded-xl bg-elite-surface border border-elite-border">
+        <label className="block text-sm text-slate-500 dark:text-gray-400 mb-2">Trade Chart Image (Supabase Storage)</label>
+        <div className="flex items-center gap-4 p-4 rounded-xl bg-slate-100 dark:bg-[#16161D] border border-elite-border">
           {data.chartImage ? (
             <div className="flex items-center gap-3 w-full justify-between">
               <div className="flex items-center gap-3">
                 <img src={data.chartImage} alt="Chart preview" className="w-12 h-12 rounded-lg object-cover border border-elite-border" />
-                <span className="text-xs text-gray-500 font-mono truncate max-w-[200px]">Chart uploaded</span>
+                <span className="text-xs text-slate-500 dark:text-gray-400 font-mono truncate max-w-[200px]">Chart uploaded</span>
               </div>
               <button
                 type="button"
@@ -427,7 +427,7 @@ export default function AdminSignals() {
                   "Choose Chart Image"
                 )}
               </label>
-              <span className="text-xs text-gray-500">Supports JPG, PNG, GIF up to 5MB</span>
+              <span className="text-xs text-slate-500 dark:text-gray-400">Supports JPG, PNG, GIF up to 5MB</span>
             </div>
           )}
         </div>
@@ -435,7 +435,7 @@ export default function AdminSignals() {
 
       {/* Full-width analysis */}
       <div className={isEdit ? "md:col-span-2 lg:col-span-3" : "md:col-span-2 lg:col-span-3"}>
-        <label className="block text-sm text-gray-400 mb-2">Analysis / Notes</label>
+        <label className="block text-sm text-slate-500 dark:text-gray-400 mb-2">Analysis / Notes</label>
         <textarea
           rows={3}
           value={data.analysis}
@@ -451,7 +451,7 @@ export default function AdminSignals() {
     <div className="space-y-6">
       {/* Header */}
       <div className="flex items-center justify-between">
-        <h1 className="font-display text-3xl text-white tracking-wider">SIGNAL MANAGEMENT</h1>
+        <h1 className="font-display text-3xl text-slate-900 dark:text-slate-900 dark:text-white tracking-wider">SIGNAL MANAGEMENT</h1>
         <button
           onClick={() => { setShowForm(!showForm); setFormData(emptyForm()); }}
           className="btn-primary flex items-center gap-2"
@@ -470,7 +470,7 @@ export default function AdminSignals() {
             exit={{ opacity: 0, height: 0 }}
             className="glass-card p-6 overflow-hidden"
           >
-            <h2 className="font-display text-lg text-white tracking-wider mb-6">CREATE NEW SIGNAL</h2>
+            <h2 className="font-display text-lg text-slate-900 dark:text-slate-900 dark:text-white tracking-wider mb-6">CREATE NEW SIGNAL</h2>
             <form onSubmit={handleSubmit} className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
               {renderFields(formData, setFormData, false)}
               <div className="md:col-span-2 lg:col-span-3 flex justify-end">
@@ -500,12 +500,12 @@ export default function AdminSignals() {
               className="glass-card w-full max-w-4xl p-6 overflow-y-auto max-h-[90vh]"
             >
               <div className="flex items-center justify-between mb-6">
-                <h2 className="font-display text-lg text-white tracking-wider">
+                <h2 className="font-display text-lg text-slate-900 dark:text-slate-900 dark:text-white tracking-wider">
                   EDIT SIGNAL — <span className="text-elite-gold">{editingSignal.pair}</span>
                 </h2>
                 <button
                   onClick={() => setEditingSignal(null)}
-                  className="p-2 text-gray-400 hover:text-white transition-colors"
+                  className="p-2 text-slate-500 dark:text-gray-400 hover:text-slate-900 dark:text-white transition-colors"
                 >
                   <X size={20} />
                 </button>
@@ -542,7 +542,7 @@ export default function AdminSignals() {
           <div className="w-8 h-8 border-2 border-elite-gold border-t-transparent rounded-full animate-spin" />
         </div>
       ) : signals.length === 0 ? (
-        <div className="glass-card p-16 text-center text-gray-500">
+        <div className="glass-card p-16 text-center text-slate-500 dark:text-gray-400">
           <TrendingUp size={40} className="mx-auto mb-4 opacity-30" />
           <p>No signals yet. Create your first signal above.</p>
         </div>
@@ -569,7 +569,7 @@ export default function AdminSignals() {
                   </div>
                   <div>
                     <div className="flex flex-wrap items-center gap-2">
-                      <span className="font-mono font-bold text-white">{signal.pair}</span>
+                      <span className="font-mono font-bold text-slate-900 dark:text-white">{signal.pair}</span>
                       <span className={`text-xs px-2 py-0.5 rounded font-bold ${
                         signal.type === "BUY"
                           ? "bg-elite-green/20 text-elite-green"
@@ -577,7 +577,7 @@ export default function AdminSignals() {
                       }`}>
                         {signal.type}
                       </span>
-                      <span className="text-xs text-gray-500 bg-elite-surface px-2 py-0.5 rounded">
+                      <span className="text-xs text-slate-500 dark:text-gray-400 bg-slate-100 dark:bg-[#16161D] px-2 py-0.5 rounded">
                         {signal.timeframe}
                       </span>
                       {signal.volatilityIndex && (
@@ -586,7 +586,7 @@ export default function AdminSignals() {
                         </span>
                       )}
                     </div>
-                    <div className="flex flex-wrap items-center gap-3 mt-1 text-sm text-gray-400">
+                    <div className="flex flex-wrap items-center gap-3 mt-1 text-sm text-slate-500 dark:text-gray-400">
                       <span className="font-mono">E: {signal.entryPrice}</span>
                       <span className="font-mono text-elite-red">SL: {signal.stopLoss}</span>
                       <span className="font-mono text-elite-green">TP1: {signal.takeProfit1}</span>
@@ -594,9 +594,9 @@ export default function AdminSignals() {
                         <span className="font-mono text-elite-green">TP2: {signal.takeProfit2}</span>
                       )}
                       {signal.pips != null && (
-                        <span className="font-mono text-gray-500">{signal.pips > 0 ? "+" : ""}{signal.pips} pips</span>
+                        <span className="font-mono text-slate-500 dark:text-gray-400">{signal.pips > 0 ? "+" : ""}{signal.pips} pips</span>
                       )}
-                      <span className="flex items-center gap-1 font-mono text-gray-500" title="Signal views">
+                      <span className="flex items-center gap-1 font-mono text-slate-500 dark:text-gray-400" title="Signal views">
                         <Eye size={12} className="inline" /> {signal.views || 0}
                       </span>
                     </div>
@@ -605,11 +605,11 @@ export default function AdminSignals() {
                     )}
                     {signal.chartImage && (
                       <div className="mt-3">
-                        <span className="text-[10px] text-gray-500 block mb-1">Attached Chart Image:</span>
+                        <span className="text-[10px] text-slate-500 dark:text-gray-400 block mb-1">Attached Chart Image:</span>
                         <a href={signal.chartImage} target="_blank" rel="noopener noreferrer" className="inline-block group relative">
                           <img src={signal.chartImage} alt="Chart" className="w-40 h-24 rounded-lg object-cover border border-elite-border hover:opacity-90 transition-opacity" />
                           <div className="absolute inset-0 flex items-center justify-center bg-black/40 opacity-0 group-hover:opacity-100 rounded-lg transition-opacity">
-                            <span className="text-[10px] text-white font-medium">View Original</span>
+                            <span className="text-[10px] text-slate-900 dark:text-slate-900 dark:text-white font-medium">View Original</span>
                           </div>
                         </a>
                       </div>
@@ -624,7 +624,7 @@ export default function AdminSignals() {
                       ? "bg-elite-green/10 text-elite-green border-elite-green/20"
                       : signal.result === "Win"
                       ? "bg-blue-500/10 text-blue-400 border-blue-500/20"
-                      : "bg-gray-500/10 text-gray-400 border-gray-500/20"
+                      : "bg-gray-500/10 text-slate-500 dark:text-gray-400 border-gray-500/20"
                   }`}>
                     {signal.status}{signal.result ? ` · ${signal.result}` : ""}
                   </span>
@@ -635,21 +635,21 @@ export default function AdminSignals() {
                         .then(() => alert("Direct signal link copied to clipboard!"))
                         .catch(() => {});
                     }}
-                    className="p-2 text-gray-500 hover:text-white transition-colors"
+                    className="p-2 text-slate-500 dark:text-gray-400 hover:text-slate-900 dark:text-white transition-colors"
                     title="Copy direct signal link"
                   >
                     <LinkIcon size={16} />
                   </button>
                   <button
                     onClick={() => openEdit(signal)}
-                    className="p-2 text-gray-500 hover:text-elite-gold transition-colors"
+                    className="p-2 text-slate-500 dark:text-gray-400 hover:text-elite-gold transition-colors"
                     title="Edit signal"
                   >
                     <Pencil size={16} />
                   </button>
                   <button
                     onClick={() => handleDelete(signal._id)}
-                    className="p-2 text-gray-500 hover:text-elite-red transition-colors"
+                    className="p-2 text-slate-500 dark:text-gray-400 hover:text-elite-red transition-colors"
                     title="Delete signal"
                   >
                     <Trash2 size={16} />

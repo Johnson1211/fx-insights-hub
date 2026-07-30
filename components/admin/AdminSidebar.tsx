@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useTheme } from "@/components/providers/ThemeProvider";
 import {
   LayoutDashboard,
   Users,
@@ -13,6 +14,8 @@ import {
   ChevronRight,
   Bell,
   Calendar,
+  Sun,
+  Moon,
 } from "lucide-react";
 
 const adminItems = [
@@ -28,41 +31,58 @@ const adminItems = [
 
 export function AdminSidebar() {
   const pathname = usePathname();
+  const { theme, toggleTheme } = useTheme();
 
   return (
-    <aside className="hidden lg:flex fixed left-0 top-16 bottom-0 w-64 bg-elite-card/95 backdrop-blur-xl border-r border-elite-border/50 flex-col z-30">
-      <div className="p-6 border-b border-elite-border/50">
+    <aside className="hidden lg:flex fixed left-0 top-16 bottom-0 w-64 bg-white dark:bg-[#111116] border-r border-gray-200 dark:border-[#FF4053]/15 flex-col z-30 transition-colors duration-300">
+      {/* Header */}
+      <div className="p-5 border-b border-gray-200 dark:border-white/5">
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-elite-red to-red-700 flex items-center justify-center">
+          <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#FF4053] to-[#E62E43] flex items-center justify-center shadow-lg shadow-[#FF4053]/20">
             <Crown size={18} className="text-white" />
           </div>
           <div>
-            <p className="text-white font-medium text-sm">Admin Panel</p>
-            <p className="text-gray-500 text-xs">Fx Insights Hub CMS</p>
+            <p className="text-slate-900 dark:text-white font-semibold text-sm">Admin Panel</p>
+            <p className="text-slate-500 dark:text-gray-400 text-xs">Fx Insights Hub CMS</p>
           </div>
         </div>
       </div>
 
-      <nav className="flex-1 overflow-y-auto py-4 px-3 space-y-1">
+      {/* Navigation */}
+      <nav className="flex-1 overflow-y-auto py-3 px-3 space-y-0.5">
         {adminItems.map((item) => {
           const isActive = pathname === item.href || pathname.startsWith(`${item.href}/`);
           return (
             <Link
               key={item.href}
               href={item.href}
-              className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all duration-200 ${
+              className={`flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 group ${
                 isActive
-                  ? "bg-elite-red/10 text-elite-red border border-elite-red/20"
-                  : "text-gray-400 hover:text-white hover:bg-white/5"
+                  ? "bg-[#FF4053]/10 text-[#FF4053] border border-[#FF4053]/20 font-semibold"
+                  : "text-slate-600 dark:text-gray-400 hover:text-slate-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-white/5"
               }`}
             >
-              <item.icon size={18} />
+              <item.icon size={17} className={isActive ? "text-[#FF4053]" : "text-slate-400 dark:text-gray-500 group-hover:text-slate-600 dark:group-hover:text-gray-300"} />
               <span className="flex-1">{item.label}</span>
-              {isActive && <ChevronRight size={14} />}
+              {isActive && <ChevronRight size={13} className="text-[#FF4053]" />}
             </Link>
           );
         })}
       </nav>
+
+      {/* Bottom: Theme toggle */}
+      <div className="p-3 border-t border-gray-200 dark:border-white/5">
+        <button
+          onClick={toggleTheme}
+          className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-slate-600 dark:text-gray-400 hover:text-slate-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-white/5 transition-all w-full"
+        >
+          {theme === "dark"
+            ? <Sun size={17} className="text-amber-400" />
+            : <Moon size={17} className="text-slate-400" />
+          }
+          <span>{theme === "dark" ? "Light Mode" : "Dark Mode"}</span>
+        </button>
+      </div>
     </aside>
   );
 }

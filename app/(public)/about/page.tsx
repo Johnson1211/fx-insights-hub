@@ -55,16 +55,16 @@ export default function AboutPage() {
   ];
 
   return (
-    <div className="min-h-screen pt-24 pb-20">
+    <div className="min-h-screen pt-24 pb-20 bg-slate-50 dark:bg-[#08080A] transition-colors duration-300">
       <div className="section-padding">
         {/* Hero */}
         <ScrollReveal>
           <div className="text-center mb-20">
-            <span className="text-elite-gold text-sm font-semibold tracking-widest uppercase">Our Story</span>
-            <h1 className="font-display text-4xl md:text-6xl text-white mt-3 tracking-wider">
-              ABOUT <span className="gold-gradient-text">Fx Insights Hub</span>
+            <span className="text-[#FF4053] text-sm font-semibold tracking-widest uppercase">Our Story</span>
+            <h1 className="font-display text-4xl md:text-6xl text-slate-900 dark:text-white mt-3 tracking-wider font-bold">
+              ABOUT <span className="text-[#FF4053]">Fx Insights Hub</span>
             </h1>
-            <p className="text-gray-400 mt-6 max-w-3xl mx-auto text-lg leading-relaxed">
+            <p className="text-slate-500 dark:text-gray-400 mt-6 max-w-3xl mx-auto text-lg leading-relaxed">
               Fx Insights Hub was born from a simple belief: that anyone can become a profitable trader with the right guidance, 
               community, and discipline. What started as a small group of dedicated traders has evolved into a global movement 
               of financial empowerment.
@@ -76,12 +76,12 @@ export default function AboutPage() {
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 mb-24">
           {stats.map((stat, i) => (
             <ScrollReveal key={stat.label} delay={i * 0.1}>
-              <div className="glass-card p-6 text-center">
-                <stat.icon className="w-8 h-8 text-elite-gold mx-auto mb-3" />
-                <div className="font-display text-3xl text-white">
+              <div className="bg-white dark:bg-[#111116] border border-gray-200 dark:border-white/10 rounded-2xl p-6 text-center shadow-sm transition-colors duration-300">
+                <stat.icon className="w-8 h-8 text-[#FF4053] mx-auto mb-3" />
+                <div className="font-display text-3xl text-slate-900 dark:text-white font-bold">
                   <AnimatedCounter end={stat.value} suffix={stat.suffix} />
                 </div>
-                <p className="text-gray-400 text-sm mt-1">{stat.label}</p>
+                <p className="text-slate-500 dark:text-gray-400 text-sm mt-1">{stat.label}</p>
               </div>
             </ScrollReveal>
           ))}
@@ -90,13 +90,13 @@ export default function AboutPage() {
         {/* Timeline */}
         <div className="max-w-4xl mx-auto mb-24">
           <ScrollReveal>
-            <h2 className="font-display text-3xl text-white text-center tracking-wider mb-12">
-              OUR <span className="gold-gradient-text">JOURNEY</span>
+            <h2 className="font-display text-3xl text-slate-900 dark:text-white text-center tracking-wider mb-12 font-bold">
+              OUR <span className="text-[#FF4053]">JOURNEY</span>
             </h2>
           </ScrollReveal>
 
           <div className="relative">
-            <div className="absolute left-4 md:left-1/2 top-0 bottom-0 w-px bg-gradient-to-b from-elite-gold/50 via-elite-gold/20 to-transparent" />
+            <div className="absolute left-4 md:left-1/2 top-0 bottom-0 w-px bg-gradient-to-b from-[#FF4053]/50 via-[#FF4053]/20 to-transparent" />
 
             {milestones.map((milestone, i) => (
               <ScrollReveal key={milestone.year} delay={i * 0.15}>
@@ -104,31 +104,31 @@ export default function AboutPage() {
                   <div className="hidden md:block flex-1 text-right">
                     {i % 2 === 0 && (
                       <div>
-                        <span className="font-display text-2xl text-elite-gold">{milestone.year}</span>
-                        <h3 className="font-display text-xl text-white mt-1 tracking-wider">{milestone.title}</h3>
-                        <p className="text-gray-400 text-sm mt-2">{milestone.description}</p>
+                        <span className="font-display text-2xl text-[#FF4053] font-bold">{milestone.year}</span>
+                        <h3 className="font-display text-xl text-slate-900 dark:text-white mt-1 tracking-wider">{milestone.title}</h3>
+                        <p className="text-slate-500 dark:text-gray-400 text-sm mt-2">{milestone.description}</p>
                       </div>
                     )}
                   </div>
 
-                  <div className="w-8 h-8 rounded-full bg-elite-gold border-4 border-elite-bg flex items-center justify-center shrink-0 z-10">
-                    <div className="w-2 h-2 rounded-full bg-elite-bg" />
+                  <div className="w-8 h-8 rounded-full bg-[#FF4053] border-4 border-white dark:border-[#08080A] flex items-center justify-center shrink-0 z-10">
+                    <div className="w-2 h-2 rounded-full bg-white dark:bg-[#08080A]" />
                   </div>
 
                   <div className="flex-1">
                     <div className="md:hidden mb-2">
-                      <span className="font-display text-xl text-elite-gold">{milestone.year}</span>
+                      <span className="font-display text-xl text-[#FF4053] font-bold">{milestone.year}</span>
                     </div>
                     {i % 2 !== 0 ? (
                       <div>
-                        <span className="hidden md:inline font-display text-2xl text-elite-gold">{milestone.year}</span>
-                        <h3 className="font-display text-xl text-white mt-1 tracking-wider">{milestone.title}</h3>
-                        <p className="text-gray-400 text-sm mt-2">{milestone.description}</p>
+                        <span className="hidden md:inline font-display text-2xl text-[#FF4053] font-bold">{milestone.year}</span>
+                        <h3 className="font-display text-xl text-slate-900 dark:text-white mt-1 tracking-wider">{milestone.title}</h3>
+                        <p className="text-slate-500 dark:text-gray-400 text-sm mt-2">{milestone.description}</p>
                       </div>
                     ) : (
                       <div className="md:hidden">
-                        <h3 className="font-display text-xl text-white tracking-wider">{milestone.title}</h3>
-                        <p className="text-gray-400 text-sm mt-2">{milestone.description}</p>
+                        <h3 className="font-display text-xl text-slate-900 dark:text-white tracking-wider">{milestone.title}</h3>
+                        <p className="text-slate-500 dark:text-gray-400 text-sm mt-2">{milestone.description}</p>
                       </div>
                     )}
                   </div>
@@ -141,21 +141,21 @@ export default function AboutPage() {
         {/* Values */}
         <div className="max-w-5xl mx-auto">
           <ScrollReveal>
-            <h2 className="font-display text-3xl text-white text-center tracking-wider mb-12">
-              OUR <span className="gold-gradient-text">VALUES</span>
+            <h2 className="font-display text-3xl text-slate-900 dark:text-white text-center tracking-wider mb-12 font-bold">
+              OUR <span className="text-[#FF4053]">VALUES</span>
             </h2>
           </ScrollReveal>
 
           <div className="grid md:grid-cols-2 gap-6">
             {values.map((value, i) => (
               <ScrollReveal key={value.title} delay={i * 0.1}>
-                <div className="glass-card-hover p-8 flex items-start gap-5">
-                  <div className="w-12 h-12 rounded-xl bg-elite-gold/10 border border-elite-gold/20 flex items-center justify-center shrink-0">
-                    <value.icon className="w-6 h-6 text-elite-gold" />
+                <div className="bg-white dark:bg-[#111116] border border-gray-200 dark:border-white/10 rounded-2xl p-8 flex items-start gap-5 shadow-sm hover:shadow-md transition-all duration-300">
+                  <div className="w-12 h-12 rounded-xl bg-[#FF4053]/10 border border-[#FF4053]/20 flex items-center justify-center shrink-0">
+                    <value.icon className="w-6 h-6 text-[#FF4053]" />
                   </div>
                   <div>
-                    <h3 className="font-display text-lg text-white tracking-wider mb-2">{value.title}</h3>
-                    <p className="text-gray-400 text-sm leading-relaxed">{value.description}</p>
+                    <h3 className="font-display text-lg text-slate-900 dark:text-white tracking-wider mb-2 font-bold">{value.title}</h3>
+                    <p className="text-slate-500 dark:text-gray-400 text-sm leading-relaxed">{value.description}</p>
                   </div>
                 </div>
               </ScrollReveal>

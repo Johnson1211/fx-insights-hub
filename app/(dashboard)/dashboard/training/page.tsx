@@ -182,8 +182,8 @@ export default function TrainingDashboard() {
 
   return (
     <div className="space-y-6 max-w-5xl mx-auto py-4">
-      <div className="flex items-center justify-between border-b border-elite-border/30 pb-4">
-        <h1 className="font-display text-3xl text-white tracking-wider">ACADEMY TRAINING</h1>
+      <div className="flex items-center justify-between border-b border-gray-200 dark:border-white/10 pb-4">
+        <h1 className="font-display text-3xl text-slate-900 dark:text-slate-900 dark:text-white tracking-wider">ACADEMY TRAINING</h1>
         <span className="text-xs text-elite-gold bg-elite-gold/10 px-3 py-1 rounded-full border border-elite-gold/20 flex items-center gap-1">
           <GraduationCap size={12} /> Education Center
         </span>
@@ -194,8 +194,8 @@ export default function TrainingDashboard() {
         <div className="lg:col-span-2 space-y-6">
           {/* Main Info Card */}
           <div className="glass-card p-6 space-y-4">
-            <h2 className="font-display text-xl text-white tracking-wide">REQUEST TRAINING SESSION</h2>
-            <p className="text-gray-400 text-xs leading-relaxed">
+            <h2 className="font-display text-xl text-slate-900 dark:text-white tracking-wide">REQUEST TRAINING SESSION</h2>
+            <p className="text-slate-500 dark:text-gray-400 text-xs leading-relaxed">
               Schedule direct personal consultations or reserve classroom physical seminar seats. Select your training style, preferred date, and leave notes on your current trading level.
             </p>
 
@@ -203,7 +203,7 @@ export default function TrainingDashboard() {
               <div className="grid sm:grid-cols-2 gap-4">
                 {/* Type Selection */}
                 <div>
-                  <label className="block text-xs font-semibold text-gray-400 uppercase mb-2">Training Type</label>
+                  <label className="block text-xs font-semibold text-slate-500 dark:text-gray-400 uppercase mb-2">Training Type</label>
                   <select
                     value={type}
                     onChange={(e) => setType(e.target.value)}
@@ -217,7 +217,7 @@ export default function TrainingDashboard() {
 
                 {/* Date */}
                 <div>
-                  <label className="block text-xs font-semibold text-gray-400 uppercase mb-2">Preferred Date</label>
+                  <label className="block text-xs font-semibold text-slate-500 dark:text-gray-400 uppercase mb-2">Preferred Date</label>
                   <input
                     type="date"
                     required
@@ -229,7 +229,7 @@ export default function TrainingDashboard() {
 
                 {/* Time */}
                 <div>
-                  <label className="block text-xs font-semibold text-gray-400 uppercase mb-2">Preferred Time</label>
+                  <label className="block text-xs font-semibold text-slate-500 dark:text-gray-400 uppercase mb-2">Preferred Time</label>
                   <input
                     type="time"
                     required
@@ -242,7 +242,7 @@ export default function TrainingDashboard() {
 
               {/* Discussion notes */}
               <div>
-                <label className="block text-xs font-semibold text-gray-400 uppercase mb-2">Topics & Goals</label>
+                <label className="block text-xs font-semibold text-slate-500 dark:text-gray-400 uppercase mb-2">Topics & Goals</label>
                 <textarea
                   rows={3}
                   className="input-field text-sm resize-none"
@@ -301,10 +301,10 @@ export default function TrainingDashboard() {
         <div className="space-y-6">
           {/* Seminar rules */}
           <div className="glass-card p-6 bg-elite-gold/5 border-elite-gold/10 space-y-3">
-            <h3 className="text-white font-bold text-sm tracking-wide flex items-center gap-1.5">
+            <h3 className="text-slate-900 dark:text-slate-900 dark:text-white font-bold text-sm tracking-wide flex items-center gap-1.5">
               <Flame size={16} className="text-elite-gold" /> Seminar Benefits
             </h3>
-            <ul className="text-xs text-gray-400 space-y-2 leading-relaxed">
+            <ul className="text-xs text-slate-500 dark:text-gray-400 space-y-2 leading-relaxed">
               <li className="flex items-start gap-2">
                 <span className="w-1.5 h-1.5 rounded-full bg-elite-gold mt-1.5 shrink-0" />
                 <span>30% early-bird ticket discounts to physical bootcamps</span>
@@ -322,7 +322,7 @@ export default function TrainingDashboard() {
 
           {/* Bookings log */}
           <div className="glass-card p-6 space-y-4">
-            <h3 className="font-display text-base text-white tracking-wide flex items-center gap-1.5">
+            <h3 className="font-display text-base text-slate-900 dark:text-white tracking-wide flex items-center gap-1.5">
               <Clock size={16} className="text-elite-gold" /> REQUEST HISTORY
             </h3>
 
@@ -331,7 +331,7 @@ export default function TrainingDashboard() {
                 <Loader2 size={20} className="animate-spin text-elite-gold" />
               </div>
             ) : bookings.length === 0 ? (
-              <p className="text-center text-xs text-gray-500 py-6 italic">No booking requests found</p>
+              <p className="text-center text-xs text-slate-500 dark:text-gray-400 py-6 italic">No booking requests found</p>
             ) : (
               <div className="space-y-3 max-h-[450px] overflow-y-auto pr-1 custom-scrollbar">
                 {bookings.map((booking) => (
@@ -340,10 +340,10 @@ export default function TrainingDashboard() {
                     className="p-3.5 rounded-xl bg-white/[0.01] border border-white/5 space-y-2 text-xs"
                   >
                     <div className="flex items-center justify-between">
-                      <span className="text-white font-bold">{getTypeLabel(booking.type)}</span>
+                      <span className="text-slate-900 dark:text-slate-900 dark:text-white font-bold">{getTypeLabel(booking.type)}</span>
                       {getStatusBadge(booking.status)}
                     </div>
-                    <div className="text-gray-400 space-y-1">
+                    <div className="text-slate-500 dark:text-gray-400 space-y-1">
                       <p className="flex items-center gap-1">
                         <Calendar size={11} className="text-elite-gold" />
                         <span>
@@ -352,8 +352,8 @@ export default function TrainingDashboard() {
                         </span>
                       </p>
                       {booking.notes && (
-                        <p className="text-gray-500 bg-black/25 p-2 rounded mt-1.5 italic font-medium leading-relaxed">
-                          "{booking.notes}"
+                        <p className="text-slate-500 dark:text-gray-400 bg-black/25 p-2 rounded mt-1.5 italic font-medium leading-relaxed">
+                          &quot;{booking.notes}&quot;
                         </p>
                       )}
                     </div>
@@ -401,20 +401,20 @@ export default function TrainingDashboard() {
               onClick={(e) => e.stopPropagation()}
             >
               <div className="flex items-center justify-between mb-5 border-b border-white/10 pb-3">
-                <h3 className="font-display text-sm text-white font-bold tracking-wider uppercase">Reschedule Request</h3>
-                <button onClick={() => setEditingBooking(null)} className="text-gray-500 hover:text-white">
+                <h3 className="font-display text-sm text-slate-900 dark:text-slate-900 dark:text-white font-bold tracking-wider uppercase">Reschedule Request</h3>
+                <button onClick={() => setEditingBooking(null)} className="text-slate-500 dark:text-gray-400 hover:text-slate-900 dark:text-white">
                   <X size={18} />
                 </button>
               </div>
 
               <form onSubmit={handleEditSubmit} className="space-y-4">
-                <p className="text-gray-400 text-[11px] leading-relaxed">
-                  Modify preferred date, time or goals for your <strong className="text-white">{getTypeLabel(editingBooking.type)}</strong>. Rescheduling will reset status to pending for review.
+                <p className="text-slate-500 dark:text-gray-400 text-[11px] leading-relaxed">
+                  Modify preferred date, time or goals for your <strong className="text-slate-900 dark:text-slate-900 dark:text-white">{getTypeLabel(editingBooking.type)}</strong>. Rescheduling will reset status to pending for review.
                 </p>
 
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-[10px] font-semibold text-gray-400 uppercase mb-2">New Date</label>
+                    <label className="block text-[10px] font-semibold text-slate-500 dark:text-gray-400 uppercase mb-2">New Date</label>
                     <input
                       type="date"
                       required
@@ -424,7 +424,7 @@ export default function TrainingDashboard() {
                     />
                   </div>
                   <div>
-                    <label className="block text-[10px] font-semibold text-gray-400 uppercase mb-2">New Time</label>
+                    <label className="block text-[10px] font-semibold text-slate-500 dark:text-gray-400 uppercase mb-2">New Time</label>
                     <input
                       type="time"
                       required
@@ -436,7 +436,7 @@ export default function TrainingDashboard() {
                 </div>
 
                 <div>
-                  <label className="block text-[10px] font-semibold text-gray-400 uppercase mb-2">Discussion Topics</label>
+                  <label className="block text-[10px] font-semibold text-slate-500 dark:text-gray-400 uppercase mb-2">Discussion Topics</label>
                   <textarea
                     rows={3}
                     value={editNotes}

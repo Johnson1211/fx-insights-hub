@@ -178,7 +178,7 @@ export default function ProfilePage() {
   return (
     <div className="space-y-6 max-w-3xl">
       {/* Page Title */}
-      <h1 className="font-display text-3xl text-white tracking-wider">PROFILE &amp; SETTINGS</h1>
+      <h1 className="font-display text-3xl text-slate-900 dark:text-slate-900 dark:text-white tracking-wider">PROFILE &amp; SETTINGS</h1>
 
       {/* Toast */}
       <AnimatePresence>
@@ -218,8 +218,8 @@ export default function ProfilePage() {
             )}
             <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity rounded-2xl flex items-center justify-center">
               {avatarUploading
-                ? <Loader2 size={22} className="text-white animate-spin" />
-                : <Camera size={22} className="text-white" />}
+                ? <Loader2 size={22} className="text-slate-900 dark:text-white animate-spin" />
+                : <Camera size={22} className="text-slate-900 dark:text-slate-900 dark:text-white" />}
             </div>
           </div>
           <input
@@ -239,8 +239,8 @@ export default function ProfilePage() {
 
         {/* User info */}
         <div className="flex-1 text-center sm:text-left">
-          <h2 className="font-display text-2xl text-white">{user?.name}</h2>
-          <p className="text-gray-400 text-sm mt-1">{user?.email}</p>
+          <h2 className="font-display text-2xl text-slate-900 dark:text-white">{user?.name}</h2>
+          <p className="text-slate-500 dark:text-gray-400 text-sm mt-1">{user?.email}</p>
           <div className="flex flex-wrap justify-center sm:justify-start items-center gap-2 mt-3">
             <span className="flex items-center gap-1 px-3 py-1 rounded-full bg-elite-gold/10 border border-elite-gold/20 text-elite-gold text-xs font-medium">
               <Crown size={11} /> {user?.plan?.toUpperCase()}
@@ -261,7 +261,7 @@ export default function ProfilePage() {
       </div>
 
       {/* Tab navigation */}
-      <div className="flex gap-1 p-1 bg-elite-surface/60 rounded-xl border border-elite-border/40 w-fit">
+      <div className="flex gap-1 p-1 bg-slate-100 dark:bg-[#16161D]/60 rounded-xl border border-elite-border/40 w-fit">
         {tabs.map((t) => (
           <button
             key={t.id}
@@ -269,7 +269,7 @@ export default function ProfilePage() {
             className={`px-5 py-2.5 rounded-lg text-sm font-medium transition-all ${
               tab === t.id
                 ? "bg-elite-gold text-black shadow"
-                : "text-gray-400 hover:text-white"
+                : "text-slate-500 dark:text-gray-400 hover:text-slate-900 dark:text-white"
             }`}
           >
             {t.label}
@@ -288,14 +288,14 @@ export default function ProfilePage() {
             exit={{ opacity: 0, y: -8 }}
             className="glass-card p-6 md:p-8"
           >
-            <h2 className="font-display text-lg text-white tracking-wider mb-6">EDIT PROFILE</h2>
+            <h2 className="font-display text-lg text-slate-900 dark:text-slate-900 dark:text-white tracking-wider mb-6">EDIT PROFILE</h2>
             <form onSubmit={handleProfileSave} className="space-y-5">
               <div className="grid md:grid-cols-2 gap-5">
                 {/* Full Name */}
                 <div>
-                  <label className="block text-sm text-gray-400 mb-2">Full Name</label>
+                  <label className="block text-sm text-slate-500 dark:text-gray-400 mb-2">Full Name</label>
                   <div className="relative">
-                    <User size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500" />
+                    <User size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 dark:text-gray-400" />
                     <input
                       type="text"
                       required
@@ -309,9 +309,9 @@ export default function ProfilePage() {
 
                 {/* Email — read only */}
                 <div>
-                  <label className="block text-sm text-gray-400 mb-2">Email <span className="text-xs text-gray-600">(cannot change)</span></label>
+                  <label className="block text-sm text-slate-500 dark:text-gray-400 mb-2">Email <span className="text-xs text-gray-600">(cannot change)</span></label>
                   <div className="relative">
-                    <Mail size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500" />
+                    <Mail size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 dark:text-gray-400" />
                     <input
                       type="email"
                       value={user?.email || ""}
@@ -323,9 +323,9 @@ export default function ProfilePage() {
 
                 {/* Phone */}
                 <div>
-                  <label className="block text-sm text-gray-400 mb-2">Phone Number</label>
+                  <label className="block text-sm text-slate-500 dark:text-gray-400 mb-2">Phone Number</label>
                   <div className="relative">
-                    <Phone size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500" />
+                    <Phone size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 dark:text-gray-400" />
                     <input
                       type="tel"
                       value={profileData.phone}
@@ -338,7 +338,7 @@ export default function ProfilePage() {
 
                 {/* Trading Experience */}
                 <div>
-                  <label className="block text-sm text-gray-400 mb-2">Trading Experience</label>
+                  <label className="block text-sm text-slate-500 dark:text-gray-400 mb-2">Trading Experience</label>
                   <select
                     value={profileData.tradingExperience}
                     onChange={(e) => setProfileData({ ...profileData, tradingExperience: e.target.value })}
@@ -374,15 +374,15 @@ export default function ProfilePage() {
             exit={{ opacity: 0, y: -8 }}
             className="glass-card p-6 md:p-8"
           >
-            <h2 className="font-display text-lg text-white tracking-wider mb-2">CHANGE PASSWORD</h2>
-            <p className="text-gray-500 text-sm mb-6">Enter your current password to set a new one.</p>
+            <h2 className="font-display text-lg text-slate-900 dark:text-slate-900 dark:text-white tracking-wider mb-2">CHANGE PASSWORD</h2>
+            <p className="text-slate-500 dark:text-gray-400 text-sm mb-6">Enter your current password to set a new one.</p>
 
             <form onSubmit={handlePasswordChange} className="space-y-5 max-w-md">
               {/* Current Password */}
               <div>
-                <label className="block text-sm text-gray-400 mb-2">Current Password</label>
+                <label className="block text-sm text-slate-500 dark:text-gray-400 mb-2">Current Password</label>
                 <div className="relative">
-                  <Lock size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500" />
+                  <Lock size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 dark:text-gray-400" />
                   <input
                     type={showCurrent ? "text" : "password"}
                     required
@@ -394,7 +394,7 @@ export default function ProfilePage() {
                   <button
                     type="button"
                     onClick={() => setShowCurrent(!showCurrent)}
-                    className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-300"
+                    className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-500 dark:text-gray-400 hover:text-gray-300"
                   >
                     {showCurrent ? <EyeOff size={16} /> : <Eye size={16} />}
                   </button>
@@ -403,9 +403,9 @@ export default function ProfilePage() {
 
               {/* New Password */}
               <div>
-                <label className="block text-sm text-gray-400 mb-2">New Password</label>
+                <label className="block text-sm text-slate-500 dark:text-gray-400 mb-2">New Password</label>
                 <div className="relative">
-                  <Lock size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500" />
+                  <Lock size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 dark:text-gray-400" />
                   <input
                     type={showNew ? "text" : "password"}
                     required
@@ -418,7 +418,7 @@ export default function ProfilePage() {
                   <button
                     type="button"
                     onClick={() => setShowNew(!showNew)}
-                    className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-300"
+                    className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-500 dark:text-gray-400 hover:text-gray-300"
                   >
                     {showNew ? <EyeOff size={16} /> : <Eye size={16} />}
                   </button>
@@ -442,9 +442,9 @@ export default function ProfilePage() {
 
               {/* Confirm Password */}
               <div>
-                <label className="block text-sm text-gray-400 mb-2">Confirm New Password</label>
+                <label className="block text-sm text-slate-500 dark:text-gray-400 mb-2">Confirm New Password</label>
                 <div className="relative">
-                  <Lock size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500" />
+                  <Lock size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 dark:text-gray-400" />
                   <input
                     type="password"
                     required
@@ -493,26 +493,26 @@ export default function ProfilePage() {
           >
             <div className="flex items-center gap-2 mb-2">
               <TrendingUp size={18} className="text-elite-gold" />
-              <h2 className="font-display text-lg text-white tracking-wider">REFERRAL PROGRAM</h2>
+              <h2 className="font-display text-lg text-slate-900 dark:text-slate-900 dark:text-white tracking-wider">REFERRAL PROGRAM</h2>
             </div>
-            <p className="text-gray-400 text-sm mb-6">
+            <p className="text-slate-500 dark:text-gray-400 text-sm mb-6">
               Share your unique referral link. Earn rewards when friends join Fx Insights Hub through your link.
             </p>
 
             <div className="space-y-4">
               <div>
-                <label className="block text-sm text-gray-400 mb-2">Your Referral Code</label>
+                <label className="block text-sm text-slate-500 dark:text-gray-400 mb-2">Your Referral Code</label>
                 <div className="flex items-center gap-3">
-                  <div className="flex-1 bg-elite-surface border border-elite-border rounded-lg px-4 py-3 text-sm text-elite-gold font-mono tracking-widest">
+                  <div className="flex-1 bg-slate-100 dark:bg-[#16161D] border border-elite-border rounded-lg px-4 py-3 text-sm text-elite-gold font-mono tracking-widest">
                     {user?.referralCode}
                   </div>
                 </div>
               </div>
 
               <div>
-                <label className="block text-sm text-gray-400 mb-2">Your Referral Link</label>
+                <label className="block text-sm text-slate-500 dark:text-gray-400 mb-2">Your Referral Link</label>
                 <div className="flex items-center gap-3">
-                  <div className="flex-1 bg-elite-surface border border-elite-border rounded-lg px-4 py-3 text-sm text-gray-300 font-mono truncate">
+                  <div className="flex-1 bg-slate-100 dark:bg-[#16161D] border border-elite-border rounded-lg px-4 py-3 text-sm text-gray-300 font-mono truncate">
                     {typeof window !== "undefined" ? window.location.origin : ""}/register?ref={user?.referralCode}
                   </div>
                   <button
@@ -526,7 +526,7 @@ export default function ProfilePage() {
               </div>
 
               <div className="mt-6 p-4 rounded-xl bg-elite-gold/5 border border-elite-gold/15">
-                <p className="text-sm text-gray-400">
+                <p className="text-sm text-slate-500 dark:text-gray-400">
                   <span className="text-elite-gold font-semibold">How it works:</span> When someone registers using your referral link, they get credited to your account. Referral rewards are updated regularly.
                 </p>
               </div>

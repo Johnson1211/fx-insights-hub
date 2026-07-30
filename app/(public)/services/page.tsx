@@ -88,15 +88,15 @@ export default function ServicesPage() {
   };
 
   return (
-    <div className="min-h-screen pt-24 pb-20">
+    <div className="min-h-screen pt-24 pb-20 bg-slate-50 dark:bg-[#08080A] transition-colors duration-300">
       <div className="section-padding">
         <ScrollReveal>
           <div className="text-center mb-16">
-            <span className="text-elite-gold text-sm font-semibold tracking-widest uppercase">Our Offerings</span>
-            <h1 className="font-display text-4xl md:text-6xl text-white mt-3 tracking-wider">
-              PROFESSIONAL <span className="gold-gradient-text">SERVICES</span>
+            <span className="text-[#FF4053] text-sm font-semibold tracking-widest uppercase">Our Offerings</span>
+            <h1 className="font-display text-4xl md:text-6xl text-slate-900 dark:text-white mt-3 tracking-wider font-bold">
+              <span>PROFESSIONAL</span> <span className="text-[#FF4053]">SERVICES</span>
             </h1>
-            <p className="text-gray-400 mt-4 max-w-2xl mx-auto">
+            <p className="text-slate-500 dark:text-gray-400 mt-4 max-w-2xl mx-auto">
               Access our premium forex education, signals, and lifetime coaching. All services are currently free of charge.
             </p>
           </div>
@@ -109,13 +109,13 @@ export default function ServicesPage() {
               <ScrollReveal key={service.id} delay={i * 0.1}>
                 <motion.div
                   whileHover={{ y: -8 }}
-                  className={`relative glass-card p-6 h-full flex flex-col justify-between ${
-                    service.popular ? "border-elite-gold/40 shadow-lg shadow-blue-500/5" : ""
+                  className={`relative bg-white dark:bg-[#111116] border border-gray-200 dark:border-white/10 rounded-2xl p-6 h-full flex flex-col justify-between shadow-sm transition-colors duration-300 ${
+                    service.popular ? "border-[#FF4053]/40 shadow-lg shadow-[#FF4053]/5" : ""
                   }`}
                 >
                   {service.popular && (
                     <div className="absolute -top-3 left-1/2 -translate-x-1/2">
-                      <span className="bg-gradient-to-r from-elite-gold to-blue-700 text-elite-bg text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-wider">
+                      <span className="bg-gradient-to-r from-[#FF4053] to-red-700 text-white text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-wider">
                         Recommended
                       </span>
                     </div>
@@ -123,7 +123,7 @@ export default function ServicesPage() {
 
                   <div>
                     {service.image ? (
-                      <div className="mb-4 aspect-video relative rounded-lg overflow-hidden border border-elite-border/30">
+                      <div className="mb-4 aspect-video relative rounded-lg overflow-hidden border border-gray-200 dark:border-white/10">
                         <img
                           src={service.image}
                           alt={service.name}
@@ -131,22 +131,22 @@ export default function ServicesPage() {
                         />
                       </div>
                     ) : (
-                      <div className="w-12 h-12 rounded-xl bg-elite-gold/10 border border-elite-gold/20 flex items-center justify-center mb-4">
-                        <Icon size={20} className="text-elite-gold" />
+                      <div className="w-12 h-12 rounded-xl bg-[#FF4053]/10 border border-[#FF4053]/20 flex items-center justify-center mb-4">
+                        <Icon size={20} className="text-[#FF4053]" />
                       </div>
                     )}
-                    <h3 className="font-display text-xl text-white tracking-wider">{service.name}</h3>
-                    <p className="text-gray-500 text-xs mt-1 mb-4">{service.description}</p>
+                    <h3 className="font-display text-xl text-slate-900 dark:text-white tracking-wider font-bold">{service.name}</h3>
+                    <p className="text-slate-500 dark:text-gray-500 text-xs mt-1 mb-4">{service.description}</p>
                     
                     <div className="mb-6">
-                      <span className="font-display text-3xl text-elite-gold font-bold">FREE</span>
-                      <span className="text-gray-500 text-xs ml-2 uppercase tracking-wide">For Now</span>
+                      <span className="font-display text-3xl text-[#FF4053] font-bold">FREE</span>
+                      <span className="text-slate-400 dark:text-gray-500 text-xs ml-2 uppercase tracking-wide">For Now</span>
                     </div>
 
                     <ul className="space-y-3 mb-8">
                       {service.features.map((feature) => (
-                        <li key={feature} className="flex items-start gap-3 text-xs text-gray-400">
-                          <Check size={14} className="text-elite-green shrink-0 mt-0.5" />
+                        <li key={feature} className="flex items-start gap-3 text-xs text-slate-600 dark:text-gray-400">
+                          <Check size={14} className="text-[#00E676] shrink-0 mt-0.5" />
                           <span>{feature}</span>
                         </li>
                       ))}
@@ -156,10 +156,10 @@ export default function ServicesPage() {
                   <button
                     onClick={() => handleServiceAction(service.id)}
                     className={`w-full py-3 rounded-lg text-sm font-medium transition-all duration-300 flex items-center justify-center gap-2 mt-auto ${
-                      service.popular
-                        ? "bg-gradient-to-r from-elite-gold to-blue-700 text-elite-bg hover:shadow-lg hover:shadow-blue-500/25"
-                        : "border border-elite-border text-gray-300 hover:bg-elite-gold/10 hover:border-elite-gold/30 hover:text-white"
-                    }`}
+                        service.popular
+                          ? "bg-[#FF4053] text-white hover:bg-[#e03545] hover:shadow-lg hover:shadow-[#FF4053]/25"
+                          : "border border-gray-200 dark:border-white/15 text-slate-700 dark:text-gray-300 hover:bg-[#FF4053]/10 hover:border-[#FF4053]/30 hover:text-[#FF4053]"
+                      }`}
                   >
                     {service.cta}
                     <ArrowRight size={16} />

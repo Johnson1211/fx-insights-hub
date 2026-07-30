@@ -48,7 +48,7 @@ export default function ForgotPasswordPage() {
             <img src="/images/logo.jpg" alt="FX" className="w-14 h-14 rounded-xl object-cover mx-auto mb-4" />
             <h1 className="font-display text-3xl text-white tracking-wider">FORGOT PASSWORD</h1>
             <p className="text-gray-400 text-sm mt-2">
-              Enter your email and we'll send you a reset link
+              Enter your email and we&apos;ll send you a reset link
             </p>
           </div>
 
@@ -64,11 +64,11 @@ export default function ForgotPasswordPage() {
               <div>
                 <p className="text-white font-semibold text-lg">Check your inbox</p>
                 <p className="text-gray-400 text-sm mt-2 leading-relaxed">
-                  If <span className="text-elite-gold">{email}</span> is registered, you'll receive
+                  If <span className="text-elite-gold">{email}</span> is registered, you&apos;ll receive
                   a password reset link within a few minutes.
                 </p>
                 <p className="text-gray-500 text-xs mt-3">
-                  Don't see it? Check your spam folder.
+                  Don&apos;t see it? Check your spam folder.
                 </p>
               </div>
               <Link

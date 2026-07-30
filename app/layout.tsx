@@ -3,6 +3,7 @@ import "./globals.css";
 import { Navbar } from "@/components/public/Navbar";
 import { Footer } from "@/components/public/Footer";
 import { AuthProvider } from "@/components/AuthProvider";
+import { ThemeProvider } from "@/components/providers/ThemeProvider";
 import { Toaster } from "@/components/ui/Toaster";
 
 export const metadata: Metadata = {
@@ -22,13 +23,15 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="light">
-      <body className="min-h-screen bg-elite-bg text-gray-100">
-        <AuthProvider>
-          <Navbar />
-          <main>{children}</main>
-          <Footer />
-          <Toaster />
-        </AuthProvider>
+      <body className="min-h-screen font-body antialiased transition-colors duration-300">
+        <ThemeProvider>
+          <AuthProvider>
+            <Navbar />
+            <main>{children}</main>
+            <Footer />
+            <Toaster />
+          </AuthProvider>
+        </ThemeProvider>
       </body>
     </html>
   );

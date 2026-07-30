@@ -163,7 +163,7 @@ export default function AdminBlog() {
       </AnimatePresence>
 
       <div className="flex items-center justify-between">
-        <h1 className="font-display text-3xl text-white tracking-wider">BLOG POST CMS</h1>
+        <h1 className="font-display text-3xl text-slate-900 dark:text-slate-900 dark:text-white tracking-wider">BLOG POST CMS</h1>
         <button
           onClick={() => setShowUpload(!showUpload)}
           className="btn-primary flex items-center gap-2"
@@ -180,12 +180,12 @@ export default function AdminBlog() {
           animate={{ opacity: 1, height: "auto" }}
           className="glass-card p-6"
         >
-          <h2 className="font-display text-lg text-white tracking-wider mb-4 flex items-center gap-2">
+          <h2 className="font-display text-lg text-slate-900 dark:text-slate-900 dark:text-white tracking-wider mb-4 flex items-center gap-2">
             <FileText size={18} className="text-elite-gold" /> WRITE BLOG POST
           </h2>
           <form onSubmit={handleUploadSubmit} className="grid md:grid-cols-2 gap-4">
             <div>
-              <label className="block text-xs font-semibold text-gray-400 uppercase mb-2">Title</label>
+              <label className="block text-xs font-semibold text-slate-500 dark:text-gray-400 uppercase mb-2">Title</label>
               <input
                 type="text"
                 required
@@ -196,7 +196,7 @@ export default function AdminBlog() {
               />
             </div>
             <div>
-              <label className="block text-xs font-semibold text-gray-400 uppercase mb-2">Category</label>
+              <label className="block text-xs font-semibold text-slate-500 dark:text-gray-400 uppercase mb-2">Category</label>
               <select
                 className="input-field"
                 value={category}
@@ -209,7 +209,7 @@ export default function AdminBlog() {
               </select>
             </div>
             <div>
-              <label className="block text-xs font-semibold text-gray-400 uppercase mb-2">URL Slug</label>
+              <label className="block text-xs font-semibold text-slate-500 dark:text-gray-400 uppercase mb-2">URL Slug</label>
               <input
                 type="text"
                 required
@@ -220,7 +220,7 @@ export default function AdminBlog() {
               />
             </div>
             <div>
-              <label className="block text-xs font-semibold text-gray-400 uppercase mb-2">Upload Cover Image</label>
+              <label className="block text-xs font-semibold text-slate-500 dark:text-gray-400 uppercase mb-2">Upload Cover Image</label>
               <div className="flex items-center gap-3">
                 <input
                   type="file"
@@ -237,7 +237,7 @@ export default function AdminBlog() {
                   <button
                     type="button"
                     onClick={() => setCoverImage("")}
-                    className="absolute top-1 right-1 p-0.5 bg-black/60 rounded-full hover:bg-black text-white"
+                    className="absolute top-1 right-1 p-0.5 bg-black/60 rounded-full hover:bg-black text-slate-900 dark:text-white"
                   >
                     <X size={10} />
                   </button>
@@ -245,7 +245,7 @@ export default function AdminBlog() {
               )}
             </div>
             <div className="md:col-span-2">
-              <label className="block text-xs font-semibold text-gray-400 uppercase mb-2">Short Excerpt (Summary)</label>
+              <label className="block text-xs font-semibold text-slate-500 dark:text-gray-400 uppercase mb-2">Short Excerpt (Summary)</label>
               <input
                 type="text"
                 required
@@ -256,7 +256,7 @@ export default function AdminBlog() {
               />
             </div>
             <div className="md:col-span-2">
-              <label className="block text-xs font-semibold text-gray-400 uppercase mb-2">Blog Content (Markdown supported)</label>
+              <label className="block text-xs font-semibold text-slate-500 dark:text-gray-400 uppercase mb-2">Blog Content (Markdown supported)</label>
               <textarea
                 rows={8}
                 required
@@ -267,7 +267,7 @@ export default function AdminBlog() {
               />
             </div>
             <div>
-              <label className="block text-xs font-semibold text-gray-400 uppercase mb-2">Publish Status</label>
+              <label className="block text-xs font-semibold text-slate-500 dark:text-gray-400 uppercase mb-2">Publish Status</label>
               <select
                 className="input-field"
                 value={status}
@@ -309,46 +309,46 @@ export default function AdminBlog() {
         <div className="overflow-x-auto">
           <table className="w-full">
             <thead>
-              <tr className="border-b border-elite-border/50">
-                <th className="text-left p-4 text-gray-400 font-medium text-xs uppercase tracking-wider">Title</th>
-                <th className="text-left p-4 text-gray-400 font-medium text-xs uppercase tracking-wider">Category</th>
-                <th className="text-left p-4 text-gray-400 font-medium text-xs uppercase tracking-wider">Status</th>
-                <th className="text-left p-4 text-gray-400 font-medium text-xs uppercase tracking-wider">Date</th>
-                <th className="text-left p-4 text-gray-400 font-medium text-xs uppercase tracking-wider">Actions</th>
+              <tr className="border-b border-gray-200 dark:border-white/10">
+                <th className="text-left p-4 text-slate-500 dark:text-gray-400 font-medium text-xs uppercase tracking-wider">Title</th>
+                <th className="text-left p-4 text-slate-500 dark:text-gray-400 font-medium text-xs uppercase tracking-wider">Category</th>
+                <th className="text-left p-4 text-slate-500 dark:text-gray-400 font-medium text-xs uppercase tracking-wider">Status</th>
+                <th className="text-left p-4 text-slate-500 dark:text-gray-400 font-medium text-xs uppercase tracking-wider">Date</th>
+                <th className="text-left p-4 text-slate-500 dark:text-gray-400 font-medium text-xs uppercase tracking-wider">Actions</th>
               </tr>
             </thead>
             <tbody>
               {blogsLoading ? (
                 <tr>
-                  <td colSpan={5} className="p-8 text-center text-gray-400">
+                  <td colSpan={5} className="p-8 text-center text-slate-500 dark:text-gray-400">
                     <Loader2 size={24} className="animate-spin text-elite-gold mx-auto mb-2" />
                     Loading blog posts...
                   </td>
                 </tr>
               ) : blogs.length === 0 ? (
                 <tr>
-                  <td colSpan={5} className="p-8 text-center text-gray-400">
+                  <td colSpan={5} className="p-8 text-center text-slate-500 dark:text-gray-400">
                     No blog posts published yet.
                   </td>
                 </tr>
               ) : (
                 blogs.map((post) => (
-                  <tr key={post.id} className="border-b border-elite-border/30 hover:bg-white/[0.02] transition-colors">
-                    <td className="p-4 text-white text-sm font-medium">{post.title}</td>
-                    <td className="p-4 text-gray-400 text-sm capitalize">{post.category}</td>
+                  <tr key={post.id} className="border-b border-gray-200 dark:border-white/10 hover:bg-slate-50 dark:bg-white/[0.02] transition-colors">
+                    <td className="p-4 text-slate-900 dark:text-slate-900 dark:text-white text-sm font-medium">{post.title}</td>
+                    <td className="p-4 text-slate-500 dark:text-gray-400 text-sm capitalize">{post.category}</td>
                     <td className="p-4">
-                      <span className={`text-xs px-2 py-1 rounded capitalize ${post.status === "published" ? "bg-elite-green/10 text-elite-green" : "bg-gray-500/10 text-gray-400"}`}>
+                      <span className={`text-xs px-2 py-1 rounded capitalize ${post.status === "published" ? "bg-elite-green/10 text-elite-green" : "bg-gray-500/10 text-slate-500 dark:text-gray-400"}`}>
                         {post.status}
                       </span>
                     </td>
-                    <td className="p-4 text-gray-400 text-sm">
+                    <td className="p-4 text-slate-500 dark:text-gray-400 text-sm">
                       {new Date(post.createdAt).toLocaleDateString()}
                     </td>
                     <td className="p-4">
                       <button
                         onClick={() => handleDeleteBlog(post.id)}
                         title="Delete blog post"
-                        className="text-gray-500 hover:text-elite-red transition-colors"
+                        className="text-slate-500 dark:text-gray-400 hover:text-elite-red transition-colors"
                       >
                         <Trash2 size={16} />
                       </button>
