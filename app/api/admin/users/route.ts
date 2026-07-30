@@ -11,7 +11,7 @@ async function verifyAdmin(req: NextRequest) {
   const token = cookieStore.get("access_token")?.value;
   if (!token) return null;
   const payload = verifyAccessToken(token);
-  if (!payload || payload.role !== "admin") return null;
+  if (!payload || !["admin", "superadmin"].includes(payload.role)) return null;
   return payload;
 }
 
@@ -83,14 +83,21 @@ export async function PATCH(req: NextRequest) {
       return NextResponse.json({ error: "User not found" }, { status: 404 });
     }
 
+    // Restrict role modification to superadmin only
+    if (role) {
+      if (admin.role !== "superadmin") {
+        return NextResponse.json({ error: "Only the system owner (superadmin) can change user roles" }, { status: 403 });
+      }
+      update.role = role as any;
+    }
+
     // Protect self-demotion
-    if (userId === admin.userId && role && role !== "admin") {
-      return NextResponse.json({ error: "You cannot demote your own admin account role" }, { status: 400 });
+    if (userId === admin.userId && role && role !== admin.role) {
+      return NextResponse.json({ error: "You cannot change your own account role" }, { status: 400 });
     }
 
     const update: any = {};
     if (plan) update.plan = plan as any;
-    if (role) update.role = role as any;
     if (brokerApproved !== undefined) update.brokerApproved = brokerApproved;
     if (derivStatus !== undefined) update.derivStatus = derivStatus;
     if (name) update.name = name.trim();
@@ -138,6 +145,10 @@ export async function PATCH(req: NextRequest) {
     }
 
     if (newPassword) {
+      // Restrict password changes to superadmin only
+      if (admin.role !== "superadmin") {
+        return NextResponse.json({ error: "Only the system owner (superadmin) can change user passwords" }, { status: 403 });
+      }
       if (newPassword.length < 6) {
         return NextResponse.json({ error: "Password must be at least 6 characters long" }, { status: 400 });
       }
@@ -203,6 +214,10 @@ export async function DELETE(req: NextRequest) {
   try {
     const admin = await verifyAdmin(req);
     if (!admin) return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+
+    if (admin.role !== "superadmin") {
+      return NextResponse.json({ error: "Only the system owner (superadmin) can delete user accounts" }, { status: 403 });
+    }
 
     const { searchParams } = new URL(req.url);
     const id = searchParams.get("id");

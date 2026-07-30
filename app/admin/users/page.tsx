@@ -22,6 +22,8 @@ interface UserData {
   brokerApproved?: boolean;
 }
 
+import { useAuth } from "@/hooks/useAuth";
+
 type EditFormState = {
   name: string;
   email: string;
@@ -38,6 +40,7 @@ type EditFormState = {
 type Toast = { type: "success" | "error"; message: string } | null;
 
 export default function AdminUsers() {
+  const { user: currentAdmin } = useAuth();
   const [users, setUsers] = useState<UserData[]>([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
@@ -362,13 +365,15 @@ export default function AdminUsers() {
                         >
                           <Pencil size={15} />
                         </button>
-                        <button
-                          onClick={() => handleDeleteUser(user)}
-                          className="p-1.5 text-slate-500 dark:text-gray-400 hover:text-elite-red transition-colors"
-                          title="Delete user"
-                        >
-                          <Trash2 size={15} />
-                        </button>
+                        {currentAdmin?.role === "superadmin" ? (
+                          <button
+                            onClick={() => handleDeleteUser(user)}
+                            className="p-1.5 text-slate-500 dark:text-gray-400 hover:text-elite-red transition-colors"
+                            title="Delete user (Superadmin Only)"
+                          >
+                            <Trash2 size={15} />
+                          </button>
+                        ) : null}
                       </div>
                     </td>
                   </motion.tr>
@@ -398,7 +403,7 @@ export default function AdminUsers() {
               <div className="flex items-center justify-between mb-6">
                 <div className="flex items-center gap-2">
                   <Crown size={18} className="text-elite-red" />
-                  <h2 className="font-display text-xl text-slate-900 dark:text-slate-900 dark:text-white tracking-wider">
+                  <h2 className="font-display text-xl text-slate-900 dark:text-white tracking-wider">
                     EDIT USER SETTINGS
                   </h2>
                 </div>
@@ -474,18 +479,22 @@ export default function AdminUsers() {
                     </select>
                   </div>
 
-                  {/* Role Selection (Make more admins) */}
+                  {/* Role Selection */}
                   <div>
-                    <label className="block text-xs font-semibold text-slate-500 dark:text-gray-400 uppercase mb-2">User System Role</label>
+                    <label className="block text-xs font-semibold text-slate-500 dark:text-gray-400 uppercase mb-2">
+                      User System Role {currentAdmin?.role !== "superadmin" && "(Superadmin Only)"}
+                    </label>
                     <select
                       value={editForm.role}
+                      disabled={currentAdmin?.role !== "superadmin"}
                       onChange={(e) => setEditForm({ ...editForm, role: e.target.value })}
-                      className="input-field"
+                      className="input-field disabled:opacity-60 disabled:cursor-not-allowed"
                     >
                       <option value="guest">Guest</option>
                       <option value="member">Member</option>
                       <option value="trader">Trader</option>
-                      <option value="admin">Admin (System Owner)</option>
+                      <option value="admin">Admin (Assistant Admin)</option>
+                      <option value="superadmin">Superadmin (System Owner)</option>
                     </select>
                   </div>
 
@@ -518,14 +527,25 @@ export default function AdminUsers() {
 
                   {/* Reset Password Input */}
                   <div>
-                    <label className="block text-xs font-semibold text-slate-500 dark:text-gray-400 uppercase mb-2">Reset Password</label>
-                    <input
-                      type="password"
-                      value={editForm.password || ""}
-                      onChange={(e) => setEditForm({ ...editForm, password: e.target.value })}
-                      className="input-field"
-                      placeholder="New password (leave blank to keep current)"
-                    />
+                    <label className="block text-xs font-semibold text-slate-500 dark:text-gray-400 uppercase mb-2">
+                      Reset Password {currentAdmin?.role !== "superadmin" && "(Superadmin Only)"}
+                    </label>
+                    {currentAdmin?.role === "superadmin" ? (
+                      <input
+                        type="password"
+                        value={editForm.password || ""}
+                        onChange={(e) => setEditForm({ ...editForm, password: e.target.value })}
+                        className="input-field"
+                        placeholder="New password (leave blank to keep current)"
+                      />
+                    ) : (
+                      <input
+                        type="text"
+                        disabled
+                        value="••••••••••••"
+                        className="input-field disabled:opacity-50 disabled:cursor-not-allowed text-xs"
+                      />
+                    )}
                   </div>
                 </div>
 

@@ -13,6 +13,7 @@ import {
   Activity,
   Loader2,
 } from "lucide-react";
+import { useAuth } from "@/hooks/useAuth";
 
 interface AdminStats {
   totalMembers: number;
@@ -38,12 +39,13 @@ function timeAgo(dateString: string) {
     if (hours < 24) return `${hours} hour${hours > 1 ? "s" : ""} ago`;
     const days = Math.round(hours / 24);
     return `${days} day${days > 1 ? "s" : ""} ago`;
-  } catch (e) {
+  } catch {
     return dateString;
   }
 }
 
 export default function AdminDashboard() {
+  const { user } = useAuth();
   const [stats, setStats] = useState<AdminStats | null>(null);
   const [recentActivity, setRecentActivity] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
@@ -220,7 +222,7 @@ export default function AdminDashboard() {
           className="glass-card p-6 flex flex-col justify-between"
         >
           <div>
-            <h2 className="font-display text-xl text-slate-900 dark:text-slate-900 dark:text-slate-900 dark:text-white tracking-wider mb-6">MANUAL PROFITS</h2>
+            <h2 className="font-display text-xl text-slate-900 dark:text-white tracking-wider mb-6">MANUAL PROFITS</h2>
             <p className="text-slate-500 dark:text-gray-400 text-xs leading-relaxed mb-6">
               Manually set the &quot;Profits Generated&quot; statistic shown on the public landing page. This overrides automatic pip calculations.
             </p>
@@ -241,27 +243,32 @@ export default function AdminDashboard() {
                 <input
                   type="number"
                   required
+                  disabled={user?.role !== "superadmin"}
                   placeholder="e.g. 1200000"
                   value={manualProfitsVal}
                   onChange={(e) => setManualProfitsVal(e.target.value)}
-                  className="input-field py-3"
+                  className="input-field py-3 disabled:opacity-50 disabled:cursor-not-allowed"
                 />
               </div>
               <button
                 type="submit"
-                disabled={savingProfits}
-                className="btn-primary w-full flex items-center justify-center gap-2 py-3 disabled:opacity-50 text-sm font-medium"
+                disabled={savingProfits || user?.role !== "superadmin"}
+                className="btn-primary w-full flex items-center justify-center gap-2 py-3 disabled:opacity-50 disabled:cursor-not-allowed text-sm font-medium"
               >
                 {savingProfits ? (
                   <Loader2 size={16} className="animate-spin" />
-                ) : (
+                ) : user?.role === "superadmin" ? (
                   "Save Profits"
+                ) : (
+                  "Superadmin Only"
                 )}
               </button>
             </form>
           </div>
           <div className="mt-8 border-t border-gray-200 dark:border-white/5 pt-4 text-center">
-            <span className="text-[10px] text-slate-400 dark:text-gray-600 block">System settings update immediately</span>
+            <span className="text-[10px] text-slate-400 dark:text-gray-600 block">
+              {user?.role === "superadmin" ? "System settings update immediately" : "Superadmin privilege required to edit stats"}
+            </span>
           </div>
         </motion.div>
       </div>

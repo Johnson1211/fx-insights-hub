@@ -18,6 +18,8 @@ import {
   Moon,
 } from "lucide-react";
 
+import { useAuth } from "@/hooks/useAuth";
+
 const adminItems = [
   { href: "/admin", label: "Dashboard", icon: LayoutDashboard },
   { href: "/admin/users", label: "Users", icon: Users },
@@ -32,6 +34,7 @@ const adminItems = [
 export function AdminSidebar() {
   const pathname = usePathname();
   const { theme, toggleTheme } = useTheme();
+  const { user } = useAuth();
 
   return (
     <aside className="hidden lg:flex fixed left-0 top-16 bottom-0 w-64 bg-white dark:bg-[#111116] border-r border-gray-200 dark:border-[#FF4053]/15 flex-col z-30 transition-colors duration-300">
@@ -42,8 +45,12 @@ export function AdminSidebar() {
             <Crown size={18} className="text-white" />
           </div>
           <div>
-            <p className="text-slate-900 dark:text-white font-semibold text-sm">Admin Panel</p>
-            <p className="text-slate-500 dark:text-gray-400 text-xs">Fx Insights Hub CMS</p>
+            <p className="text-slate-900 dark:text-white font-semibold text-sm">
+              {user?.role === "superadmin" ? "Superadmin Panel" : "Admin Panel"}
+            </p>
+            <p className="text-slate-500 dark:text-gray-400 text-xs">
+              {user?.role === "superadmin" ? "System Owner" : "Assistant Admin"}
+            </p>
           </div>
         </div>
       </div>

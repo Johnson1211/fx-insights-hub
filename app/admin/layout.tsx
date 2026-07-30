@@ -15,7 +15,7 @@ export default function AdminLayout({
   const router = useRouter();
 
   useEffect(() => {
-    if (!loading && (!user || user.role !== "admin")) {
+    if (!loading && (!user || !["admin", "superadmin"].includes(user.role))) {
       router.push("/dashboard");
     }
   }, [user, loading, router]);
@@ -28,7 +28,7 @@ export default function AdminLayout({
     );
   }
 
-  if (!user || user.role !== "admin") return null;
+  if (!user || !["admin", "superadmin"].includes(user.role)) return null;
 
   return (
     <div className="min-h-screen bg-slate-50 dark:bg-[#08080A] transition-colors duration-300 pt-16 lg:pt-20">
