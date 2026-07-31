@@ -58,7 +58,9 @@ export function AdminSidebar() {
       {/* Navigation */}
       <nav className="flex-1 overflow-y-auto py-3 px-3 space-y-0.5">
         {adminItems.map((item) => {
-          const isActive = pathname === item.href || pathname.startsWith(`${item.href}/`);
+          const isActive = item.href === "/admin" 
+            ? pathname === "/admin"
+            : pathname === item.href || pathname.startsWith(`${item.href}/`);
           return (
             <Link
               key={item.href}
@@ -66,12 +68,12 @@ export function AdminSidebar() {
               className={`flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 group ${
                 isActive
                   ? "bg-[#FF4053]/10 text-[#FF4053] border border-[#FF4053]/20 font-semibold"
-                  : "text-slate-600 dark:text-gray-400 hover:text-slate-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-white/5"
+                  : "text-slate-600 dark:text-gray-400 hover:text-slate-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-white/5 border border-transparent"
               }`}
             >
-              <item.icon size={17} className={isActive ? "text-[#FF4053]" : "text-slate-400 dark:text-gray-500 group-hover:text-slate-600 dark:group-hover:text-gray-300"} />
-              <span className="flex-1">{item.label}</span>
-              {isActive && <ChevronRight size={13} className="text-[#FF4053]" />}
+              <item.icon size={17} className={`shrink-0 ${isActive ? "text-[#FF4053]" : "text-slate-400 dark:text-gray-500 group-hover:text-slate-600 dark:group-hover:text-gray-300"}`} />
+              <span className="flex-1 truncate">{item.label}</span>
+              {isActive && <ChevronRight size={13} className="text-[#FF4053] shrink-0" />}
             </Link>
           );
         })}
