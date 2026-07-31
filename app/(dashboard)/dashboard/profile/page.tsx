@@ -6,7 +6,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import {
   User, Mail, Phone, Crown, Copy, CheckCircle, Shield,
   TrendingUp, Camera, Lock, Eye, EyeOff, Save, AlertCircle,
-  CheckCircle2, Loader2,
+  CheckCircle2, Loader2, LogOut,
 } from "lucide-react";
 
 type Tab = "profile" | "security" | "referral";
@@ -14,7 +14,7 @@ type Tab = "profile" | "security" | "referral";
 type Toast = { type: "success" | "error"; message: string } | null;
 
 export default function ProfilePage() {
-  const { user, refreshUser } = useAuth();
+  const { user, refreshUser, logout } = useAuth();
   const [tab, setTab] = useState<Tab>("profile");
   const [toast, setToast] = useState<Toast>(null);
   const [copied, setCopied] = useState(false);
@@ -177,8 +177,17 @@ export default function ProfilePage() {
 
   return (
     <div className="space-y-6 max-w-3xl">
-      {/* Page Title */}
-      <h1 className="font-display text-3xl text-slate-900 dark:text-slate-900 dark:text-white tracking-wider">PROFILE &amp; SETTINGS</h1>
+      {/* Page Title & Mobile Logout */}
+      <div className="flex items-center justify-between gap-4">
+        <h1 className="font-display text-3xl text-slate-900 dark:text-white tracking-wider">PROFILE &amp; SETTINGS</h1>
+        <button
+          onClick={logout}
+          className="flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold bg-red-500/10 text-red-500 border border-red-500/20 hover:bg-red-500 hover:text-white transition-all shadow-sm shrink-0"
+        >
+          <LogOut size={15} />
+          <span>Logout Account</span>
+        </button>
+      </div>
 
       {/* Toast */}
       <AnimatePresence>

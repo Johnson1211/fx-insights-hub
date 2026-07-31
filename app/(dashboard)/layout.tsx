@@ -36,7 +36,7 @@ export default function DashboardLayout({
       <DashboardSidebar />
       <MobileNav />
 
-      <main className="lg:ml-64 pb-20 lg:pb-0">
+      <main className="lg:ml-64 pt-14 lg:pt-0 pb-20 lg:pb-0">
         <motion.div
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
