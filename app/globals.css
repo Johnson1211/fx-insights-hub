@@ -5,18 +5,18 @@
 @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
 
 :root {
-  /* LIGHT MODE (DEFAULT) */
-  --bg-primary: #F8FAFC;
-  --bg-card: #FFFFFF;
-  --bg-surface: #F1F5F9;
-  --border-color: rgba(0, 0, 0, 0.08);
-  --text-primary: #0F172A;
-  --text-secondary: #475569;
-  --text-muted: #64748B;
+  /* DARK MODE (DEFAULT OBSIDIAN THEME) */
+  --bg-primary: #08080A;
+  --bg-card: #111116;
+  --bg-surface: #16161D;
+  --border-color: rgba(255, 64, 83, 0.18);
+  --text-primary: #F8FAFC;
+  --text-secondary: #CBD5E1;
+  --text-muted: #94A3B8;
   --elite-gold: #FF4053;
   --elite-green: #00E676;
   --elite-red: #FF4053;
-  --elite-blue: #2563EB;
+  --elite-blue: #3B82F6;
 }
 
 html.dark {
@@ -32,6 +32,21 @@ html.dark {
   --elite-green: #00E676;
   --elite-red: #FF4053;
   --elite-blue: #3B82F6;
+}
+
+html.light {
+  /* LIGHT MODE */
+  --bg-primary: #F8FAFC;
+  --bg-card: #FFFFFF;
+  --bg-surface: #F1F5F9;
+  --border-color: rgba(0, 0, 0, 0.08);
+  --text-primary: #0F172A;
+  --text-secondary: #475569;
+  --text-muted: #64748B;
+  --elite-gold: #FF4053;
+  --elite-green: #00E676;
+  --elite-red: #FF4053;
+  --elite-blue: #2563EB;
 }
 
 @layer base {
@@ -125,22 +140,9 @@ html.dark {
   }
 }
 
-@layer utilities {
-  .animation-delay-200 {
-    animation-delay: 200ms;
-  }
-  .animation-delay-400 {
-    animation-delay: 400ms;
-  }
-  .animation-delay-600 {
-    animation-delay: 600ms;
-  }
-}
-
-/* Custom scrollbar for webkit */
+/* Global scrollbar */
 ::-webkit-scrollbar {
   width: 8px;
-  height: 8px;
 }
 
 ::-webkit-scrollbar-track {
