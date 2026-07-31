@@ -75,7 +75,7 @@ export async function POST(req: NextRequest) {
     }
 
     const payload = verifyAccessToken(token);
-    if (!payload || payload.role !== "admin") {
+    if (!payload || !["admin", "superadmin"].includes(payload.role)) {
       return NextResponse.json({ error: "Forbidden" }, { status: 403 });
     }
 

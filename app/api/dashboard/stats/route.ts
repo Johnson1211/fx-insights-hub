@@ -57,8 +57,7 @@ export async function GET(req: NextRequest) {
     const wins = closedSignals.filter((s) => s.result === "Win").length;
     const winRate = totalClosed > 0 ? Math.round((wins / totalClosed) * 100) : 85;
 
-    // 3. Copy Trading Active status
-    const copyTradingActive = user.plan === "copy_trader" || user.role === "admin";
+    const copyTradingActive = user.plan === "copy_trader" || ["admin", "superadmin"].includes(user.role);
 
     return NextResponse.json({
       stats: {

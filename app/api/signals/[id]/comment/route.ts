@@ -80,7 +80,7 @@ export async function POST(req: NextRequest, { params }: { params: { id: string 
 export async function DELETE(req: NextRequest, { params }: { params: { id: string } }) {
   try {
     const auth = await getAuthUser();
-    if (!auth || auth.role !== "admin") {
+    if (!auth || !["admin", "superadmin"].includes(auth.role)) {
       return NextResponse.json({ error: "Forbidden" }, { status: 403 });
     }
 

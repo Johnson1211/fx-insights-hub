@@ -86,7 +86,7 @@ function CoursesContent() {
   const [error, setError] = useState("");
   const [showEditForm, setShowEditForm] = useState(false);
 
-  const isApproved = user?.role === "admin" || user?.brokerApproved;
+  const isApproved = (user?.role && ["admin", "superadmin"].includes(user.role)) || user?.brokerApproved;
   const partnerLink = process.env.NEXT_PUBLIC_DERIV_LINK || "https://track.deriv.com/_9ztPZXbH8dL1hit6RV3zsGNd7ZgqdRLk/1/";
 
   useEffect(() => {

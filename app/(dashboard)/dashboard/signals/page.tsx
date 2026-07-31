@@ -451,7 +451,7 @@ export default function DashboardSignals() {
                             <div className="flex items-center justify-between text-[10px]">
                               <div className="flex items-center gap-2">
                                 <span className="text-slate-900 dark:text-slate-900 dark:text-white font-semibold">{c.user.name}</span>
-                                {user?.role === "admin" && (
+                                {user?.role && ["admin", "superadmin"].includes(user.role) && (
                                   <button
                                     onClick={() => handleDeleteComment(signal._id, c.id)}
                                     className="text-slate-500 dark:text-gray-400 hover:text-elite-red transition-colors duration-150"

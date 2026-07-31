@@ -10,7 +10,7 @@ async function verifyAdmin(req: NextRequest) {
   const token = cookieStore.get("access_token")?.value;
   if (!token) return null;
   const payload = verifyAccessToken(token);
-  if (!payload || payload.role !== "admin") return null;
+  if (!payload || !["admin", "superadmin"].includes(payload.role)) return null;
   return payload;
 }
 

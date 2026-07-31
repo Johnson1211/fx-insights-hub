@@ -4,7 +4,7 @@ export interface User {
   email: string;
   phone?: string;
   avatar?: string;
-  role: "guest" | "member" | "trader" | "admin";
+  role: "guest" | "member" | "trader" | "admin" | "superadmin";
   plan: "free" | "premium" | "copy_trader" | "training";
   tradingExperience?: "beginner" | "intermediate" | "advanced";
   referralCode: string;

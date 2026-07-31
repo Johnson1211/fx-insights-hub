@@ -368,14 +368,14 @@ export function Navbar() {
                               <User size={15} className="text-[#FF4053]" />
                               Profile
                             </Link>
-                            {user.role === "admin" && (
+                            {["admin", "superadmin"].includes(user.role) && (
                               <Link
                                 href="/admin"
                                 onClick={() => setProfileOpen(false)}
                                 className="flex items-center gap-2.5 px-3 py-2 rounded-xl text-sm font-medium text-slate-700 dark:text-gray-200 hover:bg-slate-100 dark:hover:bg-white/5 hover:text-slate-900 dark:hover:text-white transition-colors"
                               >
                                 <Crown size={15} className="text-[#FF4053]" />
-                                Admin Panel
+                                {user.role === "superadmin" ? "Superadmin Panel" : "Admin Panel"}
                               </Link>
                             )}
                             <button

@@ -37,7 +37,7 @@ export async function GET(req: NextRequest) {
       ],
     });
 
-    const isApproved = user.role === "admin" || user.brokerApproved;
+    const isApproved = ["admin", "superadmin"].includes(user.role) || user.brokerApproved;
 
     // Secure URLs if not approved
     const videos = dbVideos.map((vid) => {
