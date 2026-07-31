@@ -209,15 +209,37 @@ export function DashboardSidebar() {
           </div>
         </div>
 
-        {/* Plan badge */}
-        <div className="flex items-center gap-2">
-          <Crown size={11} className="text-[#FF4053]" />
-          <span className="text-xs text-[#FF4053] font-semibold capitalize">{user?.plan} Plan</span>
+        {/* Plan badge + Admin Panel link */}
+        <div className="flex items-center justify-between gap-2">
+          <div className="flex items-center gap-1.5">
+            <Crown size={12} className="text-[#FF4053]" />
+            <span className="text-xs text-[#FF4053] font-semibold capitalize">{user?.plan?.replace("_", " ")} Plan</span>
+          </div>
+
+          {user?.role && ["admin", "superadmin"].includes(user.role) && (
+            <span className="text-[10px] bg-[#FF4053]/15 text-[#FF4053] border border-[#FF4053]/30 px-2 py-0.5 rounded-full font-bold uppercase tracking-wider">
+              {user.role}
+            </span>
+          )}
         </div>
       </div>
 
       {/* Navigation */}
       <nav className="flex-1 overflow-y-auto py-3 px-3 space-y-0.5">
+        {/* Admin/Superadmin Panel Shortcut Link */}
+        {user?.role && ["admin", "superadmin"].includes(user.role) && (
+          <Link
+            href="/admin"
+            className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-bold bg-[#FF4053] text-white shadow-lg shadow-[#FF4053]/25 hover:bg-[#E62E43] transition-all mb-2"
+          >
+            <Crown size={17} className="shrink-0 text-white" />
+            <span className="flex-1 truncate">
+              {user.role === "superadmin" ? "Superadmin Panel" : "Admin Panel"}
+            </span>
+            <ChevronRight size={13} className="shrink-0 text-white" />
+          </Link>
+        )}
+
         {menuItems.map((item) => {
           const isActive = item.href === "/dashboard"
             ? pathname === "/dashboard"
