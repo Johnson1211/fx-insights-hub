@@ -18,11 +18,32 @@ import {
   Loader2,
 } from "lucide-react";
 
+interface ActivityItem {
+  id: string;
+  pair: string;
+  type: string;
+  status: string;
+  result: string;
+  pips: number;
+  createdAt: string;
+}
+
 interface DashboardStats {
   signalsThisMonth: number;
   lessonsWatched: number;
   copyTradingActive: boolean;
   winRate: number;
+  recentActivity: ActivityItem[];
+}
+
+function timeAgo(dateStr: string) {
+  const diff = Date.now() - new Date(dateStr).getTime();
+  const mins = Math.floor(diff / 60000);
+  if (mins < 1) return "just now";
+  if (mins < 60) return `${mins}m ago`;
+  const hrs = Math.floor(mins / 60);
+  if (hrs < 24) return `${hrs}h ago`;
+  return `${Math.floor(hrs / 24)}d ago`;
 }
 
 export default function DashboardHome() {
@@ -52,6 +73,7 @@ export default function DashboardHome() {
             lessonsWatched: watchedCount,
             copyTradingActive: data.stats.copyTradingActive,
             winRate: data.stats.winRate,
+            recentActivity: data.stats.recentActivity || [],
           });
         }
       } catch (err) {
@@ -185,42 +207,47 @@ export default function DashboardHome() {
         </div>
 
         <div className="space-y-4">
-          {[
-            { pair: "EUR/USD", type: "BUY", result: "TP Hit", pips: 45, time: "2 hours ago" },
-            { pair: "GBP/JPY", type: "SELL", result: "Active", pips: 12, time: "5 hours ago" },
-            { pair: "XAU/USD", type: "BUY", result: "TP Hit", pips: 78, time: "1 day ago" },
-            { pair: "USD/CHF", type: "SELL", result: "SL Hit", pips: -15, time: "2 days ago" },
-          ].map((activity, i) => (
-            <div key={i} className="flex items-center justify-between p-4 rounded-xl bg-slate-50 dark:bg-slate-50 dark:bg-white/[0.02] border border-gray-100 dark:border-white/5 hover:border-[#FF4053]/20 transition-colors">
-              <div className="flex items-center gap-4">
-                <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${
-                  activity.type === "BUY" ? "bg-[#00E676]/10" : "bg-[#FF4053]/10"
-                }`}>
-                  <TrendingUp size={18} className={activity.type === "BUY" ? "text-[#00E676]" : "text-[#FF4053]"} />
-                </div>
-                <div>
-                  <div className="flex items-center gap-2">
-                    <span className="font-mono font-semibold text-slate-900 dark:text-slate-900 dark:text-white">{activity.pair}</span>
-                    <span className={`text-xs px-2 py-0.5 rounded font-bold ${
-                      activity.type === "BUY" ? "bg-[#00E676]/20 text-[#00E676]" : "bg-[#FF4053]/20 text-[#FF4053]"
-                    }`}>
-                      {activity.type}
-                    </span>
-                  </div>
-                  <p className="text-slate-400 dark:text-slate-500 dark:text-gray-400 text-xs flex items-center gap-1 mt-1">
-                    <Clock size={10} />
-                    {activity.time}
-                  </p>
-                </div>
-              </div>
-              <div className="text-right">
-                <span className={`font-mono font-semibold ${activity.pips >= 0 ? "text-elite-green" : "text-elite-red"}`}>
-                  {activity.pips >= 0 ? "+" : ""}{activity.pips} pips
-                </span>
-                <p className="text-slate-500 dark:text-gray-400 text-xs">{activity.result}</p>
-              </div>
+          {loading ? (
+            <div className="py-8 text-center text-slate-400 dark:text-gray-500 text-sm">
+              Loading recent activity...
             </div>
-          ))}
+          ) : !stats?.recentActivity || stats.recentActivity.length === 0 ? (
+            <div className="py-8 text-center text-slate-400 dark:text-gray-500 text-sm">
+              No recent signal activity in database.
+            </div>
+          ) : (
+            stats.recentActivity.map((activity) => (
+              <div key={activity.id} className="flex items-center justify-between p-4 rounded-xl bg-slate-50 dark:bg-white/[0.02] border border-gray-100 dark:border-white/5 hover:border-[#FF4053]/20 transition-colors">
+                <div className="flex items-center gap-4">
+                  <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${
+                    activity.type === "BUY" ? "bg-[#00E676]/10" : "bg-[#FF4053]/10"
+                  }`}>
+                    <TrendingUp size={18} className={activity.type === "BUY" ? "text-[#00E676]" : "text-[#FF4053]"} />
+                  </div>
+                  <div>
+                    <div className="flex items-center gap-2">
+                      <span className="font-mono font-semibold text-slate-900 dark:text-white">{activity.pair}</span>
+                      <span className={`text-xs px-2 py-0.5 rounded font-bold ${
+                        activity.type === "BUY" ? "bg-[#00E676]/20 text-[#00E676]" : "bg-[#FF4053]/20 text-[#FF4053]"
+                      }`}>
+                        {activity.type}
+                      </span>
+                    </div>
+                    <p className="text-slate-400 dark:text-gray-400 text-xs flex items-center gap-1 mt-1">
+                      <Clock size={10} />
+                      {timeAgo(activity.createdAt)}
+                    </p>
+                  </div>
+                </div>
+                <div className="text-right">
+                  <span className={`font-mono font-semibold ${activity.pips >= 0 ? "text-elite-green" : "text-elite-red"}`}>
+                    {activity.pips >= 0 ? "+" : ""}{activity.pips} pips
+                  </span>
+                  <p className="text-slate-500 dark:text-gray-400 text-xs capitalize">{activity.result}</p>
+                </div>
+              </div>
+            ))
+          )}
         </div>
       </motion.div>
     </div>
