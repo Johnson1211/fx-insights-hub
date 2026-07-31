@@ -1,7 +1,5 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import { Navbar } from "@/components/public/Navbar";
-import { Footer } from "@/components/public/Footer";
 import { AuthProvider } from "@/components/AuthProvider";
 import { ThemeProvider } from "@/components/providers/ThemeProvider";
 import { Toaster } from "@/components/ui/Toaster";
@@ -26,9 +24,7 @@ export default function RootLayout({
       <body className="min-h-screen font-body antialiased transition-colors duration-300">
         <ThemeProvider>
           <AuthProvider>
-            <Navbar />
-            <main>{children}</main>
-            <Footer />
+            {children}
             <Toaster />
           </AuthProvider>
         </ThemeProvider>

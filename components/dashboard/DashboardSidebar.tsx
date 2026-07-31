@@ -105,7 +105,7 @@ export function DashboardSidebar() {
   };
 
   return (
-    <aside className="hidden lg:flex fixed left-0 top-16 bottom-0 w-64 bg-white dark:bg-[#111116] border-r border-gray-200 dark:border-[#FF4053]/15 flex-col z-30 transition-colors duration-300">
+    <aside className="hidden lg:flex fixed left-0 top-0 bottom-0 w-64 bg-white dark:bg-[#111116] border-r border-gray-200 dark:border-[#FF4053]/15 flex-col z-30 transition-colors duration-300">
       {/* User Card */}
       <div className="p-5 border-b border-gray-200 dark:border-white/5">
         {/* Avatar + Name row */}

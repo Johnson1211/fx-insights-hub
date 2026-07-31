@@ -32,7 +32,7 @@ export default function DashboardLayout({
   if (!user) return null;
 
   return (
-    <div className="min-h-screen bg-slate-50 dark:bg-[#08080A] transition-colors duration-300 pt-16 lg:pt-20">
+    <div className="min-h-screen bg-slate-50 dark:bg-[#08080A] transition-colors duration-300">
       <DashboardSidebar />
       <MobileNav />
 

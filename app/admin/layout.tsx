@@ -31,7 +31,7 @@ export default function AdminLayout({
   if (!user || !["admin", "superadmin"].includes(user.role)) return null;
 
   return (
-    <div className="min-h-screen bg-slate-50 dark:bg-[#08080A] transition-colors duration-300 pt-16 lg:pt-20">
+    <div className="min-h-screen bg-slate-50 dark:bg-[#08080A] transition-colors duration-300">
       <AdminSidebar />
 
       <main className="lg:ml-64">
