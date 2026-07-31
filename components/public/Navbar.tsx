@@ -210,8 +210,8 @@ export function Navbar() {
             {/* Logo */}
             <Link href="/" className="flex items-center gap-2 group">
               <img src="/images/logo.jpg" alt="FX" className="w-8 h-8 rounded-lg object-cover" />
-              <span className="font-bold text-xl tracking-wider text-slate-900 dark:text-white group-hover:text-[#FF4053] transition-colors">
-                Fx Insights <span className="text-[#FF4053]">Hub</span>
+              <span className="font-bold text-xl tracking-wider text-slate-900 dark:text-white group-hover:text-blue-600 transition-colors">
+                Fx Insights <span className="text-blue-600">Hub</span>
               </span>
             </Link>
 
@@ -223,7 +223,7 @@ export function Navbar() {
                   href={link.href}
                   className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 ${
                     isActive(link.href)
-                      ? "text-[#FF4053] bg-[#FF4053]/10 font-bold border border-[#FF4053]/30"
+                      ? "text-blue-600 bg-blue-600/10 font-bold border border-blue-600/30"
                       : "text-slate-600 dark:text-gray-300 hover:text-slate-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-white/5"
                   }`}
                 >
@@ -255,13 +255,13 @@ export function Navbar() {
                       onClick={handleToggleNotifications}
                       className={`relative p-2 rounded-lg transition-colors ${
                         notificationsOpen
-                          ? "text-[#FF4053] bg-[#FF4053]/10"
-                          : "text-slate-600 dark:text-gray-300 hover:text-[#FF4053] dark:hover:text-white hover:bg-slate-100 dark:hover:bg-white/5"
+                          ? "text-blue-600 bg-blue-600/10"
+                          : "text-slate-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-white/5"
                       }`}
                     >
                       <Bell size={20} />
                       {unreadCount > 0 && (
-                        <span className="absolute top-1 right-1 px-1 py-0.5 text-[8px] font-bold bg-[#FF4053] text-white rounded-full min-w-[12px] h-[12px] flex items-center justify-center animate-pulse">
+                        <span className="absolute top-1 right-1 px-1 py-0.5 text-[8px] font-bold bg-blue-600 text-white rounded-full min-w-[12px] h-[12px] flex items-center justify-center animate-pulse">
                           {unreadCount}
                         </span>
                       )}
@@ -274,7 +274,7 @@ export function Navbar() {
                           animate={{ opacity: 1, y: 0, scale: 1 }}
                           exit={{ opacity: 0, y: 10, scale: 0.95 }}
                           transition={{ duration: 0.2 }}
-                          className="absolute right-[-80px] sm:right-0 mt-2 w-[85vw] max-w-[320px] sm:w-80 bg-white dark:bg-[#111116] overflow-hidden shadow-2xl border border-gray-200 dark:border-[#FF4053]/20 rounded-2xl max-h-96 flex flex-col z-50"
+                          className="absolute right-[-80px] sm:right-0 mt-2 w-[85vw] max-w-[320px] sm:w-80 bg-white dark:bg-[#111116] overflow-hidden shadow-2xl border border-gray-200 dark:border-blue-600/20 rounded-2xl max-h-96 flex flex-col z-50"
                         >
                           <div className="p-3 border-b border-gray-200 dark:border-white/10 bg-slate-50 dark:bg-white/[0.02] flex items-center justify-between">
                             <span className="text-xs font-semibold text-slate-900 dark:text-white tracking-wider">ANNOUNCEMENTS</span>
@@ -288,7 +288,7 @@ export function Navbar() {
                                 <div
                                   key={notif.id}
                                   className={`p-2.5 rounded-lg text-left flex gap-2.5 hover:bg-slate-100 dark:hover:bg-white/[0.03] transition-colors border border-transparent ${
-                                    !readIds.includes(notif.id) ? "bg-slate-50 dark:bg-white/[0.01] border-[#FF4053]/10" : ""
+                                    !readIds.includes(notif.id) ? "bg-slate-50 dark:bg-white/[0.01] border-blue-600/10" : ""
                                   }`}
                                 >
                                   <div className="shrink-0">{getNotifIcon(notif.type)}</div>
@@ -296,7 +296,7 @@ export function Navbar() {
                                     <div className="flex items-center gap-1.5 justify-between">
                                       <h4 className="font-semibold text-xs text-slate-900 dark:text-white truncate flex-1">{notif.title}</h4>
                                       {notif.isPinned && (
-                                        <Pin size={8} className="text-[#FF4053] fill-[#FF4053] shrink-0" />
+                                        <Pin size={8} className="text-blue-600 fill-blue-600 shrink-0" />
                                       )}
                                     </div>
                                     <p className="text-[11px] text-slate-600 dark:text-gray-400 mt-0.5 leading-relaxed break-words">{notif.message}</p>
@@ -306,7 +306,7 @@ export function Navbar() {
                                         <Link
                                           href={notif.link}
                                           onClick={() => setNotificationsOpen(false)}
-                                          className="text-[10px] text-elite-gold font-medium flex items-center gap-0.5 hover:underline"
+                                          className="text-[10px] text-blue-600 font-medium flex items-center gap-0.5 hover:underline"
                                         >
                                           View <ExternalLink size={8} />
                                         </Link>
@@ -327,8 +327,8 @@ export function Navbar() {
                       onClick={() => setProfileOpen(!profileOpen)}
                       className="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-slate-100 dark:hover:bg-[#16161D] transition-colors"
                     >
-                      <div className="w-8 h-8 rounded-full bg-gradient-to-br from-[#FF4053]/20 to-blue-600/20 border border-[#FF4053]/30 flex items-center justify-center">
-                        <User size={16} className="text-[#FF4053]" />
+                      <div className="w-8 h-8 rounded-full bg-gradient-to-br from-blue-600/20 to-blue-800/20 border border-blue-600/30 flex items-center justify-center">
+                        <User size={16} className="text-blue-600" />
                       </div>
                       <span className="hidden md:block text-sm font-semibold text-slate-800 dark:text-white">{user.name}</span>
                       <ChevronDown size={14} className="text-slate-500 dark:text-gray-400" />
@@ -341,14 +341,14 @@ export function Navbar() {
                           animate={{ opacity: 1, y: 0, scale: 1 }}
                           exit={{ opacity: 0, y: 10, scale: 0.95 }}
                           transition={{ duration: 0.2 }}
-                          className="absolute right-0 mt-2 w-56 bg-white dark:bg-[#111116] border border-gray-200 dark:border-[#FF4053]/20 rounded-2xl shadow-2xl overflow-hidden z-50"
+                          className="absolute right-0 mt-2 w-56 bg-white dark:bg-[#111116] border border-gray-200 dark:border-blue-600/20 rounded-2xl shadow-2xl overflow-hidden z-50"
                         >
                           <div className="p-3.5 border-b border-gray-100 dark:border-white/5">
                             <p className="text-sm font-bold text-slate-900 dark:text-white truncate">{user.name}</p>
                             <p className="text-xs text-slate-500 dark:text-gray-400 truncate">{user.email}</p>
                             <div className="mt-2 flex items-center gap-1">
-                              <Crown size={12} className="text-[#FF4053]" />
-                              <span className="text-xs text-[#FF4053] font-semibold capitalize">{user.plan} Plan</span>
+                              <Crown size={12} className="text-blue-600" />
+                              <span className="text-xs text-blue-600 font-semibold capitalize">{user.plan} Plan</span>
                             </div>
                           </div>
                           <div className="p-1.5 space-y-0.5">
@@ -357,7 +357,7 @@ export function Navbar() {
                               onClick={() => setProfileOpen(false)}
                               className="flex items-center gap-2.5 px-3 py-2 rounded-xl text-sm font-medium text-slate-700 dark:text-gray-200 hover:bg-slate-100 dark:hover:bg-white/5 hover:text-slate-900 dark:hover:text-white transition-colors"
                             >
-                              <LayoutDashboard size={15} className="text-[#FF4053]" />
+                              <LayoutDashboard size={15} className="text-blue-600" />
                               Dashboard
                             </Link>
                             <Link
@@ -365,7 +365,7 @@ export function Navbar() {
                               onClick={() => setProfileOpen(false)}
                               className="flex items-center gap-2.5 px-3 py-2 rounded-xl text-sm font-medium text-slate-700 dark:text-gray-200 hover:bg-slate-100 dark:hover:bg-white/5 hover:text-slate-900 dark:hover:text-white transition-colors"
                             >
-                              <User size={15} className="text-[#FF4053]" />
+                              <User size={15} className="text-blue-600" />
                               Profile
                             </Link>
                             {["admin", "superadmin"].includes(user.role) && (
@@ -374,7 +374,7 @@ export function Navbar() {
                                 onClick={() => setProfileOpen(false)}
                                 className="flex items-center gap-2.5 px-3 py-2 rounded-xl text-sm font-medium text-slate-700 dark:text-gray-200 hover:bg-slate-100 dark:hover:bg-white/5 hover:text-slate-900 dark:hover:text-white transition-colors"
                               >
-                                <Crown size={15} className="text-[#FF4053]" />
+                                <Crown size={15} className="text-blue-600" />
                                 {user.role === "superadmin" ? "Superadmin Panel" : "Admin Panel"}
                               </Link>
                             )}
@@ -383,7 +383,7 @@ export function Navbar() {
                                 setProfileOpen(false);
                                 logout();
                               }}
-                              className="w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-sm font-semibold text-[#FF4053] hover:bg-[#FF4053]/10 transition-colors"
+                              className="w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-sm font-semibold text-red-500 hover:bg-red-500/10 transition-colors"
                             >
                               <LogOut size={15} />
                               Logout
@@ -396,7 +396,7 @@ export function Navbar() {
                 </div>
               ) : (
                 <div className="hidden md:flex items-center gap-3">
-                  <Link href="/login" className="text-sm font-medium text-slate-600 dark:text-gray-300 hover:text-[#FF4053] dark:hover:text-white transition-colors">
+                  <Link href="/login" className="text-sm font-medium text-slate-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-white transition-colors">
                     Sign In
                   </Link>
                   <Link href="/register" className="btn-primary text-sm">
@@ -408,7 +408,7 @@ export function Navbar() {
               {/* Mobile Menu Button */}
               <button
                 onClick={handleToggleMobileMenu}
-                className="lg:hidden p-2 rounded-lg text-slate-600 dark:text-gray-300 hover:text-[#FF4053] dark:hover:text-white hover:bg-slate-100 dark:hover:bg-white/5 transition-colors"
+                className="lg:hidden p-2 rounded-lg text-slate-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-white/5 transition-colors"
               >
                 {mobileOpen ? <X size={24} /> : <Menu size={24} />}
               </button>
@@ -457,7 +457,7 @@ export function Navbar() {
                     onClick={() => setMobileOpen(false)}
                     className={`text-base font-medium py-1.5 transition-all duration-300 ${
                       isActive(link.href)
-                        ? "text-[#FF4053] font-bold pl-2 border-l-2 border-[#FF4053]"
+                        ? "text-blue-600 font-bold pl-2 border-l-2 border-blue-600"
                         : "text-slate-600 dark:text-gray-300 hover:text-slate-900 dark:hover:text-white pl-0"
                     }`}
                   >

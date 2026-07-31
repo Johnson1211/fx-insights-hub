@@ -31,9 +31,9 @@ export default function ContactPage() {
       <div className="section-padding">
         <ScrollReveal>
           <div className="text-center mb-16">
-            <span className="text-[#FF4053] text-sm font-semibold tracking-widest uppercase">Get In Touch</span>
+            <span className="text-[#1D4ED8] text-sm font-semibold tracking-widest uppercase">Get In Touch</span>
             <h1 className="font-display text-4xl md:text-6xl text-slate-900 dark:text-white mt-3 tracking-wider font-bold">
-              CONTACT <span className="text-[#FF4053]">US</span>
+              CONTACT <span className="text-[#1D4ED8]">US</span>
             </h1>
             <p className="text-slate-500 dark:text-gray-400 mt-4 max-w-2xl mx-auto">
               Have questions about our services? We are here to help you start your trading journey.
@@ -56,10 +56,10 @@ export default function ContactPage() {
               <div className="space-y-4">
                 <a
                   href="mailto:fxinsighth@gmail.com"
-                  className="flex items-center gap-4 p-4 bg-white dark:bg-[#111116] border border-gray-200 dark:border-white/10 rounded-2xl hover:border-[#FF4053]/30 transition-colors group shadow-sm"
+                  className="flex items-center gap-4 p-4 bg-white dark:bg-[#111116] border border-gray-200 dark:border-white/10 rounded-2xl hover:border-[#1D4ED8]/30 transition-colors group shadow-sm"
                 >
-                  <div className="w-12 h-12 rounded-xl bg-[#FF4053]/10 border border-[#FF4053]/20 flex items-center justify-center group-hover:bg-[#FF4053]/20 transition-colors">
-                    <Mail className="w-5 h-5 text-[#FF4053]" />
+                  <div className="w-12 h-12 rounded-xl bg-[#1D4ED8]/10 border border-[#1D4ED8]/20 flex items-center justify-center group-hover:bg-[#1D4ED8]/20 transition-colors">
+                    <Mail className="w-5 h-5 text-[#1D4ED8]" />
                   </div>
                   <div>
                     <p className="text-slate-500 dark:text-gray-500 text-xs uppercase tracking-wider">Email</p>
@@ -69,16 +69,16 @@ export default function ContactPage() {
 
                 <div className="flex flex-col gap-4 p-4 bg-white dark:bg-[#111116] border border-gray-200 dark:border-white/10 rounded-2xl shadow-sm">
                   <div className="flex items-start gap-4">
-                    <div className="w-12 h-12 rounded-xl bg-[#FF4053]/10 border border-[#FF4053]/20 flex items-center justify-center shrink-0">
-                      <Phone className="w-5 h-5 text-[#FF4053]" />
+                    <div className="w-12 h-12 rounded-xl bg-[#1D4ED8]/10 border border-[#1D4ED8]/20 flex items-center justify-center shrink-0">
+                      <Phone className="w-5 h-5 text-[#1D4ED8]" />
                     </div>
                     <div className="flex-1">
                       <p className="text-slate-500 dark:text-gray-500 text-xs uppercase tracking-wider">Phone Support</p>
                       <div className="flex flex-col gap-1 mt-1">
-                        <a href="tel:+233249827093" className="text-slate-900 dark:text-white font-medium hover:text-[#FF4053] transition-colors">
+                        <a href="tel:+233249827093" className="text-slate-900 dark:text-white font-medium hover:text-[#1D4ED8] transition-colors">
                           +233 24 982 7093
                         </a>
-                        <a href="tel:+233598912317" className="text-slate-900 dark:text-white font-medium hover:text-[#FF4053] transition-colors">
+                        <a href="tel:+233598912317" className="text-slate-900 dark:text-white font-medium hover:text-[#1D4ED8] transition-colors">
                           +233 59 891 2317
                         </a>
                       </div>
@@ -90,10 +90,10 @@ export default function ContactPage() {
                   href="https://wa.link/cu9c9s"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center gap-4 p-4 bg-white dark:bg-[#111116] border border-gray-200 dark:border-white/10 rounded-2xl hover:border-[#FF4053]/30 transition-colors group shadow-sm"
+                  className="flex items-center gap-4 p-4 bg-white dark:bg-[#111116] border border-gray-200 dark:border-white/10 rounded-2xl hover:border-[#1D4ED8]/30 transition-colors group shadow-sm"
                 >
-                  <div className="w-12 h-12 rounded-xl bg-[#FF4053]/10 border border-[#FF4053]/20 flex items-center justify-center group-hover:bg-[#FF4053]/20 transition-colors">
-                    <MessageCircle className="w-5 h-5 text-[#FF4053]" />
+                  <div className="w-12 h-12 rounded-xl bg-[#1D4ED8]/10 border border-[#1D4ED8]/20 flex items-center justify-center group-hover:bg-[#1D4ED8]/20 transition-colors">
+                    <MessageCircle className="w-5 h-5 text-[#1D4ED8]" />
                   </div>
                   <div>
                     <p className="text-slate-500 dark:text-gray-500 text-xs uppercase tracking-wider">WhatsApp Link</p>
@@ -105,10 +105,10 @@ export default function ContactPage() {
                   href="https://t.me/+eaNhaqhRdYc1ZWU0"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center gap-4 p-4 bg-white dark:bg-[#111116] border border-gray-200 dark:border-white/10 rounded-2xl hover:border-[#FF4053]/30 transition-colors group shadow-sm"
+                  className="flex items-center gap-4 p-4 bg-white dark:bg-[#111116] border border-gray-200 dark:border-white/10 rounded-2xl hover:border-[#1D4ED8]/30 transition-colors group shadow-sm"
                 >
-                  <div className="w-12 h-12 rounded-xl bg-[#FF4053]/10 border border-[#FF4053]/20 flex items-center justify-center group-hover:bg-[#FF4053]/20 transition-colors">
-                    <Send className="w-5 h-5 text-[#FF4053]" />
+                  <div className="w-12 h-12 rounded-xl bg-[#1D4ED8]/10 border border-[#1D4ED8]/20 flex items-center justify-center group-hover:bg-[#1D4ED8]/20 transition-colors">
+                    <Send className="w-5 h-5 text-[#1D4ED8]" />
                   </div>
                   <div>
                     <p className="text-slate-500 dark:text-gray-500 text-xs uppercase tracking-wider">Telegram Group</p>
@@ -129,7 +129,7 @@ export default function ContactPage() {
                         href={social.href}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className={`flex items-center gap-2 px-4 py-2 rounded-lg bg-slate-100 dark:bg-[#16161D] border border-gray-200 dark:border-white/10 text-slate-600 dark:text-gray-400 ${social.color} hover:border-[#FF4053]/30 transition-all text-sm font-medium`}
+                        className={`flex items-center gap-2 px-4 py-2 rounded-lg bg-slate-100 dark:bg-[#16161D] border border-gray-200 dark:border-white/10 text-slate-600 dark:text-gray-400 ${social.color} hover:border-[#1D4ED8]/30 transition-all text-sm font-medium`}
                       >
                         <IconComponent />
                         {social.name}
@@ -141,7 +141,7 @@ export default function ContactPage() {
 
               <div className="bg-white dark:bg-[#111116] border border-gray-200 dark:border-white/10 rounded-2xl p-6 shadow-sm">
                 <div className="flex items-center gap-3 mb-3">
-                  <Clock size={18} className="text-[#FF4053]" />
+                  <Clock size={18} className="text-[#1D4ED8]" />
                   <h3 className="font-display text-lg text-slate-900 dark:text-white tracking-wider font-bold">RESPONSE TIME</h3>
                 </div>
                 <p className="text-slate-500 dark:text-gray-400 text-sm">

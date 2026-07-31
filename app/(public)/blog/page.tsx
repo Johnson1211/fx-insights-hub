@@ -69,11 +69,11 @@ export default function BlogFeedPage() {
       <div className="section-padding">
         <ScrollReveal>
           <div className="text-center mb-12">
-            <span className="text-[#FF4053] text-sm font-semibold tracking-widest uppercase">
+            <span className="text-[#1D4ED8] text-sm font-semibold tracking-widest uppercase">
               Market Analysis &amp; News
             </span>
             <h1 className="font-display text-4xl md:text-6xl text-slate-900 dark:text-white mt-3 tracking-wider font-bold">
-              TRADING <span className="text-[#FF4053]">INSIGHTS</span>
+              TRADING <span className="text-[#1D4ED8]">INSIGHTS</span>
             </h1>
             <p className="text-slate-500 dark:text-gray-400 mt-4 max-w-2xl mx-auto">
               Stay ahead of the markets with premium technical updates, currency breakdowns, and psychological execution guides from Peleboss.
@@ -91,8 +91,8 @@ export default function BlogFeedPage() {
                 onClick={() => setActiveCategory(cat)}
                 className={`px-4 py-2 rounded-lg text-xs font-semibold uppercase tracking-wider transition-all duration-300 border ${
                   activeCategory === cat
-                    ? "bg-[#FF4053]/15 text-[#FF4053] border-[#FF4053]/30 shadow-md shadow-[#FF4053]/5"
-                    : "bg-slate-100 dark:bg-white/[0.02] text-slate-600 dark:text-gray-400 border-gray-200 dark:border-white/5 hover:text-[#FF4053] hover:bg-[#FF4053]/5"
+                    ? "bg-[#1D4ED8]/15 text-[#1D4ED8] border-[#1D4ED8]/30 shadow-md shadow-[#1D4ED8]/5"
+                    : "bg-slate-100 dark:bg-white/[0.02] text-slate-600 dark:text-gray-400 border-gray-200 dark:border-white/5 hover:text-[#1D4ED8] hover:bg-[#1D4ED8]/5"
                 }`}
               >
                 {cat}
@@ -116,7 +116,7 @@ export default function BlogFeedPage() {
         {/* Blog Post List */}
         {loading ? (
           <div className="flex justify-center py-20">
-            <Loader2 size={32} className="animate-spin text-[#FF4053]" />
+            <Loader2 size={32} className="animate-spin text-[#1D4ED8]" />
           </div>
         ) : filtered.length === 0 ? (
           <div className="text-center py-20 bg-white dark:bg-[#111116] border border-gray-200 dark:border-white/10 rounded-2xl max-w-2xl mx-auto shadow-sm">
@@ -132,10 +132,10 @@ export default function BlogFeedPage() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.4, delay: idx * 0.08 }}
-                className="group flex flex-col justify-between bg-white dark:bg-[#111116] border border-gray-200 dark:border-white/10 rounded-2xl overflow-hidden hover:border-[#FF4053]/30 shadow-sm transition-all duration-300 relative"
+                className="group flex flex-col justify-between bg-white dark:bg-[#111116] border border-gray-200 dark:border-white/10 rounded-2xl overflow-hidden hover:border-[#1D4ED8]/30 shadow-sm transition-all duration-300 relative"
               >
                 {/* Glow behind card */}
-                <div className="absolute top-0 right-0 w-32 h-32 rounded-full bg-[#FF4053]/5 blur-3xl pointer-events-none group-hover:bg-[#FF4053]/10 transition-colors" />
+                <div className="absolute top-0 right-0 w-32 h-32 rounded-full bg-[#1D4ED8]/5 blur-3xl pointer-events-none group-hover:bg-[#1D4ED8]/10 transition-colors" />
 
                 <div>
                   {/* Cover Image */}
@@ -148,10 +148,10 @@ export default function BlogFeedPage() {
                       />
                     ) : (
                       <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-slate-100 dark:from-[#16161D] to-slate-200 dark:to-[#111116]">
-                        <BookOpen size={36} className="text-[#FF4053]/30" />
+                        <BookOpen size={36} className="text-[#1D4ED8]/30" />
                       </div>
                     )}
-                    <span className="absolute top-3 left-3 bg-white/90 dark:bg-[#08080A]/85 border border-[#FF4053]/20 text-[#FF4053] text-[10px] font-bold px-2.5 py-1 rounded-md uppercase tracking-wider">
+                    <span className="absolute top-3 left-3 bg-white/90 dark:bg-[#08080A]/85 border border-[#1D4ED8]/20 text-[#1D4ED8] text-[10px] font-bold px-2.5 py-1 rounded-md uppercase tracking-wider">
                       {post.category}
                     </span>
                   </div>
@@ -169,7 +169,7 @@ export default function BlogFeedPage() {
                       </span>
                     </div>
 
-                    <h3 className="font-display text-xl text-slate-900 dark:text-white tracking-wide group-hover:text-[#FF4053] transition-colors line-clamp-2 leading-snug font-bold">
+                    <h3 className="font-display text-xl text-slate-900 dark:text-white tracking-wide group-hover:text-[#1D4ED8] transition-colors line-clamp-2 leading-snug font-bold">
                       {post.title}
                     </h3>
                     <p className="text-slate-500 dark:text-gray-400 text-xs mt-3 leading-relaxed line-clamp-3">
@@ -181,8 +181,8 @@ export default function BlogFeedPage() {
                 {/* Footer Link */}
                 <div className="px-6 pb-6 pt-2 flex items-center justify-between border-t border-gray-100 dark:border-white/[0.02]">
                   <div className="flex items-center gap-2">
-                    <div className="w-6 h-6 rounded-full bg-[#FF4053]/10 border border-[#FF4053]/20 flex items-center justify-center">
-                      <User size={12} className="text-[#FF4053]" />
+                    <div className="w-6 h-6 rounded-full bg-[#1D4ED8]/10 border border-[#1D4ED8]/20 flex items-center justify-center">
+                      <User size={12} className="text-[#1D4ED8]" />
                     </div>
                     <span className="text-[11px] text-slate-500 dark:text-gray-400 font-medium">
                       {post.author.name}
@@ -191,7 +191,7 @@ export default function BlogFeedPage() {
 
                   <Link
                     href={`/blog/${post.slug}`}
-                    className="text-xs text-[#FF4053] hover:text-[#e03545] font-semibold flex items-center gap-1.5 transition-colors"
+                    className="text-xs text-[#1D4ED8] hover:text-[#e03545] font-semibold flex items-center gap-1.5 transition-colors"
                   >
                     Read Post <ArrowRight size={13} />
                   </Link>

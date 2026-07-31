@@ -92,9 +92,9 @@ export default function ServicesPage() {
       <div className="section-padding">
         <ScrollReveal>
           <div className="text-center mb-16">
-            <span className="text-[#FF4053] text-sm font-semibold tracking-widest uppercase">Our Offerings</span>
+            <span className="text-[#1D4ED8] text-sm font-semibold tracking-widest uppercase">Our Offerings</span>
             <h1 className="font-display text-4xl md:text-6xl text-slate-900 dark:text-white mt-3 tracking-wider font-bold">
-              <span>PROFESSIONAL</span> <span className="text-[#FF4053]">SERVICES</span>
+              <span>PROFESSIONAL</span> <span className="text-[#1D4ED8]">SERVICES</span>
             </h1>
             <p className="text-slate-500 dark:text-gray-400 mt-4 max-w-2xl mx-auto">
               Access our premium forex education, signals, and lifetime coaching. All services are currently free of charge.
@@ -110,12 +110,12 @@ export default function ServicesPage() {
                 <motion.div
                   whileHover={{ y: -8 }}
                   className={`relative bg-white dark:bg-[#111116] border border-gray-200 dark:border-white/10 rounded-2xl p-6 h-full flex flex-col justify-between shadow-sm transition-colors duration-300 ${
-                    service.popular ? "border-[#FF4053]/40 shadow-lg shadow-[#FF4053]/5" : ""
+                    service.popular ? "border-[#1D4ED8]/40 shadow-lg shadow-[#1D4ED8]/5" : ""
                   }`}
                 >
                   {service.popular && (
                     <div className="absolute -top-3 left-1/2 -translate-x-1/2">
-                      <span className="bg-gradient-to-r from-[#FF4053] to-red-700 text-white text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-wider">
+                      <span className="bg-gradient-to-r from-[#1D4ED8] to-red-700 text-white text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-wider">
                         Recommended
                       </span>
                     </div>
@@ -131,15 +131,15 @@ export default function ServicesPage() {
                         />
                       </div>
                     ) : (
-                      <div className="w-12 h-12 rounded-xl bg-[#FF4053]/10 border border-[#FF4053]/20 flex items-center justify-center mb-4">
-                        <Icon size={20} className="text-[#FF4053]" />
+                      <div className="w-12 h-12 rounded-xl bg-[#1D4ED8]/10 border border-[#1D4ED8]/20 flex items-center justify-center mb-4">
+                        <Icon size={20} className="text-[#1D4ED8]" />
                       </div>
                     )}
                     <h3 className="font-display text-xl text-slate-900 dark:text-white tracking-wider font-bold">{service.name}</h3>
                     <p className="text-slate-500 dark:text-gray-500 text-xs mt-1 mb-4">{service.description}</p>
                     
                     <div className="mb-6">
-                      <span className="font-display text-3xl text-[#FF4053] font-bold">FREE</span>
+                      <span className="font-display text-3xl text-[#1D4ED8] font-bold">FREE</span>
                       <span className="text-slate-400 dark:text-gray-500 text-xs ml-2 uppercase tracking-wide">For Now</span>
                     </div>
 
@@ -157,8 +157,8 @@ export default function ServicesPage() {
                     onClick={() => handleServiceAction(service.id)}
                     className={`w-full py-3 rounded-lg text-sm font-medium transition-all duration-300 flex items-center justify-center gap-2 mt-auto ${
                         service.popular
-                          ? "bg-[#FF4053] text-white hover:bg-[#e03545] hover:shadow-lg hover:shadow-[#FF4053]/25"
-                          : "border border-gray-200 dark:border-white/15 text-slate-700 dark:text-gray-300 hover:bg-[#FF4053]/10 hover:border-[#FF4053]/30 hover:text-[#FF4053]"
+                          ? "bg-[#1D4ED8] text-white hover:bg-[#e03545] hover:shadow-lg hover:shadow-[#1D4ED8]/25"
+                          : "border border-gray-200 dark:border-white/15 text-slate-700 dark:text-gray-300 hover:bg-[#1D4ED8]/10 hover:border-[#1D4ED8]/30 hover:text-[#1D4ED8]"
                       }`}
                   >
                     {service.cta}

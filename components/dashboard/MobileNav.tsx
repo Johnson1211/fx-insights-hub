@@ -32,9 +32,9 @@ export function MobileNav() {
   return (
     <>
       {/* Mobile Top Header */}
-      <header className="lg:hidden fixed top-0 left-0 right-0 h-14 bg-white dark:bg-[#111116] border-b border-gray-200 dark:border-[#FF4053]/15 flex items-center justify-between px-4 z-40 transition-colors duration-300">
+      <header className="lg:hidden fixed top-0 left-0 right-0 h-14 bg-white dark:bg-[#111116] border-b border-gray-200 dark:border-white/10 flex items-center justify-between px-4 z-40 transition-colors duration-300">
         <Link href="/dashboard" className="flex items-center gap-2">
-          <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-[#FF4053] to-[#E62E43] flex items-center justify-center text-white font-bold text-xs shadow-md">
+          <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-blue-600 to-blue-800 flex items-center justify-center text-white font-bold text-xs shadow-md">
             FX
           </div>
           <span className="font-display text-sm tracking-wider text-slate-900 dark:text-white font-bold">
@@ -47,7 +47,7 @@ export function MobileNav() {
           {user?.role && ["admin", "superadmin"].includes(user.role) && (
             <Link
               href="/admin"
-              className="flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-xs font-semibold bg-[#FF4053]/10 text-[#FF4053] border border-[#FF4053]/20 hover:bg-[#FF4053] hover:text-white transition-all"
+              className="flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-xs font-semibold bg-blue-600/10 text-blue-600 border border-blue-600/20 hover:bg-blue-600 hover:text-white transition-all"
               title="Admin Panel"
             >
               <Crown size={14} />
@@ -77,7 +77,7 @@ export function MobileNav() {
       </header>
 
       {/* Mobile Bottom Navigation */}
-      <nav className="lg:hidden fixed bottom-0 left-0 right-0 bg-white dark:bg-[#111116] border-t border-gray-200 dark:border-[#FF4053]/15 z-40 transition-colors duration-300">
+      <nav className="lg:hidden fixed bottom-0 left-0 right-0 bg-white dark:bg-[#111116] border-t border-gray-200 dark:border-white/10 z-40 transition-colors duration-300">
         <div className="flex justify-around items-center h-16">
           {mobileItems.map((item) => {
             const isActive = item.href === "/dashboard"
@@ -89,7 +89,7 @@ export function MobileNav() {
                 href={item.href}
                 className={`flex flex-col items-center gap-1 py-2 px-4 transition-colors ${
                   isActive
-                    ? "text-[#FF4053]"
+                    ? "text-blue-600 font-bold"
                     : "text-slate-400 dark:text-gray-500 hover:text-slate-700 dark:hover:text-gray-300"
                 }`}
               >

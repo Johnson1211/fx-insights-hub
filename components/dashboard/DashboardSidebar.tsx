@@ -36,7 +36,7 @@ const menuItems = [
 function typeDot(type: string) {
   switch (type) {
     case "success": return "bg-[#00E676]";
-    case "alert":   return "bg-[#FF4053]";
+    case "alert":   return "bg-[#1D4ED8]";
     case "warning": return "bg-yellow-400";
     default:        return "bg-blue-400";
   }
@@ -105,15 +105,15 @@ export function DashboardSidebar() {
   };
 
   return (
-    <aside className="hidden lg:flex fixed left-0 top-0 bottom-0 w-64 bg-white dark:bg-[#111116] border-r border-gray-200 dark:border-[#FF4053]/15 flex-col z-30 transition-colors duration-300">
+    <aside className="hidden lg:flex fixed left-0 top-0 bottom-0 w-64 bg-white dark:bg-[#111116] border-r border-gray-200 dark:border-white/10 flex-col z-30 transition-colors duration-300">
       {/* User Card */}
       <div className="p-5 border-b border-gray-200 dark:border-white/5">
         {/* Avatar + Name row */}
         <div className="flex items-center gap-3 mb-3">
-          <div className="w-10 h-10 rounded-full overflow-hidden bg-gradient-to-br from-[#FF4053]/20 to-[#FF4053]/10 border-2 border-[#FF4053]/30 flex items-center justify-center shrink-0">
+          <div className="w-10 h-10 rounded-full overflow-hidden bg-gradient-to-br from-blue-600/20 to-blue-800/20 border-2 border-blue-600/30 flex items-center justify-center shrink-0">
             {user?.avatar
               ? <img src={user.avatar} alt="avatar" className="w-full h-full object-cover" />
-              : <span className="text-[#FF4053] font-bold text-sm">{user?.name?.charAt(0) || "U"}</span>
+              : <span className="text-blue-600 font-bold text-sm">{user?.name?.charAt(0) || "U"}</span>
             }
           </div>
           <div className="flex-1 min-w-0">
@@ -125,12 +125,12 @@ export function DashboardSidebar() {
           <div className="relative shrink-0" ref={bellRef}>
             <button
               onClick={handleBellOpen}
-              className="relative p-2 rounded-lg text-slate-500 dark:text-gray-400 hover:text-[#FF4053] hover:bg-[#FF4053]/10 transition-all"
+              className="relative p-2 rounded-lg text-slate-500 dark:text-gray-400 hover:text-blue-600 hover:bg-blue-600/10 transition-all"
               title="Notifications"
             >
               <Bell size={18} />
               {unreadCount > 0 && (
-                <span className="absolute -top-0.5 -right-0.5 w-4 h-4 bg-[#FF4053] text-white text-[9px] font-bold rounded-full flex items-center justify-center">
+                <span className="absolute -top-0.5 -right-0.5 w-4 h-4 bg-blue-600 text-white text-[9px] font-bold rounded-full flex items-center justify-center">
                   {unreadCount > 9 ? "9+" : unreadCount}
                 </span>
               )}
@@ -144,19 +144,19 @@ export function DashboardSidebar() {
                   animate={{ opacity: 1, scale: 1, y: 0 }}
                   exit={{ opacity: 0, scale: 0.95, y: -8 }}
                   transition={{ duration: 0.15 }}
-                  className="absolute left-0 top-10 w-80 max-h-96 overflow-y-auto bg-white dark:bg-[#111116] border border-gray-200 dark:border-[#FF4053]/15 rounded-2xl shadow-2xl z-50"
+                  className="absolute left-0 top-10 w-80 max-h-96 overflow-y-auto bg-white dark:bg-[#111116] border border-gray-200 dark:border-blue-600/15 rounded-2xl shadow-2xl z-50"
                 >
                   <div className="flex items-center justify-between px-4 py-3 border-b border-gray-100 dark:border-white/5">
                     <div className="flex items-center gap-2">
-                      <Bell size={14} className="text-[#FF4053]" />
+                      <Bell size={14} className="text-blue-600" />
                       <span className="text-sm font-semibold text-slate-900 dark:text-white">My Notifications</span>
                       {unreadCount > 0 && (
-                        <span className="text-[10px] bg-[#FF4053] text-white px-1.5 py-0.5 rounded-full font-bold">
+                        <span className="text-[10px] bg-blue-600 text-white px-1.5 py-0.5 rounded-full font-bold">
                           {unreadCount}
                         </span>
                       )}
                     </div>
-                    <button onClick={() => setBellOpen(false)} className="text-slate-400 dark:text-gray-500 hover:text-[#FF4053] transition-colors">
+                    <button onClick={() => setBellOpen(false)} className="text-slate-400 dark:text-gray-500 hover:text-blue-600 transition-colors">
                       <X size={14} />
                     </button>
                   </div>
@@ -172,7 +172,7 @@ export function DashboardSidebar() {
                         <button
                           key={n.id}
                           onClick={() => handleNotifClick(n)}
-                          className={`w-full text-left px-4 py-3.5 hover:bg-gray-50 dark:hover:bg-white/5 transition-colors ${!n.isRead ? "bg-[#FF4053]/[0.03]" : ""}`}
+                          className={`w-full text-left px-4 py-3.5 hover:bg-gray-50 dark:hover:bg-white/5 transition-colors ${!n.isRead ? "bg-blue-600/[0.03]" : ""}`}
                         >
                           <div className="flex items-start gap-3">
                             <div className={`w-2 h-2 rounded-full mt-1.5 shrink-0 ${!n.isRead ? typeDot(n.type) : "bg-gray-300 dark:bg-gray-600"}`} />
@@ -197,7 +197,7 @@ export function DashboardSidebar() {
                           setUnreadCount(0);
                           setNotifications((prev) => prev.map((n) => ({ ...n, isRead: true })));
                         }}
-                        className="text-[11px] text-slate-400 dark:text-gray-500 hover:text-[#FF4053] flex items-center gap-1.5 transition-colors"
+                        className="text-[11px] text-slate-400 dark:text-gray-500 hover:text-blue-600 flex items-center gap-1.5 transition-colors"
                       >
                         <CheckCheck size={12} /> Mark all as read
                       </button>
@@ -212,12 +212,12 @@ export function DashboardSidebar() {
         {/* Plan badge + Admin Panel link */}
         <div className="flex items-center justify-between gap-2">
           <div className="flex items-center gap-1.5">
-            <Crown size={12} className="text-[#FF4053]" />
-            <span className="text-xs text-[#FF4053] font-semibold capitalize">{user?.plan?.replace("_", " ")} Plan</span>
+            <Crown size={12} className="text-blue-600" />
+            <span className="text-xs text-blue-600 font-semibold capitalize">{user?.plan?.replace("_", " ")} Plan</span>
           </div>
 
           {user?.role && ["admin", "superadmin"].includes(user.role) && (
-            <span className="text-[10px] bg-[#FF4053]/15 text-[#FF4053] border border-[#FF4053]/30 px-2 py-0.5 rounded-full font-bold uppercase tracking-wider">
+            <span className="text-[10px] bg-blue-600/15 text-blue-600 border border-blue-600/30 px-2 py-0.5 rounded-full font-bold uppercase tracking-wider">
               {user.role}
             </span>
           )}
@@ -230,7 +230,7 @@ export function DashboardSidebar() {
         {user?.role && ["admin", "superadmin"].includes(user.role) && (
           <Link
             href="/admin"
-            className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-bold bg-[#FF4053] text-white shadow-lg shadow-[#FF4053]/25 hover:bg-[#E62E43] transition-all mb-2"
+            className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-bold bg-gradient-to-r from-blue-600 to-blue-800 text-white shadow-lg shadow-blue-500/25 hover:from-blue-700 hover:to-blue-900 transition-all mb-2"
           >
             <Crown size={17} className="shrink-0 text-white" />
             <span className="flex-1 truncate">
@@ -250,13 +250,13 @@ export function DashboardSidebar() {
               href={item.href}
               className={`flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 group ${
                 isActive
-                  ? "bg-[#FF4053]/10 text-[#FF4053] border border-[#FF4053]/20 font-semibold"
+                  ? "bg-blue-600/10 text-blue-600 border border-blue-600/20 font-semibold"
                   : "text-slate-600 dark:text-gray-400 hover:text-slate-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-white/5 border border-transparent"
               }`}
             >
-              <item.icon size={17} className={`shrink-0 ${isActive ? "text-[#FF4053]" : "text-slate-400 dark:text-gray-500 group-hover:text-slate-600 dark:group-hover:text-gray-300"}`} />
+              <item.icon size={17} className={`shrink-0 ${isActive ? "text-blue-600" : "text-slate-400 dark:text-gray-500 group-hover:text-slate-600 dark:group-hover:text-gray-300"}`} />
               <span className="flex-1 truncate">{item.label}</span>
-              {isActive && <ChevronRight size={13} className="text-[#FF4053] shrink-0" />}
+              {isActive && <ChevronRight size={13} className="text-blue-600 shrink-0" />}
             </Link>
           );
         })}
@@ -279,7 +279,7 @@ export function DashboardSidebar() {
         {/* Logout */}
         <button
           onClick={logout}
-          className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-slate-600 dark:text-gray-400 hover:text-[#FF4053] hover:bg-[#FF4053]/10 transition-all w-full"
+          className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-slate-600 dark:text-gray-400 hover:text-red-500 hover:bg-red-500/10 transition-all w-full"
         >
           <LogOut size={17} />
           <span>Logout</span>

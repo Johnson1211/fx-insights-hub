@@ -313,7 +313,7 @@ function PotentialEarningsCalculator() {
           <div className="space-y-3">
             <div className="flex justify-between items-center text-sm font-body">
               <span className="font-semibold text-slate-700 dark:text-gray-200">Starting Account Balance</span>
-              <span className="font-mono font-bold text-[#FF4053] text-lg sm:text-xl">${capital.toLocaleString()}</span>
+              <span className="font-mono font-bold text-[#1D4ED8] text-lg sm:text-xl">${capital.toLocaleString()}</span>
             </div>
             <input
               type="range"
@@ -322,7 +322,7 @@ function PotentialEarningsCalculator() {
               step="100"
               value={capital}
               onChange={(e) => setCapital(Number(e.target.value))}
-              className="w-full h-1.5 bg-gray-200 dark:bg-elite-surface rounded-lg appearance-none cursor-pointer accent-[#FF4053]"
+              className="w-full h-1.5 bg-gray-200 dark:bg-elite-surface rounded-lg appearance-none cursor-pointer accent-[#1D4ED8]"
             />
             <div className="flex justify-between text-[10px] text-slate-500 dark:text-gray-400 font-mono">
               <span>$100</span>
@@ -334,7 +334,7 @@ function PotentialEarningsCalculator() {
           <div className="space-y-3">
             <div className="flex justify-between items-center text-sm font-body">
               <span className="font-semibold text-slate-700 dark:text-gray-200">Target Monthly Pips</span>
-              <span className="font-mono font-bold text-[#FF4053] text-lg sm:text-xl">{pips} Pips</span>
+              <span className="font-mono font-bold text-[#1D4ED8] text-lg sm:text-xl">{pips} Pips</span>
             </div>
             <input
               type="range"
@@ -343,7 +343,7 @@ function PotentialEarningsCalculator() {
               step="50"
               value={pips}
               onChange={(e) => setPips(Number(e.target.value))}
-              className="w-full h-1.5 bg-gray-200 dark:bg-elite-surface rounded-lg appearance-none cursor-pointer accent-[#FF4053]"
+              className="w-full h-1.5 bg-gray-200 dark:bg-elite-surface rounded-lg appearance-none cursor-pointer accent-[#1D4ED8]"
             />
             <div className="flex justify-between text-[10px] text-slate-500 dark:text-gray-400 font-mono">
               <span>100 pips</span>
@@ -366,7 +366,7 @@ function PotentialEarningsCalculator() {
                   onClick={() => setRisk(r.value)}
                   className={`p-3 rounded-xl border text-center transition-all duration-300 flex flex-col items-center justify-center ${
                     risk === r.value
-                      ? "border-[#FF4053] bg-[#FF4053]/15 text-[#FF4053] font-bold shadow-sm"
+                      ? "border-[#1D4ED8] bg-[#1D4ED8]/15 text-[#1D4ED8] font-bold shadow-sm"
                       : "border-gray-200 dark:border-white/10 bg-gray-100 dark:bg-white/5 text-slate-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-white/10"
                   }`}
                 >
@@ -382,7 +382,7 @@ function PotentialEarningsCalculator() {
         <div className="bg-slate-50 dark:bg-[#16161D] border border-gray-200 dark:border-white/10 rounded-2xl p-6 sm:p-8 space-y-6">
           <div className="text-center pb-6 border-b border-gray-200 dark:border-white/10">
             <span className="text-xs text-slate-500 dark:text-gray-400 font-semibold tracking-wider uppercase">Projected Monthly Profits</span>
-            <div className="font-display text-4xl sm:text-5xl text-[#FF4053] mt-2 font-bold tracking-wide">${estimatedMonthlyProfit.toLocaleString()}</div>
+            <div className="font-display text-4xl sm:text-5xl text-[#1D4ED8] mt-2 font-bold tracking-wide">${estimatedMonthlyProfit.toLocaleString()}</div>
             <span className="inline-block mt-2 px-3 py-1 rounded-full bg-[#00E676]/15 border border-[#00E676]/30 text-[#00E676] text-xs font-bold font-mono">
               +{roi}% Est. Monthly ROI
             </span>
@@ -415,10 +415,10 @@ function PotentialEarningsCalculator() {
               <div>
                 <div className="flex justify-between items-center text-xs sm:text-sm mb-1">
                   <span className="text-slate-600 dark:text-gray-300 font-medium">12 Months Compounded</span>
-                  <span className="font-mono font-bold text-[#FF4053] text-sm sm:text-base">${projection12M.toLocaleString()}</span>
+                  <span className="font-mono font-bold text-[#1D4ED8] text-sm sm:text-base">${projection12M.toLocaleString()}</span>
                 </div>
                 <div className="w-full bg-gray-200 dark:bg-white/10 rounded-full h-1.5 overflow-hidden">
-                  <div className="bg-[#FF4053] h-1.5 rounded-full" style={{ width: "100%" }} />
+                  <div className="bg-[#1D4ED8] h-1.5 rounded-full" style={{ width: "100%" }} />
                 </div>
               </div>
             </div>
@@ -518,7 +518,7 @@ function SignalTerminalPreview() {
                 <span className="text-[10px] text-slate-500 dark:text-gray-400">{formattedDate}</span>
               </div>
               <span className={`px-2.5 py-0.5 rounded text-[10px] font-bold tracking-wider ${
-                isBuy ? "bg-[#00E676]/15 text-[#00E676] border border-[#00E676]/30" : "bg-[#FF4053]/15 text-[#FF4053] border border-[#FF4053]/30"
+                isBuy ? "bg-[#00E676]/15 text-[#00E676] border border-[#00E676]/30" : "bg-[#1D4ED8]/15 text-[#1D4ED8] border border-[#1D4ED8]/30"
               }`}>
                 {sig.type}
               </span>
@@ -542,7 +542,7 @@ function SignalTerminalPreview() {
               )}
               <div className="flex justify-between border-t border-gray-200 dark:border-white/10 pt-2 mt-2">
                 <span className="text-slate-500 dark:text-gray-400">Stop Loss:</span>
-                <span className="font-bold text-[#FF4053]">{sig.stopLoss}</span>
+                <span className="font-bold text-[#1D4ED8]">{sig.stopLoss}</span>
               </div>
             </div>
 
@@ -650,9 +650,9 @@ export default function HomePage() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8 }}
               >
-                <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#FF4053]/15 border border-[#FF4053]/35 shadow-sm">
+                <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#1D4ED8]/15 border border-[#1D4ED8]/35 shadow-sm">
                   <span className="w-2 h-2 rounded-full bg-[#00E676] animate-pulse" />
-                  <span className="text-sm text-[#FF4053] font-semibold tracking-wide">Live Signals Active Now</span>
+                  <span className="text-sm text-[#1D4ED8] font-semibold tracking-wide">Live Signals Active Now</span>
                 </div>
               </motion.div>
 
@@ -663,10 +663,10 @@ export default function HomePage() {
                 className="font-display font-extrabold text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl leading-none tracking-wide uppercase"
                 style={{ textShadow: "0 4px 24px rgba(0, 0, 0, 0.9), 0 2px 6px rgba(0, 0, 0, 0.9)" }}
               >
-                <span className="text-[#FFFFFF]">MASTER</span> <span className="text-[#FF4053] gold-gradient-text">FOREX</span>
+                <span className="text-[#FFFFFF]">MASTER</span> <span className="text-[#1D4ED8] gold-gradient-text">FOREX</span>
                 <br />
                 <span className="text-[#FFFFFF]">TRADING WITH</span>{" "}
-                <span className="text-[#FF4053] gold-gradient-text">PRECISION</span>
+                <span className="text-[#1D4ED8] gold-gradient-text">PRECISION</span>
               </motion.h1>
 
               <motion.p
@@ -690,7 +690,7 @@ export default function HomePage() {
                 </Link>
                 <Link
                   href="/services"
-                  className="border border-[#FF4053]/40 text-white hover:bg-[#FF4053]/15 hover:border-[#FF4053] transition-all duration-300 rounded-lg text-base px-8 py-3.5 w-full sm:w-auto text-center font-medium"
+                  className="border border-[#1D4ED8]/40 text-white hover:bg-[#1D4ED8]/15 hover:border-[#1D4ED8] transition-all duration-300 rounded-lg text-base px-8 py-3.5 w-full sm:w-auto text-center font-medium"
                 >
                   View Services
                 </Link>
@@ -703,16 +703,16 @@ export default function HomePage() {
                 transition={{ duration: 1, delay: 1 }}
                 className="mt-8 flex flex-wrap gap-4 justify-center lg:justify-start text-white text-xs font-semibold"
               >
-                <div className="flex items-center gap-2 px-3.5 py-2 rounded-full bg-black/60 border border-white/10 shadow-md backdrop-blur-sm hover:border-[#FF4053]/30 transition-colors duration-300">
+                <div className="flex items-center gap-2 px-3.5 py-2 rounded-full bg-black/60 border border-white/10 shadow-md backdrop-blur-sm hover:border-[#1D4ED8]/30 transition-colors duration-300">
                   <Shield size={14} className="text-[#00E676]" />
                   <span>Secure Platform</span>
                 </div>
-                <div className="flex items-center gap-2 px-3.5 py-2 rounded-full bg-black/60 border border-white/10 shadow-md backdrop-blur-sm hover:border-[#FF4053]/30 transition-colors duration-300">
+                <div className="flex items-center gap-2 px-3.5 py-2 rounded-full bg-black/60 border border-white/10 shadow-md backdrop-blur-sm hover:border-[#1D4ED8]/30 transition-colors duration-300">
                   <BookOpen size={14} className="text-[#00E676]" />
                   <span>{statsData.totalLessons} Lessons Available</span>
                 </div>
-                <div className="flex items-center gap-2 px-3.5 py-2 rounded-full bg-black/60 border border-white/10 shadow-md backdrop-blur-sm hover:border-[#FF4053]/30 transition-colors duration-300">
-                  <TrendingUp size={14} className="text-[#FF4053]" />
+                <div className="flex items-center gap-2 px-3.5 py-2 rounded-full bg-black/60 border border-white/10 shadow-md backdrop-blur-sm hover:border-[#1D4ED8]/30 transition-colors duration-300">
+                  <TrendingUp size={14} className="text-[#1D4ED8]" />
                   <span>{statsData.winRate}% Verified Win Rate</span>
                 </div>
               </motion.div>
@@ -747,13 +747,13 @@ export default function HomePage() {
 
       {/* Stats Section */}
       <section className="py-20 bg-white dark:bg-[#08080A] relative border-b border-gray-200 dark:border-white/10">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-[#FF4053]/5 via-transparent to-transparent" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-[#1D4ED8]/5 via-transparent to-transparent" />
         <div className="section-padding relative z-10">
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
             {stats.map((stat, i) => (
               <ScrollReveal key={stat.label} delay={i * 0.1}>
                 <div className="text-center p-6 glass-card-hover bg-white dark:bg-[#111116] border border-gray-200 dark:border-white/10 shadow-sm">
-                  <stat.icon className="w-8 h-8 text-[#FF4053] mx-auto mb-4" />
+                  <stat.icon className="w-8 h-8 text-[#1D4ED8] mx-auto mb-4" />
                   <div className="font-display text-3xl md:text-4xl text-slate-900 dark:text-white mb-2 font-bold">
                     <AnimatedCounter
                       end={stat.value}
@@ -774,9 +774,9 @@ export default function HomePage() {
         <div className="section-padding">
           <ScrollReveal>
             <div className="text-center mb-16">
-              <span className="text-[#FF4053] text-sm font-semibold tracking-widest uppercase">Compound Calculator</span>
+              <span className="text-[#1D4ED8] text-sm font-semibold tracking-widest uppercase">Compound Calculator</span>
               <h2 className="font-display text-4xl md:text-5xl text-slate-900 dark:text-white mt-3 tracking-wider font-bold">
-                <span className="text-slate-900 dark:text-white">FOREX</span> <span className="gold-gradient-text text-[#FF4053]">EARNINGS CALCULATOR</span>
+                <span className="text-slate-900 dark:text-white">FOREX</span> <span className="gold-gradient-text text-[#1D4ED8]">EARNINGS CALCULATOR</span>
               </h2>
               <p className="text-slate-600 dark:text-gray-400 mt-4 max-w-2xl mx-auto">
                 Estimate how compound interest builds wealth. Toggle starting capital and target pips with balanced risk.
@@ -793,9 +793,9 @@ export default function HomePage() {
         <div className="section-padding">
           <ScrollReveal>
             <div className="text-center mb-16">
-              <span className="text-[#FF4053] text-sm font-semibold tracking-widest uppercase">What We Offer</span>
+              <span className="text-[#1D4ED8] text-sm font-semibold tracking-widest uppercase">What We Offer</span>
               <h2 className="font-display text-4xl md:text-5xl text-slate-900 dark:text-white mt-3 tracking-wider font-bold">
-                <span className="text-slate-900 dark:text-white">ELITE</span> <span className="gold-gradient-text text-[#FF4053]">SERVICES</span>
+                <span className="text-slate-900 dark:text-white">ELITE</span> <span className="gold-gradient-text text-[#1D4ED8]">SERVICES</span>
               </h2>
               <p className="text-slate-600 dark:text-gray-400 mt-4 max-w-2xl mx-auto">
                 Everything you need to become a consistently profitable forex trader, all in one platform.
@@ -806,9 +806,9 @@ export default function HomePage() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {services.map((service, i) => (
               <ScrollReveal key={service.title} delay={i * 0.1}>
-                <div className="glass-card-hover p-8 h-full group border border-gray-200 dark:border-white/10 hover:border-[#FF4053]/40 bg-white dark:bg-[#111116] shadow-sm hover:shadow-xl transition-all duration-300">
-                  <div className="w-14 h-14 rounded-xl bg-[#FF4053]/10 border border-[#FF4053]/20 flex items-center justify-center mb-6 group-hover:bg-[#FF4053]/20 transition-colors">
-                    <service.icon className="w-7 h-7 text-[#FF4053]" />
+                <div className="glass-card-hover p-8 h-full group border border-gray-200 dark:border-white/10 hover:border-[#1D4ED8]/40 bg-white dark:bg-[#111116] shadow-sm hover:shadow-xl transition-all duration-300">
+                  <div className="w-14 h-14 rounded-xl bg-[#1D4ED8]/10 border border-[#1D4ED8]/20 flex items-center justify-center mb-6 group-hover:bg-[#1D4ED8]/20 transition-colors">
+                    <service.icon className="w-7 h-7 text-[#1D4ED8]" />
                   </div>
                   <h3 className="font-display text-xl text-slate-900 dark:text-white tracking-wider mb-3 font-bold">{service.title}</h3>
                   <p className="text-slate-600 dark:text-gray-400 text-sm leading-relaxed">{service.description}</p>
@@ -829,7 +829,7 @@ export default function HomePage() {
                 REAL-TIME LIVE FEED • AUTO-UPDATES
               </div>
               <h2 className="font-display text-4xl md:text-5xl text-slate-900 dark:text-white mt-1 tracking-wider font-bold">
-                <span className="text-slate-900 dark:text-white">ACTIVE</span> <span className="gold-gradient-text text-[#FF4053]">TRADING SIGNALS</span>
+                <span className="text-slate-900 dark:text-white">ACTIVE</span> <span className="gold-gradient-text text-[#1D4ED8]">TRADING SIGNALS</span>
               </h2>
               <p className="text-slate-600 dark:text-gray-400 mt-4 max-w-2xl mx-auto">
                 Real-time stream of active signals shared directly from our trader console. Closed signals automatically disappear.
@@ -846,9 +846,9 @@ export default function HomePage() {
         <div className="section-padding">
           <ScrollReveal>
             <div className="text-center mb-16">
-              <span className="text-[#FF4053] text-sm font-semibold tracking-widest uppercase">Verified Proof</span>
+              <span className="text-[#1D4ED8] text-sm font-semibold tracking-widest uppercase">Verified Proof</span>
               <h2 className="font-display text-4xl md:text-5xl text-slate-900 dark:text-white mt-3 tracking-wider font-bold">
-                <span className="text-slate-900 dark:text-white">COMMUNITY</span> <span className="text-[#FF4053]">RESULTS & PROOF</span>
+                <span className="text-slate-900 dark:text-white">COMMUNITY</span> <span className="text-[#1D4ED8]">RESULTS & PROOF</span>
               </h2>
               <p className="text-slate-500 dark:text-gray-400 mt-4 max-w-2xl mx-auto">
                 Real videos, profit screenshots, and live testimonies from members of our trading community. No login required.
@@ -870,9 +870,9 @@ export default function HomePage() {
                 href={social.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex flex-col items-center justify-center p-6 rounded-xl border border-[#FF4053]/20 bg-white dark:bg-[#111116] text-[#FF4053] text-center transition-all duration-300 hover:border-[#FF4053]/50 hover:bg-[#FF4053]/5 hover:scale-105 hover:shadow-md shadow-sm"
+                className="flex flex-col items-center justify-center p-6 rounded-xl border border-[#1D4ED8]/20 bg-white dark:bg-[#111116] text-[#1D4ED8] text-center transition-all duration-300 hover:border-[#1D4ED8]/50 hover:bg-[#1D4ED8]/5 hover:scale-105 hover:shadow-md shadow-sm"
               >
-                <social.icon className="w-8 h-8 mb-2 text-[#FF4053]" />
+                <social.icon className="w-8 h-8 mb-2 text-[#1D4ED8]" />
                 <span className="font-semibold text-sm text-slate-900 dark:text-white font-bold">{social.name}</span>
                 <span className="text-slate-500 dark:text-gray-500 text-xs mt-1">{social.desc}</span>
               </a>
@@ -883,7 +883,7 @@ export default function HomePage() {
             {/* Left side: Video presentation and video testimonies */}
             <div className="lg:col-span-2 space-y-6">
               <h3 className="font-display text-xl text-slate-900 dark:text-white tracking-wider mb-4 flex items-center gap-2 font-bold">
-                <Play className="text-[#FF4053] w-5 h-5" /> Video Proof & Introductions
+                <Play className="text-[#1D4ED8] w-5 h-5" /> Video Proof & Introductions
               </h3>
 
               {/* Main Presentation Video */}
@@ -896,7 +896,7 @@ export default function HomePage() {
                     poster={`${SUPABASE_MEDIA}/img1.jpeg`}
                   />
                   <div className="absolute inset-0 bg-black/40 flex items-center justify-center pointer-events-none group-hover:opacity-0 transition-opacity">
-                    <div className="w-16 h-16 rounded-full bg-[#FF4053]/90 flex items-center justify-center shadow-lg shadow-[#FF4053]/25 animate-pulse-glow">
+                    <div className="w-16 h-16 rounded-full bg-[#1D4ED8]/90 flex items-center justify-center shadow-lg shadow-[#1D4ED8]/25 animate-pulse-glow">
                       <Play className="text-white fill-white w-6 h-6 ml-1" />
                     </div>
                   </div>
@@ -929,7 +929,7 @@ export default function HomePage() {
             {/* Right side: Image screenshot proof list */}
             <div className="space-y-6">
               <h3 className="font-display text-xl text-slate-900 dark:text-white tracking-wider mb-4 flex items-center gap-2 font-bold">
-                <Star className="text-[#FF4053] w-5 h-5" /> Student Profit Proofs
+                <Star className="text-[#1D4ED8] w-5 h-5" /> Student Profit Proofs
               </h3>
               
               <div className="grid grid-cols-2 gap-3 max-h-[500px] overflow-y-auto pr-2 custom-scrollbar">
@@ -944,7 +944,7 @@ export default function HomePage() {
                   <div
                     key={img.url}
                     onClick={() => setActiveMedia({ type: "image", url: img.url, title: img.title })}
-                    className="bg-white dark:bg-[#111116] border border-gray-200 dark:border-white/10 rounded-xl overflow-hidden group cursor-pointer hover:border-[#FF4053]/50 shadow-sm transition-colors duration-300"
+                    className="bg-white dark:bg-[#111116] border border-gray-200 dark:border-white/10 rounded-xl overflow-hidden group cursor-pointer hover:border-[#1D4ED8]/50 shadow-sm transition-colors duration-300"
                   >
                     <div className="aspect-square relative bg-slate-100 dark:bg-[#16161D] overflow-hidden">
                       <img
@@ -953,7 +953,7 @@ export default function HomePage() {
                         className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                       />
                       <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                        <span className="text-white text-[10px] font-semibold px-2 py-1 bg-[#050c18]/85 border border-[#FF4053]/30 rounded-md">View Fullscreen</span>
+                        <span className="text-white text-[10px] font-semibold px-2 py-1 bg-[#050c18]/85 border border-[#1D4ED8]/30 rounded-md">View Fullscreen</span>
                       </div>
                     </div>
                     <div className="p-2 text-center bg-slate-50 dark:bg-[#16161D]/30 border-t border-gray-100 dark:border-white/5">
@@ -964,14 +964,14 @@ export default function HomePage() {
               </div>
 
               {/* Contact box */}
-              <div className="bg-white dark:bg-[#111116] border border-[#FF4053]/15 rounded-2xl p-6 bg-gradient-to-br from-[#FF4053]/5 to-transparent shadow-sm">
-                <h4 className="font-semibold text-[#FF4053] text-sm mb-2 font-bold">Want to submit your results?</h4>
+              <div className="bg-white dark:bg-[#111116] border border-[#1D4ED8]/15 rounded-2xl p-6 bg-gradient-to-br from-[#1D4ED8]/5 to-transparent shadow-sm">
+                <h4 className="font-semibold text-[#1D4ED8] text-sm mb-2 font-bold">Want to submit your results?</h4>
                 <p className="text-slate-500 dark:text-gray-400 text-xs leading-relaxed">
                   Send your screenshot or video to us on WhatsApp or Telegram, and we will feature it in our verified community proof gallery!
                 </p>
                 <div className="flex gap-2 mt-4">
-                  <a href="https://wa.link/cu9c9s" target="_blank" rel="noopener noreferrer" className="px-3 py-1.5 rounded-lg bg-[#FF4053]/10 border border-[#FF4053]/25 text-[#FF4053] hover:bg-[#FF4053]/20 text-xs font-semibold transition-colors">WhatsApp Support</a>
-                  <a href="https://t.me/+eaNhaqhRdYc1ZWU0" target="_blank" rel="noopener noreferrer" className="px-3 py-1.5 rounded-lg bg-[#FF4053]/10 border border-[#FF4053]/25 text-[#FF4053] hover:bg-[#FF4053]/20 text-xs font-semibold transition-colors">Join Telegram</a>
+                  <a href="https://wa.link/cu9c9s" target="_blank" rel="noopener noreferrer" className="px-3 py-1.5 rounded-lg bg-[#1D4ED8]/10 border border-[#1D4ED8]/25 text-[#1D4ED8] hover:bg-[#1D4ED8]/20 text-xs font-semibold transition-colors">WhatsApp Support</a>
+                  <a href="https://t.me/+eaNhaqhRdYc1ZWU0" target="_blank" rel="noopener noreferrer" className="px-3 py-1.5 rounded-lg bg-[#1D4ED8]/10 border border-[#1D4ED8]/25 text-[#1D4ED8] hover:bg-[#1D4ED8]/20 text-xs font-semibold transition-colors">Join Telegram</a>
                 </div>
               </div>
             </div>
@@ -987,7 +987,7 @@ export default function HomePage() {
             <div className="relative max-w-4xl max-h-[85vh] w-full flex items-center justify-center" onClick={(e) => e.stopPropagation()}>
               <button
                 onClick={() => setActiveMedia(null)}
-                className="absolute -top-12 right-0 text-white hover:text-[#FF4053] transition-colors flex items-center gap-1 bg-[#08080A] px-3 py-1.5 rounded-md border border-white/10 text-xs font-bold"
+                className="absolute -top-12 right-0 text-white hover:text-[#1D4ED8] transition-colors flex items-center gap-1 bg-[#08080A] px-3 py-1.5 rounded-md border border-white/10 text-xs font-bold"
               >
                 Close Window
               </button>
@@ -1006,7 +1006,7 @@ export default function HomePage() {
 
       {/* Mentor Section */}
       <section className="py-24 bg-white dark:bg-[#111116]/50 relative overflow-hidden border-t border-gray-200 dark:border-white/10">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_left,_var(--tw-gradient-stops))] from-[#FF4053]/5 via-transparent to-transparent" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_left,_var(--tw-gradient-stops))] from-[#1D4ED8]/5 via-transparent to-transparent" />
         <div className="section-padding relative z-10">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
             <ScrollReveal direction="left">
@@ -1033,9 +1033,9 @@ export default function HomePage() {
             </ScrollReveal>
 
             <ScrollReveal direction="right">
-              <span className="text-[#FF4053] text-sm font-semibold tracking-widest uppercase">Meet The Founder</span>
+              <span className="text-[#1D4ED8] text-sm font-semibold tracking-widest uppercase">Meet The Founder</span>
               <h2 className="font-display text-4xl md:text-5xl text-slate-900 dark:text-white mt-3 tracking-wider mb-6 font-bold">
-                <span className="text-slate-900 dark:text-white">PELE</span><span className="gold-gradient-text text-[#FF4053]">BOSS</span>
+                <span className="text-slate-900 dark:text-white">PELE</span><span className="gold-gradient-text text-[#1D4ED8]">BOSS</span>
               </h2>
               <div className="space-y-4 text-slate-600 dark:text-gray-400 leading-relaxed font-body">
                 <p>
@@ -1074,9 +1074,9 @@ export default function HomePage() {
         <div className="section-padding max-w-3xl mx-auto">
           <ScrollReveal>
             <div className="text-center mb-16">
-              <span className="text-[#FF4053] text-sm font-semibold tracking-widest uppercase">FAQ</span>
+              <span className="text-[#1D4ED8] text-sm font-semibold tracking-widest uppercase">FAQ</span>
               <h2 className="font-display text-4xl md:text-5xl text-slate-900 dark:text-white mt-3 tracking-wider font-bold">
-                <span className="text-slate-900 dark:text-white">COMMON</span> <span className="gold-gradient-text text-[#FF4053]">QUESTIONS</span>
+                <span className="text-slate-900 dark:text-white">COMMON</span> <span className="gold-gradient-text text-[#1D4ED8]">QUESTIONS</span>
               </h2>
             </div>
           </ScrollReveal>
@@ -1092,7 +1092,7 @@ export default function HomePage() {
                     <span className="font-bold text-slate-900 dark:text-white pr-4 text-sm sm:text-base">{faq.q}</span>
                     <ChevronDown
                       size={20}
-                      className={`text-[#FF4053] shrink-0 transition-transform duration-300 ${
+                      className={`text-[#1D4ED8] shrink-0 transition-transform duration-300 ${
                         openFaq === i ? "rotate-180" : ""
                       }`}
                     />
@@ -1114,11 +1114,11 @@ export default function HomePage() {
 
       {/* CTA Section */}
       <section className="py-24 relative overflow-hidden border-t border-gray-200 dark:border-white/10 bg-slate-900 dark:bg-[#08080A]">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-[#FF4053]/15 via-transparent to-transparent" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-[#1D4ED8]/15 via-transparent to-transparent" />
         <div className="section-padding relative z-10 text-center max-w-3xl mx-auto">
           <ScrollReveal>
             <h2 className="font-display text-4xl md:text-6xl text-white tracking-wider mb-6 font-bold">
-              <span className="text-white">READY TO</span> <span className="gold-gradient-text text-[#FF4053]">LEVEL UP?</span>
+              <span className="text-white">READY TO</span> <span className="gold-gradient-text text-[#1D4ED8]">LEVEL UP?</span>
             </h2>
             <p className="text-gray-300 text-base sm:text-lg mb-10 leading-relaxed font-body">
               Join thousands of traders who have transformed their trading with Fx Insights Hub. Your journey to consistent profitability starts today.
@@ -1128,7 +1128,7 @@ export default function HomePage() {
                 Join The Community
                 <ArrowRight size={18} className="inline ml-2" />
               </Link>
-              <Link href="/services" className="border border-[#FF4053]/40 text-white hover:bg-[#FF4053]/15 hover:border-[#FF4053] transition-all duration-300 rounded-lg text-lg px-10 py-4 font-semibold">
+              <Link href="/services" className="border border-[#1D4ED8]/40 text-white hover:bg-[#1D4ED8]/15 hover:border-[#1D4ED8] transition-all duration-300 rounded-lg text-lg px-10 py-4 font-semibold">
                 View Services
               </Link>
             </div>

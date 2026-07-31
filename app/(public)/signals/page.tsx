@@ -51,9 +51,9 @@ export default function SignalsPage() {
       <div className="section-padding">
         <ScrollReveal>
           <div className="text-center mb-16">
-            <span className="text-[#FF4053] text-sm font-semibold tracking-widest uppercase">Live Signals</span>
+            <span className="text-[#1D4ED8] text-sm font-semibold tracking-widest uppercase">Live Signals</span>
             <h1 className="font-display text-4xl md:text-6xl text-slate-900 dark:text-white mt-3 tracking-wider font-bold">
-              <span>TRADING</span> <span className="text-[#FF4053]">SIGNALS</span>
+              <span>TRADING</span> <span className="text-[#1D4ED8]">SIGNALS</span>
             </h1>
             <p className="text-slate-500 dark:text-gray-400 mt-4 max-w-2xl mx-auto">
               View our recent trading signals and performance history. Create a free account to access our real-time interactive trading dashboard.
@@ -72,7 +72,7 @@ export default function SignalsPage() {
 
           {loading ? (
             <div className="flex justify-center py-20">
-              <div className="w-8 h-8 border-2 border-[#FF4053] border-t-transparent rounded-full animate-spin" />
+              <div className="w-8 h-8 border-2 border-[#1D4ED8] border-t-transparent rounded-full animate-spin" />
             </div>
           ) : signals.length === 0 ? (
             <div className="bg-white dark:bg-[#111116] border border-gray-200 dark:border-white/10 rounded-2xl p-12 text-center text-slate-500 dark:text-gray-500 shadow-sm">
@@ -93,13 +93,13 @@ export default function SignalsPage() {
                       <div className="flex items-center gap-4">
                         <div
                           className={`w-12 h-12 rounded-xl flex items-center justify-center ${
-                            signal.type === "BUY" ? "bg-[#00E676]/10" : "bg-[#FF4053]/10"
+                            signal.type === "BUY" ? "bg-[#00E676]/10" : "bg-[#1D4ED8]/10"
                           }`}
                         >
                           {signal.type === "BUY" ? (
                             <TrendingUp size={24} className="text-[#00E676]" />
                           ) : (
-                            <TrendingDown size={24} className="text-[#FF4053]" />
+                            <TrendingDown size={24} className="text-[#1D4ED8]" />
                           )}
                         </div>
                         <div>
@@ -109,7 +109,7 @@ export default function SignalsPage() {
                               className={`px-2 py-0.5 rounded text-xs font-bold ${
                                 signal.type === "BUY"
                                   ? "bg-[#00E676]/15 text-[#00E676]"
-                                  : "bg-[#FF4053]/15 text-[#FF4053]"
+                                  : "bg-[#1D4ED8]/15 text-[#1D4ED8]"
                               }`}
                             >
                               {signal.type}
@@ -120,7 +120,7 @@ export default function SignalsPage() {
                           </div>
                           <div className="flex items-center gap-4 mt-1 text-sm text-slate-600 dark:text-gray-400">
                             <span className="font-mono">Entry: {signal.entryPrice}</span>
-                            <span className="font-mono text-[#FF4053]">SL: {signal.stopLoss}</span>
+                            <span className="font-mono text-[#1D4ED8]">SL: {signal.stopLoss}</span>
                             <span className="font-mono text-[#00E676]">TP: {signal.takeProfit1}</span>
                             {signal.takeProfit2 && (
                               <span className="font-mono text-[#00E676]">TP2: {signal.takeProfit2}</span>
@@ -137,7 +137,7 @@ export default function SignalsPage() {
                                 ? "bg-[#00E676]/10 text-[#00E676] border border-[#00E676]/20"
                                 : signal.result === "Win"
                                 ? "bg-[#00E676]/10 text-[#00E676]"
-                                : "bg-[#FF4053]/10 text-[#FF4053]"
+                                : "bg-[#1D4ED8]/10 text-[#1D4ED8]"
                             }`}
                           >
                             <Clock size={12} />
@@ -145,7 +145,7 @@ export default function SignalsPage() {
                           </span>
                         </div>
                         {signal.pips !== undefined && signal.pips !== null && (
-                          <span className={`font-mono font-semibold text-sm ${signal.pips >= 0 ? "text-[#00E676]" : "text-[#FF4053]"}`}>
+                          <span className={`font-mono font-semibold text-sm ${signal.pips >= 0 ? "text-[#00E676]" : "text-[#1D4ED8]"}`}>
                             {signal.pips >= 0 ? "+" : ""}{signal.pips} pips
                           </span>
                         )}
@@ -179,7 +179,7 @@ export default function SignalsPage() {
         {/* Free Dashboard CTA Card */}
         <ScrollReveal>
           <div className="max-w-4xl mx-auto mt-16 text-center">
-            <div className="bg-white dark:bg-[#111116] border border-gray-200 dark:border-white/10 rounded-2xl p-8 shadow-sm bg-gradient-to-br from-[#FF4053]/5 to-transparent">
+            <div className="bg-white dark:bg-[#111116] border border-gray-200 dark:border-white/10 rounded-2xl p-8 shadow-sm bg-gradient-to-br from-[#1D4ED8]/5 to-transparent">
               <h2 className="font-display text-2xl text-slate-900 dark:text-white tracking-wider mb-3 font-bold">WANT REAL-TIME ALERTS &amp; ANALYTICS?</h2>
               <p className="text-slate-500 dark:text-gray-400 text-sm max-w-xl mx-auto mb-6">
                 Sign up for a free membership to access our live trader dashboard, copy trading channels, full video libraries, and live webinars.

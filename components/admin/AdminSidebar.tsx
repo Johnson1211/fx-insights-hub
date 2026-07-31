@@ -37,11 +37,11 @@ export function AdminSidebar() {
   const { user } = useAuth();
 
   return (
-    <aside className="hidden lg:flex fixed left-0 top-0 bottom-0 w-64 bg-white dark:bg-[#111116] border-r border-gray-200 dark:border-[#FF4053]/15 flex-col z-30 transition-colors duration-300">
+    <aside className="hidden lg:flex fixed left-0 top-0 bottom-0 w-64 bg-white dark:bg-[#111116] border-r border-gray-200 dark:border-white/10 flex-col z-30 transition-colors duration-300">
       {/* Header */}
       <div className="p-5 border-b border-gray-200 dark:border-white/5">
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#FF4053] to-[#E62E43] flex items-center justify-center shadow-lg shadow-[#FF4053]/20">
+          <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-600 to-blue-800 flex items-center justify-center shadow-lg shadow-blue-500/20">
             <Crown size={18} className="text-white" />
           </div>
           <div>
@@ -67,13 +67,13 @@ export function AdminSidebar() {
               href={item.href}
               className={`flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 group ${
                 isActive
-                  ? "bg-[#FF4053]/10 text-[#FF4053] border border-[#FF4053]/20 font-semibold"
+                  ? "bg-blue-600/10 text-blue-600 border border-blue-600/20 font-semibold"
                   : "text-slate-600 dark:text-gray-400 hover:text-slate-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-white/5 border border-transparent"
               }`}
             >
-              <item.icon size={17} className={`shrink-0 ${isActive ? "text-[#FF4053]" : "text-slate-400 dark:text-gray-500 group-hover:text-slate-600 dark:group-hover:text-gray-300"}`} />
+              <item.icon size={17} className={`shrink-0 ${isActive ? "text-blue-600" : "text-slate-400 dark:text-gray-500 group-hover:text-slate-600 dark:group-hover:text-gray-300"}`} />
               <span className="flex-1 truncate">{item.label}</span>
-              {isActive && <ChevronRight size={13} className="text-[#FF4053] shrink-0" />}
+              {isActive && <ChevronRight size={13} className="text-blue-600 shrink-0" />}
             </Link>
           );
         })}

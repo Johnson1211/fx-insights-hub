@@ -7,7 +7,7 @@ export function Footer() {
   return (
     <footer className="relative bg-white dark:bg-[#08080A] border-t border-gray-200 dark:border-white/10 text-slate-900 dark:text-white transition-colors duration-300">
       {/* Top gradient line */}
-      <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#FF4053]/50 to-transparent" />
+      <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-blue-600/50 to-transparent" />
 
       <div className="section-padding py-16">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
@@ -16,7 +16,7 @@ export function Footer() {
             <Link href="/" className="flex items-center gap-2">
               <img src="/images/logo.jpg" alt="FX" className="w-8 h-8 rounded-lg object-cover" />
               <span className="font-bold text-xl tracking-wider text-slate-900 dark:text-white">
-                Fx Insights <span className="text-[#FF4053]">Hub</span>
+                Fx Insights <span className="text-blue-600">Hub</span>
               </span>
             </Link>
             <p className="text-gray-400 text-sm leading-relaxed">
@@ -81,7 +81,7 @@ export function Footer() {
                 <li key={item}>
                   <Link
                     href={item === "Home" ? "/" : `/${item.toLowerCase()}`}
-                    className="text-slate-600 dark:text-gray-400 hover:text-[#FF4053] transition-colors text-sm"
+                    className="text-slate-600 dark:text-gray-400 hover:text-blue-600 transition-colors text-sm"
                   >
                     {item}
                   </Link>

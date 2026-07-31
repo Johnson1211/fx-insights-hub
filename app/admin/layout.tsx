@@ -23,7 +23,7 @@ export default function AdminLayout({
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-slate-50 dark:bg-[#08080A]">
-        <div className="w-10 h-10 border-2 border-[#FF4053] border-t-transparent rounded-full animate-spin" />
+        <div className="w-10 h-10 border-2 border-[#1D4ED8] border-t-transparent rounded-full animate-spin" />
       </div>
     );
   }

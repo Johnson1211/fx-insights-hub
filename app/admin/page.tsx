@@ -164,7 +164,7 @@ export default function AdminDashboard() {
               href={action.href}
               className="glass-card-hover p-6 block"
             >
-              <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${action.color} border border-[#FF4053]/10 flex items-center justify-center mb-4`}>
+              <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${action.color} border border-[#1D4ED8]/10 flex items-center justify-center mb-4`}>
                 <Activity size={22} className="text-slate-900 dark:text-slate-900 dark:text-white" />
               </div>
               <h3 className="font-display text-lg text-slate-900 dark:text-slate-900 dark:text-slate-900 dark:text-white tracking-wider">{action.label}</h3>
@@ -195,10 +195,10 @@ export default function AdminDashboard() {
               </div>
             ) : (
               recentActivity.map((activity, i) => (
-                <div key={i} className="flex items-center justify-between p-4 rounded-xl bg-slate-50 dark:bg-slate-50 dark:bg-white/[0.02] border border-gray-100 dark:border-white/5 hover:border-[#FF4053]/20 transition-colors">
+                <div key={i} className="flex items-center justify-between p-4 rounded-xl bg-slate-50 dark:bg-white/[0.02] border border-gray-100 dark:border-white/5 hover:border-blue-600/20 transition-colors">
                   <div className="flex items-center gap-4">
                     <div className={`w-2 h-2 rounded-full ${
-                      activity.type === "signal" ? "bg-[#FF4053]" :
+                      activity.type === "signal" ? "bg-blue-600" :
                       activity.type === "user" ? "bg-blue-400" :
                       activity.type === "payment" ? "bg-[#00E676]" : "bg-purple-400"
                     }`} />
