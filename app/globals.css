@@ -5,30 +5,30 @@
 @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
 
 :root {
-  /* DARK MODE (DEFAULT OBSIDIAN THEME) */
-  --bg-primary: #08080A;
-  --bg-card: #111116;
-  --bg-surface: #16161D;
-  --border-color: rgba(255, 64, 83, 0.18);
-  --text-primary: #F8FAFC;
-  --text-secondary: #CBD5E1;
-  --text-muted: #94A3B8;
-  --elite-gold: #FF4053;
-  --elite-green: #00E676;
-  --elite-red: #FF4053;
-  --elite-blue: #3B82F6;
+  /* ORIGINAL DEFAULT LIGHT MODE COLOR SYSTEM */
+  --bg-primary: #F8FAFC;
+  --bg-card: #FFFFFF;
+  --bg-surface: #F1F5F9;
+  --border-color: #E2E8F0;
+  --text-primary: #0F172A;
+  --text-secondary: #475569;
+  --text-muted: #64748B;
+  --elite-gold: #1E3A8A;
+  --elite-green: #10B981;
+  --elite-red: #EF4444;
+  --elite-blue: #1D4ED8;
 }
 
 html.dark {
-  /* DARK MODE (OBSIDIAN) */
+  /* DARK MODE (OBSIDIAN OPTION) */
   --bg-primary: #08080A;
   --bg-card: #111116;
   --bg-surface: #16161D;
-  --border-color: rgba(255, 64, 83, 0.18);
+  --border-color: rgba(255, 255, 255, 0.1);
   --text-primary: #F8FAFC;
   --text-secondary: #CBD5E1;
   --text-muted: #94A3B8;
-  --elite-gold: #FF4053;
+  --elite-gold: #3B82F6;
   --elite-green: #00E676;
   --elite-red: #FF4053;
   --elite-blue: #3B82F6;
@@ -39,14 +39,14 @@ html.light {
   --bg-primary: #F8FAFC;
   --bg-card: #FFFFFF;
   --bg-surface: #F1F5F9;
-  --border-color: rgba(0, 0, 0, 0.08);
+  --border-color: #E2E8F0;
   --text-primary: #0F172A;
   --text-secondary: #475569;
   --text-muted: #64748B;
-  --elite-gold: #FF4053;
-  --elite-green: #00E676;
-  --elite-red: #FF4053;
-  --elite-blue: #2563EB;
+  --elite-gold: #1E3A8A;
+  --elite-green: #10B981;
+  --elite-red: #EF4444;
+  --elite-blue: #1D4ED8;
 }
 
 @layer base {
@@ -57,8 +57,8 @@ html.light {
   }
 
   ::selection {
-    background-color: rgba(255, 64, 83, 0.3);
-    color: #FFFFFF;
+    background-color: rgba(30, 58, 138, 0.2);
+    color: #0F172A;
   }
 }
 
@@ -74,22 +74,22 @@ html.light {
   }
 
   .glass-card-hover:hover {
-    border-color: rgba(255, 64, 83, 0.35);
-    box-shadow: 0 8px 32px rgba(255, 64, 83, 0.15), 0 0 20px rgba(255, 64, 83, 0.08);
+    border-color: rgba(30, 58, 138, 0.25);
+    box-shadow: 0 8px 32px rgba(30, 58, 138, 0.08), 0 0 20px rgba(30, 58, 138, 0.03);
   }
 
   .gold-gradient-text {
-    @apply bg-gradient-to-r from-[#FF4053] via-[#E62E43] to-[#FF6B7A] bg-clip-text text-transparent;
+    @apply bg-gradient-to-r from-blue-600 to-blue-800 bg-clip-text text-transparent;
   }
 
   .btn-primary {
-    @apply bg-gradient-to-r from-[#FF4053] to-[#E62E43] text-white font-bold px-6 py-3 rounded-lg 
-           transition-all duration-300 hover:shadow-lg hover:shadow-[#FF4053]/35 hover:scale-105 active:scale-95;
+    @apply bg-gradient-to-r from-blue-600 to-blue-800 text-white font-bold px-6 py-3 rounded-lg 
+           transition-all duration-300 hover:shadow-lg hover:shadow-blue-500/25 hover:scale-105 active:scale-95;
   }
 
   .btn-outline {
-    @apply border border-[#FF4053]/60 text-[#FF4053] font-semibold px-6 py-3 rounded-lg transition-all duration-300 
-           hover:bg-[#FF4053]/15 hover:border-[#FF4053];
+    @apply border border-blue-600/50 text-blue-700 font-semibold px-6 py-3 rounded-lg transition-all duration-300 
+           hover:bg-blue-50 hover:border-blue-600;
   }
 
   .input-field {
@@ -97,15 +97,8 @@ html.light {
     color: var(--text-primary);
     border: 1px solid var(--border-color);
     @apply w-full rounded-lg px-4 py-3 
-           placeholder-gray-400 focus:outline-none focus:border-[#FF4053]/70 focus:ring-1 focus:ring-[#FF4053]/40 
+           placeholder-gray-400 focus:outline-none focus:border-blue-600/70 focus:ring-1 focus:ring-blue-600/40 
            transition-all duration-300;
-  }
-
-  /* Force dark inputs in dashboard/admin */
-  .dark .input-field {
-    background-color: #16161D;
-    color: #F8FAFC;
-    border-color: rgba(255, 64, 83, 0.15);
   }
 
   .custom-scrollbar::-webkit-scrollbar {
@@ -115,11 +108,11 @@ html.light {
     background: transparent;
   }
   .custom-scrollbar::-webkit-scrollbar-thumb {
-    background: rgba(255, 64, 83, 0.3);
+    background: rgba(30, 58, 138, 0.3);
     border-radius: 2px;
   }
   .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-    background: rgba(255, 64, 83, 0.6);
+    background: rgba(30, 58, 138, 0.6);
   }
 
   .section-padding {
@@ -127,7 +120,7 @@ html.light {
   }
 
   .text-glow {
-    text-shadow: 0 0 20px rgba(255, 64, 83, 0.5);
+    text-shadow: 0 0 20px rgba(30, 58, 138, 0.3);
   }
 
   .scrollbar-hide {
@@ -146,14 +139,14 @@ html.light {
 }
 
 ::-webkit-scrollbar-track {
-  background: #08080A;
+  background: #F1F5F9;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #24242D;
+  background: #CBD5E1;
   border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #FF4053;
+  background: #94A3B8;
 }

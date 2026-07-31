@@ -20,7 +20,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="dark">
+    <html lang="en" className="light">
       <body className="min-h-screen font-body antialiased transition-colors duration-300">
         <ThemeProvider>
           <AuthProvider>
